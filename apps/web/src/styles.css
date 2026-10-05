@@ -121,6 +121,9 @@ a { color: inherit; }
 .board-column--over { border-color: var(--accent); background: #eaf4e2; }
 .board-column__header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 4px; }
 .board-column__header h2 { font-size: 14px; font-weight: 700; text-transform: uppercase; }
+.board-column__header-actions { display: flex; align-items: center; gap: 4px; }
+.board-column__action { display: grid; width: 22px; height: 22px; flex: 0 0 auto; place-items: center; border: 0; border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; }
+.board-column__action:hover { background: var(--surface); color: var(--primary); }
 .board-column__cards { display: flex; min-height: 8px; flex-direction: column; gap: 8px; }
 .board-column__composer { display: flex; }
 .board-column__composer input { background: var(--surface); }

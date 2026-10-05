@@ -56,6 +56,17 @@ export const api = {
       });
       return result.columns;
     },
+    async renameColumn(id: string, title: string) {
+      const result = await request<{ columns: BoardColumn[] }>(`/api/board/columns/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ title }),
+      });
+      return result.columns;
+    },
+    async deleteColumn(id: string) {
+      const result = await request<{ columns: BoardColumn[] }>(`/api/board/columns/${id}`, { method: "DELETE" });
+      return result.columns;
+    },
     async createTicket(input: { columnId: string; title: string; description?: string | null; assigneeId?: string | null }) {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
         method: "POST",

@@ -15,6 +15,8 @@ const boardApi = vi.hoisted(() => ({
   createTicket: vi.fn(),
   updateTicket: vi.fn(),
   deleteTicket: vi.fn(),
+  renameColumn: vi.fn(),
+  deleteColumn: vi.fn(),
 }));
 const usersApi = vi.hoisted(() => ({ list: vi.fn() }));
 const authApi = vi.hoisted(() => ({ me: vi.fn(), login: vi.fn(), logout: vi.fn() }));
@@ -66,6 +68,8 @@ beforeEach(() => {
   boardApi.createTicket.mockReset();
   boardApi.updateTicket.mockReset();
   boardApi.deleteTicket.mockReset();
+  boardApi.renameColumn.mockReset();
+  boardApi.deleteColumn.mockReset();
   usersApi.list.mockReset();
   authApi.me.mockReset();
   boardApi.get.mockResolvedValue(buildBoard());
@@ -154,5 +158,80 @@ describe("tasks board page", () => {
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.getByRole("button", { name: "Spalte hinzufügen" })).toBeInTheDocument();
+  });
+
+  it("only shows the column rename/delete actions for admins", async () => {
+    const { unmount } = renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    expect(screen.queryByRole("button", { name: "Spalte umbenennen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Spalte löschen" })).not.toBeInTheDocument();
+    unmount();
+
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+    expect(screen.getAllByRole("button", { name: "Spalte umbenennen" }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: "Spalte löschen" }).length).toBeGreaterThan(0);
+  });
+
+  it("renames a column via the rename dialog", async () => {
+    const user = userEvent.setup();
+    const board = buildBoard();
+    boardApi.renameColumn.mockResolvedValue([
+      { ...board.columns[0], title: "Backlog" },
+      board.columns[1],
+    ]);
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+
+    const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
+    await user.click(within(todoColumn).getByRole("button", { name: "Spalte umbenennen" }));
+
+    const dialogHeading = await screen.findByRole("heading", { name: "Spalte umbenennen" });
+    const dialogSurface = dialogHeading.closest("div")?.parentElement as HTMLElement;
+    const titleInput = within(dialogSurface).getByDisplayValue("Zu erledigen");
+    await user.clear(titleInput);
+    await user.type(titleInput, "Backlog");
+    await user.click(within(dialogSurface).getByRole("button", { name: "Speichern" }));
+
+    await waitFor(() => expect(boardApi.renameColumn).toHaveBeenCalledWith("col-todo", "Backlog"));
+    expect(await screen.findByText("Backlog")).toBeInTheDocument();
+  });
+
+  it("deletes an empty column after confirmation", async () => {
+    const user = userEvent.setup();
+    const board = buildBoard();
+    boardApi.deleteColumn.mockResolvedValue([board.columns[0]]);
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+
+    const doingColumn = screen.getByText("In Arbeit").closest("section") as HTMLElement;
+    await user.click(within(doingColumn).getByRole("button", { name: "Spalte löschen" }));
+
+    const dialogHeading = await screen.findByRole("heading", { name: "Spalte löschen?" });
+    const dialogSurface = dialogHeading.closest("div")?.parentElement as HTMLElement;
+    await user.click(within(dialogSurface).getByRole("button", { name: "Löschen" }));
+
+    await waitFor(() => expect(boardApi.deleteColumn).toHaveBeenCalledWith("col-doing"));
+    await waitFor(() => expect(screen.queryByText("In Arbeit")).not.toBeInTheDocument());
+  });
+
+  it("shows an error message when deleting a non-empty column is rejected", async () => {
+    const user = userEvent.setup();
+    const { ApiError } = await import("../api/client.js");
+    boardApi.deleteColumn.mockRejectedValue(
+      new ApiError("Die Spalte enthält noch Tickets. Bitte zuerst verschieben.", 409),
+    );
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+
+    const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
+    await user.click(within(todoColumn).getByRole("button", { name: "Spalte löschen" }));
+
+    const dialogHeading = await screen.findByRole("heading", { name: "Spalte löschen?" });
+    const dialogSurface = dialogHeading.closest("div")?.parentElement as HTMLElement;
+    await user.click(within(dialogSurface).getByRole("button", { name: "Löschen" }));
+
+    expect(await screen.findByText("Die Spalte enthält noch Tickets. Bitte zuerst verschieben.")).toBeInTheDocument();
+    expect(screen.getByText("Zu erledigen")).toBeInTheDocument();
   });
 });

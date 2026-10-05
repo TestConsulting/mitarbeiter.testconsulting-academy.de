@@ -48,4 +48,4 @@ npm run typecheck
 npm run build
 ```
 
-Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Bereichs-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Application Links, Benefits, Marketing, Vertrieb bleiben Platzhalter). Das Tasks-Board (Phase 3) ist umgesetzt; Spalten umbenennen/löschen ist laut Spezifikation für eine spätere Phase vorgesehen und daher im Frontend bislang nicht freigeschaltet.
+Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Bereichs-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Application Links, Benefits, Marketing, Vertrieb bleiben Platzhalter). Das Tasks-Board (Phase 3) ist umgesetzt, inklusive Admin-UI zum Umbenennen und Löschen von Spalten (Löschen ist nur möglich, wenn die Spalte keine Tickets mehr enthält).

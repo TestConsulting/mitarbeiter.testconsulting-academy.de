@@ -26,10 +26,10 @@ import {
   Option,
   Textarea,
 } from "@fluentui/react-components";
-import { Add20Regular, CheckmarkCircle24Regular, Delete16Regular } from "@fluentui/react-icons";
+import { Add20Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
-import { api } from "../api/client.js";
+import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
 
 type ComposerState = { title: string; assigneeId: string };
@@ -48,6 +48,10 @@ export function TasksBoardPage() {
   const [isAddColumnOpen, setAddColumnOpen] = useState(false);
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
+  const [renamingColumn, setRenamingColumn] = useState<BoardColumn | null>(null);
+  const [renameTitle, setRenameTitle] = useState("");
+  const [deletingColumnId, setDeletingColumnId] = useState<string | null>(null);
+  const [columnActionError, setColumnActionError] = useState<string | null>(null);
 
   const usersById = useMemo(() => new Map(users.map((entry) => [entry.id, entry])), [users]);
 
@@ -90,6 +94,32 @@ export function TasksBoardPage() {
     setBoard((current) => (current ? { ...current, columns } : current));
     setNewColumnTitle("");
     setAddColumnOpen(false);
+  }
+
+  function openRenameColumn(column: BoardColumn) {
+    setRenamingColumn(column);
+    setRenameTitle(column.title);
+  }
+
+  async function handleRenameColumn(event: FormEvent) {
+    event.preventDefault();
+    if (!renamingColumn) return;
+    const title = renameTitle.trim();
+    if (!title) return;
+    const columns = await api.board.renameColumn(renamingColumn.id, title);
+    setBoard((current) => (current ? { ...current, columns } : current));
+    setRenamingColumn(null);
+  }
+
+  async function handleDeleteColumn(id: string) {
+    try {
+      const columns = await api.board.deleteColumn(id);
+      setBoard((current) => (current ? { ...current, columns } : current));
+      setDeletingColumnId(null);
+      setColumnActionError(null);
+    } catch (error) {
+      setColumnActionError(error instanceof ApiError ? error.message : "Spalte konnte nicht gelöscht werden.");
+    }
   }
 
   async function handleCreateTicket(columnId: string, event: FormEvent) {
@@ -194,6 +224,9 @@ export function TasksBoardPage() {
               onCreateTicket={(event) => handleCreateTicket(column.id, event)}
               onEditTicket={setEditingTicket}
               onDeleteTicket={setDeletingTicketId}
+              isAdmin={isAdmin}
+              onRenameColumn={() => openRenameColumn(column)}
+              onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
             />
           ))}
         </div>
@@ -217,6 +250,49 @@ export function TasksBoardPage() {
               </DialogActions>
             </DialogBody>
           </form>
+        </DialogSurface>
+      </Dialog>
+
+      <Dialog open={renamingColumn !== null} onOpenChange={(_event, data) => { if (!data.open) setRenamingColumn(null); }}>
+        <DialogSurface>
+          <form onSubmit={handleRenameColumn}>
+            <DialogBody>
+              <DialogTitle>Spalte umbenennen</DialogTitle>
+              <DialogContent>
+                <Field label="Name der Spalte">
+                  <Input value={renameTitle} onChange={(_event, data) => setRenameTitle(data.value)} autoFocus />
+                </Field>
+              </DialogContent>
+              <DialogActions>
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance="secondary" type="button">Abbrechen</Button>
+                </DialogTrigger>
+                <Button appearance="primary" type="submit">Speichern</Button>
+              </DialogActions>
+            </DialogBody>
+          </form>
+        </DialogSurface>
+      </Dialog>
+
+      <Dialog
+        open={deletingColumnId !== null}
+        onOpenChange={(_event, data) => { if (!data.open) { setDeletingColumnId(null); setColumnActionError(null); } }}
+      >
+        <DialogSurface>
+          <DialogBody>
+            <DialogTitle>Spalte löschen?</DialogTitle>
+            <DialogContent>
+              {columnActionError ?? "Diese Aktion kann nicht rückgängig gemacht werden."}
+            </DialogContent>
+            <DialogActions>
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance="secondary">Abbrechen</Button>
+              </DialogTrigger>
+              <Button appearance="primary" onClick={() => deletingColumnId && handleDeleteColumn(deletingColumnId)}>
+                Löschen
+              </Button>
+            </DialogActions>
+          </DialogBody>
         </DialogSurface>
       </Dialog>
 
@@ -263,6 +339,9 @@ function BoardColumnView({
   onCreateTicket,
   onEditTicket,
   onDeleteTicket,
+  isAdmin,
+  onRenameColumn,
+  onDeleteColumn,
 }: {
   column: BoardColumn;
   tickets: Ticket[];
@@ -272,6 +351,9 @@ function BoardColumnView({
   onCreateTicket: (event: FormEvent) => void;
   onEditTicket: (ticket: Ticket) => void;
   onDeleteTicket: (id: string) => void;
+  isAdmin: boolean;
+  onRenameColumn: () => void;
+  onDeleteColumn: () => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: `column:${column.id}` });
 
@@ -279,7 +361,31 @@ function BoardColumnView({
     <section className={`board-column${isOver ? " board-column--over" : ""}`} ref={setNodeRef}>
       <header className="board-column__header">
         <h2>{column.title}</h2>
-        <Badge appearance="tint" color="informative">{tickets.length}</Badge>
+        <div className="board-column__header-actions">
+          <Badge appearance="tint" color="informative">{tickets.length}</Badge>
+          {isAdmin && (
+            <>
+              <button
+                type="button"
+                className="board-column__action"
+                aria-label="Spalte umbenennen"
+                title="Spalte umbenennen"
+                onClick={onRenameColumn}
+              >
+                <Edit16Regular />
+              </button>
+              <button
+                type="button"
+                className="board-column__action"
+                aria-label="Spalte löschen"
+                title="Spalte löschen"
+                onClick={onDeleteColumn}
+              >
+                <Delete16Regular />
+              </button>
+            </>
+          )}
+        </div>
       </header>
 
       <SortableContext items={tickets.map((ticket) => ticket.id)} strategy={verticalListSortingStrategy}>
