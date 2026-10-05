@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App.js";
@@ -35,7 +35,8 @@ describe("portal shell", () => {
   it("opens a protected placeholder from portal navigation", async () => {
     render(<App />);
     await screen.findByRole("heading", { name: "Willkommen, Alex" });
-    await userEvent.click(screen.getByRole("link", { name: "Benefits", exact: true }));
+    const sidebarNav = screen.getByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Benefits" }));
     expect(await screen.findByRole("heading", { name: "Dieser Bereich wird in einer späteren Phase eingerichtet." })).toBeInTheDocument();
     expect(screen.getByText("In Vorbereitung")).toBeInTheDocument();
   });
