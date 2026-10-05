@@ -5,6 +5,7 @@ import { ProtectedRoute } from "./protected-route.js";
 import { AreaPage } from "../pages/area-page.js";
 import { LoginPage } from "../pages/login-page.js";
 import { OverviewPage } from "../pages/overview-page.js";
+import { TasksBoardPage } from "../pages/tasks-board-page.js";
 
 export function App() {
   return (
@@ -15,6 +16,7 @@ export function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<PortalLayout />}>
               <Route path="/" element={<OverviewPage />} />
+              <Route path="/areas/tasks" element={<TasksBoardPage />} />
               <Route path="/areas/:area" element={<AreaPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

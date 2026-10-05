@@ -5,6 +5,29 @@ export type PortalUser = {
   role: "employee" | "admin";
 };
 
+export type BoardColumn = {
+  id: string;
+  title: string;
+  position: number;
+};
+
+export type Ticket = {
+  id: string;
+  columnId: string;
+  title: string;
+  description: string | null;
+  assigneeId: string | null;
+  position: number;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type BoardState = {
+  columns: BoardColumn[];
+  tickets: Ticket[];
+};
+
 export const portalAreas = [
   { slug: "elearning", label: "eLearning", description: "Lernen und Zertifikate" },
   { slug: "applications", label: "Application Links", description: "Unternehmenswerkzeuge" },

@@ -24,8 +24,11 @@
 
    ```powershell
    Get-Content -Raw apps/api/migrations/001_create_users.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/002_create_board.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
+
+   `002_create_board.sql` legt das Tasks-Board-Schema an (`board_columns`, `tickets`) und seedet die drei Standardspalten ("Zu erledigen", "In Arbeit", "Erledigt"), falls das Board noch leer ist.
 
 4. API und Web-App parallel starten:
 
@@ -45,4 +48,4 @@ npm run typecheck
 npm run build
 ```
 
-Es gibt in Phase 1 weder Self-Registration noch SSO, Passwort-Reset, Bereichs-CRUD, Tasks-Board, CV-Funktionen oder externe Inhaltsintegrationen.
+Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Bereichs-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Application Links, Benefits, Marketing, Vertrieb bleiben Platzhalter). Das Tasks-Board (Phase 3) ist umgesetzt; Spalten umbenennen/löschen ist laut Spezifikation für eine spätere Phase vorgesehen und daher im Frontend bislang nicht freigeschaltet.

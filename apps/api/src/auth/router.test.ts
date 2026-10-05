@@ -31,6 +31,10 @@ beforeAll(async () => {
       const { passwordHash: _passwordHash, ...publicUser } = storedUser;
       return publicUser;
     },
+    async listAll() {
+      const { passwordHash: _passwordHash, ...publicUser } = storedUser;
+      return [publicUser];
+    },
   };
   app = createApp({
     userRepository: users,

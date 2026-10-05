@@ -6,14 +6,19 @@ import session from "express-session";
 import helmet from "helmet";
 import type { Pool } from "pg";
 import { createAuthRouter } from "./auth/router.js";
+import { createBoardRouter } from "./board/router.js";
+import { createBoardRepository, type BoardRepository } from "./db/board-repository.js";
 import { pool } from "./db/pool.js";
 import { createUserRepository, type UserRepository } from "./db/user-repository.js";
+import { createTicketsRouter } from "./tickets/router.js";
+import { createUsersRouter } from "./users/router.js";
 
 const PgStore = pgSession(session);
 
 type AppOptions = {
   database?: Pick<Pool, "query">;
   userRepository?: UserRepository;
+  boardRepository?: BoardRepository;
   sessionStore?: session.Store;
   sessionSecret?: string;
   webOrigin?: string;
@@ -46,6 +51,7 @@ export function createApp(options: AppOptions = {}) {
     message: { error: "Zu viele Anmeldeversuche. Bitte versuche es später erneut." },
   });
   const users = options.userRepository ?? createUserRepository(database as Pool);
+  const board = options.boardRepository ?? createBoardRepository(database as Pool);
 
   app.disable("x-powered-by");
   if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
@@ -79,6 +85,9 @@ export function createApp(options: AppOptions = {}) {
     secure: secureCookies,
     sameSite: "lax",
   }));
+  app.use("/api/users", createUsersRouter(users));
+  app.use("/api/board", createBoardRouter(board, users));
+  app.use("/api/tickets", createTicketsRouter(board, users));
   app.use("/api", (_request, response) => {
     response.status(404).json({ error: "Route nicht gefunden." });
   });

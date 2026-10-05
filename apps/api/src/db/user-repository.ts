@@ -6,6 +6,7 @@ export type StoredUser = PortalUser & { passwordHash: string };
 export type UserRepository = {
   findByEmail(email: string): Promise<StoredUser | null>;
   findById(id: string): Promise<PortalUser | null>;
+  listAll(): Promise<PortalUser[]>;
 };
 
 export function createUserRepository(database: Pick<Pool, "query">): UserRepository {
@@ -24,6 +25,12 @@ export function createUserRepository(database: Pick<Pool, "query">): UserReposit
         [id],
       );
       return result.rows[0] ?? null;
+    },
+    async listAll() {
+      const result = await database.query<PortalUser>(
+        `SELECT id, email, name, role FROM users ORDER BY name ASC`,
+      );
+      return result.rows;
     },
   };
 }

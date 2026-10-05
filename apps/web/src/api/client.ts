@@ -1,4 +1,4 @@
-import type { PortalUser } from "@portal/shared";
+import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -38,5 +38,47 @@ export const api = {
   },
   logout() {
     return request<{ success: true }>("/api/auth/logout", { method: "POST" });
+  },
+  users: {
+    async list() {
+      const result = await request<{ users: PortalUser[] }>("/api/users");
+      return result.users;
+    },
+  },
+  board: {
+    get() {
+      return request<BoardState>("/api/board");
+    },
+    async createColumn(title: string) {
+      const result = await request<{ columns: BoardColumn[] }>("/api/board/columns", {
+        method: "POST",
+        body: JSON.stringify({ title }),
+      });
+      return result.columns;
+    },
+    async createTicket(input: { columnId: string; title: string; description?: string | null; assigneeId?: string | null }) {
+      const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
+        method: "POST",
+        body: JSON.stringify(input),
+      });
+      return result.tickets;
+    },
+    async updateTicket(id: string, patch: {
+      title?: string;
+      description?: string | null;
+      assigneeId?: string | null;
+      columnId?: string;
+      position?: number;
+    }) {
+      const result = await request<{ tickets: Ticket[] }>(`/api/tickets/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(patch),
+      });
+      return result.tickets;
+    },
+    async deleteTicket(id: string) {
+      const result = await request<{ tickets: Ticket[] }>(`/api/tickets/${id}`, { method: "DELETE" });
+      return result.tickets;
+    },
   },
 };
