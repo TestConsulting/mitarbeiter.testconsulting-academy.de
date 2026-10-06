@@ -38,6 +38,10 @@
 
    Web-App: `http://localhost:5173`; API: `http://localhost:4000`.
 
+API und Web-App laufen mit `npm run dev` direkt auf dem Rechner, nicht in Docker. Nur PostgreSQL wird mit Docker Compose gestartet. Die API-Befehle `dev`, `start` und `seed` laden die `.env` im Repository-Stamm explizit, auch wenn npm sie im API-Workspace ausführt. Diese Datei ist von Git ausgeschlossen.
+
+Die Datenbankverbindung kann unter `http://localhost:4000/api/health` oder über den Web-Proxy unter `http://localhost:5173/api/health` geprüft werden. Nur HTTP 200 mit `services.database: "ok"` bestätigt eine erreichbare Datenbank; HTTP 503 bedeutet, dass die API läuft, aber die Datenbank nicht erreichbar ist.
+
 Die API legt beim Start die PostgreSQL-Tabelle `portal_sessions` über `connect-pg-simple` an. Das Compose-Volume enthält lokale Entwicklungsdaten. Für Produktion sind ein separates Secret, HTTPS und `COOKIE_SECURE=true` erforderlich.
 
 ## Checks
