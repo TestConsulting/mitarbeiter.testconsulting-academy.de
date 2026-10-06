@@ -30,7 +30,7 @@ export type BoardState = {
 
 export const portalAreas = [
   { slug: "elearning", label: "eLearning", description: "Lernen und Zertifikate" },
-  { slug: "applications", label: "Application Links", description: "Unternehmenswerkzeuge" },
+  { slug: "applications", label: "Application Links TEST", description: "Unternehmenswerkzeuge" },
   { slug: "benefits", label: "Benefits", description: "Mitarbeiterangebote" },
   { slug: "marketing", label: "Marketing", description: "Vorlagen und Markenmaterial" },
   { slug: "sales", label: "Vertrieb", description: "Vertriebsunterstützung" },
