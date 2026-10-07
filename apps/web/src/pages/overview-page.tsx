@@ -34,7 +34,7 @@ export function OverviewPage() {
               <span className="area-card__icon"><AreaIcon slug={area.slug} large /></span>
               <span className="area-card__title">{area.label}</span>
               <span className="area-card__description">{area.description}</span>
-              {area.slug !== "tasks" && <Badge appearance="tint" color="informative">In Vorbereitung</Badge>}
+              {area.slug !== "tasks" && area.slug !== "applications" && area.slug !== "benefits" && <Badge appearance="tint" color="informative">In Vorbereitung</Badge>}
             </Link>
           ))}
         </div>

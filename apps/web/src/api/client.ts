@@ -1,4 +1,4 @@
-import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
+import type { AppLink, AppLinkInput, Benefit, BenefitInput, BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -43,6 +43,61 @@ export const api = {
     async list() {
       const result = await request<{ users: PortalUser[] }>("/api/users");
       return result.users;
+    },
+  },
+  links: {
+    async reorder(ids: string[]) {
+      const result = await request<{ links: AppLink[] }>("/api/links/order", {
+        method: "PUT",
+        body: JSON.stringify({ ids }),
+      });
+      return result.links;
+    },
+    async list() {
+      const result = await request<{ links: AppLink[] }>("/api/links");
+      return result.links;
+    },
+    async create(input: AppLinkInput) {
+      const result = await request<{ link: AppLink }>("/api/links", {
+        method: "POST",
+        body: JSON.stringify(input),
+      });
+      return result.link;
+    },
+    async update(id: string, input: AppLinkInput) {
+      const result = await request<{ link: AppLink }>(`/api/links/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(input),
+      });
+      return result.link;
+    },
+    delete(id: string) {
+      return request<{ success: true }>(`/api/links/${id}`, { method: "DELETE" });
+    },
+  },
+  benefits: {
+    async list() {
+      const result = await request<{ benefits: Benefit[] }>("/api/benefits");
+      return result.benefits;
+    },
+    async get(id: string) {
+      const result = await request<{ benefit: Benefit }>(`/api/benefits/${encodeURIComponent(id)}`);
+      return result.benefit;
+    },
+    async create(input: BenefitInput) {
+      const result = await request<{ benefit: Benefit }>("/api/benefits", {
+        method: "POST", body: JSON.stringify(input),
+      });
+      return result.benefit;
+    },
+    async update(id: string, input: BenefitInput) {
+      const result = await request<{ benefit: Benefit }>(`/api/benefits/${encodeURIComponent(id)}`, {
+        method: "PUT", body: JSON.stringify(input),
+      });
+      return result.benefit;
+    },
+    delete(id: string) {
+      return request<{ success: true }>(`/api/benefits/${encodeURIComponent(id)}`, { method: "DELETE" });
     },
   },
   board: {

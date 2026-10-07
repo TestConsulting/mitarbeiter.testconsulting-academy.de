@@ -5,6 +5,29 @@ export type PortalUser = {
   role: "employee" | "admin";
 };
 
+export type AppLinkInput = {
+  name: string;
+  description: string;
+  url: string;
+  icon: string;
+  sortOrder: number;
+};
+
+export type AppLink = AppLinkInput & { id: string };
+
+export type BenefitInput = {
+  title: string;
+  description: string;
+  details: string;
+};
+
+export type Benefit = BenefitInput & { id: string };
+
+export function normalizeAppLinkUrl(value: string): string {
+  const trimmed = value.trim();
+  return /^www\./i.test(trimmed) ? `https://${trimmed}` : trimmed;
+}
+
 export type BoardColumn = {
   id: string;
   title: string;

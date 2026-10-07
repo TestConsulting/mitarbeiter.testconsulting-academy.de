@@ -4,6 +4,8 @@
 **Created**: 2026-10-05
 **Mode**: NEW
 
+**Scope-Erweiterung (2026-10-06)**: Der folgende Ausgangsplan beschreibt Phase 1. Durch den Nutzerauftrag ist jetzt zusätzlich Application Links aus Phase 2 freigegeben: geschützte Route `/areas/applications`, Link-Kacheln, Kürzel, externe Ziel-URLs, Reihenfolge und serverseitig abgesichertes Admin-CRUD mit PostgreSQL-Persistenz. Das Tasks-Board ist ebenfalls bereits implementiert. Application Links und Tasks sind keine Platzhalter mehr; eLearning, Benefits, Marketing und Vertrieb bleiben außerhalb dieser Erweiterung.
+
 ---
 
 ## 1. Project Overview
@@ -106,6 +108,7 @@ Start Docker Desktop before running the local PostgreSQL service; the CLI is ins
 | Sign In | `/login` | Authenticate an employee and surface validation feedback | `split(hero|form)` |
 | Overview | `/` | Welcome the signed-in employee and expose all portal destinations | `header, sidebar, main, grid, card-list` |
 | Portal Area Placeholder | `/areas/:area` | Show the selected protected destination as not yet implemented | `header, sidebar, main, empty` |
+| Application Links (Phase 2 extension) | `/areas/applications` | Persisted tool links with admin management | `header, sidebar, main, tile-grid, dialogs` |
 
 ### Sample Content
 
@@ -113,7 +116,7 @@ Overview — Portal destination:
 | Name | Purpose | Phase 1 state |
 |------|---------|---------------|
 | eLearning | Lernen und Zertifikate | In Vorbereitung |
-| Application Links | Unternehmenswerkzeuge | In Vorbereitung |
+| Application Links | Unternehmenswerkzeuge | Implementiert (Phase-2-Erweiterung) |
 | Benefits | Mitarbeiterangebote | In Vorbereitung |
 | Marketing | Vorlagen und Markenmaterial | In Vorbereitung |
 | Vertrieb | Vertriebsunterstützung | In Vorbereitung |
@@ -158,6 +161,10 @@ project-root/
 | 2 | POST | `/api/auth/login` | Start an authenticated portal session | Validated login payload | `{ user }` | 200, 400, 401, 429, 500 |
 | 3 | GET | `/api/auth/me` | Return the current authenticated user | — | `{ user }` | 200, 401 |
 | 4 | POST | `/api/auth/logout` | End the current portal session | — | `{ success }` | 200, 401, 500 |
+| 5 | GET | `/api/links` | Read ordered application links (authenticated) | — | `{ links }` | 200, 401, 500 |
+| 6 | POST | `/api/links` | Create application link (admin) | `{ name, description, url, icon, sortOrder }` | `{ link }` | 201, 400, 401, 403, 500 |
+| 7 | PUT | `/api/links/:id` | Replace application link fields (admin) | `{ name, description, url, icon, sortOrder }` | `{ link }` | 200, 400, 401, 403, 404, 500 |
+| 8 | DELETE | `/api/links/:id` | Delete application link (admin) | — | `{ success }` | 200, 400, 401, 403, 404, 500 |
 
 All non-login portal APIs require a valid authenticated session. Frontend route guards are for navigation only; authorization is enforced again by the API. Do not add content CRUD endpoints in Phase 1.
 

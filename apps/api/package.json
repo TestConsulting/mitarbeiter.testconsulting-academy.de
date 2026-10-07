@@ -9,7 +9,8 @@
     "start": "node --env-file=../../.env dist/apps/api/src/server.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "seed": "tsx --env-file=../../.env src/db/seed.ts"
+    "seed": "tsx --env-file=../../.env src/db/seed.ts",
+    "seed:admin": "tsx --env-file=../../.env src/db/seed.ts --admin"
   },
   "dependencies": {
     "@portal/shared": "*",

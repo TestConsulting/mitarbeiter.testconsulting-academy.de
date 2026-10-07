@@ -8,6 +8,8 @@ const authApi = vi.hoisted(() => ({
   me: vi.fn(),
   login: vi.fn(),
   logout: vi.fn(),
+  links: { list: vi.fn() },
+  benefits: { list: vi.fn(), get: vi.fn() },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -21,6 +23,8 @@ beforeEach(() => {
   authApi.me.mockResolvedValue(testUser);
   authApi.login.mockResolvedValue(testUser);
   authApi.logout.mockResolvedValue({ success: true });
+  authApi.links.list.mockResolvedValue([]);
+  authApi.benefits.list.mockResolvedValue([]);
 });
 
 describe("portal shell", () => {
@@ -36,8 +40,31 @@ describe("portal shell", () => {
     render(<App />);
     await screen.findByRole("heading", { name: "Willkommen, Alex" });
     const sidebarNav = screen.getByRole("complementary", { name: "Portalnavigation" });
-    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Benefits" }));
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Marketing" }));
     expect(await screen.findByRole("heading", { name: "Dieser Bereich wird in einer späteren Phase eingerichtet." })).toBeInTheDocument();
     expect(screen.getByText("In Vorbereitung")).toBeInTheDocument();
+  });
+
+  it("opens the implemented Application Links page instead of the placeholder", async () => {
+    render(<App />);
+    const sidebarNav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Application Links" }));
+    expect(await screen.findByRole("heading", { name: "Application Links" })).toBeInTheDocument();
+    expect(await screen.findByText("Noch keine Application Links vorhanden.")).toBeInTheDocument();
+    expect(screen.queryByText("Dieser Bereich wird in einer späteren Phase eingerichtet.")).not.toBeInTheDocument();
+  });
+
+  it("opens Benefits from navigation and supports a direct detail URL", async () => {
+    const benefit = { id: "benefit-1", title: "Test-Benefit", description: "Kurzbeschreibung", details: "Alle Details" };
+    authApi.benefits.list.mockResolvedValue([benefit]);
+    authApi.benefits.get.mockResolvedValue(benefit);
+    render(<App />);
+    const sidebarNav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Benefits" }));
+    expect(await screen.findByRole("heading", { name: "Benefits" })).toBeInTheDocument();
+    await userEvent.click(await screen.findByRole("link", { name: "Test-Benefit: Details ansehen" }));
+    expect(await screen.findByRole("heading", { name: "Test-Benefit", level: 1 })).toBeInTheDocument();
+    expect(screen.getByText("Alle Details")).toBeInTheDocument();
+    expect(authApi.benefits.get).toHaveBeenCalledWith("benefit-1");
   });
 });

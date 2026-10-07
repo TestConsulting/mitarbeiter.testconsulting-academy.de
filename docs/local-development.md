@@ -7,7 +7,7 @@
 
 ## Setup
 
-1. `.env.example` als `.env` kopieren und `POSTGRES_PASSWORD`, `DATABASE_URL` sowie ein zufälliges `SESSION_SECRET` mit mindestens 32 Zeichen setzen. Ein Secret lokal erzeugen:
+1. `.env.example` als `.env` kopieren und `POSTGRES_PASSWORD`, `DATABASE_URL` sowie ein zufälliges `SESSION_SECRET` mit mindestens 32 Zeichen setzen. Die Beispielkonten sind ausschließlich für lokale Tests gedacht. Ein Secret lokal erzeugen:
 
    ```powershell
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
@@ -20,15 +20,31 @@
    docker compose up -d postgres
    ```
 
-3. Das Kontenschema einmalig anlegen und das lokale Startkonto ausdrücklich erzeugen. Die Zugangsdaten dafür nur in `.env` setzen, niemals committen:
+3. Das Kontenschema einmalig anlegen und beide lokalen Testkonten erzeugen:
 
    ```powershell
    Get-Content -Raw apps/api/migrations/001_create_users.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/002_create_board.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/003_create_app_links.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/004_create_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
+   npm run seed:admin --workspace @portal/api
    ```
 
    `002_create_board.sql` legt das Tasks-Board-Schema an (`board_columns`, `tickets`) und seedet die drei Standardspalten ("Zu erledigen", "In Arbeit", "Erledigt"), falls das Board noch leer ist.
+
+   `003_create_app_links.sql` legt die Tabelle `app_links` an. Es werden keine fiktiven Unternehmenslinks automatisch eingetragen; Admins pflegen die tatsächlichen Zieladressen.
+
+   `004_create_benefits.sql` legt die Tabelle `benefits` an. Es werden keine Unternehmensleistungen erfunden oder automatisch eingetragen; Admins pflegen die tatsächlichen Benefits.
+
+   Die lokalen Testzugänge aus `.env.example` sind:
+
+   | Rolle | E-Mail | Passwort |
+   |-------|--------|----------|
+   | Mitarbeiter | `local.test@example.test` | `TestMitarbeiter2026!` |
+   | Admin | `local.admin@example.test` | `AdminTest2026!` |
+
+   Diese festgelegten Zugangsdaten sind nur für lokale Entwicklungsdatenbanken bestimmt und dürfen nicht in einer erreichbaren Umgebung verwendet werden. `.env` bleibt von Git ausgeschlossen.
 
 4. API und Web-App parallel starten:
 
@@ -52,4 +68,60 @@ npm run typecheck
 npm run build
 ```
 
-Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Bereichs-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Application Links, Benefits, Marketing, Vertrieb bleiben Platzhalter). Das Tasks-Board (Phase 3) ist umgesetzt, inklusive Admin-UI zum Umbenennen und Löschen von Spalten (Löschen ist nur möglich, wenn die Spalte keine Tickets mehr enthält).
+## Application Links (Phase 2)
+
+Nach der Anmeldung ist der Bereich unter `http://localhost:5173/areas/applications` erreichbar. Mitarbeitende sehen Kacheln mit Name, Kurzbeschreibung und Kürzel; die Zieladressen öffnen in einem neuen Tab. Die Daten werden in PostgreSQL gespeichert, nach `sort_order` aufsteigend sortiert, bei Gleichstand nach Name und ID.
+
+Die Kacheln haben abgerundete Ecken, weiche Schatten und dezente Farbakzente. Das responsive Raster passt sich der verfügbaren Breite an; die Farben wechseln nach Kachelposition und kennzeichnen keine Berechtigungen oder Kategorien. „Öffnen“ ist als eigener Link-Button gestaltet, Admin-Aktionen stehen in einer dezenten Fußzeile.
+
+Application-Links-Kacheln sind 280 Pixel breit und 320 Pixel hoch und damit quadratischer gestaltet; auf schmaleren Bildschirmen passt sich nur die Breite an. Beschreibungen werden auf zwei Zeilen begrenzt. Wenn der Text tatsächlich überläuft, öffnet „…mehr“ ein Popup mit vollständigem Namen, Beschreibung und Zieladresse. Das Popup steht Mitarbeitenden und Admins zur Verfügung; sein Öffnen verändert weder Inhalt noch Reihenfolge.
+
+Das Detail-Popup übernimmt den Farbakzent und das Kürzel der Kachel. Beschreibung und Zieladresse stehen in getrennten Boxen mit gleichen abgerundeten Rahmen und Innenabständen. Die Beschreibung bleibt weiß hinterlegt, die Zieladresse behält ihren hellgrauen Hintergrund. Die Fußzeile enthält den Hinweis zum neuen Tab und die Aktionen. Lange Inhalte bleiben scrollbar, auf kleinen Bildschirmen passt sich das Layout an. Schließen ist über die Fußzeile, das Kreuz im Kopfbereich oder die Escape-Taste möglich.
+
+Admins können Links hinzufügen, vollständig bearbeiten und nach Bestätigung löschen. Auf freien Flächen innerhalb einer Kachel können sie die Maustaste gedrückt halten und die Kachel per Drag-and-drop umsortieren; die Reihenfolge wird direkt für alle Mitarbeitenden gespeichert. Separate Verschiebegriffe und Reihenfolge-Angaben auf den Kacheln entfallen. Links werden über „Öffnen“ aufgerufen; Öffnen-, Bearbeiten- und Löschen-Steuerelemente lösen kein Verschieben aus. Tastaturbedienung: Kachel fokussieren, mit Leertaste aufnehmen, mit Pfeiltasten verschieben, mit Leertaste ablegen oder mit Escape abbrechen. Bei einem Speicherfehler wird die bisherige Reihenfolge wiederhergestellt und eine Fehlermeldung angezeigt. Mitarbeitende können nicht umsortieren. Das alternative Reihenfolge-Feld im Bearbeitungsdialog akzeptiert ganze Zahlen von 0 bis 2147483647. Zieladressen dürfen nur HTTP oder HTTPS verwenden und keine eingebetteten Zugangsdaten enthalten. Das Kürzel ist ein Textfeld (maximal 12 Zeichen), kein HTML oder Datei-Upload.
+
+Das lokale Seed-Konto hat standardmäßig die Rolle `employee`. Adminrechte werden nicht automatisch vergeben. Für ein separates lokales Admin-Testkonto in `.env` die Werte `SEED_ADMIN_EMAIL`, `SEED_ADMIN_NAME` und `SEED_ADMIN_PASSWORD` (mindestens 12 Zeichen) setzen. Die Admin-E-Mail muss sich von `SEED_USER_EMAIL` unterscheiden. Anschließend:
+
+```powershell
+npm run seed:admin --workspace @portal/api
+```
+
+Danach mit dem separaten Admin-Konto anmelden. Der normale Mitarbeiter-Seed verändert vorhandene Rollen nicht; der ausdrückliche Admin-Seed legt das gewählte Konto als Admin an oder aktualisiert es. Zugangsdaten nicht committen und den Admin-Seed nur für bewusst ausgewählte Entwicklungskonten verwenden.
+
+API-Vertrag:
+
+| Methode | Pfad | Berechtigung | Antwort |
+|---------|------|--------------|---------|
+| GET | `/api/links` | Angemeldet | 200 `{ links: AppLink[] }` |
+| POST | `/api/links` | Admin | 201 `{ link: AppLink }` |
+| PUT | `/api/links/order` | Admin | 200 `{ links: AppLink[] }` |
+| PUT | `/api/links/:id` | Admin | 200 `{ link: AppLink }` |
+| DELETE | `/api/links/:id` | Admin | 200 `{ success: true }` |
+
+POST und PUT erwarten `{ name, description, url, icon, sortOrder }`. Nicht angemeldete Anfragen erhalten 401, unberechtigte Änderungen 403, ungültige Eingaben 400 und nicht vorhandene Links bei PUT/DELETE 404.
+
+Zieladressen mit `www.` werden im Formular und in der API automatisch um `https://` ergänzt, beispielsweise `www.happytesting.de` zu `https://www.happytesting.de`. HTTP-/HTTPS-Adressen bleiben unverändert. Andere Protokolle und eingebettete Zugangsdaten werden weiterhin abgelehnt; die gespeicherte URL darf maximal 2048 Zeichen lang sein.
+
+Das Reihenfolge-Feld beim Anlegen und Bearbeiten bestimmt die Position: 0 ist die erste Kachel. Andere Kacheln rücken nach; Werte über der letzten Position setzen den Link ans Ende. Linkdaten und die eindeutigen Sortierwerte von 0 bis n-1 werden gemeinsam in einer Transaktion gespeichert. Im Editor wird die aktuelle Position angezeigt, auch wenn ältere Daten doppelte Sortierwerte enthalten.
+
+PUT `/api/links/order` erwartet stattdessen `{ ids: string[] }` mit jeder vorhandenen Link-ID genau einmal in der gewünschten Reihenfolge. Die Sortierwerte werden atomar auf 0 bis n-1 gesetzt. Doppelte oder ungültige IDs ergeben 400; eine unvollständige oder veraltete Linkliste ergibt 409 ohne Teiländerungen.
+
+## Benefits
+
+Die Kartenübersicht ist unter `http://localhost:5173/areas/benefits` verfügbar, die eigene Detailseite unter `/areas/benefits/:id`. Beide sind nur nach Anmeldung erreichbar. Benefits nutzen denselben responsiven Designstil wie Application Links: abgerundete Karten, dezente Farbakzente, weiche Schatten und eine Admin-Fußzeile. Die Karten werden alphabetisch nach Titel sortiert, bei Gleichstand nach ID.
+
+Admins können Benefits hinzufügen, in der Übersicht oder auf der Detailseite bearbeiten und nach Bestätigung löschen. Mitarbeitende sehen nur die Karten und die Details. Der Editor verlangt Titel (1–120 Zeichen), Kurzbeschreibung (1–500 Zeichen) und Details (1–5000 Zeichen). Führende und nachfolgende Leerzeichen werden entfernt. Die Details sind Klartext, kein HTML oder Markdown; Zeilenumbrüche bleiben auf der Detailseite erhalten. Die Änderungen werden in PostgreSQL gespeichert und bleiben nach Neustarts erhalten.
+
+Ladefehler können erneut versucht werden; fehlende Detailseiten zeigen einen eigenen Hinweis mit Rückweg zur Übersicht. Speicherfehler lassen den Editor mit den Eingaben geöffnet, fehlgeschlagene Löschungen entfernen keine Karte. Nach erfolgreichem Löschen auf der Detailseite erfolgt eine Rückkehr zur Übersicht.
+
+| Methode | Pfad | Berechtigung | Antwort |
+|---------|------|--------------|---------|
+| GET | `/api/benefits` | Angemeldet | 200 `{ benefits: Benefit[] }` |
+| GET | `/api/benefits/:id` | Angemeldet | 200 `{ benefit: Benefit }` |
+| POST | `/api/benefits` | Admin | 201 `{ benefit: Benefit }` |
+| PUT | `/api/benefits/:id` | Admin | 200 `{ benefit: Benefit }` |
+| DELETE | `/api/benefits/:id` | Admin | 200 `{ success: true }` |
+
+POST und PUT erwarten `{ title, description, details }`. Unbekannte Felder, ungültige IDs und ungültige Inhalte ergeben 400, nicht angemeldete Anfragen 401, unberechtigte Änderungen 403 und fehlende Benefits 404. Für längere mehrbyteige Detailtexte akzeptiert nur der Benefits-Endpunkt JSON-Anfragen bis 32 KB; die anderen API-Endpunkte behalten ihre Grenze von 10 KB.
+
+Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Marketing-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Marketing, Vertrieb bleiben Platzhalter). Application Links, Benefits und das Tasks-Board sind umgesetzt, letzteres inklusive Admin-UI zum Umbenennen und Löschen von Spalten (Löschen ist nur möglich, wenn die Spalte keine Tickets mehr enthält).
