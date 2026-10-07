@@ -11,7 +11,9 @@
     "test": "vitest run",
     "seed": "tsx --env-file=../../.env src/db/seed.ts",
     "seed:admin": "tsx --env-file=../../.env src/db/seed.ts",
-    "seed:prod": "tsx src/db/seed.ts"
+    "seed:prod": "tsx src/db/seed.ts",
+    "content:export": "tsx --env-file=../../.env src/db/content-command.ts export",
+    "content:import": "tsx src/db/content-command.ts import"
   },
   "dependencies": {
     "@portal/shared": "*",

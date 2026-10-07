@@ -54,6 +54,8 @@ Die Datenbankverbindung kann unter `http://localhost:4000/api/health` oder über
 
 Die API legt beim Start die PostgreSQL-Tabelle `portal_sessions` über `connect-pg-simple` an. Das Compose-Volume enthält lokale Entwicklungsdaten. Für Produktion sind ein separates Secret, HTTPS und `COOKIE_SECURE=true` erforderlich.
 
+Lokal angelegte Links und Benefits werden nicht durch einen normalen Code-Push übertragen. Für die Übernahme fehlender Einträge auf Produktion im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins ergänzt nur fehlende URLs bzw. Benefit-Titel; bestehende Prod-Inhalte bleiben unverändert. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen). Tasks und Benutzer werden nicht exportiert.
+
 ## Checks
 
 ```powershell

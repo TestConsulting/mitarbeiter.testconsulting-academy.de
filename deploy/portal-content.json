@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "name": "Outlook",
+      "description": "E-Mails, Kalender und Kontakte",
+      "url": "https://outlook.office.com/mail/",
+      "icon": "OUT",
+      "sortOrder": 0
+    },
+    {
+      "name": "Timebutler",
+      "description": "Zeiterfassung, Urlaubsplanung und Abwesenheiten",
+      "url": "https://app.timebutler.de/",
+      "icon": "TB",
+      "sortOrder": 1
+    },
+    {
+      "name": "TestKachel",
+      "description": "Happy Testing!",
+      "url": "https://www.happytesting.de",
+      "icon": "HT",
+      "sortOrder": 2
+    },
+    {
+      "name": "Microsoft 365",
+      "description": "Outlook, Teams und OneDrive an einem OrtfddfgdddddddddddddddddddddddddddddddddddddddddddddddddsfsdddfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOutlook, Teams und OneDrive an einem OrtfddfgdddddddddddddddddddddddddddddddddddddddddddddddddsfsdddfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOutlook, Teams u",
+      "url": "https://www.microsoft365.com/",
+      "icon": "M365",
+      "sortOrder": 3
+    }
+  ],
+  "benefits": [
+    {
+      "title": "Lokaler UI-Test-Benefit aktualisiert",
+      "description": "Temporäre Karte zur Prüfung der neuen Benefits-Funktion.",
+      "details": "Aktualisierte Testdetails.\nDiese Karte wird nach der Prüfung entfernt."
+    }
+  ]
+}
