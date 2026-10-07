@@ -25,10 +25,8 @@ Für das erste Konto setze `SEED_USER_EMAIL`, `SEED_USER_NAME` und ein starkes `
 docker compose -p mitarbeiter-portal --env-file /opt/mitarbeiter-portal/.env -f docker-compose.prod.yml exec api npm run seed:prod
 ```
 
-Der Seed legt standardmäßig ein Mitarbeitendenkonto an und aktualisiert Name und Passwort, falls die E-Mail bereits existiert. Für einen Administrator ändere die Rolle anschließend ausdrücklich:
+**Vor dem Seed eine bestehende produktive Datenbank sichern.** Der Seed stellt die Anwendung auf genau einen Account mit Adminrechten um und entfernt die anderen Konten. Tickets bleiben erhalten; ihre Ersteller und vorhandenen Zuweisungen werden auf den einzigen Account übertragen. Links, Benefits und Board-Spalten bleiben unverändert. Bestehende Sitzungen werden ungültig. Die Umstellung erfolgt in einer Transaktion.
 
-```sh
-docker compose -p mitarbeiter-portal --env-file /opt/mitarbeiter-portal/.env -f docker-compose.prod.yml exec db sh -c "psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'admin' WHERE lower(email) = lower('admin@example.com');\""
-```
+Ein eindeutiger Datenbankindex verhindert weitere Konten, eine Datenbankbedingung erzwingt die Adminrolle. Wiederholtes Seeden aktualisiert E-Mail, Name und Passwort des einzigen Accounts. Eine separate Rollenzuweisung oder `SEED_ADMIN_*`-Konfiguration ist nicht erforderlich. Für Produktion ein eigenes starkes Passwort verwenden; lokale Zugangsdaten nicht übernehmen.
 
 Entferne anschließend die `SEED_USER_*`-Werte aus der Server-`.env`. Prüfe das Deployment über `https://mitarbeiter.testconsulting-academy.de/api/health`; bei Erfolg antwortet die API mit `services.database: "ok"`.

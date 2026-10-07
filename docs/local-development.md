@@ -7,7 +7,7 @@
 
 ## Setup
 
-1. `.env.example` als `.env` kopieren und `POSTGRES_PASSWORD`, `DATABASE_URL` sowie ein zufälliges `SESSION_SECRET` mit mindestens 32 Zeichen setzen. Die Beispielkonten sind ausschließlich für lokale Tests gedacht. Ein Secret lokal erzeugen:
+1. `.env.example` als `.env` kopieren und `POSTGRES_PASSWORD`, `DATABASE_URL` sowie ein zufälliges `SESSION_SECRET` mit mindestens 32 Zeichen setzen. Für den einzigen Account `SEED_USER_EMAIL`, `SEED_USER_NAME` und `SEED_USER_PASSWORD` (mindestens 12 Zeichen) ausschließlich in `.env` setzen. Ein Secret lokal erzeugen:
 
    ```powershell
    node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
@@ -20,7 +20,7 @@
    docker compose up -d postgres
    ```
 
-3. Das Kontenschema einmalig anlegen und beide lokalen Testkonten erzeugen:
+3. Das Schema einmalig anlegen und den einzigen Account einrichten:
 
    ```powershell
    Get-Content -Raw apps/api/migrations/001_create_users.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
@@ -28,7 +28,6 @@
    Get-Content -Raw apps/api/migrations/003_create_app_links.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/004_create_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
-   npm run seed:admin --workspace @portal/api
    ```
 
    `002_create_board.sql` legt das Tasks-Board-Schema an (`board_columns`, `tickets`) und seedet die drei Standardspalten ("Zu erledigen", "In Arbeit", "Erledigt"), falls das Board noch leer ist.
@@ -37,14 +36,9 @@
 
    `004_create_benefits.sql` legt die Tabelle `benefits` an. Es werden keine Unternehmensleistungen erfunden oder automatisch eingetragen; Admins pflegen die tatsächlichen Benefits.
 
-   Die lokalen Testzugänge aus `.env.example` sind:
+   **Achtung bei bestehenden Datenbanken:** Der Seed ersetzt alle bisherigen Konten durch den konfigurierten Account mit Adminrechten. Tickets bleiben erhalten: Ersteller und bestehende Zuweisungen werden auf diesen Account übertragen; nicht zugewiesene Tickets bleiben unzugewiesen. Links, Benefits und Board-Spalten bleiben unverändert. Alle bestehenden Sitzungen werden ungültig.
 
-   | Rolle | E-Mail | Passwort |
-   |-------|--------|----------|
-   | Mitarbeiter | `local.test@example.test` | `TestMitarbeiter2026!` |
-   | Admin | `local.admin@example.test` | `AdminTest2026!` |
-
-   Diese festgelegten Zugangsdaten sind nur für lokale Entwicklungsdatenbanken bestimmt und dürfen nicht in einer erreichbaren Umgebung verwendet werden. `.env` bleibt von Git ausgeschlossen.
+   Die Umstellung erfolgt atomar. Ein eindeutiger Datenbankindex verhindert weitere Konten; eine Datenbankbedingung erlaubt nur die Rolle `admin`. Wiederholtes Seeden aktualisiert den einzigen Account. Die Zugangsdaten werden nicht in Beispieldateien hinterlegt; `.env` bleibt von Git ausgeschlossen. Vor einer Umstellung produktiver Datenbanken ein Backup erstellen.
 
 4. API und Web-App parallel starten:
 
@@ -80,13 +74,13 @@ Das Detail-Popup übernimmt den Farbakzent und das Kürzel der Kachel. Beschreib
 
 Admins können Links hinzufügen, vollständig bearbeiten und nach Bestätigung löschen. Auf freien Flächen innerhalb einer Kachel können sie die Maustaste gedrückt halten und die Kachel per Drag-and-drop umsortieren; die Reihenfolge wird direkt für alle Mitarbeitenden gespeichert. Separate Verschiebegriffe und Reihenfolge-Angaben auf den Kacheln entfallen. Links werden über „Öffnen“ aufgerufen; Öffnen-, Bearbeiten- und Löschen-Steuerelemente lösen kein Verschieben aus. Tastaturbedienung: Kachel fokussieren, mit Leertaste aufnehmen, mit Pfeiltasten verschieben, mit Leertaste ablegen oder mit Escape abbrechen. Bei einem Speicherfehler wird die bisherige Reihenfolge wiederhergestellt und eine Fehlermeldung angezeigt. Mitarbeitende können nicht umsortieren. Das alternative Reihenfolge-Feld im Bearbeitungsdialog akzeptiert ganze Zahlen von 0 bis 2147483647. Zieladressen dürfen nur HTTP oder HTTPS verwenden und keine eingebetteten Zugangsdaten enthalten. Das Kürzel ist ein Textfeld (maximal 12 Zeichen), kein HTML oder Datei-Upload.
 
-Das lokale Seed-Konto hat standardmäßig die Rolle `employee`. Adminrechte werden nicht automatisch vergeben. Für ein separates lokales Admin-Testkonto in `.env` die Werte `SEED_ADMIN_EMAIL`, `SEED_ADMIN_NAME` und `SEED_ADMIN_PASSWORD` (mindestens 12 Zeichen) setzen. Die Admin-E-Mail muss sich von `SEED_USER_EMAIL` unterscheiden. Anschließend:
+Der einzige Account hat die Rolle `admin` und darf alle implementierten Bereiche verwalten. Zur Änderung von E-Mail, Name oder Passwort die `SEED_USER_*`-Werte in `.env` anpassen und anschließend ausführen:
 
 ```powershell
-npm run seed:admin --workspace @portal/api
+npm run seed --workspace @portal/api
 ```
 
-Danach mit dem separaten Admin-Konto anmelden. Der normale Mitarbeiter-Seed verändert vorhandene Rollen nicht; der ausdrückliche Admin-Seed legt das gewählte Konto als Admin an oder aktualisiert es. Zugangsdaten nicht committen und den Admin-Seed nur für bewusst ausgewählte Entwicklungskonten verwenden.
+Danach mit dem konfigurierten Account neu anmelden. `seed:admin` bleibt als kompatibler Alias für denselben Single-Account-Seed erhalten; `SEED_ADMIN_*` wird nicht mehr verwendet. Zugangsdaten nicht committen. Rollenprüfungen bleiben als serverseitige Schutzmaßnahmen erhalten; es gibt keine Anmeldung ohne Passwort.
 
 API-Vertrag:
 

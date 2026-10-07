@@ -8,7 +8,7 @@
 
 TestConsulting (Software-QA- und Atlassian-Beratung) erhält einen internen, geschützten Login-Bereich für Mitarbeitende. Das Portal bündelt Lernangebote, Tool-Links, Benefits, Marketing-Material, einen Vertriebs-CV-Generator und ein Aufgabenboard.
 
-- **Nutzer:** Mitarbeitende von TestConsulting (intern), Admins (Geschäftsführung)
+- **Nutzer:** Ein gemeinsamer TestConsulting-Account mit vollständigen Berechtigungen (Single-Account-Umstellung vom 2026-10-07)
 - **Sprache der Oberfläche:** Deutsch
 - **Design:** Corporate Design von www.testconsulting.de inkl. TestConsulting-Logo
 - **Status heute:** Klickbarer HTML-Prototyp ohne Backend (Pseudo-Login, Daten nur im Browser)
@@ -17,8 +17,9 @@ TestConsulting (Software-QA- und Atlassian-Beratung) erhält einen internen, ges
 
 | Rolle | Rechte |
 |---|---|
-| Mitarbeiter | Alle Bereiche lesen, eigene Kurse/Zertifikate, Tasks anlegen/bearbeiten, CVs generieren |
-| Admin | Zusätzlich: Inhalte pflegen (Links, Benefits, Marketing-Dateien, Kurse), Mitarbeitende verwalten, Spalten anlegen/löschen |
+| Einziger Account (Admin) | Alle implementierten Bereiche lesen und verwalten; Links, Benefits, Tasks und Spalten pflegen |
+
+Die bisherige Trennung zwischen Mitarbeiter- und Admin-Konten entfällt. Anmeldung mit E-Mail und Passwort bleibt erforderlich. Der Seed ersetzt alte Konten atomar, erhält Tickets und überträgt ihre Ersteller sowie vorhandene Zuweisungen auf den einzigen Account. Datenbankregeln verhindern weitere Konten und erzwingen Adminrechte. Nicht implementierte Bereiche werden durch diese Umstellung nicht ergänzt.
 
 ## 3. Fachliche Anforderungen je Bereich
 

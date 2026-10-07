@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "seed": "tsx --env-file=../../.env src/db/seed.ts",
-    "seed:admin": "tsx --env-file=../../.env src/db/seed.ts --admin",
+    "seed:admin": "tsx --env-file=../../.env src/db/seed.ts",
     "seed:prod": "tsx src/db/seed.ts"
   },
   "dependencies": {
