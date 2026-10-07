@@ -44,7 +44,8 @@ describe("board router", () => {
     await agent.post("/api/board/columns").send({ title: "Neu" }).expect(403);
   });
 
-  it("allows admins to create, rename and delete empty columns", async () => {
+  it.each(["admin", "user"] as const)("allows %s accounts to create, rename and delete empty columns", async (role) => {
+    fixture.adminUser.role = role;
     const agent = await loginAs(fixture.adminUser.email);
     const created = await agent.post("/api/board/columns").send({ title: "Review" }).expect(201);
     const newColumn = created.body.columns.at(-1);

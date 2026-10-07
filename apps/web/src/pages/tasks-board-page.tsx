@@ -29,6 +29,7 @@ import {
 import { Add20Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
+import { canManagePortal } from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
 
@@ -38,7 +39,7 @@ const emptyComposer: ComposerState = { title: "", assigneeId: "" };
 
 export function TasksBoardPage() {
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin";
+  const isAdmin = canManagePortal(user);
 
   const [board, setBoard] = useState<BoardState | null>(null);
   const [users, setUsers] = useState<PortalUser[]>([]);

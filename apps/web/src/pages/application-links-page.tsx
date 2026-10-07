@@ -8,7 +8,7 @@ import {
 import { Add20Regular, ArrowUpRight20Regular, Delete16Regular, Dismiss20Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import type { AppLink, AppLinkInput } from "@portal/shared";
-import { normalizeAppLinkUrl } from "@portal/shared";
+import { canManagePortal, normalizeAppLinkUrl } from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
 import { AreaIcon } from "../app/area-icon.js";
 import { useAuth } from "../app/auth-context.js";
@@ -64,7 +64,7 @@ function SortableLinkCard({ link, isAdmin, disabled, children }: { link: AppLink
 
 export function ApplicationLinksPage() {
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin";
+  const isAdmin = canManagePortal(user);
   const [links, setLinks] = useState<AppLink[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);

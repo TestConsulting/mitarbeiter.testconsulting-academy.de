@@ -1,5 +1,6 @@
 import type { RequestHandler } from "express";
 import type { UserRepository } from "../db/user-repository.js";
+import { canManagePortal } from "@portal/shared";
 
 export function requireAuth(): RequestHandler {
   return (request, response, next) => {
@@ -19,8 +20,8 @@ export function requireAdmin(users: UserRepository): RequestHandler {
     }
     users.findById(request.session.userId)
       .then((user) => {
-        if (!user || user.role !== "admin") {
-          response.status(403).json({ error: "Nur für Administratorinnen und Administratoren verfügbar." });
+        if (!canManagePortal(user)) {
+          response.status(403).json({ error: "Keine Berechtigung zum Verwalten dieses Bereichs." });
           return;
         }
         next();

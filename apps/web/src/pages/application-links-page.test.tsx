@@ -8,7 +8,7 @@ import { ApiError } from "../api/client.js";
 import { ApplicationLinksPage } from "./application-links-page.js";
 
 const mocks = vi.hoisted(() => ({
-  role: "employee" as "employee" | "admin",
+  role: "employee" as "employee" | "admin" | "user",
   list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), reorder: vi.fn(),
 }));
 
@@ -164,8 +164,8 @@ describe("application links page", () => {
     expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([link.url, created.url]);
   });
 
-  it("lets admins edit and reorder an existing link", async () => {
-    mocks.role = "admin";
+  it.each(["admin", "user"] as const)("lets %s accounts edit and reorder an existing link", async (role) => {
+    mocks.role = role;
     const second = { ...link, id: "link-2", name: "Wiki", url: "https://wiki.example.test/", sortOrder: 5 };
     mocks.list.mockResolvedValue([link, second]);
     mocks.update.mockResolvedValue({ ...link, name: "Office", sortOrder: 8 });

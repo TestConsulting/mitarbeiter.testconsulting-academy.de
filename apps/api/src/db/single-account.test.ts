@@ -4,7 +4,7 @@ import { provisionSingleAccount } from "./single-account.js";
 const account = { email: "account@example.test", name: "Portal", passwordHash: "test-hash" };
 
 describe("single account provisioning", () => {
-  it.each([true, false])("preserves tickets and enforces one administrator (existing: %s)", async (existing) => {
+  it.each([true, false])("preserves tickets and enforces one general user (existing: %s)", async (existing) => {
     const query = vi.fn().mockResolvedValue({ rows: [] });
     query.mockImplementation(async (sql: string) => {
       if (sql.startsWith("SELECT id")) return { rows: existing ? [{ id: "account-id" }] : [] };
@@ -21,11 +21,13 @@ describe("single account provisioning", () => {
       "UPDATE tickets SET assignee_id = $1 WHERE assignee_id IS NOT NULL AND assignee_id <> $1", ["account-id"],
     );
     expect(query).toHaveBeenCalledWith(
-      "UPDATE users SET email = $2, name = $3, password_hash = $4, role = 'admin' WHERE id = $1",
+      "UPDATE users SET email = $2, name = $3, password_hash = $4, role = 'user' WHERE id = $1",
       ["account-id", account.email, account.name, account.passwordHash],
     );
     expect(query).toHaveBeenCalledWith("CREATE UNIQUE INDEX IF NOT EXISTS users_single_account ON users ((true))");
-    expect(statements.some((sql) => sql.includes("CHECK (role = 'admin')") && sql.includes("DELETE FROM portal_sessions"))).toBe(true);
+    expect(query).toHaveBeenCalledWith("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_single_account_admin");
+    expect(query).toHaveBeenCalledWith("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
+    expect(statements.some((sql) => sql.includes("CHECK (role = 'user')") && sql.includes("DELETE FROM portal_sessions"))).toBe(true);
     expect(query).toHaveBeenLastCalledWith("COMMIT");
     expect(release).toHaveBeenCalledOnce();
   });

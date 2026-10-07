@@ -3,6 +3,7 @@ import { ArrowLeft20Regular } from "@fluentui/react-icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Benefit } from "@portal/shared";
+import { canManagePortal } from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
 import { AreaIcon } from "../app/area-icon.js";
 import { useAuth } from "../app/auth-context.js";
@@ -65,7 +66,7 @@ export function BenefitDetailPage() {
               <p>{benefit.details}</p>
             </section>
           </div>
-          {user?.role === "admin" && (
+          {canManagePortal(user) && (
             <div className="benefit-card__actions">
               <BenefitActions benefit={benefit}
                 onSaved={(saved) => { setBenefit(saved); setNotice("Benefit wurde gespeichert."); }}

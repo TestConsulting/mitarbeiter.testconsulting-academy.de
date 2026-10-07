@@ -5,6 +5,7 @@ import {
 import { Add20Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useState, type FormEvent } from "react";
 import type { Benefit, BenefitInput } from "@portal/shared";
+import { canManagePortal } from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
 
@@ -21,7 +22,7 @@ export function BenefitActions({ benefit, onSaved, onDeleted }: Props) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  if (user?.role !== "admin") return null;
+  if (!canManagePortal(user)) return null;
 
   function openEditor() {
     setError("");

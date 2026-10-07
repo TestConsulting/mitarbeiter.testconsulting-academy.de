@@ -3,6 +3,7 @@ import { ArrowRight20Regular } from "@fluentui/react-icons";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { Benefit } from "@portal/shared";
+import { canManagePortal } from "@portal/shared";
 import { api } from "../api/client.js";
 import { AreaIcon } from "../app/area-icon.js";
 import { useAuth } from "../app/auth-context.js";
@@ -10,7 +11,7 @@ import { BenefitActions } from "./benefit-actions.js";
 
 export function BenefitsPage() {
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin";
+  const isAdmin = canManagePortal(user);
   const location = useLocation();
   const navigationState: unknown = location.state;
   const [benefits, setBenefits] = useState<Benefit[]>([]);

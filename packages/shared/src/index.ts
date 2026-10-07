@@ -2,8 +2,12 @@ export type PortalUser = {
   id: string;
   email: string;
   name: string;
-  role: "employee" | "admin";
+  role: "employee" | "admin" | "user";
 };
+
+export function canManagePortal(user: PortalUser | null | undefined): boolean {
+  return user?.role === "user" || user?.role === "admin";
+}
 
 export type AppLinkInput = {
   name: string;

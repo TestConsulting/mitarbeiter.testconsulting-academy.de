@@ -20,7 +20,7 @@ try {
     parallelism: 1,
   });
   await provisionSingleAccount(pool, { email, name, passwordHash });
-  console.info(`Single administrator account ready for ${email}. Other accounts and existing sessions have been removed.`);
+  console.info(`Single general user account ready for ${email}. Other accounts and existing sessions have been removed.`);
 } finally {
   await pool.end();
 }

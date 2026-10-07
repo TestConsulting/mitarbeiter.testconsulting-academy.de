@@ -17,9 +17,9 @@ TestConsulting (Software-QA- und Atlassian-Beratung) erhält einen internen, ges
 
 | Rolle | Rechte |
 |---|---|
-| Einziger Account (Admin) | Alle implementierten Bereiche lesen und verwalten; Links, Benefits, Tasks und Spalten pflegen |
+| Einziger allgemeiner Benutzer (`user`) | Alle implementierten Bereiche lesen und verwalten; Links, Benefits, Tasks und Spalten pflegen |
 
-Die bisherige Trennung zwischen Mitarbeiter- und Admin-Konten entfällt. Anmeldung mit E-Mail und Passwort bleibt erforderlich. Der Seed ersetzt alte Konten atomar, erhält Tickets und überträgt ihre Ersteller sowie vorhandene Zuweisungen auf den einzigen Account. Datenbankregeln verhindern weitere Konten und erzwingen Adminrechte. Nicht implementierte Bereiche werden durch diese Umstellung nicht ergänzt.
+Die bisherige Trennung zwischen Mitarbeiter- und Admin-Konten entfällt. Der einzige Account hat die Rolle `user`, nicht `admin`, und vollständige Verwaltungsberechtigungen. Anmeldung mit E-Mail und Passwort bleibt erforderlich. Der Seed ersetzt alte Konten atomar, erhält Tickets und überträgt ihre Ersteller sowie vorhandene Zuweisungen auf den einzigen Account. Datenbankregeln verhindern weitere Konten und erzwingen die allgemeine Benutzerrolle. Nachfolgende historische Admin-Verweise bezeichnen die Verwaltungsfunktionen, die jetzt diesem Benutzer zur Verfügung stehen. Nicht implementierte Bereiche werden durch diese Umstellung nicht ergänzt.
 
 ## 3. Fachliche Anforderungen je Bereich
 

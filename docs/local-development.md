@@ -36,9 +36,9 @@
 
    `004_create_benefits.sql` legt die Tabelle `benefits` an. Es werden keine Unternehmensleistungen erfunden oder automatisch eingetragen; Admins pflegen die tatsächlichen Benefits.
 
-   **Achtung bei bestehenden Datenbanken:** Der Seed ersetzt alle bisherigen Konten durch den konfigurierten Account mit Adminrechten. Tickets bleiben erhalten: Ersteller und bestehende Zuweisungen werden auf diesen Account übertragen; nicht zugewiesene Tickets bleiben unzugewiesen. Links, Benefits und Board-Spalten bleiben unverändert. Alle bestehenden Sitzungen werden ungültig.
+   **Achtung bei bestehenden Datenbanken:** Der Seed ersetzt alle bisherigen Konten durch den konfigurierten allgemeinen Benutzer mit vollständigen Berechtigungen. Tickets bleiben erhalten: Ersteller und bestehende Zuweisungen werden auf diesen Account übertragen; nicht zugewiesene Tickets bleiben unzugewiesen. Links, Benefits und Board-Spalten bleiben unverändert. Alle bestehenden Sitzungen werden ungültig.
 
-   Die Umstellung erfolgt atomar. Ein eindeutiger Datenbankindex verhindert weitere Konten; eine Datenbankbedingung erlaubt nur die Rolle `admin`. Wiederholtes Seeden aktualisiert den einzigen Account. Die Zugangsdaten werden nicht in Beispieldateien hinterlegt; `.env` bleibt von Git ausgeschlossen. Vor einer Umstellung produktiver Datenbanken ein Backup erstellen.
+   Die Umstellung erfolgt atomar. Ein eindeutiger Datenbankindex verhindert weitere Konten; eine Datenbankbedingung erlaubt nur die Rolle `user`. Der Seed migriert auch die bisherige Single-Admin-Datenbankregel. Wiederholtes Seeden aktualisiert den einzigen Account. Die Zugangsdaten werden nicht in Beispieldateien hinterlegt; `.env` bleibt von Git ausgeschlossen. Vor einer Umstellung produktiver Datenbanken ein Backup erstellen.
 
 4. API und Web-App parallel starten:
 
@@ -74,7 +74,7 @@ Das Detail-Popup übernimmt den Farbakzent und das Kürzel der Kachel. Beschreib
 
 Admins können Links hinzufügen, vollständig bearbeiten und nach Bestätigung löschen. Auf freien Flächen innerhalb einer Kachel können sie die Maustaste gedrückt halten und die Kachel per Drag-and-drop umsortieren; die Reihenfolge wird direkt für alle Mitarbeitenden gespeichert. Separate Verschiebegriffe und Reihenfolge-Angaben auf den Kacheln entfallen. Links werden über „Öffnen“ aufgerufen; Öffnen-, Bearbeiten- und Löschen-Steuerelemente lösen kein Verschieben aus. Tastaturbedienung: Kachel fokussieren, mit Leertaste aufnehmen, mit Pfeiltasten verschieben, mit Leertaste ablegen oder mit Escape abbrechen. Bei einem Speicherfehler wird die bisherige Reihenfolge wiederhergestellt und eine Fehlermeldung angezeigt. Mitarbeitende können nicht umsortieren. Das alternative Reihenfolge-Feld im Bearbeitungsdialog akzeptiert ganze Zahlen von 0 bis 2147483647. Zieladressen dürfen nur HTTP oder HTTPS verwenden und keine eingebetteten Zugangsdaten enthalten. Das Kürzel ist ein Textfeld (maximal 12 Zeichen), kein HTML oder Datei-Upload.
 
-Der einzige Account hat die Rolle `admin` und darf alle implementierten Bereiche verwalten. Zur Änderung von E-Mail, Name oder Passwort die `SEED_USER_*`-Werte in `.env` anpassen und anschließend ausführen:
+Der einzige Account hat die allgemeine Rolle `user`, nicht `admin`, und darf alle implementierten Bereiche verwalten. Historische Admin-Verweise in den folgenden Funktionsbeschreibungen meinen diese Verwaltungsberechtigungen. Zur Änderung von E-Mail, Name oder Passwort die `SEED_USER_*`-Werte in `.env` anpassen und anschließend ausführen:
 
 ```powershell
 npm run seed --workspace @portal/api
