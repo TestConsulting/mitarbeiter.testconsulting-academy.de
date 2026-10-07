@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "tsx watch --env-file=../../.env src/server.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node --env-file=../../.env dist/apps/api/src/server.js",
+    "start": "node --env-file-if-exists=../../.env dist/apps/api/src/server.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "seed": "tsx --env-file=../../.env src/db/seed.ts",
-    "seed:admin": "tsx --env-file=../../.env src/db/seed.ts --admin"
+    "seed:admin": "tsx --env-file=../../.env src/db/seed.ts --admin",
+    "seed:prod": "tsx src/db/seed.ts"
   },
   "dependencies": {
     "@portal/shared": "*",
