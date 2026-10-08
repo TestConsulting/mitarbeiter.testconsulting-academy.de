@@ -3,14 +3,20 @@ import { z } from "zod";
 import { requireAdmin, requireAuth } from "../auth/middleware.js";
 import type { BenefitRepository } from "../db/benefit-repository.js";
 import type { UserRepository } from "../db/user-repository.js";
+import { optionalPortalUrlSchema } from "../validation/portal-url.js";
 
 const benefitSchema = z.object({
   title: z.string().trim().min(1).max(120),
   description: z.string().trim().min(1).max(500),
   details: z.string().trim().min(1).max(5000),
+  url: optionalPortalUrlSchema,
 }).strict();
 const idSchema = z.string().uuid();
-const invalidInput = "Bitte fülle Titel, Kurzbeschreibung und Details aus (maximal 120, 500 und 5000 Zeichen).";
+const orderSchema = z.object({
+  ids: z.array(idSchema.transform((id) => id.toLowerCase())).min(1)
+    .refine((ids) => new Set(ids).size === ids.length),
+}).strict();
+const invalidInput = "Bitte fülle Titel, Kurzbeschreibung und Details aus (maximal 120, 500 und 5000 Zeichen). Die optionale URL muss eine HTTP-/HTTPS-Adresse ohne Zugangsdaten oder mailto: mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter sein (maximal 2048 Zeichen).";
 
 export function createBenefitsRouter(benefits: BenefitRepository, users: UserRepository): Router {
   const router = Router();
@@ -50,6 +56,24 @@ export function createBenefitsRouter(benefits: BenefitRepository, users: UserRep
     }
     try {
       response.status(201).json({ benefit: await benefits.create(payload.data) });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.put("/order", requireAdmin(users), async (request, response, next) => {
+    const payload = orderSchema.safeParse(request.body);
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte gib eine vollständige Reihenfolge ohne doppelte Benefit-IDs an." });
+      return;
+    }
+    try {
+      const reordered = await benefits.reorder(payload.data.ids);
+      if (!reordered) {
+        response.status(409).json({ error: "Die Benefits haben sich geändert. Bitte lade die Seite neu und versuche es erneut." });
+        return;
+      }
+      response.json({ benefits: reordered });
     } catch (error) {
       next(error);
     }

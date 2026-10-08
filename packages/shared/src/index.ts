@@ -23,9 +23,10 @@ export type BenefitInput = {
   title: string;
   description: string;
   details: string;
+  url?: string | null;
 };
 
-export type Benefit = BenefitInput & { id: string };
+export type Benefit = BenefitInput & { id: string; sortOrder: number; url: string | null };
 
 export function isValidPortalUrl(value: string): boolean {
   try {

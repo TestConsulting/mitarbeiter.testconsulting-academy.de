@@ -19,7 +19,7 @@ pipeline {
         '''
       }
     }
-    stage('Import missing content') {
+    stage('Import portal content') {
       steps {
         sh "${COMPOSE} run --rm --no-deps api npm run content:import -- deploy/portal-content.json"
       }

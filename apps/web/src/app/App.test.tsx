@@ -55,7 +55,7 @@ describe("portal shell", () => {
   });
 
   it("opens Benefits from navigation and supports a direct detail URL", async () => {
-    const benefit = { id: "benefit-1", title: "Test-Benefit", description: "Kurzbeschreibung", details: "Alle Details" };
+    const benefit = { id: "benefit-1", sortOrder: 0, url: null, title: "Test-Benefit", description: "Kurzbeschreibung", details: "Alle Details" };
     authApi.benefits.list.mockResolvedValue([benefit]);
     authApi.benefits.get.mockResolvedValue(benefit);
     render(<App />);

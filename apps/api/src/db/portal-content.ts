@@ -1,10 +1,12 @@
 import type { Pool } from "pg";
 import { z } from "zod";
 import { isValidAppLinkUrl } from "@portal/shared";
+import { optionalPortalUrlSchema } from "../validation/portal-url.js";
 
 export const portalContentSchema = z.object({
   version: z.literal(1),
   updateExistingLinks: z.boolean().optional(),
+  updateExistingBenefits: z.boolean().optional(),
   links: z.array(z.object({
     name: z.string().trim().min(1).max(120),
     description: z.string().trim().min(1).max(500),
@@ -16,6 +18,7 @@ export const portalContentSchema = z.object({
     title: z.string().trim().min(1).max(120),
     description: z.string().trim().min(1).max(500),
     details: z.string().trim().min(1).max(5000),
+    url: optionalPortalUrlSchema,
   }).strict()),
 }).strict();
 
@@ -29,7 +32,7 @@ export async function exportPortalContent(database: Pick<Pool, "connect">): Prom
       'SELECT name, description, url, icon, sort_order AS "sortOrder" FROM app_links ORDER BY sort_order, name, id',
     );
     const benefits = await client.query<PortalContent["benefits"][number]>(
-      "SELECT title, description, details FROM benefits ORDER BY title, id",
+      "SELECT title, description, details, url FROM benefits ORDER BY sort_order, title, id",
     );
     const content = portalContentSchema.parse({ version: 1, links: links.rows, benefits: benefits.rows });
     await client.query("COMMIT");
@@ -65,12 +68,32 @@ export async function importPortalContent(database: Pick<Pool, "connect">, input
       );
       added.links += result.rowCount ?? 0;
     }
-    for (const benefit of content.benefits) {
+    if (content.updateExistingBenefits && content.benefits.length) {
+      await client.query(
+        `WITH ordered AS (
+           SELECT id, row_number() OVER (ORDER BY sort_order, title, id) - 1 AS position
+           FROM benefits
+           WHERE NOT (btrim(title) = ANY($2::text[]))
+         )
+         UPDATE benefits SET sort_order = (ordered.position + $1)::integer
+         FROM ordered WHERE benefits.id = ordered.id`,
+        [content.benefits.length, content.benefits.map((benefit) => benefit.title)],
+      );
+    }
+    for (const [position, benefit] of content.benefits.entries()) {
+      if (content.updateExistingBenefits) {
+        await client.query(
+          `UPDATE benefits SET description = $2, details = $3, url = $4, sort_order = $5
+           WHERE btrim(title) = $1`,
+          [benefit.title, benefit.description, benefit.details, benefit.url, position],
+        );
+      }
       const result = await client.query(
-        `INSERT INTO benefits (title, description, details)
-         SELECT $1, $2, $3
+        `INSERT INTO benefits (title, description, details, url, sort_order)
+         SELECT $1, $2, $3, $4, COALESCE($5::integer, (SELECT MAX(sort_order) + 1 FROM benefits), 0)
          WHERE NOT EXISTS (SELECT 1 FROM benefits WHERE btrim(title) = $1)`,
-        [benefit.title, benefit.description, benefit.details],
+        [benefit.title, benefit.description, benefit.details, benefit.url,
+          content.updateExistingBenefits ? position : null],
       );
       added.benefits += result.rowCount ?? 0;
     }

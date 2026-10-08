@@ -76,6 +76,12 @@ export const api = {
     },
   },
   benefits: {
+    async reorder(ids: string[]) {
+      const result = await request<{ benefits: Benefit[] }>("/api/benefits/order", {
+        method: "PUT", body: JSON.stringify({ ids }),
+      });
+      return result.benefits;
+    },
     async list() {
       const result = await request<{ benefits: Benefit[] }>("/api/benefits");
       return result.benefits;

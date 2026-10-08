@@ -51,6 +51,8 @@ Die bisherige Trennung zwischen Mitarbeiter- und Admin-Konten entfällt. Der ein
 ### 3.5 Benefits
 - Karten mit Titel, Kurzbeschreibung, Detailseite
 - Admin pflegt Benefits (CRUD)
+- Verwaltungsberechtigte Benutzer können Benefit-Karten wie Application Links per Maus oder Tastatur umsortieren; die Reihenfolge wird für alle Benutzer dauerhaft gespeichert.
+- Benefits können eine optionale HTTP-/HTTPS-Zieladresse oder einen `mailto:`-Link enthalten; der Link ist auf Karte und Detailseite verfügbar. Weblinks öffnen in einem neuen Tab, E-Mail-Links das E-Mail-Programm.
 
 ### 3.6 Marketing
 - Kategorien: Logos & Corporate Design, Vorlagen (Präsentationen, Briefpapier, E-Mail-Signatur), Social Media

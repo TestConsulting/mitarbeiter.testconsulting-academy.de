@@ -1,6 +1,7 @@
 {
   "version": 1,
   "updateExistingLinks": true,
+  "updateExistingBenefits": true,
   "links": [
     {
       "name": "Outlook",
@@ -73,5 +74,30 @@
       "sortOrder": 9
     }
   ],
-  "benefits": []
+  "benefits": [
+    {
+      "title": "Dein Sachbezug - Informationen",
+      "description": "Du hast die Wahl: monatlich 40 € Guthaben auf deiner Sachbezugskarte oder eine Urban-Sports-Club-Mitgliedschaft im Paket M.",
+      "details": "Mit unserem Sachbezug kannst du dir jeden Monat etwas Gutes tun. Du entscheidest, welches der beiden Angebote besser zu deinem Alltag passt: die Sachbezugskarte oder eine Urban-Sports-Club-Mitgliedschaft im Paket M.\n\nAuf die Sachbezugskarte werden monatlich 40 € netto geladen. Das Guthaben kannst du bei teilnehmenden Partnern zum Bezahlen nutzen. Der Sachbezug wird auch auf deiner Lohnabrechnung ausgewiesen.\n\nWenn du lieber Sport machen möchtest, kannst du stattdessen die Urban-Sports-Club-Mitgliedschaft im Paket M wählen. So kannst du verschiedene Sportangebote entdecken und ausprobieren, was dir Spaß macht. Mehr zu beiden Möglichkeiten findest du in den jeweiligen Benefit-Kacheln „Sachbezugskarte“ und „Urban Sports Club“.\n\nDu möchtest eines der Angebote nutzen oder bist noch unsicher, welches zu dir passt? Über den Kontaktbutton kannst du dich direkt an unser Backoffice wenden. Dort erfährst du alles zur Anmeldung und zu den Konditionen – und auch, welche Möglichkeiten es gibt, wenn du deinen bestehenden Sachbezug wechseln möchtest.",
+      "url": "mailto:backoffice@testconsulting.de"
+    },
+    {
+      "title": "Sachbezug - Sachbezugskarte",
+      "description": "Monatlich 40 € netto auf deiner Sachbezugskarte – nutze dein Guthaben bei teilnehmenden Partnern.",
+      "details": "Mit deiner Sachbezugskarte bekommst du jeden Monat 40 € netto als Guthaben, das du für Einkäufe bei freigeschalteten Händlern nutzen kannst. Der Betrag wird auch auf deiner Lohnabrechnung ausgewiesen.\n\nDeine Karte kannst du in der VIMpay-App verwalten und für mobiles Bezahlen mit Apple Pay oder Google Pay hinterlegen. Wo du damit bezahlen kannst, hängt von der eingestellten Region, dem Händler oder der Warengruppe deiner Karte ab.\n\nJe nach Freischaltung kommen beispielsweise Tankstellen wie Aral, Supermärkte, Drogerien oder andere Geschäfte infrage, die Mastercard akzeptieren. Welche Einstellung für deine Karte gilt, kannst du in der VIMpay-App oder im Kartenportal nachsehen.\n\nMehr zu den Einsatzmöglichkeiten findest du hier:\nhttps://sachbezugskarte.de/wo-kann-bezahlt-werden/\n\nDu möchtest die Karte nutzen oder hast Fragen dazu? Über „E-Mail schreiben“ erreichst du unser Backoffice. Dort erfährst du auch, welche Möglichkeiten es gibt, wenn du von deinem bisherigen Sachbezug zur Karte wechseln möchtest.",
+      "url": "mailto:backoffice@testconsulting.de"
+    },
+    {
+      "title": "Sachbezug - UrbanSports",
+      "description": "Bleib aktiv mit Urban Sports Club! Entdecke vielfältige Sportangebote mit der M-Mitgliedschaft für Mitarbeitende.",
+      "details": "Du möchtest dich nach der Arbeit auspowern, einen Ausgleich zum Sitzen schaffen oder einfach etwas Neues ausprobieren? Mit der Urban-Sports-Club-Mitgliedschaft im Paket M kannst du verschiedene Sportangebote entdecken und mehr Bewegung in deinen Alltag bringen. So findest du heraus, was dir Spaß macht und zu dir passt – ob du regelmäßig trainieren oder deine Freizeit aktiver gestalten möchtest.\n\nWenn du Urban Sports Club erst einmal kennenlernen möchtest, schau auf der Hauptseite vorbei. Dort kannst du dich über das Angebot informieren und nach Sportmöglichkeiten in deiner Nähe suchen:\nhttps://urbansportsclub.com/de/#intro\n\nÜber „Angebot öffnen“ gelangst du zur Übersicht der Mitgliedschaften. Welche Konditionen für unser Paket M gelten und wie die Anmeldung funktioniert, erfährst du bei unserem Backoffice unter backoffice@testconsulting.de. Melde dich auch gerne, wenn du bisher die Sachbezugskarte nutzt und dich für einen Wechsel zu Urban Sports Club interessierst.",
+      "url": "https://urbansportsclub.com/de/prices/koln"
+    },
+    {
+      "title": "Firmenhandy",
+      "description": "Android oder iOS – dein Firmenhandy begleitet dich im Arbeitsalltag und darf auch privat genutzt werden. Nach erfolgreich abgeschlossener Probezeit kannst du es beim Backoffice beantragen.",
+      "details": "Du möchtest ein Firmenhandy nutzen? Wenn du deine Probezeit erfolgreich abgeschlossen hast und länger als sechs Monate bei TestConsulting beschäftigt bist, kannst du eines beim Backoffice beantragen. Ob Android oder iOS – welche Geräte zur Auswahl stehen, hängt von deinem Jobgrading und der aktuellen Verfügbarkeit ab.\n\nDein Firmenhandy darfst du auch privat nutzen. Zum Mobilfunkvertrag gehören 10 GB Datenvolumen in Deutschland und der EU sowie eine Telefonflat ins deutsche Festnetz. Roaming und Gespräche außerhalb der EU sind nicht erlaubt.\n\nAlle Informationen zum Firmenhandy und zur Beantragung findest du auf unserer Confluence-Seite:\nhttps://confluence-testconsulting.atlassian.net/wiki/spaces/SL/pages/7686651909/Firmenhandy-Konzept+und+Beantragungshinweise\n\nInteresse? Schreib dem Backoffice einfach, ob du Android oder iOS bevorzugst. Du erhältst anschließend eine Auswahl verfügbarer Geräte und das Bestellformular.",
+      "url": "mailto:backoffice@testconsulting.de"
+    }
+  ]
 }

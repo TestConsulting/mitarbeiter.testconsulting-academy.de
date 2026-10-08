@@ -106,9 +106,23 @@ PUT `/api/links/order` erwartet stattdessen `{ ids: string[] }` mit jeder vorhan
 
 ## Benefits
 
-Die Kartenübersicht ist unter `http://localhost:5173/areas/benefits` verfügbar, die eigene Detailseite unter `/areas/benefits/:id`. Beide sind nur nach Anmeldung erreichbar. Benefits nutzen denselben responsiven Designstil wie Application Links: abgerundete Karten, dezente Farbakzente, weiche Schatten und eine Admin-Fußzeile. Die Karten werden alphabetisch nach Titel sortiert, bei Gleichstand nach ID.
+Die Kartenübersicht ist unter `http://localhost:5173/areas/benefits` verfügbar, die eigene Detailseite unter `/areas/benefits/:id`. Beide sind nur nach Anmeldung erreichbar. Benefits nutzen denselben responsiven Designstil wie Application Links: abgerundete Karten, dezente Farbakzente, weiche Schatten und eine Admin-Fußzeile. Die Karten werden nach gespeicherter Reihenfolge (`sortOrder`), bei Gleichstand nach Titel und ID sortiert.
 
-Admins können Benefits hinzufügen, in der Übersicht oder auf der Detailseite bearbeiten und nach Bestätigung löschen. Mitarbeitende sehen nur die Karten und die Details. Der Editor verlangt Titel (1–120 Zeichen), Kurzbeschreibung (1–500 Zeichen) und Details (1–5000 Zeichen). Führende und nachfolgende Leerzeichen werden entfernt. Die Details sind Klartext, kein HTML oder Markdown; Zeilenumbrüche bleiben auf der Detailseite erhalten. Die Änderungen werden in PostgreSQL gespeichert und bleiben nach Neustarts erhalten.
+Migration `005_order_benefits.sql` ergänzt die Reihenfolge, ohne Inhalte oder Benutzer zu ändern. Bestehende Karten behalten zunächst ihre alphabetische Reihenfolge; neue Karten werden angehängt. Lokal einmalig ausführen:
+
+```powershell
+Get-Content -Raw apps/api/migrations/005_order_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+```
+
+Verwaltungsberechtigte Benutzer (`user` oder `admin`) können die Karten wie Links auf einer freien Kartenfläche mit der Maus aufnehmen und verschieben. Details-, Bearbeiten- und Löschen-Steuerelemente lösen kein Dragging aus. Tastatur: Karte fokussieren, Leertaste zum Aufnehmen, Pfeiltasten zum Verschieben, Leertaste zum Ablegen oder Escape zum Abbrechen. Die Reihenfolge wird für alle Mitarbeitenden gespeichert und bleibt nach Neuladen erhalten. Mitarbeitende ohne Verwaltungsrechte können nicht umsortieren. Während eines Dialogs oder einer laufenden Speicherung ist Dragging gesperrt. Bei Speicherfehlern wird die vorherige Reihenfolge wiederhergestellt und ein Fehler angezeigt.
+
+Admins können Benefits hinzufügen, in der Übersicht oder auf der Detailseite bearbeiten und nach Bestätigung löschen. Mitarbeitende sehen nur die Karten und die Details. Der Editor verlangt Titel (1–120 Zeichen), Kurzbeschreibung (1–500 Zeichen) und Details (1–5000 Zeichen). Führende und nachfolgende Leerzeichen werden entfernt. Die Details sind Klartext, kein HTML oder Markdown; Zeilenumbrüche bleiben auf der Detailseite erhalten. HTTP-/HTTPS-Adressen ohne eingebettete Zugangsdaten im Detailtext werden als klickbare Links angezeigt und öffnen in einem neuen Tab. Die Änderungen werden in PostgreSQL gespeichert und bleiben nach Neustarts erhalten.
+
+Das optionale Feld „Ziel-URL“ ergänzt einen Link „Angebot öffnen“ auf der Karte und der Detailseite. Weblinks öffnen in einem neuen Tab, ohne Dragging auszulösen. Erlaubt sind HTTP-/HTTPS-Adressen ohne eingebettete Zugangsdaten sowie `mailto:` mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter, jeweils maximal 2048 Zeichen. E-Mail-Links zeigen „E-Mail schreiben“ und öffnen das E-Mail-Programm statt eines neuen Tabs. `www.`-Adressen erhalten automatisch `https://`. Ein leeres Feld entfernt den Link. Bestehende Benefits ohne URL bleiben gültig. Lokal zusätzlich die wiederholbare Migration ausführen:
+
+```powershell
+Get-Content -Raw apps/api/migrations/006_benefit_urls.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+```
 
 Ladefehler können erneut versucht werden; fehlende Detailseiten zeigen einen eigenen Hinweis mit Rückweg zur Übersicht. Speicherfehler lassen den Editor mit den Eingaben geöffnet, fehlgeschlagene Löschungen entfernen keine Karte. Nach erfolgreichem Löschen auf der Detailseite erfolgt eine Rückkehr zur Übersicht.
 
@@ -118,8 +132,11 @@ Ladefehler können erneut versucht werden; fehlende Detailseiten zeigen einen ei
 | GET | `/api/benefits/:id` | Angemeldet | 200 `{ benefit: Benefit }` |
 | POST | `/api/benefits` | Admin | 201 `{ benefit: Benefit }` |
 | PUT | `/api/benefits/:id` | Admin | 200 `{ benefit: Benefit }` |
+| PUT | `/api/benefits/order` | Admin | 200 `{ benefits: Benefit[] }` |
 | DELETE | `/api/benefits/:id` | Admin | 200 `{ success: true }` |
 
-POST und PUT erwarten `{ title, description, details }`. Unbekannte Felder, ungültige IDs und ungültige Inhalte ergeben 400, nicht angemeldete Anfragen 401, unberechtigte Änderungen 403 und fehlende Benefits 404. Für längere mehrbyteige Detailtexte akzeptiert nur der Benefits-Endpunkt JSON-Anfragen bis 32 KB; die anderen API-Endpunkte behalten ihre Grenze von 10 KB.
+POST und PUT erwarten `{ title, description, details, url? }`. Eine fehlende, leere oder `null`-URL wird als `null` gespeichert; auch beim Bearbeiten entfernt dies einen bestehenden Link. Antworten enthalten `url: string | null`. Unbekannte Felder, ungültige IDs und ungültige Inhalte ergeben 400, nicht angemeldete Anfragen 401, unberechtigte Änderungen 403 und fehlende Benefits 404. Für längere mehrbyteige Detailtexte akzeptiert nur der Benefits-Endpunkt JSON-Anfragen bis 32 KB; die anderen API-Endpunkte behalten ihre Grenze von 10 KB.
+
+`PUT /api/benefits/order` erwartet `{ ids: string[] }` mit allen aktuellen Benefit-IDs, ohne Duplikate, in gewünschter Reihenfolge. Ungültige Listen ergeben 400, ein veralteter oder unvollständiger Stand 409. Antworten enthalten `sortOrder`; normale Bearbeitungen verändern es nicht. Der Export übernimmt die aktuelle Kartenreihenfolge. Standardmäßig hängt Jenkins nur fehlende Benefits in Exportreihenfolge an. Mit `updateExistingBenefits: true` aktualisiert der Import vorhandene Benefits mit demselben Titel und übernimmt die exportierte Reihenfolge; zusätzliche Prod-Kacheln bleiben dahinter erhalten (siehe Produktions-Deployment).
 
 Es gibt weiterhin weder Self-Registration noch SSO, Passwort-Reset, Marketing-CRUD, CV-Funktionen oder externe Inhaltsintegrationen (eLearning, Marketing, Vertrieb bleiben Platzhalter). Application Links, Benefits und das Tasks-Board sind umgesetzt, letzteres inklusive Admin-UI zum Umbenennen und Löschen von Spalten (Löschen ist nur möglich, wenn die Spalte keine Tickets mehr enthält).
