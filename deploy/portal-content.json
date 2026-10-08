@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "updateExistingLinks": true,
   "links": [
     {
       "name": "Outlook",
@@ -9,32 +10,68 @@
       "sortOrder": 0
     },
     {
-      "name": "Timebutler",
-      "description": "Zeiterfassung, Urlaubsplanung und Abwesenheiten",
-      "url": "https://app.timebutler.de/",
-      "icon": "TB",
+      "name": "Confluence",
+      "description": "Deine zentrale Wissensplattform für Dokumentationen, Arbeitsabläufe und interne Informationen.",
+      "url": "https://confluence-testconsulting.atlassian.net/wiki/spaces/SL/overview",
+      "icon": "App",
       "sortOrder": 1
     },
     {
-      "name": "TestKachel",
-      "description": "Happy Testing!",
-      "url": "https://www.happytesting.de",
-      "icon": "HT",
+      "name": "Timebutler",
+      "description": "Zeiterfassung, Urlaubsplanung und Abwesenheiten",
+      "url": "https://timebutler.de/",
+      "icon": "TB",
       "sortOrder": 2
     },
     {
+      "name": "DATEV - Arbeitnehmer online",
+      "description": "Deine Lohnabrechnungen und weiteren Lohndokumente bequem einsehen und herunterladen.",
+      "url": "https://apps.datev.de/ano/de/",
+      "icon": "App",
+      "sortOrder": 3
+    },
+    {
+      "name": "Jenkins",
+      "description": "Informationen, Dokumentation und Tutorials zur Automatisierung von Builds, Tests und Deployments.",
+      "url": "https://www.jenkins.io/",
+      "icon": "App",
+      "sortOrder": 4
+    },
+    {
+      "name": "Git",
+      "description": "Informationen, Downloads und Dokumentation zur Versionsverwaltung mit Git.",
+      "url": "https://git-scm.com/",
+      "icon": "App",
+      "sortOrder": 5
+    },
+    {
+      "name": "GitHub",
+      "description": "Code verwalten, Änderungen verfolgen und gemeinsam an Softwareprojekten arbeiten.",
+      "url": "https://github.com/",
+      "icon": "App",
+      "sortOrder": 6
+    },
+    {
+      "name": "GitLab",
+      "description": "Code verwalten, Änderungen verfolgen und gemeinsam an Softwareprojekten arbeiten.",
+      "url": "https://gitlab.com/",
+      "icon": "App",
+      "sortOrder": 7
+    },
+    {
       "name": "Microsoft 365",
-      "description": "Outlook, Teams und OneDrive an einem OrtfddfgdddddddddddddddddddddddddddddddddddddddddddddddddsfsdddfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOutlook, Teams und OneDrive an einem OrtfddfgdddddddddddddddddddddddddddddddddddddddddddddddddsfsdddfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddOutlook, Teams u",
+      "description": "Outlook, Teams und OneDrive an einem Ort",
       "url": "https://www.microsoft365.com/",
       "icon": "M365",
-      "sortOrder": 3
+      "sortOrder": 8
+    },
+    {
+      "name": "Backoffice – Dein Ansprechpartner",
+      "description": "Fragen zu organisatorischen Themen? Unser Backoffice hilft dir gerne weiter.",
+      "url": "mailto:backoffice@testconsulting.de",
+      "icon": "App",
+      "sortOrder": 9
     }
   ],
-  "benefits": [
-    {
-      "title": "Lokaler UI-Test-Benefit aktualisiert",
-      "description": "Temporäre Karte zur Prüfung der neuen Benefits-Funktion.",
-      "details": "Aktualisierte Testdetails.\nDiese Karte wird nach der Prüfung entfernt."
-    }
-  ]
+  "benefits": []
 }

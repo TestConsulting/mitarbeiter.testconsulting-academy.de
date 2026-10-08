@@ -59,6 +59,21 @@ async function loginAs(role: "employee" | "admin") {
 }
 
 describe("application links API", () => {
+  it("accepts email links on create and update", async () => {
+    const agent = await loginAs("admin");
+    const url = "mailto:backoffice@testconsulting.de";
+    const created = await agent.post("/api/links").send({ ...input, url }).expect(201);
+    expect(created.body.link.url).toBe(url);
+    const updated = await agent.put(`/api/links/${created.body.link.id}`).send({ ...input, url }).expect(200);
+    expect(updated.body.link.url).toBe(url);
+  });
+
+  it.each(["mailto:", "mailto:invalid", "mailto:a@example.de,b@example.de", "mailto:a@example.de?body=test", "mailto:a@example.de%0Abcc:b@example.de"])("rejects invalid email links: %s", async (url) => {
+    const agent = await loginAs("admin");
+    await agent.post("/api/links").send({ ...input, url }).expect(400);
+    expect(repository.create).not.toHaveBeenCalled();
+  });
+
   it("requires authentication for every endpoint", async () => {
     const id = randomUUID();
     await request(app).get("/api/links").expect(401);

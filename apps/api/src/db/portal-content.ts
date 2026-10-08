@@ -1,15 +1,14 @@
 import type { Pool } from "pg";
 import { z } from "zod";
+import { isValidAppLinkUrl } from "@portal/shared";
 
 export const portalContentSchema = z.object({
   version: z.literal(1),
+  updateExistingLinks: z.boolean().optional(),
   links: z.array(z.object({
     name: z.string().trim().min(1).max(120),
     description: z.string().trim().min(1).max(500),
-    url: z.string().trim().max(2048).url().refine((value) => {
-      const url = new URL(value);
-      return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password;
-    }),
+    url: z.string().trim().max(2048).refine(isValidAppLinkUrl),
     icon: z.string().min(1).max(12),
     sortOrder: z.number().int().min(0).max(2147483647),
   }).strict()),
@@ -51,6 +50,13 @@ export async function importPortalContent(database: Pick<Pool, "connect">, input
     await client.query("BEGIN");
     await client.query("LOCK TABLE app_links, benefits IN SHARE ROW EXCLUSIVE MODE");
     for (const link of content.links) {
+      if (content.updateExistingLinks) {
+        await client.query(
+          `UPDATE app_links SET name = $1, description = $2, icon = $4
+           WHERE btrim(url) = $3`,
+          [link.name, link.description, link.url, link.icon],
+        );
+      }
       const result = await client.query(
         `INSERT INTO app_links (name, description, url, icon, sort_order)
          SELECT $1, $2, $3, $4, COALESCE((SELECT MAX(sort_order) + 1 FROM app_links), 0)

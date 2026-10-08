@@ -27,6 +27,23 @@ export type BenefitInput = {
 
 export type Benefit = BenefitInput & { id: string };
 
+export function isValidPortalUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return value.length <= 2048 && ["http:", "https:"].includes(url.protocol) &&
+      !url.username && !url.password && !/^www\.?$/i.test(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+export function isValidAppLinkUrl(value: string): boolean {
+  if (/^mailto:/i.test(value)) {
+    return value.length <= 2048 && /^mailto:[a-z0-9.!$'*+_~-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i.test(value);
+  }
+  return isValidPortalUrl(value);
+}
+
 export function normalizeAppLinkUrl(value: string): string {
   const trimmed = value.trim();
   return /^www\./i.test(trimmed) ? `https://${trimmed}` : trimmed;

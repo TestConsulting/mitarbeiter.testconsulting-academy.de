@@ -42,6 +42,38 @@ afterEach(() => {
 });
 
 describe("application links page", () => {
+  it("renders email links with an envelope and no new tab", async () => {
+    mocks.list.mockResolvedValue([{ ...link, name: "Backoffice", url: "mailto:backoffice@testconsulting.de" }]);
+    renderPage();
+    const action = await screen.findByRole("link", { name: "Backoffice: E-Mail schreiben" });
+    expect(action).toHaveAttribute("href", "mailto:backoffice@testconsulting.de");
+    expect(action).not.toHaveAttribute("target");
+    expect(screen.getByRole("article", { name: "Backoffice" }).querySelector(".application-link-card__icon svg")).toBeInTheDocument();
+  });
+
+  it.each([
+    ["Outlook", "/images/outlook.png"],
+    ["Timebutler", "/images/timebutler.jpeg"],
+    ["Confluence", "/images/confluence.jpg"],
+    ["DATEV", "/images/datev.png"],
+    ["DATEV - Arbeitnehmer online", "/images/datev.png"],
+    ["Microsoft 365", "/images/m365.png"],
+    ["Jenkins", "/images/jenkins-icon.png"],
+    ["GitHub", "/images/github.png"],
+    ["GitLab", "/images/gitlab.ico"],
+    ["Git", "/images/git.png"],
+  ])("renders the supplied %s logo without changing other application icons", async (name, source) => {
+    const genericLink = { ...link, name: "Team Wiki" };
+    mocks.list.mockResolvedValue([genericLink, { ...link, id: "logo-link", name, sortOrder: 1 }]);
+    renderPage();
+    const tile = await screen.findByRole("article", { name });
+    const image = tile.querySelector(".application-link-icon--image img");
+    expect(image).toHaveAttribute("src", source);
+    expect(image).toHaveAttribute("alt", "");
+    expect(image).toHaveAttribute("draggable", "false");
+    expect(screen.getByRole("article", { name: genericLink.name }).querySelector(".application-link-card__icon svg")).toBeInTheDocument();
+  });
+
   it.each(["employee", "admin"] as const)("opens full overflowing descriptions for %s without editing or dragging", async (role) => {
     mocks.role = role;
     const description = "Vollständige Beschreibung. ".repeat(15);
@@ -82,7 +114,8 @@ describe("application links page", () => {
     expect(tile).toHaveAttribute("target", "_blank");
     expect(tile).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByText(link.description)).toBeInTheDocument();
-    expect(screen.getByText("M365")).toBeInTheDocument();
+    expect(screen.queryByText("M365")).not.toBeInTheDocument();
+    expect(tile.closest("article")?.querySelector(".application-link-card__icon")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Link hinzufügen" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /bearbeiten|löschen/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /verschieben/i })).not.toBeInTheDocument();
@@ -144,7 +177,7 @@ describe("application links page", () => {
     expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
-  it("lets admins create links with all fields and displays them in order", async () => {
+  it("lets admins create links without an abbreviation field and displays them in order", async () => {
     mocks.role = "admin";
     const created = { ...link, id: "link-2", name: "Wiki", description: "Teamwissen", icon: "W", url: "https://wiki.example.test/", sortOrder: 2 };
     mocks.create.mockResolvedValue(created);
@@ -154,13 +187,13 @@ describe("application links page", () => {
     const dialog = within(screen.getByRole("dialog"));
     await user.type(dialog.getByLabelText("Name", { exact: false }), created.name);
     await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), created.description);
-    await user.type(dialog.getByLabelText("Kürzel", { exact: false }), created.icon);
+    expect(dialog.queryByLabelText("Kürzel")).not.toBeInTheDocument();
     await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), created.url);
     await user.clear(dialog.getByLabelText("Reihenfolge", { exact: false }));
     await user.type(dialog.getByLabelText("Reihenfolge", { exact: false }), "2");
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     expect(await screen.findByRole("link", { name: /Wiki/ })).toBeInTheDocument();
-    expect(mocks.create).toHaveBeenCalledWith({ name: created.name, description: created.description, icon: created.icon, url: created.url, sortOrder: 2 });
+    expect(mocks.create).toHaveBeenCalledWith({ name: created.name, description: created.description, icon: "App", url: created.url, sortOrder: 2 });
     expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([link.url, created.url]);
   });
 
@@ -181,6 +214,26 @@ describe("application links page", () => {
     expect(await screen.findByRole("link", { name: /Office/ })).toBeInTheDocument();
     expect(mocks.update).toHaveBeenCalledWith(link.id, { name: "Office", description: link.description, icon: link.icon, url: link.url, sortOrder: 8 });
     expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([second.url, link.url]);
+  });
+
+  it("lets admins replace a description at the 500-character limit", async () => {
+    mocks.role = "admin";
+    mocks.list.mockResolvedValue([{ ...link, description: "x".repeat(500) }]);
+    const description = "Outlook, Teams und OneDrive an einem Ort.";
+    mocks.update.mockResolvedValue({ ...link, description });
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: "Microsoft 365 bearbeiten" }));
+    const dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByText(/500\/500 Zeichen/)).toBeInTheDocument();
+    const field = dialog.getByLabelText("Kurzbeschreibung", { exact: false });
+    await user.clear(field);
+    await user.type(field, description);
+    expect(dialog.getByText(new RegExp(`${description.length}/500 Zeichen`))).toBeInTheDocument();
+    await user.click(dialog.getByRole("button", { name: "Speichern" }));
+    expect(mocks.update).toHaveBeenCalledWith(link.id, expect.objectContaining({ description }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(screen.getByText(description)).toBeInTheDocument();
   });
 
   it.each([0, 1])("moves an edited tile to position %s even when stored orders collide", async (position) => {
@@ -257,9 +310,14 @@ describe("application links page", () => {
     expect(mocks.update).not.toHaveBeenCalled();
   });
 
-  it.each(["create", "edit"])("accepts www addresses when admins %s links", async (mode) => {
+  it.each([
+    ["create", "www.happytesting.de", "https://www.happytesting.de"],
+    ["edit", "www.happytesting.de", "https://www.happytesting.de"],
+    ["create", "mailto:backoffice@testconsulting.de", "mailto:backoffice@testconsulting.de"],
+    ["edit", "mailto:backoffice@testconsulting.de", "mailto:backoffice@testconsulting.de"],
+  ])("accepts supported addresses when admins %s links: %s", async (mode, url, expectedUrl) => {
     mocks.role = "admin";
-    const saved = { ...link, url: "https://www.happytesting.de" };
+    const saved = { ...link, url: expectedUrl };
     mocks.create.mockResolvedValue(saved);
     mocks.update.mockResolvedValue(saved);
     const user = userEvent.setup();
@@ -271,14 +329,14 @@ describe("application links page", () => {
     if (mode === "create") {
       await user.type(dialog.getByLabelText("Name", { exact: false }), link.name);
       await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), link.description);
-      await user.type(dialog.getByLabelText("Kürzel", { exact: false }), link.icon);
+      expect(dialog.queryByLabelText("Kürzel")).not.toBeInTheDocument();
     }
     await user.clear(dialog.getByLabelText("Ziel-URL", { exact: false }));
-    await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), "www.happytesting.de");
+    await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), url);
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toHaveAttribute("href", saved.url);
     const { id, ...expectedInput } = saved;
-    if (mode === "create") expect(mocks.create).toHaveBeenCalledWith(expectedInput);
+    if (mode === "create") expect(mocks.create).toHaveBeenCalledWith({ ...expectedInput, icon: "App" });
     else expect(mocks.update).toHaveBeenCalledWith(id, expectedInput);
   });
 });

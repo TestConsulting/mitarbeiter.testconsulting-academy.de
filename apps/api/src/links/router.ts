@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { normalizeAppLinkUrl } from "@portal/shared";
+import { isValidAppLinkUrl, normalizeAppLinkUrl } from "@portal/shared";
 import { requireAdmin, requireAuth } from "../auth/middleware.js";
 import type { AppLinkRepository } from "../db/app-link-repository.js";
 import type { UserRepository } from "../db/user-repository.js";
@@ -9,15 +9,7 @@ const linkSchema = z.object({
   name: z.string().trim().min(1).max(120),
   description: z.string().trim().min(1).max(500),
   icon: z.string().trim().min(1).max(12),
-  url: z.string().transform(normalizeAppLinkUrl).pipe(z.string().max(2048).url().refine((value) => {
-    try {
-      const url = new URL(value);
-      return (url.protocol === "https:" || url.protocol === "http:") && !url.username && !url.password &&
-        !/^www\.?$/i.test(url.hostname);
-    } catch {
-      return false;
-    }
-  })),
+  url: z.string().transform(normalizeAppLinkUrl).pipe(z.string().max(2048).refine(isValidAppLinkUrl)),
   sortOrder: z.number().int().min(0).max(2147483647),
 }).strict();
 const idSchema = z.string().uuid();
@@ -40,7 +32,7 @@ export function createLinksRouter(links: AppLinkRepository, users: UserRepositor
   router.post("/", requireAdmin(users), async (request, response, next) => {
     const payload = linkSchema.safeParse(request.body);
     if (!payload.success) {
-      response.status(400).json({ error: "Bitte prüfe deine Eingaben. Erlaubt sind HTTP-/HTTPS-URLs ohne Zugangsdaten und eine nicht negative ganzzahlige Reihenfolge." });
+      response.status(400).json({ error: "Bitte prüfe deine Eingaben. Erlaubt sind HTTP-/HTTPS-URLs ohne Zugangsdaten oder mailto: mit einer E-Mail-Adresse und eine nicht negative ganzzahlige Reihenfolge." });
       return;
     }
     try {
@@ -72,7 +64,7 @@ export function createLinksRouter(links: AppLinkRepository, users: UserRepositor
     const id = idSchema.safeParse(request.params.id);
     const payload = linkSchema.safeParse(request.body);
     if (!id.success || !payload.success) {
-      response.status(400).json({ error: "Bitte prüfe deine Eingaben. Erlaubt sind HTTP-/HTTPS-URLs ohne Zugangsdaten und eine nicht negative ganzzahlige Reihenfolge." });
+      response.status(400).json({ error: "Bitte prüfe deine Eingaben. Erlaubt sind HTTP-/HTTPS-URLs ohne Zugangsdaten oder mailto: mit einer E-Mail-Adresse und eine nicht negative ganzzahlige Reihenfolge." });
       return;
     }
     try {

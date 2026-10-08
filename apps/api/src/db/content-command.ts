@@ -19,7 +19,7 @@ try {
   } else {
     const content: unknown = JSON.parse(await readFile(path, "utf8"));
     const added = await importPortalContent(pool, content);
-    console.info(`Added ${added.links} missing links and ${added.benefits} missing benefits. Existing entries unchanged.`);
+    console.info(`Added ${added.links} missing links and ${added.benefits} missing benefits. Existing link content updated only when updateExistingLinks is enabled; existing benefits unchanged.`);
   }
 } finally {
   await pool.end();

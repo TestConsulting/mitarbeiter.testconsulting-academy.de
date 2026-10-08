@@ -34,6 +34,8 @@
 
    `003_create_app_links.sql` legt die Tabelle `app_links` an. Es werden keine fiktiven Unternehmenslinks automatisch eingetragen; Admins pflegen die tatsächlichen Zieladressen.
 
+   Application Links unterstützen HTTP-/HTTPS-Adressen (auch mit `www.`) sowie `mailto:` mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter. E-Mail-Kacheln zeigen einen Briefumschlag und „E-Mail schreiben“; sie öffnen das lokale E-Mail-Programm statt eines neuen Browser-Tabs.
+
    `004_create_benefits.sql` legt die Tabelle `benefits` an. Es werden keine Unternehmensleistungen erfunden oder automatisch eingetragen; Admins pflegen die tatsächlichen Benefits.
 
    **Achtung bei bestehenden Datenbanken:** Der Seed ersetzt alle bisherigen Konten durch den konfigurierten allgemeinen Benutzer mit vollständigen Berechtigungen. Tickets bleiben erhalten: Ersteller und bestehende Zuweisungen werden auf diesen Account übertragen; nicht zugewiesene Tickets bleiben unzugewiesen. Links, Benefits und Board-Spalten bleiben unverändert. Alle bestehenden Sitzungen werden ungültig.

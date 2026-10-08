@@ -13,6 +13,27 @@ function databaseWith(query = vi.fn().mockResolvedValue({ rows: [], rowCount: 0 
 }
 
 describe("portal content transfer", () => {
+  it("updates existing link content only when explicitly enabled, preserving order and benefits", async () => {
+    const database = databaseWith();
+    await importPortalContent(database, { ...content, updateExistingLinks: true, benefits: [] });
+    const updates = database.query.mock.calls.filter(([sql]) => sql.startsWith("UPDATE"));
+    expect(updates).toEqual([[
+      expect.stringContaining("UPDATE app_links SET name = $1, description = $2, icon = $4"),
+      ["Portal", "Company tool", "https://example.test/", "TC"],
+    ]]);
+    expect(updates[0][0]).not.toContain("sort_order");
+    expect(database.query.mock.calls.some(([sql]) => sql.includes("INSERT INTO benefits"))).toBe(false);
+  });
+
+  it("transfers email links", async () => {
+    const database = databaseWith();
+    const mailLink = { ...content.links[0], url: "mailto:backoffice@testconsulting.de" };
+    await importPortalContent(database, { ...content, links: [mailLink], benefits: [] });
+    expect(database.query).toHaveBeenCalledWith(expect.stringContaining("INSERT INTO app_links"), [
+      mailLink.name, mailLink.description, mailLink.url, mailLink.icon,
+    ]);
+  });
+
   it("exports only links and benefits in one consistent snapshot", async () => {
     const database = databaseWith();
     database.query.mockImplementation(async (sql: string) => {
