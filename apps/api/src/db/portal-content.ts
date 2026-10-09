@@ -45,8 +45,12 @@ export async function exportPortalContent(database: Pick<Pool, "connect">): Prom
   }
 }
 
-export async function importPortalContent(database: Pick<Pool, "connect">, input: unknown) {
+export async function importPortalContent(database: Pick<Pool, "connect">, input: unknown, mode: "configured" | "missing-only" = "configured") {
   const content = portalContentSchema.parse(input);
+  if (mode === "missing-only") {
+    content.updateExistingLinks = false;
+    content.updateExistingBenefits = false;
+  }
   const client = await database.connect();
   const added = { links: 0, benefits: 0 };
   try {

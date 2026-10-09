@@ -13,6 +13,19 @@ function databaseWith(query = vi.fn().mockResolvedValue({ rows: [], rowCount: 0 
 }
 
 describe("portal content transfer", () => {
+  it("ignores update flags for local startup and only adds missing tiles", async () => {
+    const database = databaseWith();
+    const input = { ...content, updateExistingLinks: true, updateExistingBenefits: true };
+    await importPortalContent(database, input, "missing-only");
+    const sql = database.query.mock.calls.map(([statement]) => statement).join("\n");
+    expect(sql).not.toMatch(/UPDATE|DELETE|users|tickets|portal_sessions/);
+    expect(sql).toContain("INSERT INTO app_links");
+    expect(sql).toContain("INSERT INTO benefits");
+    expect(database.query).toHaveBeenLastCalledWith("COMMIT");
+    expect(input.updateExistingLinks).toBe(true);
+    expect(input.updateExistingBenefits).toBe(true);
+  });
+
   it("updates existing link content only when explicitly enabled, preserving order and benefits", async () => {
     const database = databaseWith();
     await importPortalContent(database, { ...content, updateExistingLinks: true, benefits: [] });

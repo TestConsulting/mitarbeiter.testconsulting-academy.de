@@ -27,6 +27,8 @@
    Get-Content -Raw apps/api/migrations/002_create_board.sql | docker compose exec -T postgres psql -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/003_create_app_links.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/004_create_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/005_order_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/006_benefit_urls.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
 
@@ -56,7 +58,13 @@ Die Datenbankverbindung kann unter `http://localhost:4000/api/health` oder über
 
 Die API legt beim Start die PostgreSQL-Tabelle `portal_sessions` über `connect-pg-simple` an. Das Compose-Volume enthält lokale Entwicklungsdaten. Für Produktion sind ein separates Secret, HTTPS und `COOKIE_SECURE=true` erforderlich.
 
-Lokal angelegte Links und Benefits werden nicht durch einen normalen Code-Push übertragen. Für die Übernahme fehlender Einträge auf Produktion im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins ergänzt nur fehlende URLs bzw. Benefit-Titel; bestehende Prod-Inhalte bleiben unverändert. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen). Tasks und Benutzer werden nicht exportiert.
+### Kacheln nach einem Pull lokal übernehmen
+
+Die freigegebenen Application Links und Benefits sind in [deploy/portal-content.json](../deploy/portal-content.json) versioniert. Nach `git pull` und dem normalen Datenbank-/Account-Setup importiert `npm run dev` automatisch fehlende Kacheln, bevor die API startet. Das gilt auch für `npm run dev --workspace @portal/api`. Die Datenbank muss laufen und alle Migrationen müssen angewendet sein (einschließlich `005_order_benefits.sql` und `006_benefit_urls.sql`); Importfehler werden ausgegeben und verhindern den API-Start, statt ein leeres Portal vorzutäuschen.
+
+Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-Stamm einmal `npm run content:import:local --workspace @portal/api` ausführen. Der lokale Import lädt die `.env` im Repository-Stamm und ergänzt nur fehlende URLs bzw. Benefit-Titel, auch wenn die Exportdatei Update-Flags für Produktion enthält. Bestehende Inhalte und Reihenfolgen werden nicht überschrieben, zusätzliche lokale Kacheln nicht gelöscht. Wiederholte Starts erzeugen keine Duplikate. Tasks-Tickets, Benutzer, Passwörter und Sitzungen werden nicht übertragen.
+
+Neue lokal angelegte Links und Benefits werden nicht allein durch einen Code-Push übertragen. Für ihre Freigabe im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins importiert denselben Export auf Produktion; dort können `updateExistingLinks` und `updateExistingBenefits` bestehende Inhalte ausdrücklich aktualisieren. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen).
 
 ## Checks
 
