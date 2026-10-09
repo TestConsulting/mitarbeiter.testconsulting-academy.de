@@ -224,17 +224,14 @@ a { color: inherit; }
 :is(.application-link-card, .benefit-card) { --tile-accent: var(--primary); --tile-tint: var(--surface-strong); --tile-left-accent: var(--accent); position: relative; display: flex; min-width: 0; min-height: 280px; flex-direction: column; border: 1px solid var(--border); border-left: 4px solid var(--tile-left-accent); border-radius: 22px; background: var(--surface); color: var(--text); box-shadow: 0 6px 22px var(--shadow); overflow: hidden; overflow-wrap: anywhere; }
 :root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card) { --tile-left-accent: var(--primary); }
 :is(.application-link-card--dragging, .benefit-card--dragging) { z-index: 1; opacity: 0.8; box-shadow: 0 5px 14px var(--shadow-strong); }
-.application-links-grid { grid-template-columns: repeat(auto-fill, min(100%, 280px)); }
-.application-link-card { height: auto; min-height: 280px; aspect-ratio: 1; }
-.application-links-grid .application-link-card__content { min-height: 0; gap: 4px; padding: 10px 18px 12px; }
-.application-links-grid .application-link-card__icon { width: 40px; min-width: 40px; height: 40px; min-height: 40px; flex-shrink: 0; padding: 0; border-radius: 13px; }
+.application-links-grid { grid-template-columns: repeat(auto-fill, min(100%, 180px)); gap: 16px; }
+.application-link-card { height: auto; min-height: 180px; aspect-ratio: 1; cursor: pointer; }
+.application-link-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.application-links-grid .application-link-card__content { min-height: 0; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; text-align: center; }
+.application-links-grid .application-link-card__icon { width: 40px; min-width: 40px; height: 40px; min-height: 40px; flex-shrink: 0; padding: 0; border-radius: 10px; }
 .application-link-card__icon svg { width: 24px; height: 24px; }
-.application-link-card h2 { display: -webkit-box; width: 100%; height: 50px; flex-shrink: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.application-link-card__description { position: relative; display: flex; width: 100%; height: 66.3px; flex-shrink: 0; flex-direction: column; }
-.application-link-card__summary { display: -webkit-box; max-height: 66.3px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.application-link-card__description:has(.application-link-card__more) .application-link-card__summary { clip-path: polygon(0 0, 100% 0, 100% 44.2px, calc(100% - 60px) 44.2px, calc(100% - 60px) 100%, 0 100%); }
-.application-link-card__more { position: absolute; top: 44.2px; right: 0; width: 56px; padding: 0; border: 0; background: transparent; color: var(--tile-accent); font-size: 13px; font-weight: 600; line-height: 22.1px; text-align: right; cursor: pointer; }
-.application-link-card__more:hover { text-decoration: underline; }
+.application-link-card h2 { display: -webkit-box; width: 100%; height: 38px; flex-shrink: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.application-links-grid .application-link-card h2 { font-size: 16px; line-height: 19px; text-align: center; }
 .application-link-detail.application-link-detail { --detail-accent: var(--primary); --detail-tint: var(--surface-strong); width: 580px; max-width: calc(100vw - 32px); padding: 0; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); color: var(--text); box-shadow: 0 24px 80px var(--shadow-strong); overflow-wrap: anywhere; }
 .application-link-detail.application-link-detail { max-height: calc(100dvh - 32px); }
 .application-link-detail .application-link-detail__body { position: relative; display: flex; flex-direction: column; gap: 0; min-height: 0; overflow: hidden; }
@@ -266,14 +263,15 @@ a { color: inherit; }
 :is(.application-link-card--sortable, .benefit-card--sortable) { cursor: grab; touch-action: none; }
 :is(.application-link-card--sortable, .benefit-card--sortable):active { cursor: grabbing; }
 :is(.application-link-card--sortable, .benefit-card--sortable):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-.application-links-grid .application-link-card__actions { flex: 0 0 auto; padding: 8px 16px; }
+.application-links-grid .application-link-card__actions { flex: 0 0 auto; justify-content: center; padding: 2px 12px; }
 :is(.application-link-card, .benefit-card):hover { border-color: var(--muted); border-left-color: var(--tile-left-accent); box-shadow: 0 8px 26px var(--shadow-strong); }
 :is(.application-link-card__content, .benefit-card__content) { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 16px; padding: 26px 24px 22px; }
 :is(.application-link-card__icon, .benefit-card__icon) { display: grid; min-width: 68px; max-width: 100%; min-height: 58px; place-items: center; padding: 8px 12px; border: 1px solid color-mix(in srgb, var(--tile-accent) 12%, transparent); border-radius: 17px; background: var(--tile-tint); color: var(--tile-accent); font-size: 15px; font-weight: 700; letter-spacing: .3px; }
 :is(.application-link-card, .benefit-card) h2 { margin: 0; color: var(--text); font-size: 21px; font-weight: 600; letter-spacing: -.4px; }
 :is(.application-link-card, .benefit-card) p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 :is(.application-link-card__open, .benefit-card__open) { display: flex; align-items: center; gap: 6px; margin-top: auto; padding: 9px 13px; border: 1px solid transparent; border-radius: 10px; background: var(--action-btn-bg); color: var(--action-btn-text); box-shadow: 0 2px 4px var(--shadow); font-size: 12px; font-weight: 600; text-decoration: none; }
-.application-links-grid .application-link-card__open { flex: 0 0 auto; padding: 5px 10px; border-radius: 8px; }
+.application-links-grid .application-link-card__open { flex: 0 0 auto; justify-content: center; margin-top: 0; padding: 5px 10px; border-radius: 8px; line-height: 16px; }
+.application-links-grid .application-link-card__open svg { width: 16px; height: 16px; flex-shrink: 0; }
 :is(.application-link-card__open, .benefit-card__open):hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button { background: var(--action-btn-bg); color: var(--action-btn-text); border: 0; }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button:hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }

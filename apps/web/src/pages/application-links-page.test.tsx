@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
@@ -74,19 +74,13 @@ describe("application links page", () => {
     expect(screen.getByRole("article", { name: genericLink.name }).querySelector(".application-link-card__icon svg")).toBeInTheDocument();
   });
 
-  it.each(["employee", "admin"] as const)("opens full overflowing descriptions for %s without editing or dragging", async (role) => {
+  it.each(["employee", "admin"] as const)("opens details from the tile surface for %s without editing or dragging", async (role) => {
     mocks.role = role;
     const description = "Vollständige Beschreibung. ".repeat(15);
     mocks.list.mockResolvedValue([{ ...link, description }]);
-    vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockImplementation(function (this: HTMLElement) {
-      return this.classList.contains("application-link-card__summary") ? 200 : 0;
-    });
-    vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockImplementation(function (this: HTMLElement) {
-      return this.classList.contains("application-link-card__summary") ? 44 : 0;
-    });
     const user = userEvent.setup();
     renderPage();
-    await user.click(await screen.findByRole("button", { name: "Microsoft 365: mehr anzeigen" }));
+    await user.click(await screen.findByRole("article"));
     const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByText(description.trim())).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: link.url })).toHaveAttribute("href", link.url);
@@ -99,12 +93,39 @@ describe("application links page", () => {
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
 
-  it("does not display more for a description that fits", async () => {
-    vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(22);
-    vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(22);
+  it("keeps the description out of the tile", async () => {
     renderPage();
     await screen.findByRole("link", { name: /Microsoft 365/ });
     expect(screen.queryByRole("button", { name: /mehr anzeigen/ })).not.toBeInTheDocument();
+    expect(screen.queryByText(link.description)).not.toBeInTheDocument();
+  });
+
+  it.each(["employee", "admin"] as const)("opens details with Enter for %s", async (role) => {
+    mocks.role = role;
+    const user = userEvent.setup();
+    renderPage();
+    const card = await screen.findByRole("article");
+    card.focus();
+    await user.keyboard("{Enter}");
+    expect(await screen.findByText(link.description)).toBeInTheDocument();
+    expect(mocks.reorder).not.toHaveBeenCalled();
+  });
+
+  it("does not open details after dragging on the tile surface", async () => {
+    vi.stubGlobal("PointerEvent", MouseEvent);
+    renderPage();
+    const card = await screen.findByRole("article");
+    fireEvent.pointerDown(card, { clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(card, { clientX: 20, clientY: 0 });
+    fireEvent.click(card);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("does not open details when the external link is clicked", async () => {
+    renderPage();
+    const action = await screen.findByRole("link", { name: /Microsoft 365/ });
+    fireEvent.click(action);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("renders external link tiles without management controls for employees", async () => {
@@ -113,13 +134,13 @@ describe("application links page", () => {
     expect(tile).toHaveAttribute("href", link.url);
     expect(tile).toHaveAttribute("target", "_blank");
     expect(tile).toHaveAttribute("rel", "noopener noreferrer");
-    expect(screen.getByText(link.description)).toBeInTheDocument();
+    expect(screen.queryByText(link.description)).not.toBeInTheDocument();
     expect(screen.queryByText("M365")).not.toBeInTheDocument();
     expect(tile.closest("article")?.querySelector(".application-link-card__icon")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Link hinzufügen" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /bearbeiten|löschen/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /verschieben/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("article")).not.toHaveAttribute("tabindex");
+    expect(screen.getByRole("article")).toHaveAttribute("tabindex", "0");
   });
 
   it("renders an explicit empty state", async () => {
@@ -233,7 +254,8 @@ describe("application links page", () => {
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     expect(mocks.update).toHaveBeenCalledWith(link.id, expect.objectContaining({ description }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-    expect(screen.getByText(description)).toBeInTheDocument();
+    await user.click(await screen.findByRole("article"));
+    expect(await screen.findByText(description)).toBeInTheDocument();
   });
 
   it.each([0, 1])("moves an edited tile to position %s even when stored orders collide", async (position) => {

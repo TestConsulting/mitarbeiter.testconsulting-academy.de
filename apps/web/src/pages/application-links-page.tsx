@@ -35,29 +35,6 @@ function ApplicationLinkIcon({ link, className }: { link: AppLink | null; classN
   );
 }
 
-function LinkDescription({ link, onMore }: { link: AppLink; onMore: () => void }) {
-  const paragraph = useRef<HTMLParagraphElement>(null);
-  const [truncated, setTruncated] = useState(false);
-  useEffect(() => {
-    const element = paragraph.current;
-    if (!element) return;
-    const measure = () => setTruncated(element.scrollHeight > element.clientHeight + 1);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    let active = true;
-    void document.fonts?.ready.then(() => { if (active) measure(); });
-    return () => { active = false; observer.disconnect(); };
-  }, [link.description]);
-  return (
-    <div className="application-link-card__description">
-      <p ref={paragraph} className="application-link-card__summary">{link.description}</p>
-      {truncated && <button type="button" className="application-link-card__more"
-        aria-label={`${link.name}: mehr anzeigen`} onClick={onMore}>…mehr</button>}
-    </div>
-  );
-}
-
 export function ApplicationLinksPage() {
   const { user } = useAuth();
   const isAdmin = canManagePortal(user);
@@ -228,11 +205,11 @@ export function ApplicationLinksPage() {
         <SortableContext items={sortedLinks.map((link) => link.id)} strategy={rectSortingStrategy}>
         <div className="application-links-grid" aria-busy={busy}>
           {sortedLinks.map((link) => (
-            <SortablePortalCard id={link.id} label={link.name} className="application-link-card" isAdmin={isAdmin} disabled={!isAdmin || busy || draft !== null || deleteTarget !== null || detailTarget !== null} key={link.id}>
+            <SortablePortalCard id={link.id} label={link.name} className="application-link-card" isAdmin={isAdmin} disabled={!isAdmin || busy || draft !== null || deleteTarget !== null || detailTarget !== null}
+              onOpen={!busy && draft === null && deleteTarget === null && detailTarget === null ? () => setDetailTarget(link) : undefined} key={link.id}>
               <div className="application-link-card__content">
                 <ApplicationLinkIcon link={link} className="application-link-card__icon" />
                 <h2 title={link.name}>{link.name}</h2>
-                <LinkDescription link={link} onMore={() => setDetailTarget(link)} />
                 <a className="application-link-card__open" href={link.url} target={/^mailto:/i.test(link.url) ? undefined : "_blank"} rel="noopener noreferrer"
                   draggable={false} aria-label={/^mailto:/i.test(link.url) ? `${link.name}: E-Mail schreiben` : `${link.name} öffnen (neuer Tab)`}>
                   {/^mailto:/i.test(link.url) ? <>E-Mail schreiben <Mail24Regular aria-hidden="true" /></> : <>Öffnen <ArrowUpRight20Regular aria-hidden="true" /><span className="application-link-card__sr"> (neuer Tab)</span></>}
