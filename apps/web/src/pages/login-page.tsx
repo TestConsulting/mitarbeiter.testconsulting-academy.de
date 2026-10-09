@@ -55,7 +55,9 @@ export function LoginPage({ theme, setTheme }: LoginPageProps) {
         </Button>
       </div>
       <section className="signin-brand-panel" aria-labelledby="brand-title">
-        <div className="signin-wordmark"><span className="brand-mark brand-mark--light" aria-hidden="true">TC</span>TestConsulting</div>
+        <div className="brand-logo-shell brand-logo-shell--login">
+          <img className="brand-logo brand-logo--login" src="/images/testconsulting-logo-dark.png" alt="TestConsulting Logo" />
+        </div>
         <div className="signin-rule" aria-hidden="true" />
         <h1 id="brand-title">Mitarbeiterportal</h1>
         <p>Lernangebote, Unternehmenswerkzeuge und Zusammenarbeit an einem Ort.</p>

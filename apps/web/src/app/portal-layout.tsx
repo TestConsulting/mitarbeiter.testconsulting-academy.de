@@ -45,8 +45,7 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
     <div className="portal-root">
       <header className="portal-header">
         <a className="brand" href="/" aria-label="TestConsulting Übersicht">
-          <span className="brand-mark" aria-hidden="true">TC</span>
-          <span>TestConsulting</span>
+          <img className="brand-logo brand-logo--header" src="/images/testconsulting-logo.png" alt="TestConsulting Logo" />
         </a>
         <div className="header-account">
           <span className="avatar" aria-label={`Angemeldet als ${user?.name}`}>

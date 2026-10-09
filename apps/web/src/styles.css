@@ -139,13 +139,29 @@ a { color: inherit; }
 .theme-switcher--login { position: absolute; top: 18px; right: 18px; z-index: 2; }
 
 .signin-layout { min-height: 100vh; display: grid; grid-template-columns: minmax(300px, .9fr) minmax(380px, 1.1fr); background: var(--surface); }
-.signin-brand-panel { display: flex; flex-direction: column; justify-content: center; gap: 24px; padding: clamp(32px, 6vw, 88px); background: var(--primary); color: #fff; }
+:root {
+  --signin-panel-bg: #0f5d97;
+  --signin-panel-bg-dark: #0a4f80;
+}
+
+:root[data-theme="dark"] {
+  --signin-panel-bg: #124a78;
+  --signin-panel-bg-dark: #0b3d63;
+}
+
+.signin-brand-panel { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; padding: clamp(32px, 6vw, 88px); background: linear-gradient(180deg, var(--signin-panel-bg) 0%, var(--signin-panel-bg-dark) 100%); color: #fff; isolation: isolate; overflow: visible; }
 .signin-wordmark, .brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; text-decoration: none; }
 .brand-mark { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border-radius: 4px; background: var(--primary); color: #fff; font-size: 13px; font-weight: 700; }
 .brand-mark--light { background: #fff; color: var(--primary); }
-.signin-rule { width: 48px; height: 4px; background: var(--accent); }
-.signin-brand-panel h1 { max-width: 10ch; font-size: 42px; }
-.signin-brand-panel p { max-width: 38ch; margin: 0; color: rgb(255 255 255 / 88%); }
+.brand-logo { display: block; max-width: 100%; height: auto; object-fit: contain; }
+.brand-logo-shell--login { position: relative; display: inline-flex; width: min(100%, 540px); min-height: 122px; margin: 0 0 6px; flex-shrink: 0; align-items: center; justify-content: flex-start; }
+.brand-logo--login { position: relative; z-index: 2; display: block; width: 100%; max-width: 540px; height: auto; min-height: 104px; object-fit: contain; object-position: left center; }
+.brand-logo--header { width: 146px; }
+.sidebar-account { display: flex; flex-direction: column; margin-top: auto; }
+.sidebar-account .sidebar-label { padding-top: 0; }
+.signin-rule { width: min(100%, 540px); height: 4px; background: var(--accent); margin-bottom: 8px; }
+.signin-brand-panel h1 { width: min(100%, 540px); max-width: 540px; margin: 0; font-size: clamp(42px, 2.9vw, 54px); }
+.signin-brand-panel p { width: min(100%, 540px); max-width: 540px; margin: 0; color: rgb(255 255 255 / 88%); font-size: 20px; line-height: 1.5; }
 .signin-form-column { display: grid; place-items: center; padding: 40px; background: var(--canvas); }
 .signin-form-wrap { display: flex; width: min(100%, 440px); flex-direction: column; gap: 22px; }
 .signin-form-wrap h2 { margin-top: 8px; font-size: 32px; }
