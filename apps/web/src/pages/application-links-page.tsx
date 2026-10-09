@@ -255,7 +255,7 @@ export function ApplicationLinksPage() {
         </DndContext>
       )}
       <Dialog open={detailTarget !== null} onOpenChange={(_event, data) => { if (!data.open) setDetailTarget(null); }}>
-        <DialogSurface className="application-link-detail" data-tone={sortedLinks.findIndex((link) => link.id === detailTarget?.id) % 4}>
+        <DialogSurface className="application-link-detail">
           <DialogBody className="application-link-detail__body">
             <DialogTitle className="application-link-detail__heading" action={
               <Button className="application-link-detail__close" appearance="subtle" icon={<Dismiss20Regular />} aria-label="Popup schließen" onClick={() => setDetailTarget(null)} />
