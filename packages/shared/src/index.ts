@@ -68,6 +68,10 @@ export type Ticket = {
   updatedAt: string;
 };
 
+export type ArchivedTicket = Ticket & {
+  archivedAt: string;
+};
+
 export type BoardState = {
   columns: BoardColumn[];
   tickets: Ticket[];

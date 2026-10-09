@@ -39,9 +39,10 @@ describe("board router", () => {
     expect(response.body.tickets).toEqual([]);
   });
 
-  it("forbids non-admin users from creating columns", async () => {
+  it("allows authenticated users to create columns", async () => {
     const agent = await loginAs(fixture.employeeUser.email);
-    await agent.post("/api/board/columns").send({ title: "Neu" }).expect(403);
+    const created = await agent.post("/api/board/columns").send({ title: "Neu" }).expect(201);
+    expect(created.body.columns.at(-1).title).toBe("Neu");
   });
 
   it.each(["admin", "user"] as const)("allows %s accounts to create, rename and delete empty columns", async (role) => {

@@ -1,6 +1,6 @@
 import argon2 from "argon2";
 import { randomUUID } from "node:crypto";
-import type { BoardColumn, Ticket } from "@portal/shared";
+import type { ArchivedTicket, BoardColumn, Ticket } from "@portal/shared";
 import type { BoardRepository } from "../db/board-repository.js";
 import type { StoredUser, UserRepository } from "../db/user-repository.js";
 
@@ -40,6 +40,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
 
   let columns: BoardColumn[] = [{ id: randomUUID(), title: "Zu erledigen", position: 0 }];
   let tickets: Ticket[] = [];
+  let archivedTickets: ArchivedTicket[] = [];
 
   const users: UserRepository = {
     async findByEmail(email) {
@@ -95,6 +96,52 @@ export async function createBoardFixture(): Promise<BoardFixture> {
         createdBy: input.createdBy,
         createdAt: now,
         updatedAt: now,
+      });
+      return tickets.map((ticket) => ({ ...ticket }));
+    },
+    async listArchivedTickets() {
+      return archivedTickets.map((ticket) => ({ ...ticket }));
+    },
+    async archiveTickets(columnId) {
+      const column = columns.find((entry) => entry.id === columnId);
+      if (!column) return "column-not-found";
+      const normalized = column.title.trim().toLowerCase();
+      if (!["erledigt", "done", "fertig"].includes(normalized)) return "invalid-column";
+      const now = new Date().toISOString();
+      const toArchive = tickets
+        .filter((ticket) => ticket.columnId === columnId)
+        .map((ticket) => ({ ...ticket, archivedAt: now }));
+      archivedTickets = [...toArchive, ...archivedTickets];
+      tickets = tickets.filter((ticket) => ticket.columnId !== columnId);
+      return tickets.map((ticket) => ({ ...ticket }));
+    },
+    async archiveTicket(id) {
+      const ticket = tickets.find((entry) => entry.id === id);
+      if (!ticket) return "not-found";
+      const column = columns.find((entry) => entry.id === ticket.columnId);
+      const normalized = column?.title.trim().toLowerCase() ?? "";
+      if (!["erledigt", "done", "fertig"].includes(normalized)) return "invalid-column";
+      const archivedAt = new Date().toISOString();
+      archivedTickets = [{ ...ticket, archivedAt }, ...archivedTickets];
+      tickets = tickets.filter((entry) => entry.id !== id);
+      return tickets.map((entry) => ({ ...entry }));
+    },
+    async restoreTicket(id, columnId) {
+      const archived = archivedTickets.find((entry) => entry.id === id);
+      if (!archived) return "not-found";
+      const targetColumnId = columnId ?? columns[0]?.id;
+      if (!targetColumnId || !columns.some((column) => column.id === targetColumnId)) return "column-not-found";
+      archivedTickets = archivedTickets.filter((entry) => entry.id !== id);
+      tickets.push({
+        id: archived.id,
+        columnId: targetColumnId,
+        title: archived.title,
+        description: archived.description,
+        assigneeId: archived.assigneeId,
+        position: tickets.filter((ticket) => ticket.columnId === targetColumnId).length,
+        createdBy: archived.createdBy,
+        createdAt: archived.createdAt,
+        updatedAt: new Date().toISOString(),
       });
       return tickets.map((ticket) => ({ ...ticket }));
     },

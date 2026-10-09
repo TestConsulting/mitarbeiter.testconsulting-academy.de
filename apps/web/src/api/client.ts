@@ -1,4 +1,4 @@
-import type { AppLink, AppLinkInput, Benefit, BenefitInput, BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
+import type { AppLink, AppLinkInput, ArchivedTicket, Benefit, BenefitInput, BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -117,6 +117,13 @@ export const api = {
       });
       return result.columns;
     },
+    async updateColumn(id: string, patch: { title?: string; position?: number }) {
+      const result = await request<{ columns: BoardColumn[] }>(`/api/board/columns/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(patch),
+      });
+      return result.columns;
+    },
     async renameColumn(id: string, title: string) {
       const result = await request<{ columns: BoardColumn[] }>(`/api/board/columns/${id}`, {
         method: "PATCH",
@@ -132,6 +139,30 @@ export const api = {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
         method: "POST",
         body: JSON.stringify(input),
+      });
+      return result.tickets;
+    },
+    async archiveTickets(columnId: string) {
+      const result = await request<{ tickets: Ticket[] }>("/api/tickets/archive", {
+        method: "POST",
+        body: JSON.stringify({ columnId }),
+      });
+      return result.tickets;
+    },
+    async archiveTicket(id: string) {
+      const result = await request<{ tickets: Ticket[] }>(`/api/tickets/${id}/archive`, {
+        method: "POST",
+      });
+      return result.tickets;
+    },
+    async listArchivedTickets() {
+      const result = await request<{ tickets: ArchivedTicket[] }>("/api/tickets/archived");
+      return result.tickets;
+    },
+    async restoreTicket(id: string, columnId?: string) {
+      const result = await request<{ tickets: Ticket[] }>(`/api/tickets/${id}/restore`, {
+        method: "POST",
+        body: JSON.stringify(columnId ? { columnId } : {}),
       });
       return result.tickets;
     },

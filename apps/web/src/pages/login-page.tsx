@@ -1,10 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { Button, Field, Input, MessageBar, MessageBarBody } from "@fluentui/react-components";
+import { WeatherMoon20Filled, WeatherSunny20Regular } from "@fluentui/react-icons";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { ApiError } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
 
-export function LoginPage() {
+type LoginPageProps = {
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
+};
+
+export function LoginPage({ theme, setTheme }: LoginPageProps) {
   const { signIn, status } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,8 +38,22 @@ export function LoginPage() {
     }
   }
 
+  const isDark = theme === "dark";
+
   return (
     <main className="signin-layout">
+      <div className="theme-switcher theme-switcher--login">
+        <Button
+          appearance="secondary"
+          size="small"
+          icon={isDark ? <WeatherSunny20Regular /> : <WeatherMoon20Filled />}
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          aria-label={isDark ? "Light mode" : "Dark mode"}
+          title={isDark ? "Light mode" : "Dark mode"}
+        >
+          {isDark ? "Hell" : "Dunkel"}
+        </Button>
+      </div>
       <section className="signin-brand-panel" aria-labelledby="brand-title">
         <div className="signin-wordmark"><span className="brand-mark brand-mark--light" aria-hidden="true">TC</span>TestConsulting</div>
         <div className="signin-rule" aria-hidden="true" />

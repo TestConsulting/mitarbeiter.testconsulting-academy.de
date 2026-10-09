@@ -36,6 +36,17 @@ describe("portal shell", () => {
     }
   });
 
+  it("toggles dark mode from the portal header", async () => {
+    render(<App />);
+    const switcher = await screen.findByRole("button", { name: /dark mode/i });
+
+    expect(document.documentElement.dataset.theme).toBe("light");
+    await userEvent.click(switcher);
+
+    expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
+  });
+
   it("opens a protected placeholder from portal navigation", async () => {
     render(<App />);
     await screen.findByRole("heading", { name: "Willkommen, Alex" });

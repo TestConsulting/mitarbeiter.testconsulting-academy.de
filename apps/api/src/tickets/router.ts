@@ -19,6 +19,14 @@ const updateTicketSchema = z.object({
   position: z.number().int().min(0).optional(),
 }).strict();
 
+const archiveTicketsSchema = z.object({
+  columnId: z.string().uuid(),
+}).strict();
+
+const restoreTicketSchema = z.object({
+  columnId: z.string().uuid().optional(),
+}).strict();
+
 export function createTicketsRouter(board: BoardRepository, users: UserRepository): Router {
   const router = Router();
   router.use(requireAuth());
@@ -72,6 +80,76 @@ export function createTicketsRouter(board: BoardRepository, users: UserRepositor
       const result = await board.updateTicket(request.params.id, payload.data);
       if (result === "not-found") {
         response.status(404).json({ error: "Ticket wurde nicht gefunden." });
+        return;
+      }
+      if (result === "column-not-found") {
+        response.status(404).json({ error: "Zielspalte wurde nicht gefunden." });
+        return;
+      }
+      response.json({ tickets: result });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post("/archive", async (request, response, next) => {
+    const payload = archiveTicketsSchema.safeParse(request.body);
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte prüfe deine Eingaben." });
+      return;
+    }
+    try {
+      const result = await board.archiveTickets(payload.data.columnId);
+      if (result === "column-not-found") {
+        response.status(404).json({ error: "Spalte wurde nicht gefunden." });
+        return;
+      }
+      if (result === "invalid-column") {
+        response.status(400).json({ error: "Archivieren ist nur in Erledigt oder Fertig möglich." });
+        return;
+      }
+      response.json({ tickets: result });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post<{ id: string }>("/:id/archive", async (request, response, next) => {
+    try {
+      const result = await board.archiveTicket(request.params.id);
+      if (result === "not-found") {
+        response.status(404).json({ error: "Ticket wurde nicht gefunden." });
+        return;
+      }
+      if (result === "invalid-column") {
+        response.status(400).json({ error: "Archivieren ist nur in Erledigt oder Fertig möglich." });
+        return;
+      }
+      response.json({ tickets: result });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get("/archived", async (_request, response, next) => {
+    try {
+      const archivedTickets = await board.listArchivedTickets();
+      response.json({ tickets: archivedTickets });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post<{ id: string }>("/:id/restore", async (request, response, next) => {
+    const payload = restoreTicketSchema.safeParse(request.body ?? {});
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte prüfe deine Eingaben." });
+      return;
+    }
+    try {
+      const result = await board.restoreTicket(request.params.id, payload.data.columnId);
+      if (result === "not-found") {
+        response.status(404).json({ error: "Archiviertes Ticket wurde nicht gefunden." });
         return;
       }
       if (result === "column-not-found") {

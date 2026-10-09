@@ -1,11 +1,34 @@
 import { Button } from "@fluentui/react-components";
-import { ArrowExit20Regular, Home24Regular } from "@fluentui/react-icons";
+import { ArrowExit20Regular, Home24Regular, WeatherMoon20Filled, WeatherSunny20Regular } from "@fluentui/react-icons";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { portalAreas } from "@portal/shared";
 import { useAuth } from "./auth-context.js";
 import { AreaIcon } from "./area-icon.js";
 
-export function PortalLayout() {
+type ThemeToggleProps = {
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
+};
+
+function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
+  const isDark = theme === "dark";
+
+  return (
+    <Button
+      appearance="subtle"
+      size="small"
+      className="theme-toggle"
+      icon={isDark ? <WeatherSunny20Regular /> : <WeatherMoon20Filled />}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Light mode" : "Dark mode"}
+      title={isDark ? "Light mode" : "Dark mode"}
+    >
+      {isDark ? "Hell" : "Dunkel"}
+    </Button>
+  );
+}
+
+export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -30,6 +53,7 @@ export function PortalLayout() {
             {user?.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
           </span>
           <span className="header-account__name">{user?.name}</span>
+          <ThemeToggle theme={theme} setTheme={setTheme} />
           <Button appearance="subtle" icon={<ArrowExit20Regular />} onClick={handleSignOut} aria-label="Abmelden" title="Abmelden" />
         </div>
       </header>

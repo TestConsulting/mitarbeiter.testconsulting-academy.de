@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { BoardRepository } from "../db/board-repository.js";
 import type { UserRepository } from "../db/user-repository.js";
-import { requireAdmin, requireAuth } from "../auth/middleware.js";
+import { requireAuth } from "../auth/middleware.js";
 
 const createColumnSchema = z.object({
   title: z.string().trim().min(1).max(60),
@@ -27,8 +27,7 @@ export function createBoardRouter(board: BoardRepository, users: UserRepository)
     }
   });
 
-  // Nur Admins dürfen Spalten anlegen/ändern/löschen (siehe SPEC Abschnitt 2, Rollenrechte).
-  router.post("/columns", requireAdmin(users), async (request, response, next) => {
+  router.post("/columns", async (request, response, next) => {
     const payload = createColumnSchema.safeParse(request.body);
     if (!payload.success) {
       response.status(400).json({ error: "Bitte gib einen Spaltennamen an." });
@@ -42,7 +41,7 @@ export function createBoardRouter(board: BoardRepository, users: UserRepository)
     }
   });
 
-  router.patch<{ id: string }>("/columns/:id", requireAdmin(users), async (request, response, next) => {
+  router.patch<{ id: string }>("/columns/:id", async (request, response, next) => {
     const payload = updateColumnSchema.safeParse(request.body);
     if (!payload.success) {
       response.status(400).json({ error: "Bitte prüfe deine Eingaben." });
@@ -60,7 +59,7 @@ export function createBoardRouter(board: BoardRepository, users: UserRepository)
     }
   });
 
-  router.delete<{ id: string }>("/columns/:id", requireAdmin(users), async (request, response, next) => {
+  router.delete<{ id: string }>("/columns/:id", async (request, response, next) => {
     try {
       const result = await board.deleteColumn(request.params.id);
       if (result === "not-found") {

@@ -1,4 +1,4 @@
-import type { BoardColumn, Ticket } from "@portal/shared";
+import type { ArchivedTicket, BoardColumn, Ticket } from "@portal/shared";
 import type { Pool, PoolClient } from "pg";
 
 type ColumnRow = { id: string; title: string; position: number };
@@ -12,7 +12,10 @@ type TicketRow = {
   created_by: string;
   created_at: Date;
   updated_at: Date;
+  archived_at?: Date | null;
 };
+
+let ticketArchivingSchemaReady = false;
 
 function mapColumn(row: ColumnRow): BoardColumn {
   return { id: row.id, title: row.title, position: row.position };
@@ -54,6 +57,9 @@ export type ColumnPatch = {
 };
 
 export type DeleteColumnResult = BoardColumn[] | "not-found" | "not-empty";
+export type ArchiveTicketsResult = Ticket[] | "column-not-found" | "invalid-column";
+export type ArchiveTicketResult = Ticket[] | "not-found" | "invalid-column";
+export type RestoreTicketResult = Ticket[] | "not-found" | "column-not-found";
 
 export type BoardRepository = {
   getBoard(): Promise<{ columns: BoardColumn[]; tickets: Ticket[] }>;
@@ -61,9 +67,25 @@ export type BoardRepository = {
   updateColumn(id: string, patch: ColumnPatch): Promise<BoardColumn[] | "not-found">;
   deleteColumn(id: string): Promise<DeleteColumnResult>;
   createTicket(input: NewTicketInput): Promise<Ticket[] | "column-not-found">;
+  archiveTickets(columnId: string): Promise<ArchiveTicketsResult>;
+  archiveTicket(id: string): Promise<ArchiveTicketResult>;
+  listArchivedTickets(): Promise<ArchivedTicket[]>;
+  restoreTicket(id: string, columnId?: string): Promise<RestoreTicketResult>;
   updateTicket(id: string, patch: TicketPatch): Promise<Ticket[] | "not-found" | "column-not-found">;
   deleteTicket(id: string): Promise<Ticket[] | "not-found">;
 };
+
+function isArchiveColumnTitle(title: string): boolean {
+  const normalized = title.trim().toLowerCase();
+  return normalized === "erledigt" || normalized === "done" || normalized === "fertig";
+}
+
+function mapArchivedTicket(row: TicketRow): ArchivedTicket {
+  return {
+    ...mapTicket(row),
+    archivedAt: (row.archived_at as Date).toISOString(),
+  };
+}
 
 async function listAllColumns(client: Pick<PoolClient, "query">): Promise<BoardColumn[]> {
   const result = await client.query<ColumnRow>(
@@ -74,9 +96,27 @@ async function listAllColumns(client: Pick<PoolClient, "query">): Promise<BoardC
 
 async function listAllTickets(client: Pick<PoolClient, "query">): Promise<Ticket[]> {
   const result = await client.query<TicketRow>(
-    `SELECT * FROM tickets ORDER BY column_id ASC, position ASC`,
+    `SELECT * FROM tickets WHERE archived_at IS NULL ORDER BY column_id ASC, position ASC`,
   );
   return result.rows.map(mapTicket);
+}
+
+async function listArchivedTickets(client: Pick<PoolClient, "query">): Promise<ArchivedTicket[]> {
+  const result = await client.query<TicketRow>(
+    `SELECT * FROM tickets WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
+  );
+  return result.rows.map(mapArchivedTicket);
+}
+
+async function ensureTicketArchivingSchema(client: Pick<PoolClient, "query">): Promise<void> {
+  if (ticketArchivingSchemaReady) return;
+  await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS archived_at timestamptz`);
+  await client.query(
+    `CREATE INDEX IF NOT EXISTS tickets_active_column_position_idx
+     ON tickets (column_id, position)
+     WHERE archived_at IS NULL`,
+  );
+  ticketArchivingSchemaReady = true;
 }
 
 async function renumberColumnTickets(client: PoolClient, columnId: string): Promise<void> {
@@ -89,11 +129,61 @@ async function renumberColumnTickets(client: PoolClient, columnId: string): Prom
   }
 }
 
+async function ensureDefaultColumns(client: Pick<PoolClient, "query">): Promise<void> {
+  const defaults = ["Backlog", "Zu erledigen", "In Arbeit", "In Review", "Erledigt"];
+  const existing = await listAllColumns(client);
+  const existingTitles = new Set(existing.map((column) => column.title));
+
+  for (const [index, title] of defaults.entries()) {
+    if (!existingTitles.has(title)) {
+      const max = await client.query<{ max: number | null }>(`SELECT COALESCE(MAX(position), -1) AS max FROM board_columns`);
+      const position = Math.max(index, Number(max.rows[0]?.max ?? -1) + 1);
+      await client.query(`INSERT INTO board_columns (title, position) VALUES ($1, $2)`, [title, position]);
+    }
+  }
+
+  const normalized = await listAllColumns(client);
+  const orderedIds = normalized
+    .sort((left, right) => {
+      const leftIndex = defaults.indexOf(left.title);
+      const rightIndex = defaults.indexOf(right.title);
+      const indexDelta = (leftIndex === -1 ? 999 : leftIndex) - (rightIndex === -1 ? 999 : rightIndex);
+      return indexDelta !== 0 ? indexDelta : left.position - right.position;
+    })
+    .map((column) => column.id);
+
+  for (const [index, id] of orderedIds.entries()) {
+    await client.query(`UPDATE board_columns SET position = $1 WHERE id = $2`, [index, id]);
+  }
+}
+
 export function createBoardRepository(pool: Pool): BoardRepository {
   return {
     async getBoard() {
-      const [columns, tickets] = await Promise.all([listAllColumns(pool), listAllTickets(pool)]);
-      return { columns, tickets };
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
+        await ensureDefaultColumns(client);
+        const [columns, tickets] = await Promise.all([listAllColumns(client), listAllTickets(client)]);
+        await client.query("COMMIT");
+        return { columns, tickets };
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+      } finally {
+        client.release();
+      }
+    },
+
+    async listArchivedTickets() {
+      const client = await pool.connect();
+      try {
+        await ensureTicketArchivingSchema(client);
+        return await listArchivedTickets(client);
+      } finally {
+        client.release();
+      }
     },
 
     async createColumn(title) {
@@ -186,6 +276,7 @@ export function createBoardRepository(pool: Pool): BoardRepository {
       const client = await pool.connect();
       try {
         await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
         const column = await client.query(`SELECT id FROM board_columns WHERE id = $1`, [input.columnId]);
         if (column.rowCount === 0) {
           await client.query("ROLLBACK");
@@ -212,10 +303,157 @@ export function createBoardRepository(pool: Pool): BoardRepository {
       }
     },
 
+    async archiveTickets(columnId) {
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
+        const column = await client.query<{ title: string }>(
+          `SELECT title FROM board_columns WHERE id = $1`,
+          [columnId],
+        );
+        const columnRow = column.rows[0];
+        if (!columnRow) {
+          await client.query("ROLLBACK");
+          return "column-not-found";
+        }
+        if (!isArchiveColumnTitle(columnRow.title)) {
+          await client.query("ROLLBACK");
+          return "invalid-column";
+        }
+        await client.query(
+          `UPDATE tickets SET archived_at = now(), updated_at = now() WHERE column_id = $1 AND archived_at IS NULL`,
+          [columnId],
+        );
+        const tickets = await listAllTickets(client);
+        await client.query("COMMIT");
+        return tickets;
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+      } finally {
+        client.release();
+      }
+    },
+
+    async archiveTicket(id) {
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
+
+        const ticketResult = await client.query<TicketRow>(
+          `SELECT * FROM tickets WHERE id = $1 AND archived_at IS NULL`,
+          [id],
+        );
+        const ticket = ticketResult.rows[0];
+        if (!ticket) {
+          await client.query("ROLLBACK");
+          return "not-found";
+        }
+
+        const columnResult = await client.query<{ title: string }>(
+          `SELECT title FROM board_columns WHERE id = $1`,
+          [ticket.column_id],
+        );
+        const columnTitle = columnResult.rows[0]?.title;
+        if (!columnTitle || !isArchiveColumnTitle(columnTitle)) {
+          await client.query("ROLLBACK");
+          return "invalid-column";
+        }
+
+        await client.query(
+          `UPDATE tickets SET archived_at = now(), updated_at = now() WHERE id = $1`,
+          [id],
+        );
+        await renumberColumnTickets(client, ticket.column_id);
+
+        const tickets = await listAllTickets(client);
+        await client.query("COMMIT");
+        return tickets;
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+      } finally {
+        client.release();
+      }
+    },
+
+    async restoreTicket(id, columnId) {
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
+        const existingResult = await client.query<TicketRow>(
+          `SELECT * FROM tickets WHERE id = $1 AND archived_at IS NOT NULL`,
+          [id],
+        );
+        const existing = existingResult.rows[0];
+        if (!existing) {
+          await client.query("ROLLBACK");
+          return "not-found";
+        }
+
+        let targetColumnId = columnId;
+        if (!targetColumnId) {
+          const preferred = await client.query<{ id: string }>(
+            `SELECT id FROM board_columns WHERE lower(title) IN ('backlog') ORDER BY position ASC LIMIT 1`,
+          );
+          targetColumnId = preferred.rows[0]?.id;
+          if (!targetColumnId) {
+            const fallback = await client.query<{ id: string }>(
+              `SELECT id FROM board_columns ORDER BY position ASC LIMIT 1`,
+            );
+            targetColumnId = fallback.rows[0]?.id;
+          }
+        }
+
+        if (!targetColumnId) {
+          await client.query("ROLLBACK");
+          return "column-not-found";
+        }
+
+        const columnResult = await client.query<{ id: string }>(
+          `SELECT id FROM board_columns WHERE id = $1`,
+          [targetColumnId],
+        );
+        if ((columnResult.rowCount ?? 0) === 0) {
+          await client.query("ROLLBACK");
+          return "column-not-found";
+        }
+
+        const max = await client.query<{ max: number | null }>(
+          `SELECT MAX(position) AS max FROM tickets WHERE column_id = $1 AND archived_at IS NULL`,
+          [targetColumnId],
+        );
+        const position = (max.rows[0]?.max ?? -1) + 1;
+
+        await client.query(
+          `UPDATE tickets
+             SET archived_at = NULL,
+                 column_id = $1,
+                 position = $2,
+                 updated_at = now()
+           WHERE id = $3`,
+          [targetColumnId, position, id],
+        );
+
+        const tickets = await listAllTickets(client);
+        await client.query("COMMIT");
+        return tickets;
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+      } finally {
+        client.release();
+      }
+    },
+
     async updateTicket(id, patch) {
       const client = await pool.connect();
       try {
         await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
         const existingResult = await client.query<TicketRow>(`SELECT * FROM tickets WHERE id = $1`, [id]);
         const existing = existingResult.rows[0];
         if (!existing) {
@@ -293,6 +531,7 @@ export function createBoardRepository(pool: Pool): BoardRepository {
       const client = await pool.connect();
       try {
         await client.query("BEGIN");
+        await ensureTicketArchivingSchema(client);
         const existing = await client.query<{ column_id: string }>(
           `SELECT column_id FROM tickets WHERE id = $1`,
           [id],

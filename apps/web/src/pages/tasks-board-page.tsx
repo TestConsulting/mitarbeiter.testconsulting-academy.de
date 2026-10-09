@@ -1,13 +1,14 @@
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   closestCenter,
-  useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, horizontalListSortingStrategy, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   Avatar,
@@ -24,45 +25,50 @@ import {
   Field,
   Input,
   Option,
-  Textarea,
 } from "@fluentui/react-components";
-import { Add20Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
+import { Add20Regular, Archive16Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
 import { canManagePortal } from "@portal/shared";
+import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
-
-type ComposerState = { title: string; assigneeId: string };
-
-const emptyComposer: ComposerState = { title: "", assigneeId: "" };
 
 export function TasksBoardPage() {
   const { user } = useAuth();
   const isAdmin = canManagePortal(user);
-
+  const navigate = useNavigate();
   const [board, setBoard] = useState<BoardState | null>(null);
   const [users, setUsers] = useState<PortalUser[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [composers, setComposers] = useState<Record<string, ComposerState>>({});
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const [isAddColumnOpen, setAddColumnOpen] = useState(false);
+  const [isAddTicketOpen, setAddTicketOpen] = useState(false);
+  const [newTicketColumnId, setNewTicketColumnId] = useState<string | null>(null);
+  const [newTicketTitle, setNewTicketTitle] = useState("");
+  const [newTicketDescription, setNewTicketDescription] = useState("");
+  const [filterQuery, setFilterQuery] = useState("");
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
   const [renamingColumn, setRenamingColumn] = useState<BoardColumn | null>(null);
   const [renameTitle, setRenameTitle] = useState("");
   const [deletingColumnId, setDeletingColumnId] = useState<string | null>(null);
+  const [archivingColumnId, setArchivingColumnId] = useState<string | null>(null);
   const [columnActionError, setColumnActionError] = useState<string | null>(null);
+  const [activeTicketId, setActiveTicketId] = useState<string | null>(null);
+  const [activeColumnId, setActiveColumnId] = useState<string | null>(null);
+  const [archivedCount, setArchivedCount] = useState(0);
 
   const usersById = useMemo(() => new Map(users.map((entry) => [entry.id, entry])), [users]);
 
   useEffect(() => {
     let active = true;
-    Promise.all([api.board.get(), api.users.list()])
-      .then(([boardState, userList]) => {
+    Promise.all([api.board.get(), api.users.list(), api.board.listArchivedTickets()])
+      .then(([boardState, userList, archivedTickets]) => {
         if (!active) return;
         setBoard(boardState);
         setUsers(userList);
+        setArchivedCount(archivedTickets.length);
         setStatus("ready");
       })
       .catch(() => {
@@ -76,6 +82,8 @@ export function TasksBoardPage() {
     [board],
   );
 
+  const columnsById = useMemo(() => new Map(columnsSorted.map((entry) => [entry.id, entry])), [columnsSorted]);
+
   const ticketsByColumn = useMemo(() => {
     const map = new Map<string, Ticket[]>();
     if (board) {
@@ -86,6 +94,16 @@ export function TasksBoardPage() {
     }
     return map;
   }, [board]);
+
+  const activeTicket = useMemo(
+    () => board?.tickets.find((ticket) => ticket.id === activeTicketId) ?? null,
+    [activeTicketId, board],
+  );
+
+  const activeTicketColumnTitle = useMemo(
+    () => columnsSorted.find((column) => column.id === activeTicket?.columnId)?.title ?? "Backlog",
+    [activeTicket, columnsSorted],
+  );
 
   async function handleCreateColumn(event: FormEvent) {
     event.preventDefault();
@@ -123,19 +141,62 @@ export function TasksBoardPage() {
     }
   }
 
-  async function handleCreateTicket(columnId: string, event: FormEvent) {
+  async function handleCreateTicket(event: FormEvent) {
     event.preventDefault();
-    const composer = composers[columnId] ?? emptyComposer;
-    const title = composer.title.trim();
+    if (!newTicketColumnId) return;
+    const title = newTicketTitle.trim();
     if (!title) return;
     const tickets = await api.board.createTicket({
-      columnId,
+      columnId: newTicketColumnId,
       title,
-      assigneeId: composer.assigneeId || null,
+      description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
     });
     setBoard((current) => (current ? { ...current, tickets } : current));
-    setComposers((current) => ({ ...current, [columnId]: emptyComposer }));
+    setAddTicketOpen(false);
+    setNewTicketColumnId(null);
+    setNewTicketTitle("");
+    setNewTicketDescription("");
   }
+
+  async function handleArchiveTickets(columnId: string) {
+    const tickets = await api.board.archiveTickets(columnId);
+    setBoard((current) => (current ? { ...current, tickets } : current));
+    const archivedTickets = await api.board.listArchivedTickets();
+    setArchivedCount(archivedTickets.length);
+  }
+
+  async function handleArchiveTicket(id: string) {
+    const tickets = await api.board.archiveTicket(id);
+    setBoard((current) => (current ? { ...current, tickets } : current));
+    const archivedTickets = await api.board.listArchivedTickets();
+    setArchivedCount(archivedTickets.length);
+  }
+
+  function openAddTicket(columnId: string) {
+    setNewTicketColumnId(columnId);
+    setAddTicketOpen(true);
+  }
+
+  const normalizedFilter = filterQuery.trim().toLowerCase();
+
+  const filteredTicketsByColumn = useMemo(() => {
+    if (!normalizedFilter) return ticketsByColumn;
+    const map = new Map<string, Ticket[]>();
+    for (const column of columnsSorted) {
+      const tickets = ticketsByColumn.get(column.id) ?? [];
+      const filtered = tickets.filter((ticket) => {
+        const assigneeName = ticket.assigneeId ? usersById.get(ticket.assigneeId)?.name ?? "" : "";
+        const haystack = [ticket.title, ticket.description ?? "", assigneeName, column.title]
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(normalizedFilter);
+      });
+      map.set(column.id, filtered);
+    }
+    return map;
+  }, [columnsSorted, normalizedFilter, ticketsByColumn, usersById]);
+
+  const newTicketColumnTitle = newTicketColumnId ? columnsById.get(newTicketColumnId)?.title ?? "" : "";
 
   async function handleUpdateTicket(id: string, patch: {
     title?: string;
@@ -157,16 +218,41 @@ export function TasksBoardPage() {
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    const activeId = String(event.active.id);
+    const isColumnDrag = board?.columns.some((column) => column.id === activeId) ?? false;
+    setActiveTicketId(isColumnDrag ? null : activeId);
+    setActiveColumnId(isColumnDrag ? activeId : null);
+  }, [board]);
+
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveTicketId(null);
+    setActiveColumnId(null);
     if (!over || !board) return;
 
-    const ticket = board.tickets.find((entry) => entry.id === active.id);
+    const activeId = String(active.id);
+    const overId = String(over.id);
+
+    const activeColumn = board.columns.find((entry) => entry.id === activeId);
+    const overColumn = board.columns.find((entry) => entry.id === overId);
+    if (activeColumn && overColumn && activeColumn.id !== overColumn.id) {
+      const oldIndex = columnsSorted.findIndex((entry) => entry.id === activeColumn.id);
+      const newIndex = columnsSorted.findIndex((entry) => entry.id === overColumn.id);
+      if (oldIndex !== -1 && newIndex !== -1) {
+        void (async () => {
+          const columns = await api.board.updateColumn(activeColumn.id, { position: newIndex });
+          setBoard((current) => (current ? { ...current, columns } : current));
+        })();
+      }
+      return;
+    }
+
+    const ticket = board.tickets.find((entry) => entry.id === activeId);
     if (!ticket) return;
 
-    const overId = String(over.id);
-    const targetColumnId = overId.startsWith("column:")
-      ? overId.slice("column:".length)
+    const targetColumnId = board.columns.some((entry) => entry.id === overId)
+      ? overId
       : board.tickets.find((entry) => entry.id === overId)?.columnId;
     if (!targetColumnId) return;
 
@@ -178,7 +264,7 @@ export function TasksBoardPage() {
 
     void handleUpdateTicket(ticket.id, { columnId: targetColumnId, position: targetIndex });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, ticketsByColumn]);
+  }, [board, columnsSorted, ticketsByColumn]);
 
   if (status === "loading") {
     return (
@@ -205,33 +291,101 @@ export function TasksBoardPage() {
     <div className="page-stack">
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Tasks</h1>
-        {isAdmin && (
-          <Button appearance="secondary" icon={<Add20Regular />} onClick={() => setAddColumnOpen(true)}>
+        <div className="page-heading__actions">
+          <Input
+            className="board-search"
+            placeholder="Tickets durchsuchen"
+            value={filterQuery}
+            onChange={(_event, data) => setFilterQuery(data.value)}
+          />
+          <Button appearance="secondary" onClick={() => navigate("/areas/tasks/archive")}>
+            {`Archiv anzeigen (${archivedCount})`}
+          </Button>
+          <Button appearance="primary" icon={<Add20Regular />} onClick={() => setAddColumnOpen(true)}>
             Spalte hinzufügen
           </Button>
-        )}
+        </div>
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <div className="board">
-          {columnsSorted.map((column) => (
-            <BoardColumnView
-              key={column.id}
-              column={column}
-              tickets={ticketsByColumn.get(column.id) ?? []}
-              users={usersById}
-              composer={composers[column.id] ?? emptyComposer}
-              onComposerChange={(next) => setComposers((current) => ({ ...current, [column.id]: next }))}
-              onCreateTicket={(event) => handleCreateTicket(column.id, event)}
-              onEditTicket={setEditingTicket}
-              onDeleteTicket={setDeletingTicketId}
-              isAdmin={isAdmin}
-              onRenameColumn={() => openRenameColumn(column)}
-              onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={() => { setActiveTicketId(null); setActiveColumnId(null); }}
+      >
+        <SortableContext items={columnsSorted.map((column) => column.id)} strategy={horizontalListSortingStrategy}>
+          <div className="board">
+            {columnsSorted.map((column) => (
+              <BoardColumnView
+                key={column.id}
+                column={column}
+                tickets={filteredTicketsByColumn.get(column.id) ?? []}
+                ticketCount={(ticketsByColumn.get(column.id) ?? []).length}
+                users={usersById}
+                onEditTicket={setEditingTicket}
+                onDeleteTicket={setDeletingTicketId}
+                onArchiveTickets={() => { setColumnActionError(null); setArchivingColumnId(column.id); }}
+                onArchiveTicket={handleArchiveTicket}
+                onAddTicket={() => openAddTicket(column.id)}
+                canArchive={column.title === "Erledigt" || column.title === "Done" || column.title === "Fertig"}
+                dragDisabled={normalizedFilter.length > 0}
+                onRenameColumn={() => openRenameColumn(column)}
+                onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
+              />
+            ))}
+          </div>
+        </SortableContext>
+        <DragOverlay>
+          {activeTicket ? (
+            <TicketCardPreview
+              ticket={activeTicket}
+              columnTitle={activeTicketColumnTitle}
+              assignee={activeTicket.assigneeId ? usersById.get(activeTicket.assigneeId) : undefined}
             />
-          ))}
-        </div>
+          ) : null}
+          {activeColumnId && board.columns.find((column) => column.id === activeColumnId) ? (
+            <ColumnCardPreview column={board.columns.find((column) => column.id === activeColumnId)!} />
+          ) : null}
+        </DragOverlay>
       </DndContext>
+
+      <Dialog open={isAddTicketOpen} onOpenChange={(_event, data) => {
+        setAddTicketOpen(data.open);
+        if (!data.open) {
+          setNewTicketColumnId(null);
+          setNewTicketTitle("");
+          setNewTicketDescription("");
+        }
+      }}>
+        <DialogSurface>
+          <form onSubmit={handleCreateTicket}>
+            <DialogBody>
+              <DialogTitle>Ticket in {newTicketColumnTitle} anlegen</DialogTitle>
+              <DialogContent className="ticket-dialog-content">
+                <Field label="Titel">
+                  <Input value={newTicketTitle} onChange={(_event, data) => setNewTicketTitle(data.value)} autoFocus />
+                </Field>
+                <Field label="Beschreibung">
+                  <textarea
+                    className="ticket-dialog__textarea"
+                    value={newTicketDescription}
+                    onChange={(event) => setNewTicketDescription(event.target.value)}
+                    rows={7}
+                    placeholder="Beschreibung eingeben"
+                  />
+                </Field>
+              </DialogContent>
+              <DialogActions>
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance="secondary" type="button">Abbrechen</Button>
+                </DialogTrigger>
+                <Button appearance="primary" type="submit">Anlegen</Button>
+              </DialogActions>
+            </DialogBody>
+          </form>
+        </DialogSurface>
+      </Dialog>
 
       <Dialog open={isAddColumnOpen} onOpenChange={(_event, data) => setAddColumnOpen(data.open)}>
         <DialogSurface>
@@ -297,6 +451,35 @@ export function TasksBoardPage() {
         </DialogSurface>
       </Dialog>
 
+      <Dialog
+        open={archivingColumnId !== null}
+        onOpenChange={(_event, data) => { if (!data.open) setArchivingColumnId(null); }}
+      >
+        <DialogSurface>
+          <DialogBody>
+            <DialogTitle>Tickets archivieren?</DialogTitle>
+            <DialogContent>
+              Alle Tickets dieser Spalte werden archiviert und aus dem Board entfernt.
+            </DialogContent>
+            <DialogActions>
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance="secondary">Abbrechen</Button>
+              </DialogTrigger>
+              <Button
+                appearance="primary"
+                onClick={async () => {
+                  if (!archivingColumnId) return;
+                  await handleArchiveTickets(archivingColumnId);
+                  setArchivingColumnId(null);
+                }}
+              >
+                Bestätigen
+              </Button>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
+
       {editingTicket && (
         <EditTicketDialog
           ticket={editingTicket}
@@ -334,57 +517,85 @@ export function TasksBoardPage() {
 function BoardColumnView({
   column,
   tickets,
+  ticketCount,
   users,
-  composer,
-  onComposerChange,
-  onCreateTicket,
   onEditTicket,
   onDeleteTicket,
-  isAdmin,
+  onArchiveTickets,
+  onArchiveTicket,
+  onAddTicket,
+  canArchive,
+  dragDisabled,
   onRenameColumn,
   onDeleteColumn,
 }: {
   column: BoardColumn;
   tickets: Ticket[];
+  ticketCount: number;
   users: Map<string, PortalUser>;
-  composer: ComposerState;
-  onComposerChange: (next: ComposerState) => void;
-  onCreateTicket: (event: FormEvent) => void;
   onEditTicket: (ticket: Ticket) => void;
   onDeleteTicket: (id: string) => void;
-  isAdmin: boolean;
+  onArchiveTickets: () => void;
+  onArchiveTicket: (id: string) => void;
+  onAddTicket: () => void;
+  canArchive: boolean;
+  dragDisabled: boolean;
   onRenameColumn: () => void;
   onDeleteColumn: () => void;
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id: `column:${column.id}` });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: column.id });
+  const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.75 : 1 };
 
   return (
-    <section className={`board-column${isOver ? " board-column--over" : ""}`} ref={setNodeRef}>
+    <section className={`board-column${isDragging ? " board-column--dragging" : ""}`} ref={setNodeRef} style={style}>
       <header className="board-column__header">
-        <h2>{column.title}</h2>
+        <div className="board-column__header-main">
+          <button
+            type="button"
+            className="board-column__drag-handle"
+            aria-label={`Spalte ${column.title} verschieben`}
+            title="Spalte verschieben"
+            {...attributes}
+            {...listeners}
+          >
+            <span aria-hidden="true">⋮⋮</span>
+          </button>
+          <h2>{column.title}</h2>
+        </div>
         <div className="board-column__header-actions">
-          <Badge appearance="tint" color="informative">{tickets.length}</Badge>
-          {isAdmin && (
-            <>
-              <button
-                type="button"
-                className="board-column__action"
-                aria-label="Spalte umbenennen"
-                title="Spalte umbenennen"
-                onClick={onRenameColumn}
-              >
-                <Edit16Regular />
-              </button>
+          <Badge appearance="tint" color="informative">{ticketCount}</Badge>
+          <button
+            type="button"
+            className="board-column__action"
+            aria-label="Spalte umbenennen"
+            title="Spalte umbenennen"
+            onClick={onRenameColumn}
+          >
+            <Edit16Regular />
+          </button>
+          {ticketCount > 0 ? (
+            <span className="board-column__action-tooltip" title="Spalte kann nur gelöscht werden, wenn sie leer ist.">
               <button
                 type="button"
                 className="board-column__action"
                 aria-label="Spalte löschen"
-                title="Spalte löschen"
+                title="Spalte kann nur gelöscht werden, wenn sie leer ist."
+                disabled
                 onClick={onDeleteColumn}
               >
                 <Delete16Regular />
               </button>
-            </>
+            </span>
+          ) : (
+            <button
+              type="button"
+              className="board-column__action"
+              aria-label="Spalte löschen"
+              title="Spalte löschen"
+              onClick={onDeleteColumn}
+            >
+              <Delete16Regular />
+            </button>
           )}
         </div>
       </header>
@@ -395,7 +606,11 @@ function BoardColumnView({
             <TicketCard
               key={ticket.id}
               ticket={ticket}
+              columnTitle={column.title}
               assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
+              dragDisabled={dragDisabled}
+              canArchive={canArchive}
+              onArchive={() => onArchiveTicket(ticket.id)}
               onEdit={() => onEditTicket(ticket)}
               onDelete={() => onDeleteTicket(ticket.id)}
             />
@@ -403,34 +618,46 @@ function BoardColumnView({
         </div>
       </SortableContext>
 
-      <form className="board-column__composer" onSubmit={onCreateTicket}>
-        <Input
-          value={composer.title}
-          placeholder="+ Karte hinzufügen"
-          onChange={(_event, data) => onComposerChange({ ...composer, title: data.value })}
-        />
-      </form>
+      <div className="board-column__footer">
+        <Button appearance="secondary" size="small" onClick={onAddTicket}>
+          Ticket hinzufügen
+        </Button>
+        {canArchive && (
+          <Button appearance="subtle" size="small" onClick={onArchiveTickets} disabled={ticketCount === 0}>
+            Archivieren
+          </Button>
+        )}
+      </div>
     </section>
   );
 }
 
 function TicketCard({
   ticket,
+  columnTitle,
   assignee,
+  dragDisabled,
+  canArchive,
+  onArchive,
   onEdit,
   onDelete,
 }: {
   ticket: Ticket;
+  columnTitle: string;
   assignee: PortalUser | undefined;
+  dragDisabled: boolean;
+  canArchive: boolean;
+  onArchive: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id });
-  const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id, disabled: dragDisabled });
+  const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.2 : 1 };
+  const tone = columnTitle === "Erledigt" ? "done" : columnTitle === "In Review" ? "review" : columnTitle === "In Arbeit" ? "doing" : "todo";
 
   return (
     <article
-      className="ticket-card"
+      className={`ticket-card ticket-card--${tone}`}
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -442,15 +669,72 @@ function TicketCard({
     >
       <div className="ticket-card__header">
         <span className="ticket-card__title">{ticket.title}</span>
-        <button
-          type="button"
-          className="ticket-card__delete"
-          aria-label="Ticket löschen"
-          title="Ticket löschen"
-          onClick={(event) => { event.stopPropagation(); onDelete(); }}
-        >
+        <div className="ticket-card__actions">
+          <button
+            type="button"
+            className="ticket-card__action"
+            aria-label="Ticket bearbeiten"
+            title="Ticket bearbeiten"
+            onClick={(event) => { event.stopPropagation(); onEdit(); }}
+          >
+            <Edit16Regular />
+          </button>
+          {canArchive && (
+            <button
+              type="button"
+              className="ticket-card__action"
+              aria-label="Ticket archivieren"
+              title="Ticket archivieren"
+              onClick={(event) => { event.stopPropagation(); onArchive(); }}
+            >
+              <Archive16Regular />
+            </button>
+          )}
+          <button
+            type="button"
+            className="ticket-card__delete"
+            aria-label="Ticket löschen"
+            title="Ticket löschen"
+            onClick={(event) => { event.stopPropagation(); onDelete(); }}
+          >
+            <Delete16Regular />
+          </button>
+        </div>
+      </div>
+      {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+    </article>
+  );
+}
+
+function ColumnCardPreview({ column }: { column: BoardColumn }) {
+  return (
+    <section className="board-column board-column--drag-overlay" aria-hidden="true" role="presentation">
+      <header className="board-column__header">
+        <h2>{column.title}</h2>
+      </header>
+    </section>
+  );
+}
+
+function TicketCardPreview({
+  ticket,
+  columnTitle,
+  assignee,
+}: {
+  ticket: Ticket;
+  columnTitle: string;
+  assignee: PortalUser | undefined;
+}) {
+  const tone = columnTitle === "Erledigt" ? "done" : columnTitle === "In Review" ? "review" : columnTitle === "In Arbeit" ? "doing" : "todo";
+
+  return (
+    <article className={`ticket-card ticket-card--${tone} ticket-card--drag-overlay`} role="presentation" aria-hidden="true">
+      <div className="ticket-card__header">
+        <span className="ticket-card__title">{ticket.title}</span>
+        <div className="ticket-card__actions">
+          <Edit16Regular />
           <Delete16Regular />
-        </button>
+        </div>
       </div>
       {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
     </article>
@@ -498,13 +782,20 @@ function EditTicketDialog({
             <DialogTitle>Ticket bearbeiten</DialogTitle>
             <DialogContent className="ticket-dialog-content">
               <Field label="Titel">
-                <Input value={title} onChange={(_event, data) => setTitle(data.value)} autoFocus />
+                <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} autoFocus />
               </Field>
               <Field label="Beschreibung">
-                <Textarea value={description} onChange={(_event, data) => setDescription(data.value)} rows={4} />
+                <textarea
+                  className="ticket-dialog__textarea"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  rows={10}
+                  placeholder="Beschreibung eingeben"
+                />
               </Field>
               <Field label="Zuweisung">
                 <Dropdown
+                  className="ticket-dialog__dropdown"
                   value={assigneeName}
                   selectedOptions={assigneeId ? [assigneeId] : []}
                   onOptionSelect={(_event, data) => setAssigneeId(data.optionValue ?? "")}
@@ -517,6 +808,7 @@ function EditTicketDialog({
               </Field>
               <Field label="Spalte">
                 <Dropdown
+                  className="ticket-dialog__dropdown"
                   value={columnName}
                   selectedOptions={[columnId]}
                   onOptionSelect={(_event, data) => { if (data.optionValue) setColumnId(data.optionValue); }}

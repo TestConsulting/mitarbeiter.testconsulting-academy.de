@@ -105,4 +105,41 @@ describe("tickets router", () => {
     const response = await agent.delete(`/api/tickets/${ticketId}`).expect(200);
     expect(response.body.tickets).toEqual([]);
   });
+
+  it("lists archived tickets", async () => {
+    const agent = await loginAs(fixture.employeeUser.email);
+    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Altes Ticket" }).expect(201);
+    await agent.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
+
+    const response = await agent.get("/api/tickets/archived").expect(200);
+    expect(response.body.tickets).toHaveLength(1);
+    expect(response.body.tickets[0].title).toBe("Altes Ticket");
+  });
+
+  it("restores an archived ticket", async () => {
+    const agent = await loginAs(fixture.employeeUser.email);
+    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Restore me" }).expect(201);
+    await agent.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
+
+    const archived = await agent.get("/api/tickets/archived").expect(200);
+    const archivedId = archived.body.tickets[0].id as string;
+    const restored = await agent.post(`/api/tickets/${archivedId}/restore`).send({}).expect(200);
+
+    expect(restored.body.tickets.some((ticket: { id: string }) => ticket.id === archivedId)).toBe(true);
+  });
+
+  it("archives a single done ticket", async () => {
+    const agent = await loginAs(fixture.employeeUser.email);
+    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    const created = await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Only me" }).expect(201);
+    const ticketId = created.body.tickets.find((entry: { title: string }) => entry.title === "Only me").id as string;
+
+    const response = await agent.post(`/api/tickets/${ticketId}/archive`).send({}).expect(200);
+    expect(response.body.tickets.some((ticket: { id: string }) => ticket.id === ticketId)).toBe(false);
+  });
 });
