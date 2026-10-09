@@ -215,17 +215,14 @@ a { color: inherit; }
 .empty-state a { text-decoration: none; }
 .route-loading { display: grid; min-height: 100vh; place-content: center; padding: 24px; }
 
-.portal-main:has(.application-links-page, .benefits-page) { background: var(--canvas); }
+.portal-main:has(.application-links-page, .benefits-page) { background: transparent; }
 :is(.application-links-page, .benefits-page) { padding-top: 12px; }
 :is(.application-links-page, .benefits-page) .page-heading { flex-wrap: wrap; }
 :is(.application-links-page, .benefits-page) h1 { font-size: 27px; letter-spacing: -.6px; text-transform: none; }
 :is(.application-links-intro, .benefits-intro) { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 :is(.application-links-grid, .benefits-grid) { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 22px; margin-top: 20px; }
-:is(.application-link-card, .benefit-card) { --tile-accent: var(--primary); --tile-tint: var(--surface-strong); position: relative; display: flex; min-width: 0; min-height: 280px; flex-direction: column; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 22px; background: color-mix(in srgb, var(--accent) 8%, var(--surface-alt)); color: var(--text); box-shadow: 0 6px 22px var(--shadow); overflow: hidden; overflow-wrap: anywhere; }
-:root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card) { --tile-tint: #eaf3ff; background: linear-gradient(145deg, #fff 65%, var(--tile-tint)); }
-:root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card):nth-child(4n + 2) { --tile-tint: #f3edff; }
-:root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card):nth-child(4n + 3) { --tile-tint: #e8f8f3; }
-:root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card):nth-child(4n + 4) { --tile-tint: #fff2e7; }
+:is(.application-link-card, .benefit-card) { --tile-accent: var(--primary); --tile-tint: var(--surface-strong); --tile-left-accent: var(--accent); position: relative; display: flex; min-width: 0; min-height: 280px; flex-direction: column; border: 1px solid var(--border); border-left: 4px solid var(--tile-left-accent); border-radius: 22px; background: var(--surface); color: var(--text); box-shadow: 0 6px 22px var(--shadow); overflow: hidden; overflow-wrap: anywhere; }
+:root:not([data-theme="dark"]) :is(.application-link-card, .benefit-card) { --tile-left-accent: var(--primary); }
 :is(.application-link-card--dragging, .benefit-card--dragging) { z-index: 1; opacity: 0.8; box-shadow: 0 5px 14px var(--shadow-strong); }
 .application-links-grid { grid-template-columns: repeat(auto-fill, min(100%, 280px)); }
 .application-link-card { height: auto; min-height: 280px; aspect-ratio: 1; }
@@ -270,7 +267,7 @@ a { color: inherit; }
 :is(.application-link-card--sortable, .benefit-card--sortable):active { cursor: grabbing; }
 :is(.application-link-card--sortable, .benefit-card--sortable):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .application-links-grid .application-link-card__actions { flex: 0 0 auto; padding: 8px 16px; }
-:is(.application-link-card, .benefit-card):hover { border-color: var(--muted); border-left-color: var(--accent); box-shadow: 0 8px 26px var(--shadow-strong); }
+:is(.application-link-card, .benefit-card):hover { border-color: var(--muted); border-left-color: var(--tile-left-accent); box-shadow: 0 8px 26px var(--shadow-strong); }
 :is(.application-link-card__content, .benefit-card__content) { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 16px; padding: 26px 24px 22px; }
 :is(.application-link-card__icon, .benefit-card__icon) { display: grid; min-width: 68px; max-width: 100%; min-height: 58px; place-items: center; padding: 8px 12px; border: 1px solid color-mix(in srgb, var(--tile-accent) 12%, transparent); border-radius: 17px; background: var(--tile-tint); color: var(--tile-accent); font-size: 15px; font-weight: 700; letter-spacing: .3px; }
 :is(.application-link-card, .benefit-card) h2 { margin: 0; color: var(--text); font-size: 21px; font-weight: 600; letter-spacing: -.4px; }
