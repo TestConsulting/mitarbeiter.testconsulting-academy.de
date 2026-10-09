@@ -29,14 +29,10 @@ import {
 import { Add20Regular, Archive16Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
-import { canManagePortal } from "@portal/shared";
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
-import { useAuth } from "../app/auth-context.js";
 
 export function TasksBoardPage() {
-  const { user } = useAuth();
-  const isAdmin = canManagePortal(user);
   const navigate = useNavigate();
   const [board, setBoard] = useState<BoardState | null>(null);
   const [users, setUsers] = useState<PortalUser[]>([]);
