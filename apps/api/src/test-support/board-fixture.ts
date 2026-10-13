@@ -54,6 +54,15 @@ export async function createBoardFixture(): Promise<BoardFixture> {
       const { passwordHash: _passwordHash, ...publicUser } = match;
       return publicUser;
     },
+    async findByIdWithPasswordHash(id) {
+      return [adminUser, employeeUser].find((user) => user.id === id) ?? null;
+    },
+    async updatePasswordHash(id, passwordHash) {
+      const match = [adminUser, employeeUser].find((user) => user.id === id);
+      if (!match) return false;
+      match.passwordHash = passwordHash;
+      return true;
+    },
     async listAll() {
       return [adminUser, employeeUser].map(({ passwordHash: _passwordHash, ...publicUser }) => publicUser);
     },

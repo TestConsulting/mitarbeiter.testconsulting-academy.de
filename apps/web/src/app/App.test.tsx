@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App.js";
@@ -8,6 +8,7 @@ const authApi = vi.hoisted(() => ({
   me: vi.fn(),
   login: vi.fn(),
   logout: vi.fn(),
+  auth: { changePassword: vi.fn() },
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
 }));
@@ -20,9 +21,11 @@ vi.mock("../api/client.js", () => ({
 }));
 
 beforeEach(() => {
+  window.history.replaceState({}, "", "/");
   authApi.me.mockResolvedValue(testUser);
   authApi.login.mockResolvedValue(testUser);
   authApi.logout.mockResolvedValue({ success: true });
+  authApi.auth.changePassword.mockResolvedValue({ success: true });
   authApi.links.list.mockResolvedValue([]);
   authApi.benefits.list.mockResolvedValue([]);
 });
@@ -77,5 +80,64 @@ describe("portal shell", () => {
     expect(await screen.findByRole("heading", { name: "Test-Benefit", level: 1 })).toBeInTheDocument();
     expect(screen.getByText("Alle Details")).toBeInTheDocument();
     expect(authApi.benefits.get).toHaveBeenCalledWith("benefit-1");
+  });
+
+  it("opens the same profile from the account navigation and header, then updates the password", async () => {
+    render(<App />);
+    await screen.findByRole("heading", { name: "Willkommen, Alex" });
+
+    const sidebar = screen.getByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(sidebar).getByRole("link", { name: "Mein Profil" }));
+    const personalData = within(await screen.findByRole("region", { name: "Persönliche Daten" }));
+    expect(personalData.getByText("Alex")).toBeInTheDocument();
+    expect(personalData.getByText("Beispiel")).toBeInTheDocument();
+    expect(personalData.getByText("alex@example.test")).toBeInTheDocument();
+    expect(personalData.getByText("Mitarbeiter")).toBeInTheDocument();
+
+    const passwordSection = within(screen.getByRole("region", { name: "Sicherheit" }));
+    expect(passwordSection.getByText("Passwort")).toBeInTheDocument();
+    expect(passwordSection.getByText("••••••••")).toBeInTheDocument();
+    fireEvent.click(passwordSection.getByRole("button", { name: "Passwort ändern" }));
+    const dialog = await waitFor(() => {
+      const el = document.querySelector('[role="dialog"]');
+      if (!el) throw new Error("Dialog not found");
+      return el as HTMLElement;
+    });
+    expect(within(dialog).getByText("Passwort ändern", { selector: "h2" })).toBeInTheDocument();
+
+    const currentPwInput = within(dialog).getByLabelText("Aktuelles Passwort", { selector: "input" });
+    const newPwInput = within(dialog).getByLabelText("Neues Passwort", { selector: "input" });
+    const confirmPwInput = within(dialog).getByLabelText("Neues Passwort bestätigen", { selector: "input" });
+
+    fireEvent.change(currentPwInput, { target: { value: "old-password-value" } });
+    fireEvent.change(newPwInput, { target: { value: "new-password-value" } });
+    fireEvent.change(confirmPwInput, { target: { value: "new-password-value" } });
+
+    const submitButton = within(dialog)
+      .getAllByRole("button", { hidden: true })
+      .find((button) => button.textContent?.includes("Passwort ändern"));
+    expect(submitButton).toBeDefined();
+    fireEvent.click(submitButton!);
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Dein Passwort wurde geändert.");
+    expect(authApi.auth.changePassword).toHaveBeenCalledWith(
+      "old-password-value",
+      "new-password-value",
+      "new-password-value",
+    );
+
+    const headerProfile = screen.getByRole("link", { name: "Mein Profil: alex@example.test" });
+    fireEvent.click(headerProfile);
+    expect(screen.getByRole("heading", { name: "Mein Profil" })).toBeInTheDocument();
+
+    const personalSubLink = within(sidebar).getByRole("link", { name: "Persönliche Daten" });
+    fireEvent.click(personalSubLink);
+    expect(await screen.findByRole("region", { name: "Persönliche Daten" })).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Sicherheit" })).not.toBeInTheDocument();
+
+    const securitySubLink = within(sidebar).getByRole("link", { name: "Sicherheit" });
+    fireEvent.click(securitySubLink);
+    expect(await screen.findByRole("region", { name: "Sicherheit" })).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Persönliche Daten" })).not.toBeInTheDocument();
   });
 });

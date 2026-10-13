@@ -39,6 +39,14 @@ export const api = {
   logout() {
     return request<{ success: true }>("/api/auth/logout", { method: "POST" });
   },
+  auth: {
+    changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {
+      return request<{ success: true }>("/api/auth/password", {
+        method: "POST",
+        body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
+      });
+    },
+  },
   users: {
     async list() {
       const result = await request<{ users: PortalUser[] }>("/api/users");

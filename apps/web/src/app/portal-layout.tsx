@@ -1,6 +1,17 @@
+import { useState } from "react";
 import { Button } from "@fluentui/react-components";
-import { ArrowExit20Regular, Home24Regular, WeatherMoon20Filled, WeatherSunny20Regular } from "@fluentui/react-icons";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  ArrowExit20Regular,
+  ChevronDown16Regular,
+  ChevronRight16Regular,
+  ContactCard16Regular,
+  Home24Regular,
+  Person20Regular,
+  Shield16Regular,
+  WeatherMoon20Filled,
+  WeatherSunny20Regular,
+} from "@fluentui/react-icons";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { portalAreas } from "@portal/shared";
 import { useAuth } from "./auth-context.js";
 import { AreaIcon } from "./area-icon.js";
@@ -31,6 +42,9 @@ function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
 export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isProfileActive = location.pathname.startsWith("/profile");
+  const [accountExpanded, setAccountExpanded] = useState(true);
 
   async function handleSignOut() {
     try {
@@ -41,6 +55,8 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
     }
   }
 
+  const isExpanded = accountExpanded && isProfileActive;
+
   return (
     <div className="portal-root">
       <header className="portal-header">
@@ -48,10 +64,12 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
           <img className="brand-logo brand-logo--header" src="/images/testconsulting-logo.png" alt="TestConsulting Logo" />
         </a>
         <div className="header-account">
-          <span className="avatar" aria-label={`Angemeldet als ${user?.name}`}>
-            {user?.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
-          </span>
-          <span className="header-account__name">{user?.name}</span>
+          <NavLink to="/profile" className="header-account__profile" aria-label={`Mein Profil: ${user?.email ?? ""}`}>
+            <span className="avatar" aria-hidden="true">
+              {user?.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
+            </span>
+            <span className="header-account__name">{user?.email}</span>
+          </NavLink>
           <ThemeToggle theme={theme} setTheme={setTheme} />
           <Button appearance="subtle" icon={<ArrowExit20Regular />} onClick={handleSignOut} aria-label="Abmelden" title="Abmelden" />
         </div>
@@ -71,6 +89,42 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
           </nav>
           <div className="sidebar-account">
             <span className="sidebar-label">Konto</span>
+            <div className="account-nav-group">
+              <NavLink
+                to="/profile"
+                className={({ isActive }) => `nav-item nav-item--parent${isActive ? " nav-item--active" : ""}`}
+                onClick={() => {
+                  if (isProfileActive) {
+                    setAccountExpanded((prev) => !prev);
+                  } else {
+                    setAccountExpanded(true);
+                  }
+                }}
+              >
+                <span className="nav-item__content">
+                  <Person20Regular aria-hidden="true" /> Mein Profil
+                </span>
+                <span className="nav-item__chevron" aria-hidden="true">
+                  {isExpanded ? <ChevronDown16Regular /> : <ChevronRight16Regular />}
+                </span>
+              </NavLink>
+              {isExpanded && (
+                <div className="nav-subgroup" role="group" aria-label="Profil-Bereiche">
+                  <Link
+                    to="/profile?section=personal"
+                    className={`nav-subitem${location.search.includes("section=personal") ? " nav-subitem--active" : ""}`}
+                  >
+                    <ContactCard16Regular aria-hidden="true" /> Persönliche Daten
+                  </Link>
+                  <Link
+                    to="/profile?section=security"
+                    className={`nav-subitem${location.search.includes("section=security") ? " nav-subitem--active" : ""}`}
+                  >
+                    <Shield16Regular aria-hidden="true" /> Sicherheit
+                  </Link>
+                </div>
+              )}
+            </div>
             <Button appearance="subtle" icon={<ArrowExit20Regular />} onClick={handleSignOut} className="signout-button">
               Abmelden
             </Button>

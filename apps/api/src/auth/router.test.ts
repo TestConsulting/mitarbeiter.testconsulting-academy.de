@@ -31,6 +31,14 @@ beforeAll(async () => {
       const { passwordHash: _passwordHash, ...publicUser } = storedUser;
       return publicUser;
     },
+    async findByIdWithPasswordHash(id) {
+      return id === storedUser.id ? storedUser : null;
+    },
+    async updatePasswordHash(id, passwordHash) {
+      if (id !== storedUser.id) return false;
+      storedUser.passwordHash = passwordHash;
+      return true;
+    },
     async listAll() {
       const { passwordHash: _passwordHash, ...publicUser } = storedUser;
       return [publicUser];
@@ -48,6 +56,11 @@ beforeAll(async () => {
 describe("portal authentication", () => {
   it("rejects unauthenticated session restoration and logout", async () => {
     await request(app).get("/api/auth/me").expect(401);
+    await request(app).post("/api/auth/password").send({
+      currentPassword: "correct-horse-battery",
+      newPassword: "new-password-long-enough",
+      confirmPassword: "new-password-long-enough",
+    }).expect(401);
     await request(app).post("/api/auth/logout").expect(401);
   });
 
@@ -84,5 +97,41 @@ describe("portal authentication", () => {
     } });
     await agent.post("/api/auth/logout").expect(200, { success: true });
     await agent.get("/api/auth/me").expect(401);
+  });
+
+  it("changes a password only after validating the current password and confirmation", async () => {
+    const agent = request.agent(app);
+    await agent.post("/api/auth/login")
+      .send({ email: storedUser.email, password: "correct-horse-battery" })
+      .expect(200);
+
+    await agent.post("/api/auth/password").send({
+      currentPassword: "wrong-current-password",
+      newPassword: "new-password-long-enough",
+      confirmPassword: "new-password-long-enough",
+    }).expect(400, { error: "Das aktuelle Passwort ist nicht korrekt." });
+    await agent.post("/api/auth/password").send({
+      currentPassword: "correct-horse-battery",
+      newPassword: "new-password-long-enough",
+      confirmPassword: "different-new-password",
+    }).expect(400, { error: "Die neuen Passwörter stimmen nicht überein." });
+    await agent.post("/api/auth/password").send({
+      currentPassword: "correct-horse-battery",
+      newPassword: "short",
+      confirmPassword: "short",
+    }).expect(400);
+
+    await agent.post("/api/auth/password").send({
+      currentPassword: "correct-horse-battery",
+      newPassword: "new-password-long-enough",
+      confirmPassword: "new-password-long-enough",
+    }).expect(200, { success: true });
+
+    await request(app).post("/api/auth/login")
+      .send({ email: storedUser.email, password: "correct-horse-battery" })
+      .expect(401);
+    await request(app).post("/api/auth/login")
+      .send({ email: storedUser.email, password: "new-password-long-enough" })
+      .expect(200);
   });
 });

@@ -8,6 +8,12 @@ const loginSchema = z.object({
   password: z.string().min(1).max(1024),
 }).strict();
 
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1).max(1024),
+  newPassword: z.string().min(12).max(1024),
+  confirmPassword: z.string().min(12).max(1024),
+}).strict();
+
 export function createAuthRouter(
   users: UserRepository,
   loginLimiter: RequestHandler,
@@ -66,6 +72,54 @@ export function createAuthRouter(
         return;
       }
       response.json({ user });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post("/password", loginLimiter, async (request, response, next) => {
+    const userId = request.session.userId;
+    if (!userId) {
+      response.status(401).json({ error: "Nicht angemeldet." });
+      return;
+    }
+
+    const payload = changePasswordSchema.safeParse(request.body);
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte prüfe deine Eingaben. Das neue Passwort muss mindestens 12 Zeichen lang sein." });
+      return;
+    }
+    if (payload.data.newPassword !== payload.data.confirmPassword) {
+      response.status(400).json({ error: "Die neuen Passwörter stimmen nicht überein." });
+      return;
+    }
+
+    try {
+      const user = await users.findByIdWithPasswordHash(userId);
+      if (!user) {
+        request.session.destroy(() => undefined);
+        response.status(401).json({ error: "Nicht angemeldet." });
+        return;
+      }
+
+      const validPassword = await argon2.verify(user.passwordHash, payload.data.currentPassword).catch(() => false);
+      if (!validPassword) {
+        response.status(400).json({ error: "Das aktuelle Passwort ist nicht korrekt." });
+        return;
+      }
+
+      const passwordHash = await argon2.hash(payload.data.newPassword, {
+        type: argon2.argon2id,
+        memoryCost: 19456,
+        timeCost: 2,
+        parallelism: 1,
+      });
+      const updated = await users.updatePasswordHash(userId, passwordHash);
+      if (!updated) {
+        response.status(401).json({ error: "Nicht angemeldet." });
+        return;
+      }
+      response.json({ success: true });
     } catch (error) {
       next(error);
     }

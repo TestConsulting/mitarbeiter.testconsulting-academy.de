@@ -12,6 +12,7 @@ import { TasksBoardPage } from "../pages/tasks-board-page.js";
 import { ApplicationLinksPage } from "../pages/application-links-page.js";
 import { BenefitsPage } from "../pages/benefits-page.js";
 import { BenefitDetailPage } from "../pages/benefit-detail-page.js";
+import { ProfilePage } from "../pages/profile-page.js";
 
 type ThemeMode = "light" | "dark";
 
@@ -55,6 +56,7 @@ export function App() {
                 <Route path="/areas/applications" element={<ApplicationLinksPage />} />
                 <Route path="/areas/benefits" element={<BenefitsPage />} />
                 <Route path="/areas/benefits/:id" element={<BenefitDetailPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/areas/:area" element={<AreaPage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
