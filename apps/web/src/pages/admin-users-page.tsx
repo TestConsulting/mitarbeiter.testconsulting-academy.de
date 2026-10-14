@@ -190,7 +190,7 @@ export function AdminUsersPage() {
           <Field label="Rolle" required>
             <Select
               value={createForm.role}
-              onChange={(event) => setCreateForm((current) => ({ ...current, role: event.currentTarget.value as Role }))}
+              onChange={(_event, data) => setCreateForm((current) => ({ ...current, role: data.value as Role }))}
             >
               <option value="employee">Mitarbeiter</option>
               <option value="admin">Admin</option>
@@ -256,7 +256,7 @@ export function AdminUsersPage() {
                 <Field label="Rolle" required>
                   <Select
                     value={editForm.role}
-                    onChange={(event) => setEditForm((current) => ({ ...current, role: event.currentTarget.value as Role }))}
+                    onChange={(_event, data) => setEditForm((current) => ({ ...current, role: data.value as Role }))}
                   >
                     <option value="employee">Mitarbeiter</option>
                     <option value="admin">Admin</option>

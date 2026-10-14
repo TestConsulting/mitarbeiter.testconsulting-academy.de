@@ -2,6 +2,8 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App.js";
+import { AuthProvider } from "./auth-context.js";
+import { AdminUsersPage } from "../pages/admin-users-page.js";
 
 const testUser = { id: "u1", email: "alex@example.test", name: "Alex Beispiel", role: "employee" as const };
 const authApi = vi.hoisted(() => ({
@@ -11,6 +13,7 @@ const authApi = vi.hoisted(() => ({
   auth: { changePassword: vi.fn() },
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
+  users: { list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -28,6 +31,10 @@ beforeEach(() => {
   authApi.auth.changePassword.mockResolvedValue({ success: true });
   authApi.links.list.mockResolvedValue([]);
   authApi.benefits.list.mockResolvedValue([]);
+  authApi.users.list.mockResolvedValue([]);
+  authApi.users.create.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
+  authApi.users.update.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
+  authApi.users.delete.mockResolvedValue({ success: true });
 });
 
 describe("portal shell", () => {
@@ -139,5 +146,24 @@ describe("portal shell", () => {
     fireEvent.click(securitySubLink);
     expect(await screen.findByRole("region", { name: "Sicherheit" })).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Persönliche Daten" })).not.toBeInTheDocument();
+  });
+
+  it("allows selecting the admin role in the user form without crashing", async () => {
+    const adminUser = { id: "admin-1", email: "admin@example.test", name: "Admin Beispiel", role: "admin" as const };
+    authApi.me.mockResolvedValue(adminUser);
+    authApi.users.list.mockResolvedValue([]);
+
+    render(
+      <AuthProvider>
+        <AdminUsersPage />
+      </AuthProvider>,
+    );
+
+    await screen.findByRole("heading", { name: "Benutzerverwaltung" });
+    const roleSelect = screen.getAllByRole("combobox")[0];
+    expect(roleSelect).toHaveValue("employee");
+
+    await userEvent.selectOptions(roleSelect, "admin");
+    expect(roleSelect).toHaveValue("admin");
   });
 });
