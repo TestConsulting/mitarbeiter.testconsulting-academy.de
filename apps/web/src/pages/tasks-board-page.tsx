@@ -395,7 +395,7 @@ export function TasksBoardPage() {
           <form onSubmit={handleCreateColumn}>
             <DialogBody>
               <DialogTitle>Neue Spalte</DialogTitle>
-              <DialogContent>
+              <DialogContent className="board-column-dialog-content">
                 <Field label="Name der Spalte">
                   <Input value={newColumnTitle} onChange={(_event, data) => setNewColumnTitle(data.value)} autoFocus />
                 </Field>
@@ -416,7 +416,7 @@ export function TasksBoardPage() {
           <form onSubmit={handleRenameColumn}>
             <DialogBody>
               <DialogTitle>Spalte umbenennen</DialogTitle>
-              <DialogContent>
+              <DialogContent className="board-column-dialog-content">
                 <Field label="Name der Spalte">
                   <Input value={renameTitle} onChange={(_event, data) => setRenameTitle(data.value)} autoFocus />
                 </Field>

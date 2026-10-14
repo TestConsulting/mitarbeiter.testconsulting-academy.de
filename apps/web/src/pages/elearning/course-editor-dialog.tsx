@@ -150,14 +150,14 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
         <form onSubmit={submit}>
           <DialogBody>
             <DialogTitle>{course ? "Kurs bearbeiten" : "Kurs anlegen"}</DialogTitle>
-            <DialogContent>
+            <DialogContent className="course-editor-form">
               {error && <MessageBar intent="error"><MessageBarBody>{error}</MessageBarBody></MessageBar>}
               <div className="course-editor-fields">
                 <Field label="Kurstitel" required>
                   <Input value={title} onChange={(_event, data) => setTitle(data.value)} maxLength={160} required />
                 </Field>
                 <Field label="Kategorie" required>
-                  <Select value={category} onChange={(event) => setCategory(event.currentTarget.value as CourseCategory)}>
+                  <Select value={category} onChange={(_event, data) => setCategory(data.value as CourseCategory)}>
                     <option value="Vorstellung">Vorstellung</option>
                     <option value="ISTQB">ISTQB</option>
                     <option value="Sonstiges">Sonstiges</option>
@@ -241,8 +241,8 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
                     <Field label="Antworttyp">
                       <Select
                         value={question.type}
-                        onChange={(event) => updateQuestion(question.id, (item) => {
-                          const type = event.currentTarget.value as PracticeQuestion["type"];
+                        onChange={(_event, data) => updateQuestion(question.id, (item) => {
+                          const type = data.value as PracticeQuestion["type"];
                           return {
                             ...item,
                             type,
