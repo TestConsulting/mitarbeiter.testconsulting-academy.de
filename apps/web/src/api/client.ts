@@ -1,4 +1,4 @@
-import type { AppLink, AppLinkInput, ArchivedTicket, Benefit, BenefitInput, BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
+import type { AppLink, AppLinkInput, ArchivedTicket, Benefit, BenefitInput, BoardColumn, BoardState, Course, CourseInput, LearningMaterial, PortalUser, Ticket } from "@portal/shared";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -134,6 +134,51 @@ export const api = {
     },
     delete(id: string) {
       return request<{ success: true }>(`/api/benefits/${encodeURIComponent(id)}`, { method: "DELETE" });
+    },
+  },
+  courses: {
+    async list() {
+      const result = await request<{ courses: Course[] }>("/api/courses");
+      return result.courses;
+    },
+    async get(slug: string) {
+      const result = await request<{ course: Course }>(`/api/courses/${encodeURIComponent(slug)}`);
+      return result.course;
+    },
+    async create(input: CourseInput) {
+      const result = await request<{ course: Course }>("/api/courses", {
+        method: "POST", body: JSON.stringify(input),
+      });
+      return result.course;
+    },
+    async update(id: string, input: CourseInput) {
+      const result = await request<{ course: Course }>(`/api/courses/${encodeURIComponent(id)}`, {
+        method: "PUT", body: JSON.stringify(input),
+      });
+      return result.course;
+    },
+    delete(id: string) {
+      return request<{ success: true }>(`/api/courses/${encodeURIComponent(id)}`, { method: "DELETE" });
+    },
+    async uploadMaterial(file: File) {
+      const response = await fetch("/api/courses/materials", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/pdf",
+          "X-File-Name": encodeURIComponent(file.name),
+        },
+        body: file,
+      });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({})) as { error?: string };
+        throw new ApiError(payload.error ?? "Die PDF-Datei konnte nicht hochgeladen werden.", response.status);
+      }
+      const result = await response.json() as { material: LearningMaterial };
+      return result.material;
+    },
+    deleteMaterial(id: string) {
+      return request<{ success: true }>(`/api/courses/materials/${encodeURIComponent(id)}`, { method: "DELETE" });
     },
   },
   board: {

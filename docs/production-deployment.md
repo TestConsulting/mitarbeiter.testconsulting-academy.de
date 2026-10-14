@@ -10,7 +10,7 @@ Der Host-Nginx muss beim Proxy an `http://127.0.0.1:8090` mindestens `Host`, `X-
 
 ## Erstdeployment
 
-Jenkins baut die Images, startet PostgreSQL und führt die vorhandenen, wiederholbar ausführbaren SQL-Dateien in `apps/api/migrations` in Dateinamenreihenfolge aus. Jeder SQL-Fehler bricht den Job ab. Danach importiert Jenkins fehlende Links und Benefits aus `deploy/portal-content.json`, startet die Anwendung und prüft Startseite und API-Healthcheck. Gleichzeitige Deployments desselben Jobs sind gesperrt.
+Jenkins baut die Images, startet PostgreSQL und führt die vorhandenen, wiederholbar ausführbaren SQL-Dateien in `apps/api/migrations` in Dateinamenreihenfolge aus. Jeder SQL-Fehler bricht den Job ab. Danach importiert Jenkins fehlende Links und Benefits aus `deploy/portal-content.json`, initialisiert einmalig die Standardkurse, startet die Anwendung und prüft Startseite und API-Healthcheck. Gleichzeitige Deployments desselben Jobs sind gesperrt.
 
 `001_create_users.sql` legt die Benutzertabelle an; `002_create_board.sql` legt Board- und Ticket-Tabellen an und erstellt die Standardspalten, falls noch keine vorhanden sind. `003_create_app_links.sql` und `004_create_benefits.sql` legen die Tabellen für Links und Benefits an. Die API selbst führt diese Schema-Migrationen nicht aus. Ihre PostgreSQL-Sitzungstabelle `portal_sessions` wird beim Start durch `connect-pg-simple` angelegt. Zukünftige nicht wiederholbare Migrationen benötigen vor Aufnahme in diesen Ablauf eine Migrationshistorie.
 
@@ -45,6 +45,8 @@ Mit `"updateExistingBenefits": true` aktualisiert Jenkins Kurzbeschreibung, Deta
 `005_order_benefits.sql` ergänzt die gespeicherte Reihenfolge für Benefits. Beim ersten Durchlauf bleibt ihre bisherige alphabetische Reihenfolge erhalten; wiederholte Deployments setzen eine bereits per Drag-and-drop gespeicherte Reihenfolge nicht zurück. Die Migration verändert weder Benutzer noch Benefit-Inhalte.
 
 `006_benefit_urls.sql` ergänzt eine optionale Zieladresse für Benefits. Bestehende Benefits erhalten `url = NULL` und bleiben ohne externen Link verwendbar. Neue Exporte enthalten die URL; ältere Exportdateien ohne dieses Feld sind weiterhin importierbar. Bereits vorhandene Prod-Benefits werden nur mit aktiviertem `updateExistingBenefits` aktualisiert.
+
+`008_create_elearning_courses.sql` legt den persistenten Kurskatalog, die einmalige Initialisierungsmarkierung und den PostgreSQL-Speicher für hochgeladene PDFs an (maximal 25 MB je Datei). Der nachfolgende Content-Import fügt die versionierten Standardkurse nur beim ersten Lauf ein; Änderungen und Löschungen aus der Benutzeroberfläche werden nicht bei späteren Deployments überschrieben. Alle angemeldeten Mitarbeitenden können Kurse ansehen und absolvieren. Kurs-, Fragen- und PDF-Verwaltung ist serverseitig auf Admins beschränkt.
 
 Der gesamte Import läuft in einer Transaktion und sperrt Schreibzugriffe auf beide Tabellen für seine Dauer. Fehler brechen den Job ab und rollen den Import zurück. Der Seed für Benutzer wird dabei nicht ausgeführt. Eine fehlende oder ungültige Exportdatei ist ein Deploymentfehler.
 

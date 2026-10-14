@@ -1,3 +1,18 @@
+export {
+  courseCategories,
+  coursesData,
+  getCourseBySlug,
+  getCourses,
+} from "./elearning.js";
+export type {
+  Course,
+  CourseCategory,
+  CourseInput,
+  LearningMaterial,
+  PracticeQuestion,
+  QuestionOption,
+} from "./elearning.js";
+
 export type PortalUser = {
   id: string;
   email: string;

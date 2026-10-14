@@ -16,6 +16,8 @@ import { createTicketsRouter } from "./tickets/router.js";
 import { createUsersRouter } from "./users/router.js";
 import { createBenefitRepository, type BenefitRepository } from "./db/benefit-repository.js";
 import { createBenefitsRouter } from "./benefits/router.js";
+import { createCoursesRouter } from "./courses/router.js";
+import { createCourseRepository, type CourseRepository } from "./db/course-repository.js";
 
 const PgStore = pgSession(session);
 
@@ -25,6 +27,7 @@ type AppOptions = {
   boardRepository?: BoardRepository;
   appLinkRepository?: AppLinkRepository;
   benefitRepository?: BenefitRepository;
+  courseRepository?: CourseRepository;
   sessionStore?: session.Store;
   sessionSecret?: string;
   webOrigin?: string;
@@ -60,12 +63,14 @@ export function createApp(options: AppOptions = {}) {
   const board = options.boardRepository ?? createBoardRepository(database as Pool);
   const links = options.appLinkRepository ?? createAppLinkRepository(database);
   const benefits = options.benefitRepository ?? createBenefitRepository(database);
+  const courses = options.courseRepository ?? createCourseRepository(database);
 
   app.disable("x-powered-by");
   if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
   app.use(helmet());
   app.use(cors({ origin: webOrigin, credentials: true }));
   app.use("/api/benefits", express.json({ limit: "32kb" }));
+  app.use("/api/courses", express.json({ limit: "1mb" }));
   app.use(express.json({ limit: "10kb" }));
   app.use(session({
     name: "tc.portal.sid",
@@ -99,6 +104,7 @@ export function createApp(options: AppOptions = {}) {
   app.use("/api/tickets", createTicketsRouter(board, users));
   app.use("/api/links", createLinksRouter(links, users));
   app.use("/api/benefits", createBenefitsRouter(benefits, users));
+  app.use("/api/courses", createCoursesRouter(courses, users));
   app.use("/api", (_request, response) => {
     response.status(404).json({ error: "Route nicht gefunden." });
   });

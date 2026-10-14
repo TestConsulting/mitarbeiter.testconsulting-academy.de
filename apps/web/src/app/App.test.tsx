@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { coursesData } from "@portal/shared";
 import { App } from "./App.js";
 import { AuthProvider } from "./auth-context.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
@@ -14,6 +15,7 @@ const authApi = vi.hoisted(() => ({
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
   users: { list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
+  courses: { list: vi.fn(), get: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -35,6 +37,10 @@ beforeEach(() => {
   authApi.users.create.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
   authApi.users.update.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
   authApi.users.delete.mockResolvedValue({ success: true });
+  authApi.courses.list.mockResolvedValue([...coursesData]);
+  authApi.courses.get.mockImplementation((slug: string) => Promise.resolve(
+    coursesData.find((course) => course.slug === slug || course.id === slug),
+  ));
 });
 
 describe("portal shell", () => {
@@ -165,5 +171,26 @@ describe("portal shell", () => {
 
     await userEvent.selectOptions(roleSelect, "admin");
     expect(roleSelect).toHaveValue("admin");
+  });
+
+  it("opens eLearning from navigation and navigates to course details and practice runner", async () => {
+    render(<App />);
+    const sidebarNav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "eLearning" }));
+
+    expect(await screen.findByRole("heading", { name: /eLearning/i, level: 1 })).toBeInTheDocument();
+    expect(screen.queryByText("Dieser Bereich wird in einer späteren Phase eingerichtet.")).not.toBeInTheDocument();
+
+    const firstCourseCard = (await screen.findByRole("heading", { name: /Fragenkatalog Essentials/i })).closest("article");
+    const courseLink = within(firstCourseCard!).getByRole("link", { name: /Kurs ansehen/i });
+    await userEvent.click(courseLink);
+
+    expect(await screen.findByRole("heading", { name: "Fragenkatalog Essentials", level: 1 })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Herunterladen/i })).toBeInTheDocument();
+
+    const practiceStartLink = screen.getByRole("link", { name: /Übung starten/i });
+    await userEvent.click(practiceStartLink);
+    expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
+    expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
   });
 });

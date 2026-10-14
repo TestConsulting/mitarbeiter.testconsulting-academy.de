@@ -3,6 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pool } from "./pool.js";
+import { createCourseRepository } from "./course-repository.js";
 import { exportPortalContent, importPortalContent } from "./portal-content.js";
 
 const [command, file] = process.argv.slice(2);
@@ -19,7 +20,8 @@ try {
   } else {
     const content: unknown = JSON.parse(await readFile(path, "utf8"));
     const added = await importPortalContent(pool, content, command === "import-missing" ? "missing-only" : "configured");
-    console.info(`Added ${added.links} missing links and ${added.benefits} missing benefits. ${command === "import-missing" ? "Existing content left unchanged." : "Existing content updated only when updateExistingLinks or updateExistingBenefits is enabled."}`);
+    const seededCourses = await createCourseRepository(pool).importDefaults();
+    console.info(`Added ${added.links} missing links, ${added.benefits} missing benefits, and initialized ${seededCourses} default courses. ${command === "import-missing" ? "Existing content left unchanged." : "Existing content updated only when updateExistingLinks or updateExistingBenefits is enabled."}`);
   }
 } finally {
   await pool.end();

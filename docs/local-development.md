@@ -29,6 +29,8 @@
    Get-Content -Raw apps/api/migrations/004_create_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/005_order_benefits.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/006_benefit_urls.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/007_enable_multi_user_management.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/008_create_elearning_courses.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
 
@@ -60,9 +62,13 @@ Die API legt beim Start die PostgreSQL-Tabelle `portal_sessions` über `connect-
 
 ### Kacheln nach einem Pull lokal übernehmen
 
-Die freigegebenen Application Links und Benefits sind in [deploy/portal-content.json](../deploy/portal-content.json) versioniert. Nach `git pull` und dem normalen Datenbank-/Account-Setup importiert `npm run dev` automatisch fehlende Kacheln, bevor die API startet. Das gilt auch für `npm run dev --workspace @portal/api`. Die Datenbank muss laufen und alle Migrationen müssen angewendet sein (einschließlich `005_order_benefits.sql` und `006_benefit_urls.sql`); Importfehler werden ausgegeben und verhindern den API-Start, statt ein leeres Portal vorzutäuschen.
+Die freigegebenen Application Links und Benefits sind in [deploy/portal-content.json](../deploy/portal-content.json) versioniert. Nach `git pull` und dem normalen Datenbank-/Account-Setup importiert `npm run dev` automatisch fehlende Kacheln und richtet einmalig die Standardkurse ein, bevor die API startet. Das gilt auch für `npm run dev --workspace @portal/api`. Die Datenbank muss laufen und alle Migrationen müssen angewendet sein (einschließlich `005_order_benefits.sql`, `006_benefit_urls.sql`, `007_enable_multi_user_management.sql` und `008_create_elearning_courses.sql`); Importfehler werden ausgegeben und verhindern den API-Start, statt ein leeres Portal vorzutäuschen.
 
-Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-Stamm einmal `npm run content:import:local --workspace @portal/api` ausführen. Der lokale Import lädt die `.env` im Repository-Stamm und ergänzt nur fehlende URLs bzw. Benefit-Titel, auch wenn die Exportdatei Update-Flags für Produktion enthält. Bestehende Inhalte und Reihenfolgen werden nicht überschrieben, zusätzliche lokale Kacheln nicht gelöscht. Wiederholte Starts erzeugen keine Duplikate. Tasks-Tickets, Benutzer, Passwörter und Sitzungen werden nicht übertragen.
+Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-Stamm einmal `npm run content:import:local --workspace @portal/api` ausführen. Der lokale Import lädt die `.env` im Repository-Stamm, ergänzt nur fehlende URLs bzw. Benefit-Titel und importiert die Standardkurse ausschließlich beim ersten Lauf. Bestehende Inhalte und Reihenfolgen werden nicht überschrieben, zusätzliche lokale Kacheln nicht gelöscht. Wiederholte Starts erzeugen keine Duplikate. Tasks-Tickets, Benutzer, Passwörter und Sitzungen werden nicht übertragen.
+
+### eLearning-Kurse verwalten
+
+Alle angemeldeten Mitarbeitenden können Kurse, Lernmaterialien und Übungen lesen. Nur Admins können Kurse samt PDFs und Übungsfragen anlegen, bearbeiten oder löschen. Hochgeladene PDFs werden in PostgreSQL gespeichert; pro Datei gilt ein Limit von 25 MB. Die initialen Standardkurse werden beim ersten lokalen Content-Import einmalig angelegt. Die Kursübersicht für Mitarbeitende zeigt weiterhin die ersten zwei Kurse; Admins sehen alle Kurse zur Verwaltung.
 
 Neue lokal angelegte Links und Benefits werden nicht allein durch einen Code-Push übertragen. Für ihre Freigabe im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins importiert denselben Export auf Produktion; dort können `updateExistingLinks` und `updateExistingBenefits` bestehende Inhalte ausdrücklich aktualisieren. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen).
 
