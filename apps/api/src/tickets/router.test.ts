@@ -107,9 +107,10 @@ describe("tickets router", () => {
   });
 
   it("lists archived tickets", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const admin = await loginAs(fixture.adminUser.email);
+    const doneColumn = await admin.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
     const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    const agent = await loginAs(fixture.employeeUser.email);
     await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Altes Ticket" }).expect(201);
     await agent.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
 
@@ -119,9 +120,10 @@ describe("tickets router", () => {
   });
 
   it("restores an archived ticket", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const admin = await loginAs(fixture.adminUser.email);
+    const doneColumn = await admin.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
     const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    const agent = await loginAs(fixture.employeeUser.email);
     await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Restore me" }).expect(201);
     await agent.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
 
@@ -133,13 +135,26 @@ describe("tickets router", () => {
   });
 
   it("archives a single done ticket", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    const doneColumn = await agent.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const admin = await loginAs(fixture.adminUser.email);
+    const doneColumn = await admin.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
     const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    const agent = await loginAs(fixture.employeeUser.email);
     const created = await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Only me" }).expect(201);
     const ticketId = created.body.tickets.find((entry: { title: string }) => entry.title === "Only me").id as string;
 
     const response = await agent.post(`/api/tickets/${ticketId}/archive`).send({}).expect(200);
     expect(response.body.tickets.some((ticket: { id: string }) => ticket.id === ticketId)).toBe(false);
+  });
+
+  it("allows employees to read archived tickets", async () => {
+    const admin = await loginAs(fixture.adminUser.email);
+    const doneColumn = await admin.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
+    const doneColumnId = doneColumn.body.columns.at(-1).id as string;
+    await admin.post("/api/tickets").send({ columnId: doneColumnId, title: "Archivtest" }).expect(201);
+    await admin.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
+
+    const employee = await loginAs(fixture.employeeUser.email);
+    const response = await employee.get("/api/tickets/archived").expect(200);
+    expect(response.body.tickets).toHaveLength(1);
   });
 });

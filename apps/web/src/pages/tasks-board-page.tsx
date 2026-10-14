@@ -28,12 +28,14 @@ import {
 } from "@fluentui/react-components";
 import { Add20Regular, Archive16Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import type { BoardColumn, BoardState, PortalUser, Ticket } from "@portal/shared";
+import { canManagePortal, type BoardColumn, type BoardState, type PortalUser, type Ticket } from "@portal/shared";
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
+import { useAuth } from "../app/auth-context.js";
 
 export function TasksBoardPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [board, setBoard] = useState<BoardState | null>(null);
   const [users, setUsers] = useState<PortalUser[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -54,6 +56,7 @@ export function TasksBoardPage() {
   const [activeTicketId, setActiveTicketId] = useState<string | null>(null);
   const [activeColumnId, setActiveColumnId] = useState<string | null>(null);
   const [archivedCount, setArchivedCount] = useState(0);
+  const canManageColumns = canManagePortal(user);
 
   const usersById = useMemo(() => new Map(users.map((entry) => [entry.id, entry])), [users]);
 
@@ -233,6 +236,7 @@ export function TasksBoardPage() {
     const activeColumn = board.columns.find((entry) => entry.id === activeId);
     const overColumn = board.columns.find((entry) => entry.id === overId);
     if (activeColumn && overColumn && activeColumn.id !== overColumn.id) {
+      if (!canManageColumns) return;
       const oldIndex = columnsSorted.findIndex((entry) => entry.id === activeColumn.id);
       const newIndex = columnsSorted.findIndex((entry) => entry.id === overColumn.id);
       if (oldIndex !== -1 && newIndex !== -1) {
@@ -260,7 +264,7 @@ export function TasksBoardPage() {
 
     void handleUpdateTicket(ticket.id, { columnId: targetColumnId, position: targetIndex });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, columnsSorted, ticketsByColumn]);
+  }, [board, canManageColumns, columnsSorted, ticketsByColumn]);
 
   if (status === "loading") {
     return (
@@ -297,9 +301,11 @@ export function TasksBoardPage() {
           <Button appearance="secondary" onClick={() => navigate("/areas/tasks/archive")}>
             {`Archiv anzeigen (${archivedCount})`}
           </Button>
-          <Button appearance="primary" icon={<Add20Regular />} onClick={() => setAddColumnOpen(true)}>
-            Spalte hinzufügen
-          </Button>
+          {canManageColumns && (
+            <Button appearance="primary" icon={<Add20Regular />} onClick={() => setAddColumnOpen(true)}>
+              Spalte hinzufügen
+            </Button>
+          )}
         </div>
       </div>
 
@@ -328,6 +334,7 @@ export function TasksBoardPage() {
                 dragDisabled={normalizedFilter.length > 0}
                 onRenameColumn={() => openRenameColumn(column)}
                 onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
+                canManageColumns={canManageColumns}
               />
             ))}
           </div>
@@ -383,7 +390,7 @@ export function TasksBoardPage() {
         </DialogSurface>
       </Dialog>
 
-      <Dialog open={isAddColumnOpen} onOpenChange={(_event, data) => setAddColumnOpen(data.open)}>
+      <Dialog open={canManageColumns && isAddColumnOpen} onOpenChange={(_event, data) => setAddColumnOpen(data.open)}>
         <DialogSurface>
           <form onSubmit={handleCreateColumn}>
             <DialogBody>
@@ -404,7 +411,7 @@ export function TasksBoardPage() {
         </DialogSurface>
       </Dialog>
 
-      <Dialog open={renamingColumn !== null} onOpenChange={(_event, data) => { if (!data.open) setRenamingColumn(null); }}>
+      <Dialog open={canManageColumns && renamingColumn !== null} onOpenChange={(_event, data) => { if (!data.open) setRenamingColumn(null); }}>
         <DialogSurface>
           <form onSubmit={handleRenameColumn}>
             <DialogBody>
@@ -426,7 +433,7 @@ export function TasksBoardPage() {
       </Dialog>
 
       <Dialog
-        open={deletingColumnId !== null}
+        open={canManageColumns && deletingColumnId !== null}
         onOpenChange={(_event, data) => { if (!data.open) { setDeletingColumnId(null); setColumnActionError(null); } }}
       >
         <DialogSurface>
@@ -524,6 +531,7 @@ function BoardColumnView({
   dragDisabled,
   onRenameColumn,
   onDeleteColumn,
+  canManageColumns,
 }: {
   column: BoardColumn;
   tickets: Ticket[];
@@ -538,60 +546,69 @@ function BoardColumnView({
   dragDisabled: boolean;
   onRenameColumn: () => void;
   onDeleteColumn: () => void;
+  canManageColumns: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: column.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: column.id, disabled: dragDisabled || !canManageColumns });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.75 : 1 };
 
   return (
     <section className={`board-column${isDragging ? " board-column--dragging" : ""}`} ref={setNodeRef} style={style}>
       <header className="board-column__header">
         <div className="board-column__header-main">
-          <button
-            type="button"
-            className="board-column__drag-handle"
-            aria-label={`Spalte ${column.title} verschieben`}
-            title="Spalte verschieben"
-            {...attributes}
-            {...listeners}
-          >
-            <span aria-hidden="true">⋮⋮</span>
-          </button>
+          {canManageColumns ? (
+            <button
+              type="button"
+              className="board-column__drag-handle"
+              aria-label={`Spalte ${column.title} verschieben`}
+              title="Spalte verschieben"
+              {...attributes}
+              {...listeners}
+            >
+              <span aria-hidden="true">⋮⋮</span>
+            </button>
+          ) : (
+            <span className="board-column__drag-handle" aria-hidden="true">⋮⋮</span>
+          )}
           <h2>{column.title}</h2>
         </div>
         <div className="board-column__header-actions">
           <Badge appearance="tint" color="informative">{ticketCount}</Badge>
-          <button
-            type="button"
-            className="board-column__action"
-            aria-label="Spalte umbenennen"
-            title="Spalte umbenennen"
-            onClick={onRenameColumn}
-          >
-            <Edit16Regular />
-          </button>
-          {ticketCount > 0 ? (
-            <span className="board-column__action-tooltip" title="Spalte kann nur gelöscht werden, wenn sie leer ist.">
+          {canManageColumns && (
+            <>
               <button
                 type="button"
                 className="board-column__action"
-                aria-label="Spalte löschen"
-                title="Spalte kann nur gelöscht werden, wenn sie leer ist."
-                disabled
-                onClick={onDeleteColumn}
+                aria-label="Spalte umbenennen"
+                title="Spalte umbenennen"
+                onClick={onRenameColumn}
               >
-                <Delete16Regular />
+                <Edit16Regular />
               </button>
-            </span>
-          ) : (
-            <button
-              type="button"
-              className="board-column__action"
-              aria-label="Spalte löschen"
-              title="Spalte löschen"
-              onClick={onDeleteColumn}
-            >
-              <Delete16Regular />
-            </button>
+              {ticketCount > 0 ? (
+                <span className="board-column__action-tooltip" title="Spalte kann nur gelöscht werden, wenn sie leer ist.">
+                  <button
+                    type="button"
+                    className="board-column__action"
+                    aria-label="Spalte löschen"
+                    title="Spalte kann nur gelöscht werden, wenn sie leer ist."
+                    disabled
+                    onClick={onDeleteColumn}
+                  >
+                    <Delete16Regular />
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className="board-column__action"
+                  aria-label="Spalte löschen"
+                  title="Spalte löschen"
+                  onClick={onDeleteColumn}
+                >
+                  <Delete16Regular />
+                </button>
+              )}
+            </>
           )}
         </div>
       </header>
@@ -666,36 +683,36 @@ function TicketCard({
       <div className="ticket-card__header">
         <span className="ticket-card__title">{ticket.title}</span>
         <div className="ticket-card__actions">
-          <button
-            type="button"
-            className="ticket-card__action"
-            aria-label="Ticket bearbeiten"
-            title="Ticket bearbeiten"
-            onClick={(event) => { event.stopPropagation(); onEdit(); }}
-          >
-            <Edit16Regular />
-          </button>
-          {canArchive && (
             <button
               type="button"
               className="ticket-card__action"
-              aria-label="Ticket archivieren"
-              title="Ticket archivieren"
-              onClick={(event) => { event.stopPropagation(); onArchive(); }}
+              aria-label="Ticket bearbeiten"
+              title="Ticket bearbeiten"
+              onClick={(event) => { event.stopPropagation(); onEdit(); }}
             >
-              <Archive16Regular />
+              <Edit16Regular />
             </button>
-          )}
-          <button
-            type="button"
-            className="ticket-card__delete"
-            aria-label="Ticket löschen"
-            title="Ticket löschen"
-            onClick={(event) => { event.stopPropagation(); onDelete(); }}
-          >
-            <Delete16Regular />
-          </button>
-        </div>
+            {canArchive && (
+              <button
+                type="button"
+                className="ticket-card__action"
+                aria-label="Ticket archivieren"
+                title="Ticket archivieren"
+                onClick={(event) => { event.stopPropagation(); onArchive(); }}
+              >
+                <Archive16Regular />
+              </button>
+            )}
+            <button
+              type="button"
+              className="ticket-card__delete"
+              aria-label="Ticket löschen"
+              title="Ticket löschen"
+              onClick={(event) => { event.stopPropagation(); onDelete(); }}
+            >
+              <Delete16Regular />
+            </button>
+          </div>
       </div>
       {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
     </article>

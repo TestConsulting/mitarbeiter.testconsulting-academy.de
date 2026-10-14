@@ -6,13 +6,14 @@ import {
   ChevronRight16Regular,
   ContactCard16Regular,
   Home24Regular,
+  PeopleTeam24Regular,
   Person20Regular,
   Shield16Regular,
   WeatherMoon20Filled,
   WeatherSunny20Regular,
 } from "@fluentui/react-icons";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { portalAreas } from "@portal/shared";
+import { canManagePortal, portalAreas } from "@portal/shared";
 import { useAuth } from "./auth-context.js";
 import { AreaIcon } from "./area-icon.js";
 
@@ -43,7 +44,7 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const isProfileActive = location.pathname.startsWith("/profile");
+  const isProfileActive = location.pathname.startsWith("/profile") || location.pathname.startsWith("/admin/users");
   const [accountExpanded, setAccountExpanded] = useState(true);
 
   async function handleSignOut() {
@@ -122,6 +123,11 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
                   >
                     <Shield16Regular aria-hidden="true" /> Sicherheit
                   </Link>
+                  {canManagePortal(user) && (
+                    <NavLink to="/admin/users" className={({ isActive }) => `nav-subitem${isActive ? " nav-subitem--active" : ""}`}>
+                      <PeopleTeam24Regular aria-hidden="true" /> Benutzerverwaltung
+                    </NavLink>
+                  )}
                 </div>
               )}
             </div>

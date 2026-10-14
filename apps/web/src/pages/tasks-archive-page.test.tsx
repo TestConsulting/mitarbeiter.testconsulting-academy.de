@@ -7,6 +7,7 @@ import { AuthProvider } from "../app/auth-context.js";
 import { TasksArchivePage } from "./tasks-archive-page.js";
 
 const employeeUser: PortalUser = { id: "u1", email: "alex@example.test", name: "Alex Beispiel", role: "employee" };
+const adminUser: PortalUser = { id: "u2", email: "admin@example.test", name: "Admin Beispiel", role: "admin" };
 
 const boardApi = vi.hoisted(() => ({
   get: vi.fn(),
@@ -47,9 +48,9 @@ function buildBoard(): BoardState {
   };
 }
 
-function renderArchive() {
-  authApi.me.mockResolvedValue(employeeUser);
-  usersApi.list.mockResolvedValue([employeeUser]);
+function renderArchive(currentUser: PortalUser = employeeUser) {
+  authApi.me.mockResolvedValue(currentUser);
+  usersApi.list.mockResolvedValue([employeeUser, adminUser]);
   return render(
     <MemoryRouter>
       <AuthProvider>
@@ -103,12 +104,18 @@ describe("tasks archive page", () => {
     expect(screen.queryByText("Legacy Ticket")).not.toBeInTheDocument();
   });
 
-  it("restores an archived ticket", async () => {
+  it("restores an archived ticket for admins", async () => {
     const user = userEvent.setup();
-    renderArchive();
+    renderArchive(adminUser);
     await screen.findByText("Legacy Ticket");
 
     await user.click(screen.getByRole("button", { name: "Wiederherstellen" }));
     await waitFor(() => expect(boardApi.restoreTicket).toHaveBeenCalledWith("archived-1"));
+  });
+
+  it("hides restore action for employees", async () => {
+    renderArchive(employeeUser);
+    await screen.findByText("Legacy Ticket");
+    expect(screen.queryByRole("button", { name: "Wiederherstellen" })).not.toBeInTheDocument();
   });
 });

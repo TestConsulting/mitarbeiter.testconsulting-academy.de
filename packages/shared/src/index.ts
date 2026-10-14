@@ -6,7 +6,7 @@ export type PortalUser = {
 };
 
 export function canManagePortal(user: PortalUser | null | undefined): boolean {
-  return user?.role === "user" || user?.role === "admin";
+  return user?.role === "admin";
 }
 
 export type AppLinkInput = {

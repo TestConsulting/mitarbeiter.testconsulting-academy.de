@@ -9,7 +9,7 @@ import { BenefitsPage } from "./benefits-page.js";
 import { BenefitDetailPage } from "./benefit-detail-page.js";
 
 const mocks = vi.hoisted(() => ({
-  role: "employee" as "employee" | "admin" | "user",
+  role: "employee" as "employee" | "admin",
   list: vi.fn(), get: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), reorder: vi.fn(),
 }));
 vi.mock("../app/auth-context.js", () => ({ useAuth: () => ({ user: { role: mocks.role } }) }));
@@ -184,13 +184,12 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage(path);
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
-    const dialog = within(screen.getByRole("dialog"));
     for (const [label, value] of [["Titel", updated.title], ["Kurzbeschreibung", updated.description], ["Details", updated.details]]) {
-      const field = dialog.getByLabelText(label, { exact: false });
+      const field = await screen.findByLabelText(label, { exact: false });
       await user.clear(field);
       await user.type(field, value);
     }
-    await user.click(dialog.getByRole("button", { name: "Speichern" }));
+    await user.click(await screen.findByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Benefit wurde gespeichert.")).toBeInTheDocument();
     expect(mocks.update).toHaveBeenCalledWith(benefit.id, {
       title: updated.title, description: updated.description, details: updated.details, url: null,
@@ -206,10 +205,10 @@ describe("Benefits pages", () => {
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} löschen` }));
     expect(mocks.delete).not.toHaveBeenCalled();
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: `${benefit.title} löschen` }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Löschen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Noch keine Benefits vorhanden.")).toBeInTheDocument();
     expect(mocks.delete).toHaveBeenCalledWith(benefit.id);
   });
@@ -221,7 +220,7 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage(`/areas/benefits/${benefit.id}`);
     await user.click(await screen.findByRole("button", { name: `${benefit.title} löschen` }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Löschen" }));
+    await user.click(await screen.findByRole("button", { name: "Löschen" }));
     expect(await screen.findByRole("heading", { name: "Benefits" })).toBeInTheDocument();
     expect(await screen.findByText("Benefit wurde gelöscht.")).toBeInTheDocument();
   });
@@ -232,11 +231,11 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Speichern" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Nicht gespeichert.")).toBeInTheDocument();
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByLabelText("Titel", { exact: false })).toHaveValue(benefit.title);
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
     expect(await screen.findByRole("article", { name: `${benefit.title} verschieben` })).toBeInTheDocument();
   });
 
@@ -246,7 +245,7 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} löschen` }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Löschen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Der Benefit konnte nicht gelöscht werden. Bitte versuche es erneut.")).toBeInTheDocument();
     expect(screen.getByRole("article", { name: `${benefit.title} verschieben`, hidden: true })).toBeInTheDocument();
   });
@@ -256,7 +255,7 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.clear(dialog.getByLabelText("Details", { exact: false }));
     await user.type(dialog.getByLabelText("Details", { exact: false }), " ");
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
@@ -285,7 +284,7 @@ describe("Benefits pages", () => {
     expect(content).toHaveTextContent("Zweite Zeile");
   });
 
-  it.each(["admin", "user"] as const)("lets %s reorder cards with the keyboard and restore the order after a reload", async (role) => {
+  it.each(["admin"] as const)("lets %s reorder cards with the keyboard and restore the order after a reload", async (role) => {
     mocks.role = role;
     const second = { ...benefit, id: "benefit-2", title: "Weiterbildung", sortOrder: 1 };
     const reordered = [{ ...second, sortOrder: 0 }, { ...benefit, sortOrder: 1 }];
@@ -312,7 +311,7 @@ describe("Benefits pages", () => {
   });
 
   it("restores the old order and surfaces errors after a failed reorder", async () => {
-    mocks.role = "user";
+    mocks.role = "admin";
     const second = { ...benefit, id: "benefit-2", title: "Weiterbildung", sortOrder: 1 };
     mocks.list.mockResolvedValue([benefit, second]);
     mocks.reorder.mockRejectedValue(new ApiError("Die Benefits haben sich geändert.", 409));
@@ -330,7 +329,7 @@ describe("Benefits pages", () => {
   });
 
   it("does not drag from edit controls and disables dragging while a dialog is open", async () => {
-    mocks.role = "user";
+    mocks.role = "admin";
     const user = userEvent.setup();
     renderPage();
     const edit = await screen.findByRole("button", { name: `${benefit.title} bearbeiten` });
@@ -339,7 +338,7 @@ describe("Benefits pages", () => {
     expect(await screen.findByRole("dialog")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByRole("article", { hidden: true })).not.toHaveAttribute("tabindex"));
     expect(mocks.reorder).not.toHaveBeenCalled();
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
     await waitFor(() => expect(screen.getByRole("article")).toHaveAttribute("tabindex", "0"));
   });
 
@@ -360,13 +359,13 @@ describe("Benefits pages", () => {
     ["www.example.test/benefit", "https://www.example.test/benefit", "Angebot öffnen (neuer Tab)"],
     ["mailto:backoffice@testconsulting.de", "mailto:backoffice@testconsulting.de", "E-Mail schreiben"],
   ])("creates a Benefit with a supported URL: %s", async (url, expectedUrl, action) => {
-    mocks.role = "user";
+    mocks.role = "admin";
     const created = { ...benefit, id: "benefit-2", sortOrder: 1, url: expectedUrl };
     mocks.create.mockResolvedValue(created);
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Benefit hinzufügen" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.type(dialog.getByLabelText("Titel", { exact: false }), benefit.title);
     await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), benefit.description);
     await user.type(dialog.getByLabelText("Details", { exact: false }), benefit.details);
@@ -379,17 +378,16 @@ describe("Benefits pages", () => {
   });
 
   it("prefills the URL and can remove it", async () => {
-    mocks.role = "user";
+    mocks.role = "admin";
     mocks.list.mockResolvedValue([{ ...benefit, url: "https://example.test/benefit" }]);
     mocks.update.mockResolvedValue(benefit);
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
-    const dialog = within(screen.getByRole("dialog"));
-    const url = dialog.getByLabelText("Ziel-URL", { exact: false });
+    const url = await screen.findByLabelText("Ziel-URL", { exact: false });
     expect(url).toHaveValue("https://example.test/benefit");
     await user.clear(url);
-    await user.click(dialog.getByRole("button", { name: "Speichern" }));
+    await user.click(await screen.findByRole("button", { name: "Speichern" }));
     await screen.findByText("Benefit wurde gespeichert.");
     expect(mocks.update).toHaveBeenCalledWith(benefit.id, {
       title: benefit.title, description: benefit.description, details: benefit.details, url: null,
@@ -398,11 +396,11 @@ describe("Benefits pages", () => {
   });
 
   it.each(["javascript:alert(1)", "https://user:password@example.test", "not-a-url"])("rejects unsafe or invalid URLs before saving: %s", async (value) => {
-    mocks.role = "user";
+    mocks.role = "admin";
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), value);
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Bitte gib eine HTTP-/HTTPS-URL ohne Zugangsdaten oder mailto: mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter an (maximal 2048 Zeichen).")).toBeInTheDocument();

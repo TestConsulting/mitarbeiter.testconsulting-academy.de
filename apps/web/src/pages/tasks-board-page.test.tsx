@@ -115,7 +115,7 @@ describe("tasks board page", () => {
         updatedAt: new Date().toISOString(),
       },
     ]);
-    renderBoard(employeeUser);
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
 
     const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
@@ -136,7 +136,7 @@ describe("tasks board page", () => {
   it("opens the edit dialog and saves changes", async () => {
     const user = userEvent.setup();
     boardApi.updateTicket.mockResolvedValue([{ ...buildBoard().tickets[0], title: "Angebot überarbeiten" }]);
-    renderBoard(employeeUser);
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     const ticketCard = screen.getByText("Angebot schreiben").closest("article");
     expect(ticketCard).not.toBeNull();
@@ -155,7 +155,7 @@ describe("tasks board page", () => {
 
   it("deletes a ticket after confirmation", async () => {
     boardApi.deleteTicket.mockResolvedValue([]);
-    renderBoard(employeeUser);
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
 
     await screen.findByText("Angebot schreiben");
@@ -171,11 +171,20 @@ describe("tasks board page", () => {
     await waitFor(() => expect(boardApi.deleteTicket).toHaveBeenCalledWith("ticket-1"));
   });
 
-  it("shows the add-column action for authenticated users", async () => {
-    renderBoard(employeeUser);
+  it("shows the add-column action for admins", async () => {
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.getByRole("button", { name: "Spalte hinzufügen" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Archiv anzeigen \(0\)/ })).toBeInTheDocument();
+  });
+
+  it("hides mutation actions for employees", async () => {
+    renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    expect(screen.queryByRole("button", { name: "Spalte hinzufügen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Ticket hinzufügen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Spalte umbenennen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Ticket löschen" })).not.toBeInTheDocument();
   });
 
   it("filters tickets via the search field", async () => {
@@ -188,8 +197,8 @@ describe("tasks board page", () => {
     expect(screen.queryByText("Angebot schreiben")).not.toBeInTheDocument();
   });
 
-  it("shows the column rename/delete actions for authenticated users", async () => {
-    renderBoard(employeeUser);
+  it("shows the column rename/delete actions for admins", async () => {
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.getAllByRole("button", { name: "Spalte umbenennen" }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("button", { name: "Spalte löschen" }).length).toBeGreaterThan(0);
@@ -262,7 +271,7 @@ describe("tasks board page", () => {
     });
     boardApi.get.mockResolvedValue(board);
     boardApi.archiveTickets.mockResolvedValue([buildBoard().tickets[0]]);
-    renderBoard(employeeUser);
+    renderBoard(adminUser);
     await screen.findByText("Abgeschlossen");
 
     const doneColumn = screen.getByText("Erledigt").closest("section") as HTMLElement;

@@ -305,7 +305,7 @@ a { color: inherit; }
 .benefit-card__icon--image.benefit-card__icon--image { background: #fff; }
 .benefit-card__icon--gift.benefit-card__icon--gift { background: var(--surface); color: var(--primary); }
 .benefit-card__icon--gift svg { width: 36px; height: 36px; }
-.benefit-card__icon--image img { display: block; width: 36px; height: 36px; object-fit: contain; }
+.benefit-card__icon--image img { display: block; width: 44px; height: 44px; object-fit: contain; }
 .application-link-icon--image img { display: block; width: calc(100% - 10px); height: calc(100% - 10px); object-fit: contain; }
 .application-link-icon--image img:is([src="/images/timebutler.jpeg"], [src="/images/confluence.jpg"], [src="/images/gitlab.ico"], [src="/images/git.png"]) { width: calc(100% - 16px); height: calc(100% - 16px); }
 .application-link-detail__title { min-width: 0; color: var(--text); font-size: 24px; font-weight: 600; line-height: 1.3; letter-spacing: -.5px; }
@@ -349,6 +349,40 @@ a { color: inherit; }
 .benefit-detail__body { display: flex; width: 100%; flex-direction: column; gap: 16px; padding-top: 22px; border-top: 1px solid var(--border); }
 .benefit-detail__body p { white-space: pre-wrap; }
 .benefit-detail__body a { color: var(--primary); text-decoration: underline; overflow-wrap: anywhere; }
+
+.admin-users-page { gap: 14px; }
+.admin-users-panel {
+  --admin-field-bg: var(--colorNeutralBackground1, var(--surface));
+  --admin-user-card-bg: color-mix(in srgb, var(--primary) 14%, var(--surface));
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+:root[data-theme="dark"] .admin-users-panel {
+  --admin-user-card-bg: color-mix(in srgb, var(--primary) 22%, var(--surface-alt));
+}
+.admin-users-panel h2 { margin: 0 0 14px; font-size: 20px; }
+.admin-users-form { display: grid; gap: 12px; --admin-field-bg: var(--colorNeutralBackground1, var(--surface)); }
+.admin-users-form--edit { --admin-field-bg: color-mix(in srgb, var(--primary) 12%, var(--surface-strong)); }
+:root[data-theme="dark"] .admin-users-form--edit { --admin-field-bg: color-mix(in srgb, var(--primary) 10%, var(--surface-alt)); }
+.admin-users-form__actions { display: flex; gap: 10px; }
+.admin-users-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.admin-users-list__item { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--admin-user-card-bg); }
+.admin-users-list__item p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.admin-users-list__actions { display: flex; gap: 8px; }
+.admin-users-delete-button.fui-Button {
+  border-color: #b3261e;
+  background: #b3261e;
+  color: #fff;
+}
+.admin-users-delete-button.fui-Button:hover {
+  border-color: #8f1f19;
+  background: #8f1f19;
+}
+.admin-users-delete-button.fui-Button:disabled {
+  opacity: 0.6;
+}
 
 @media (max-width: 760px) {
   .signin-layout { grid-template-columns: 1fr; }
@@ -444,47 +478,55 @@ a { color: inherit; }
 .archive-list__meta { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
 .archive-list__meta strong { font-size: 13px; }
 .archive-list__meta span { color: var(--muted); font-size: 12px; }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) {
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) {
   display: flex;
   flex-direction: column;
   gap: 14px;
   min-width: min(520px, 82vw);
   --dialog-focus-color: var(--primary);
 }
-:root[data-theme="dark"] :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) {
+:root[data-theme="dark"] :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) {
   --dialog-focus-color: var(--accent);
 }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea {
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
   box-shadow: none;
 }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input:focus-within,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown:focus-within,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select:focus-within,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea:focus-within,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input:focus,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown:focus,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select:focus,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea:focus,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input:focus-within,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown:focus-within,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select:focus-within,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea:focus-within,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input:focus,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown:focus,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select:focus,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea:focus,
 .ticket-dialog-content .ticket-dialog__textarea:focus,
 .ticket-dialog-content .ticket-dialog__textarea:focus-visible {
   border-color: var(--dialog-focus-color) !important;
   box-shadow: 0 0 0 1px var(--dialog-focus-color) !important;
   outline: none !important;
 }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input:focus-within::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown:focus-within::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select:focus-within::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea:focus-within::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select::after,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea::after {
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input:focus-within::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown:focus-within::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select:focus-within::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea:focus-within::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input:focus-within::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown:focus-within::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select:focus-within::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea:focus-within::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea::after,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select::before,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea::before {
   display: none !important;
   content: none !important;
   border-bottom: none !important;
@@ -492,24 +534,69 @@ a { color: inherit; }
   transform: none !important;
   clip-path: none !important;
 }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input:focus-within .fui-Input__input,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown:focus-within .fui-Dropdown__button,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea:focus-within,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input:focus-within .fui-Input__input,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown:focus-within .fui-Dropdown__button,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea:focus-within,
 .ticket-dialog-content .ticket-dialog__textarea:focus-visible {
   outline: none !important;
 }
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input input,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Input__input,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown__selected-options,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Dropdown__button,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select__selected-options,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Select__button,
-:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content) .fui-Textarea__textarea {
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input input,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Input__input,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown__selected-options,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Dropdown__button,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select__selected-options,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Select__button,
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form) .fui-Textarea__textarea {
   background: var(--surface);
   color: var(--text);
   border-radius: 10px;
   overflow: visible;
 }
+
+.admin-users-form :is(.fui-Input, .fui-Select, .fui-Dropdown) {
+  background: var(--admin-field-bg);
+}
+
+.admin-users-form :is(.fui-Input input, .fui-Input__input, .fui-Select__selected-options, .fui-Select__button) {
+  background: var(--admin-field-bg);
+  box-shadow: none;
+}
+
+.admin-users-list__item { background: var(--admin-user-card-bg); }
+
+.signin-form {
+  --dialog-focus-color: var(--primary);
+}
+
+:root[data-theme="dark"] .signin-form {
+  --dialog-focus-color: var(--accent);
+}
+
+.signin-form .fui-Input:focus-within,
+.signin-form .fui-Input:focus {
+  border-color: var(--dialog-focus-color) !important;
+  box-shadow: 0 0 0 1px var(--dialog-focus-color) !important;
+  outline: none !important;
+}
+
+.signin-form .fui-Input:focus-within::after,
+.signin-form .fui-Input:focus-within::before,
+.signin-form .fui-Input::after,
+.signin-form .fui-Input::before {
+  display: none !important;
+  content: none !important;
+  border-bottom: none !important;
+  height: 0 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+.signin-form .fui-Input:focus-within .fui-Input__input,
+.signin-form .fui-Input input:focus,
+.signin-form .fui-Input__input:focus {
+  outline: none !important;
+}
+
 .ticket-dialog__textarea {
   width: 100%;
   min-height: 200px;

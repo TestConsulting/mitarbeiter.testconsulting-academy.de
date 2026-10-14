@@ -43,6 +43,15 @@ beforeAll(async () => {
       const { passwordHash: _passwordHash, ...publicUser } = storedUser;
       return [publicUser];
     },
+    async create() {
+      throw new Error("not implemented in auth router test");
+    },
+    async update() {
+      throw new Error("not implemented in auth router test");
+    },
+    async delete() {
+      throw new Error("not implemented in auth router test");
+    },
   };
   app = createApp({
     userRepository: users,

@@ -2,15 +2,18 @@ import { Button, Input } from "@fluentui/react-components";
 import { ArrowLeft20Regular, Archive16Regular } from "@fluentui/react-icons";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { ArchivedTicket, BoardColumn } from "@portal/shared";
+import { canManagePortal, type ArchivedTicket, type BoardColumn } from "@portal/shared";
 import { api } from "../api/client.js";
+import { useAuth } from "../app/auth-context.js";
 
 export function TasksArchivePage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [archivedTickets, setArchivedTickets] = useState<ArchivedTicket[]>([]);
   const [columns, setColumns] = useState<BoardColumn[]>([]);
   const [query, setQuery] = useState("");
+  const isAdmin = canManagePortal(user);
 
   useEffect(() => {
     let active = true;
@@ -107,9 +110,11 @@ export function TasksArchivePage() {
                     {columnsById.get(ticket.columnId)?.title ?? "Unbekannte Spalte"} • {new Date(ticket.archivedAt).toLocaleDateString("de-DE")}
                   </span>
                 </div>
-                <Button appearance="secondary" size="small" onClick={() => handleRestore(ticket.id)}>
-                  Wiederherstellen
-                </Button>
+                {isAdmin ? (
+                  <Button appearance="secondary" size="small" onClick={() => handleRestore(ticket.id)}>
+                    Wiederherstellen
+                  </Button>
+                ) : null}
               </li>
             ))}
           </ul>

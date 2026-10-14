@@ -41,30 +41,57 @@ export async function createBoardFixture(): Promise<BoardFixture> {
   let columns: BoardColumn[] = [{ id: randomUUID(), title: "Zu erledigen", position: 0 }];
   let tickets: Ticket[] = [];
   let archivedTickets: ArchivedTicket[] = [];
+  const allUsers: StoredUser[] = [adminUser, employeeUser];
 
   const users: UserRepository = {
     async findByEmail(email) {
-      if (email.toLowerCase() === adminUser.email) return adminUser;
-      if (email.toLowerCase() === employeeUser.email) return employeeUser;
-      return null;
+      return allUsers.find((user) => user.email.toLowerCase() === email.toLowerCase()) ?? null;
     },
     async findById(id) {
-      const match = [adminUser, employeeUser].find((user) => user.id === id);
+      const match = allUsers.find((user) => user.id === id);
       if (!match) return null;
       const { passwordHash: _passwordHash, ...publicUser } = match;
       return publicUser;
     },
     async findByIdWithPasswordHash(id) {
-      return [adminUser, employeeUser].find((user) => user.id === id) ?? null;
+      return allUsers.find((user) => user.id === id) ?? null;
     },
     async updatePasswordHash(id, passwordHash) {
-      const match = [adminUser, employeeUser].find((user) => user.id === id);
+      const match = allUsers.find((user) => user.id === id);
       if (!match) return false;
       match.passwordHash = passwordHash;
       return true;
     },
     async listAll() {
-      return [adminUser, employeeUser].map(({ passwordHash: _passwordHash, ...publicUser }) => publicUser);
+      return allUsers.map(({ passwordHash: _passwordHash, ...publicUser }) => publicUser);
+    },
+    async create(input) {
+      const stored: StoredUser = {
+        id: randomUUID(),
+        email: input.email,
+        name: input.name,
+        role: input.role,
+        passwordHash: input.passwordHash,
+      };
+      allUsers.push(stored);
+      const { passwordHash: _passwordHash, ...publicUser } = stored;
+      return publicUser;
+    },
+    async update(id, input) {
+      const match = allUsers.find((user) => user.id === id);
+      if (!match) return null;
+      if (input.email !== undefined) match.email = input.email;
+      if (input.name !== undefined) match.name = input.name;
+      if (input.role !== undefined) match.role = input.role;
+      if (input.passwordHash !== undefined) match.passwordHash = input.passwordHash;
+      const { passwordHash: _passwordHash, ...publicUser } = match;
+      return publicUser;
+    },
+    async delete(id) {
+      const index = allUsers.findIndex((user) => user.id === id);
+      if (index === -1) return false;
+      allUsers.splice(index, 1);
+      return true;
     },
   };
 

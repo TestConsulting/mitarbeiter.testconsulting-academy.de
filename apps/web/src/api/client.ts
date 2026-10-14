@@ -52,6 +52,28 @@ export const api = {
       const result = await request<{ users: PortalUser[] }>("/api/users");
       return result.users;
     },
+    async create(input: { email: string; name: string; role: "employee" | "admin"; password: string }) {
+      const result = await request<{ user: PortalUser }>("/api/users", {
+        method: "POST",
+        body: JSON.stringify(input),
+      });
+      return result.user;
+    },
+    async update(id: string, input: {
+      email?: string;
+      name?: string;
+      role?: "employee" | "admin";
+      password?: string;
+    }) {
+      const result = await request<{ user: PortalUser }>(`/api/users/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(input),
+      });
+      return result.user;
+    },
+    delete(id: string) {
+      return request<{ success: true }>(`/api/users/${id}`, { method: "DELETE" });
+    },
   },
   links: {
     async reorder(ids: string[]) {

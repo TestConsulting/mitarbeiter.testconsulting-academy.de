@@ -37,7 +37,6 @@ export function createTicketsRouter(board: BoardRepository, users: UserRepositor
     return assignee !== null;
   }
 
-  // Jede angemeldete Person darf Tickets anlegen/bearbeiten/löschen (SPEC 2: Mitarbeiter-Recht „Tasks anlegen/bearbeiten“).
   router.post("/", async (request, response, next) => {
     const payload = createTicketSchema.safeParse(request.body);
     if (!payload.success) {

@@ -8,7 +8,7 @@ import { ApiError } from "../api/client.js";
 import { ApplicationLinksPage } from "./application-links-page.js";
 
 const mocks = vi.hoisted(() => ({
-  role: "employee" as "employee" | "admin" | "user",
+  role: "employee" as "employee" | "admin",
   list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), reorder: vi.fn(),
 }));
 
@@ -205,7 +205,7 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Link hinzufügen" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.type(dialog.getByLabelText("Name", { exact: false }), created.name);
     await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), created.description);
     expect(dialog.queryByLabelText("Kürzel")).not.toBeInTheDocument();
@@ -218,7 +218,7 @@ describe("application links page", () => {
     expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([link.url, created.url]);
   });
 
-  it.each(["admin", "user"] as const)("lets %s accounts edit and reorder an existing link", async (role) => {
+  it.each(["admin"] as const)("lets %s accounts edit and reorder an existing link", async (role) => {
     mocks.role = role;
     const second = { ...link, id: "link-2", name: "Wiki", url: "https://wiki.example.test/", sortOrder: 5 };
     mocks.list.mockResolvedValue([link, second]);
@@ -226,7 +226,7 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 bearbeiten" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.clear(dialog.getByLabelText("Name", { exact: false }));
     await user.type(dialog.getByLabelText("Name", { exact: false }), "Office");
     await user.clear(dialog.getByLabelText("Reihenfolge", { exact: false }));
@@ -245,7 +245,7 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 bearbeiten" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByText(/500\/500 Zeichen/)).toBeInTheDocument();
     const field = dialog.getByLabelText("Kurzbeschreibung", { exact: false });
     await user.clear(field);
@@ -267,7 +267,7 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${edited.name} bearbeiten` }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     const order = dialog.getByLabelText("Reihenfolge", { exact: false });
     expect(order).toHaveValue(position === 0 ? 1 : 0);
     await user.clear(order);
@@ -300,10 +300,10 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 bearbeiten" }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Speichern" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Bitte prüfe deine Eingaben.")).toBeInTheDocument();
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
     expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
@@ -313,9 +313,9 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 löschen" }));
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Löschen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Der Link konnte nicht gelöscht werden. Bitte versuche es erneut.")).toBeInTheDocument();
-    await user.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
     expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
@@ -324,7 +324,7 @@ describe("application links page", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 bearbeiten" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     await user.clear(dialog.getByLabelText("Ziel-URL", { exact: false }));
     await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), "javascript:alert(1)");
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
@@ -347,7 +347,7 @@ describe("application links page", () => {
     await user.click(await screen.findByRole("button", {
       name: mode === "create" ? "Link hinzufügen" : "Microsoft 365 bearbeiten",
     }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     if (mode === "create") {
       await user.type(dialog.getByLabelText("Name", { exact: false }), link.name);
       await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), link.description);

@@ -39,14 +39,12 @@ describe("board router", () => {
     expect(response.body.tickets).toEqual([]);
   });
 
-  it("allows authenticated users to create columns", async () => {
+  it("rejects column creation for employees", async () => {
     const agent = await loginAs(fixture.employeeUser.email);
-    const created = await agent.post("/api/board/columns").send({ title: "Neu" }).expect(201);
-    expect(created.body.columns.at(-1).title).toBe("Neu");
+    await agent.post("/api/board/columns").send({ title: "Neu" }).expect(403);
   });
 
-  it.each(["admin", "user"] as const)("allows %s accounts to create, rename and delete empty columns", async (role) => {
-    fixture.adminUser.role = role;
+  it("allows admin accounts to create, rename and delete empty columns", async () => {
     const agent = await loginAs(fixture.adminUser.email);
     const created = await agent.post("/api/board/columns").send({ title: "Review" }).expect(201);
     const newColumn = created.body.columns.at(-1);
