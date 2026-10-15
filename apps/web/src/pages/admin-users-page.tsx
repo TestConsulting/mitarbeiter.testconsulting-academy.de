@@ -22,17 +22,31 @@ type Role = "employee" | "admin";
 
 type UserFormState = {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   role: Role;
   password: string;
 };
 
 const emptyForm: UserFormState = {
   email: "",
-  name: "",
+  firstName: "",
+  lastName: "",
   role: "employee",
   password: "",
 };
+
+function splitFullName(fullName: string): { firstName: string; lastName: string } {
+  const [firstName = "", ...lastNameParts] = fullName.trim().split(/\s+/);
+  return {
+    firstName,
+    lastName: lastNameParts.join(" "),
+  };
+}
+
+function combineFullName(firstName: string, lastName: string): string {
+  return [firstName.trim(), lastName.trim()].filter(Boolean).join(" ").trim();
+}
 
 export function AdminUsersPage() {
   const { user } = useAuth();
@@ -101,7 +115,7 @@ export function AdminUsersPage() {
     try {
       const created = await api.users.create({
         email: createForm.email.trim(),
-        name: createForm.name.trim(),
+        name: combineFullName(createForm.firstName, createForm.lastName),
         role: createForm.role,
         password: createForm.password,
       });
@@ -115,11 +129,13 @@ export function AdminUsersPage() {
   }
 
   function openEditForm(target: PortalUser) {
+    const splitName = splitFullName(target.name);
     setError("");
     setEditingUser(target);
     setEditForm({
       email: target.email,
-      name: target.name,
+      firstName: splitName.firstName,
+      lastName: splitName.lastName,
       role: target.role === "admin" ? "admin" : "employee",
       password: "",
     });
@@ -133,7 +149,7 @@ export function AdminUsersPage() {
     try {
       const updated = await api.users.update(editingUser.id, {
         email: editForm.email.trim(),
-        name: editForm.name.trim(),
+        name: combineFullName(editForm.firstName, editForm.lastName),
         role: editForm.role,
         password: editForm.password.trim() ? editForm.password : undefined,
       });
@@ -177,8 +193,11 @@ export function AdminUsersPage() {
       <section className="panel admin-users-panel">
         <h2>Benutzer anlegen</h2>
         <form className="admin-users-form" onSubmit={handleCreate}>
-          <Field label="Name" required>
-            <Input value={createForm.name} onChange={(_event, data) => setCreateForm((current) => ({ ...current, name: data.value }))} />
+          <Field label="Vorname" required>
+            <Input value={createForm.firstName} onChange={(_event, data) => setCreateForm((current) => ({ ...current, firstName: data.value }))} />
+          </Field>
+          <Field label="Nachname" required>
+            <Input value={createForm.lastName} onChange={(_event, data) => setCreateForm((current) => ({ ...current, lastName: data.value }))} />
           </Field>
           <Field label="E-Mail" required>
             <Input
@@ -243,8 +262,11 @@ export function AdminUsersPage() {
             <DialogBody>
               <DialogTitle>Benutzer bearbeiten</DialogTitle>
               <DialogContent className="admin-users-form admin-users-form--edit">
-                <Field label="Name" required>
-                  <Input value={editForm.name} onChange={(_event, data) => setEditForm((current) => ({ ...current, name: data.value }))} autoFocus />
+                <Field label="Vorname" required>
+                  <Input value={editForm.firstName} onChange={(_event, data) => setEditForm((current) => ({ ...current, firstName: data.value }))} autoFocus />
+                </Field>
+                <Field label="Nachname" required>
+                  <Input value={editForm.lastName} onChange={(_event, data) => setEditForm((current) => ({ ...current, lastName: data.value }))} />
                 </Field>
                 <Field label="E-Mail" required>
                   <Input

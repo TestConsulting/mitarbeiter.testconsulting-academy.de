@@ -548,11 +548,11 @@ function BoardColumnView({
   onDeleteColumn: () => void;
   canManageColumns: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: column.id, disabled: dragDisabled || !canManageColumns });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({ id: column.id, disabled: dragDisabled || !canManageColumns });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.75 : 1 };
 
   return (
-    <section className={`board-column${isDragging ? " board-column--dragging" : ""}`} ref={setNodeRef} style={style}>
+    <section className={`board-column${isDragging ? " board-column--dragging" : ""}${isOver ? " board-column--over" : ""}`} ref={setNodeRef} style={style}>
       <header className="board-column__header">
         <div className="board-column__header-main">
           {canManageColumns ? (
