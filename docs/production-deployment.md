@@ -64,6 +64,12 @@ Dies ersetzt ausschließlich die Fragen des vorhandenen Kurses mit Slug `istqb-f
 
 Die vorgeschaltete ISTQB-Übungsauswahl benötigt diese Metadaten auch bei bereits importierten Fragen: den Befehl nach Freigabe erneut ausführen. Migration `010_create_practice_progress.sql` ergänzt ausschließlich die Tabelle `elearning_practice_progress` für den persönlichen Übungsstand (nach Migration 008 ausführen). Die Migration wird über den bestehenden Deployment-Migrationslauf angewendet. Keine neuen Konfigurationswerte erforderlich. Nach dem Deployment Kapitel-/Wissensstufenfilter und eine gespeicherte Antwort nach erneutem Öffnen der Übung prüfen.
 
+## Hochgeladene Lernmaterialien einmalig übertragen
+
+Dateien aus der lokalen Kursverwaltung liegen in PostgreSQL und sind nicht Bestandteil eines normalen Code-Pushs. Nach Prüfung der Verteilungsrechte und lokalem Export nach `deploy/elearning-materials/` werden Dateien und Kurszuordnungen mitgepusht. Jenkins importiert das Bundle nur, wenn sich dieser Verzeichnispfad im Push geändert hat. Der Import erfolgt vor dem Start der neuen Anwendungsversion und ergänzt Dateien sowie Kursmaterialien atomar. Bestehende Kursinhalte, Prüfungsergebnisse und andere Materialien werden nicht ersetzt; bei einer kollidierenden ID mit abweichendem Dateiinhalt wird das Deployment abgebrochen.
+
+Nach dem Deployment im Portal kontrollieren, ob die erwarteten Materialien in den jeweiligen Kursen angezeigt und heruntergeladen werden können. Das versionierte Bundle enthält die Binärdateien im Repository; vor Export und Push müssen Verteilungsrechte für alle enthaltenen Dateien vorliegen.
+
 ### Persistente CTFL-Prüfungssimulation
 
 Migration `011_create_exam_sessions.sql` muss vor Verwendung des neuen Foundation-Prüfungsmodus angewendet sein; Jenkins berücksichtigt sie im vorhandenen Migrationslauf. Die Simulation beginnt erst mit „Prüfung starten“ und zieht exakt 40 unterschiedliche Fragen nach den versionierten Lernzielgruppen des Fragenpools (Kapitel: 8/6/4/11/9/2, Wissensstufen K1/K2/K3: 8/24/8). Ein unvollständiger oder falsch zugeordneter Pool führt zu einer ausdrücklichen Fehlermeldung, nicht zu einer verkürzten Prüfung.

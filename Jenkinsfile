@@ -24,6 +24,12 @@ pipeline {
         sh "${COMPOSE} run --rm --no-deps api npm run content:import -- deploy/portal-content.json"
       }
     }
+    stage('Import uploaded learning materials') {
+      when { changeset "deploy/elearning-materials/**" }
+      steps {
+        sh "${COMPOSE} run --rm --no-deps api npm run materials:import:bundle -- deploy/elearning-materials"
+      }
+    }
     stage('Deploy') { steps { sh "${COMPOSE} up -d --remove-orphans" } }
     stage('Smoke-Test') {
       steps {

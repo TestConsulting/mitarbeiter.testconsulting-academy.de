@@ -87,6 +87,16 @@ Der Befehl **ersetzt alle bisherigen Fragen dieses Kurses**, einschließlich der
 
 Der Import wird bewusst nicht bei jedem Start ausgeführt, damit spätere Änderungen im Kurseditor erhalten bleiben. Er benötigt die bestehende Datenbankkonfiguration. Bereits importierte Fragen einmal erneut importieren, um ihre Zuordnung zu ergänzen.
 
+### Hochgeladene Lernmaterialien für Produktion paketieren
+
+Hochgeladene PDFs und Bilder liegen in der lokalen PostgreSQL-Datenbank und werden nicht durch einen Git-Push übertragen. Mit ausdrücklicher Freigabe können die gespeicherten Uploads samt Kurszuordnungen als versioniertes Bundle exportiert werden:
+
+```powershell
+npm run materials:export:bundle --workspace @portal/api -- export deploy/elearning-materials
+```
+
+Das Bundle enthält die Binärdateien und ein Manifest mit Prüfsummen und Kurszuordnungen. Nach Prüfung und Commit wird es beim Jenkins-Deployment importiert, wenn sich Dateien unter `deploy/elearning-materials/` geändert haben. Der Import ist transaktional und wiederholbar; vorhandene Materialien und Kursinhalte werden nicht ersetzt. Ein abweichender Dateiinhalt mit derselben ID oder ein fehlender Zielkurs bricht den Import ab.
+
 ### ISTQB-Übungsauswahl und persönlicher Fortschritt
 
 „Übung starten“ öffnet für ISTQB Foundation zunächst die Auswahlseite: sechs Kapitel (anfangs alle), optionale Wissensstufen K1/K2/K3 (keine Auswahl bedeutet alle), 10/20/alle verfügbaren Fragen und „Fehler wiederholen“. Kapitel und Wissensstufen werden kombiniert. Bei leerer Treffermenge ist der Start gesperrt. Fehlende Metadaten werden als Importfehler angezeigt, nicht durch geschätzte Zuordnungen ersetzt.

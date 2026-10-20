@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "id": "02694e44-0dfa-4272-8086-0b3c9eab4424",
+      "fileName": "Foundation - Basiswissen Softwaretest.pdf",
+      "sizeBytes": 5288497,
+      "sha256": "97a81e1feb2b94dc062872c79dd93e3340264cad99729900c9db0f9865f47277",
+      "assetFile": "02694e44-0dfa-4272-8086-0b3c9eab4424.pdf",
+      "references": [
+        {
+          "courseSlug": "istqb-foundation",
+          "material": {
+            "id": "02694e44-0dfa-4272-8086-0b3c9eab4424",
+            "url": "/api/courses/materials/02694e44-0dfa-4272-8086-0b3c9eab4424/download",
+            "title": "Foundation - Basiswissen Softwaretest",
+            "fileName": "Foundation - Basiswissen Softwaretest.pdf",
+            "fileSize": "5165 KB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "362d700e-eea4-41f5-9f13-8974f8b15a7f",
+      "fileName": "ISTQB_CTFL_Lehrplan-2023_V4.0.1a_DE_Syllabus.pdf",
+      "sizeBytes": 1793518,
+      "sha256": "cc01c15674b0ec35e2336bc7df8e85fc6ae02110a139a77db7e835e848b35f6c",
+      "assetFile": "362d700e-eea4-41f5-9f13-8974f8b15a7f.pdf",
+      "references": [
+        {
+          "courseSlug": "istqb-foundation",
+          "material": {
+            "id": "362d700e-eea4-41f5-9f13-8974f8b15a7f",
+            "url": "/api/courses/materials/362d700e-eea4-41f5-9f13-8974f8b15a7f/download",
+            "title": "ISTQB_CTFL_Lehrplan-2023_V4.0.1a_DE_Syllabus",
+            "fileName": "ISTQB_CTFL_Lehrplan-2023_V4.0.1a_DE_Syllabus.pdf",
+            "fileSize": "1751 KB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "371a181e-7b8f-49ad-8812-7ad456ae16c3",
+      "fileName": "images.jpg",
+      "sizeBytes": 23027,
+      "sha256": "9d759aa663eda91345a5bb5a8f4c25574d4f1305a28841bde38294f0d4d3ca6d",
+      "assetFile": "371a181e-7b8f-49ad-8812-7ad456ae16c3.jpg",
+      "references": [
+        {
+          "courseSlug": "fragenkatalog-essentials",
+          "material": {
+            "id": "371a181e-7b8f-49ad-8812-7ad456ae16c3",
+            "url": "/api/courses/materials/371a181e-7b8f-49ad-8812-7ad456ae16c3/download",
+            "title": "images",
+            "fileName": "images.jpg",
+            "fileSize": "22 KB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "654d6878-b0e8-44ed-adf0-534f47f3f330",
+      "fileName": "ISTQB_CTFL_Lehrplan-2025_V4.0.2_DE.pdf",
+      "sizeBytes": 1366549,
+      "sha256": "24e706c7afc846383880aefb258745f9d87d5bd616eafb5e9688e0d203189d4e",
+      "assetFile": "654d6878-b0e8-44ed-adf0-534f47f3f330.pdf",
+      "references": [
+        {
+          "courseSlug": "istqb-foundation",
+          "material": {
+            "id": "654d6878-b0e8-44ed-adf0-534f47f3f330",
+            "url": "/api/courses/materials/654d6878-b0e8-44ed-adf0-534f47f3f330/download",
+            "title": "ISTQB_CTFL_Lehrplan-2025_V4.0.2_DE",
+            "fileName": "ISTQB_CTFL_Lehrplan-2025_V4.0.2_DE.pdf",
+            "fileSize": "1335 KB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "becac59e-b2a9-43fc-9551-66076ababd84",
+      "fileName": "CTFL.jpg",
+      "sizeBytes": 44100,
+      "sha256": "c3648b885c635a6870f65f889f970e81987f49c6d6124f33a69623d438385f83",
+      "assetFile": "becac59e-b2a9-43fc-9551-66076ababd84.jpg",
+      "references": [
+        {
+          "courseSlug": "istqb-foundation",
+          "material": {
+            "id": "becac59e-b2a9-43fc-9551-66076ababd84",
+            "url": "/api/courses/materials/becac59e-b2a9-43fc-9551-66076ababd84/download",
+            "title": "CTFL",
+            "fileName": "CTFL.jpg",
+            "fileSize": "43 KB"
+          }
+        }
+      ]
+    }
+  ]
+}
