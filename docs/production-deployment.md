@@ -54,13 +54,13 @@ Ein normaler Code-Push ohne aktualisierten Export überträgt keine neuen lokale
 
 ## ISTQB-Kursfragen gezielt importieren
 
-Die 90 Fragen aus `docs/elearning/istqb-portal/FRAGEN-MIT-LOESUNGEN.md` werden nicht automatisch durch Jenkins importiert. Nach Freigabe und Datenbankbackup kann im aktualisierten API-Container gezielt ausgeführt werden:
+Die 90 Fragen aus `docs/elearning/istqb-portal/FRAGEN-MIT-LOESUNGEN.md` werden bei Änderungen an der Quelle nicht automatisch importiert. Der einmalige Produktionsimport ist für den freigegebenen Deployment-Lauf über `deploy/istqb-question-import-once.json` ausgelöst. Für einen späteren gezielten Import nach Datenbankbackup kann im aktualisierten API-Container folgender Befehl ausgeführt werden:
 
 ```sh
 docker compose -p mitarbeiter-portal --env-file /var/www/mitarbeiter-portal/.env -f docker-compose.prod.yml exec api npm run questions:import:istqb
 ```
 
-Dies ersetzt ausschließlich die Fragen des vorhandenen Kurses mit Slug `istqb-foundation`, einschließlich ihrer Kapitel-, Lernziel- und K1/K2/K3-Zuordnung. Kursdaten, Materialien, andere Kurse und bisherige Prüfungsergebnisse bleiben erhalten. Der Import validiert die Markdown-Datei und schreibt atomar; identischer Inhalt wird nicht erneut geschrieben. Spätere manuelle Änderungen an Kursfragen werden erst bei ausdrücklichem erneutem Import ersetzt.
+Dies ersetzt ausschließlich die Fragen des vorhandenen Kurses mit Slug `istqb-foundation`, einschließlich ihrer Kapitel-, Lernziel- und K1/K2/K3-Zuordnung. Kursdaten, Materialien, andere Kurse und bisherige Prüfungsergebnisse bleiben erhalten. Der Import validiert die Markdown-Datei und schreibt atomar; identischer Inhalt wird nicht erneut geschrieben. Spätere manuelle Änderungen an Kursfragen werden erst bei ausdrücklichem erneutem Import ersetzt. Der einmalige Jenkins-Auslöser wird nicht bei normalen Deployments wiederholt.
 
 Die vorgeschaltete ISTQB-Übungsauswahl benötigt diese Metadaten auch bei bereits importierten Fragen: den Befehl nach Freigabe erneut ausführen. Migration `010_create_practice_progress.sql` ergänzt ausschließlich die Tabelle `elearning_practice_progress` für den persönlichen Übungsstand (nach Migration 008 ausführen). Die Migration wird über den bestehenden Deployment-Migrationslauf angewendet. Keine neuen Konfigurationswerte erforderlich. Nach dem Deployment Kapitel-/Wissensstufenfilter und eine gespeicherte Antwort nach erneutem Öffnen der Übung prüfen.
 

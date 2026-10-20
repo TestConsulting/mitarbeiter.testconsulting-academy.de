@@ -35,6 +35,12 @@ pipeline {
         sh "${COMPOSE} run --rm --no-deps api npm run materials:import:bundle -- import deploy/elearning-materials"
       }
     }
+    stage('Import ISTQB question bank (one-time)') {
+      when { changeset "deploy/istqb-question-import-once.json" }
+      steps {
+        sh "${COMPOSE} run --rm --no-deps api npm run questions:import:istqb"
+      }
+    }
     stage('Deploy') { steps { sh "${COMPOSE} up -d --remove-orphans" } }
     stage('Smoke-Test') {
       steps {
