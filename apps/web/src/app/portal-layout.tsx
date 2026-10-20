@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Button } from "@fluentui/react-components";
 import {
   ArrowExit20Regular,
-  ChevronDown16Regular,
-  ChevronRight16Regular,
+  CheckmarkCircle24Regular,
   ContactCard16Regular,
   Home24Regular,
   PeopleTeam24Regular,
@@ -44,8 +42,8 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const isElearningActive = location.pathname === "/areas/elearning" || location.pathname.startsWith("/areas/elearning/");
   const isProfileActive = location.pathname.startsWith("/profile") || location.pathname.startsWith("/admin/users");
-  const [accountExpanded, setAccountExpanded] = useState(true);
 
   async function handleSignOut() {
     try {
@@ -55,8 +53,6 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
       navigate("/login", { replace: true });
     }
   }
-
-  const isExpanded = accountExpanded && isProfileActive;
 
   return (
     <div className="portal-root">
@@ -82,7 +78,18 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
             <NavLink to="/" end className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`}>
               <Home24Regular aria-hidden="true" /> Übersicht
             </NavLink>
-            {portalAreas.map((area) => (
+            {portalAreas.map((area) => area.slug === "elearning" ? (
+              <div key={area.slug} role="group" aria-label="eLearning-Bereiche">
+                <NavLink to="/areas/elearning" className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`}>
+                  <AreaIcon slug={area.slug} /> {area.label}
+                </NavLink>
+                {isElearningActive && <div className="nav-subgroup">
+                  <NavLink to="/areas/elearning/results" className={({ isActive }) => `nav-subitem${isActive ? " nav-subitem--active" : ""}`}>
+                    <CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung
+                  </NavLink>
+                </div>}
+              </div>
+            ) : (
               <NavLink key={area.slug} to={`/areas/${area.slug}`} className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`}>
                 <AreaIcon slug={area.slug} /> {area.label}
               </NavLink>
@@ -94,22 +101,12 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
               <NavLink
                 to="/profile"
                 className={({ isActive }) => `nav-item nav-item--parent${isActive ? " nav-item--active" : ""}`}
-                onClick={() => {
-                  if (isProfileActive) {
-                    setAccountExpanded((prev) => !prev);
-                  } else {
-                    setAccountExpanded(true);
-                  }
-                }}
               >
                 <span className="nav-item__content">
                   <Person20Regular aria-hidden="true" /> Mein Profil
                 </span>
-                <span className="nav-item__chevron" aria-hidden="true">
-                  {isExpanded ? <ChevronDown16Regular /> : <ChevronRight16Regular />}
-                </span>
               </NavLink>
-              {isExpanded && (
+              {isProfileActive && (
                 <div className="nav-subgroup" role="group" aria-label="Profil-Bereiche">
                   <Link
                     to="/profile?section=personal"

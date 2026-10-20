@@ -1,0 +1,28 @@
+{
+  "questionCount": 90,
+  "learningObjectivesCovered": 64,
+  "chapters": {
+    "1": 18,
+    "2": 12,
+    "3": 8,
+    "4": 26,
+    "5": 22,
+    "6": 4
+  },
+  "kLevels": {
+    "K1": 18,
+    "K2": 51,
+    "K3": 21
+  },
+  "single": 85,
+  "multiple": 5,
+  "randomExamDrawsVerified": 1000,
+  "checks": [
+    "90 eindeutige Fragen-IDs und eindeutige Fragentexte",
+    "Jedes Lernziel des Lehrplans mindestens einmal enthalten",
+    "Lernziel und K-Stufe stimmen mit dem extrahierten Lehrplan überein",
+    "Alle Antwort-IDs und Auswahlanzahlen konsistent",
+    "1000 Ziehungen mit jeweils 40 unterschiedlichen Fragen",
+    "Kapitel-, K-Stufen- und Lernzielgruppenverteilung in jeder Ziehung eingehalten"
+  ]
+}

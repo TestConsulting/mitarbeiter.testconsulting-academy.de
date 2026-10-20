@@ -18,6 +18,13 @@ import { createBenefitRepository, type BenefitRepository } from "./db/benefit-re
 import { createBenefitsRouter } from "./benefits/router.js";
 import { createCoursesRouter } from "./courses/router.js";
 import { createCourseRepository, type CourseRepository } from "./db/course-repository.js";
+import { createPracticeProgressRepository, type PracticeProgressRepository } from "./db/practice-progress-repository.js";
+import { createExamSessionRepository, type ExamSessionRepository } from "./db/exam-session-repository.js";
+import { createExamSessionRouter } from "./courses/exam-session-router.js";
+import {
+  createExamAttemptRepository,
+  type ExamAttemptRepository,
+} from "./db/exam-attempt-repository.js";
 
 const PgStore = pgSession(session);
 
@@ -28,6 +35,9 @@ type AppOptions = {
   appLinkRepository?: AppLinkRepository;
   benefitRepository?: BenefitRepository;
   courseRepository?: CourseRepository;
+  examAttemptRepository?: ExamAttemptRepository;
+  examSessionRepository?: ExamSessionRepository;
+  practiceProgressRepository?: PracticeProgressRepository;
   sessionStore?: session.Store;
   sessionSecret?: string;
   webOrigin?: string;
@@ -64,6 +74,8 @@ export function createApp(options: AppOptions = {}) {
   const links = options.appLinkRepository ?? createAppLinkRepository(database);
   const benefits = options.benefitRepository ?? createBenefitRepository(database);
   const courses = options.courseRepository ?? createCourseRepository(database);
+  const examAttempts = options.examAttemptRepository ?? createExamAttemptRepository(database);
+  const practiceProgress = options.practiceProgressRepository ?? createPracticeProgressRepository(database);
 
   app.disable("x-powered-by");
   if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
@@ -104,7 +116,10 @@ export function createApp(options: AppOptions = {}) {
   app.use("/api/tickets", createTicketsRouter(board, users));
   app.use("/api/links", createLinksRouter(links, users));
   app.use("/api/benefits", createBenefitsRouter(benefits, users));
-  app.use("/api/courses", createCoursesRouter(courses, users));
+  app.use("/api/exam-sessions", createExamSessionRouter(
+    courses, options.examSessionRepository ?? createExamSessionRepository(database),
+  ));
+  app.use("/api/courses", createCoursesRouter(courses, users, examAttempts, practiceProgress));
   app.use("/api", (_request, response) => {
     response.status(404).json({ error: "Route nicht gefunden." });
   });

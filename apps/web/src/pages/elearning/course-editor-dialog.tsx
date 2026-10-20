@@ -49,6 +49,15 @@ function messageFor(error: unknown) {
     : "Der Kurs konnte nicht gespeichert werden. Bitte versuche es erneut.";
 }
 
+const materialMimeTypes: Record<string, string> = {
+  ".pdf": "application/pdf",
+  ".gif": "image/gif",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
+};
+
 export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDialogProps) {
   const [title, setTitle] = useState(course?.title ?? "");
   const [category, setCategory] = useState<CourseCategory>(course?.category ?? "Sonstiges");
@@ -62,18 +71,19 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
 
   function addMaterial(file: File | undefined) {
     if (!file) return;
-    if (!file.name.toLowerCase().endsWith(".pdf") || file.type !== "application/pdf") {
-      setError("Bitte wähle eine PDF-Datei aus.");
+    const extension = file.name.match(/\.[^.]+$/)?.[0].toLowerCase() ?? "";
+    if (!materialMimeTypes[extension] || file.type !== materialMimeTypes[extension]) {
+      setError("Bitte wähle eine PDF-, PNG-, JPEG-, GIF- oder WebP-Datei aus.");
       return;
     }
     if (file.size === 0 || file.size > 25 * 1024 * 1024) {
-      setError("PDF-Dateien müssen kleiner als 25 MB sein.");
+      setError("Dateien müssen größer als 0 Byte und höchstens 25 MB groß sein.");
       return;
     }
     setError("");
     setMaterials((current) => [...current, {
       id: newId(),
-      title: file.name.replace(/\.pdf$/i, ""),
+      title: file.name.replace(/\.[^.]+$/, ""),
       fileName: file.name,
       fileSize: `${Math.max(1, Math.round(file.size / 1024))} KB`,
       url: "",
@@ -177,15 +187,15 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
                 )}
               </div>
 
-              <section className="course-editor-section" aria-label="PDF-Lernmaterialien">
+              <section className="course-editor-section" aria-label="Lernmaterialien">
                 <div className="course-editor-section__heading">
-                  <h3>PDF-Lernmaterialien</h3>
+                  <h3>Lernmaterialien</h3>
                   <label className="course-editor-file-label">
-                    <Add20Regular aria-hidden="true" /> PDF hinzufügen
+                    <Add20Regular aria-hidden="true" /> Datei hinzufügen
                     <input
                       type="file"
-                      accept="application/pdf,.pdf"
-                      aria-label="PDF hinzufügen"
+                      accept="application/pdf,.pdf,image/png,.png,image/jpeg,.jpg,.jpeg,image/gif,.gif,image/webp,.webp"
+                      aria-label="Datei hinzufügen"
                       onChange={(event) => {
                         addMaterial(event.currentTarget.files?.[0]);
                         event.currentTarget.value = "";
@@ -193,7 +203,7 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
                     />
                   </label>
                 </div>
-                {materials.length === 0 && <p>Noch keine PDF-Materialien.</p>}
+                {materials.length === 0 && <p>Noch keine Lernmaterialien.</p>}
                 {materials.map((material) => (
                   <div className="course-editor-material" key={material.id}>
                     <Field label="Anzeigetitel" required>

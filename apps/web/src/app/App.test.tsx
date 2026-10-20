@@ -15,7 +15,7 @@ const authApi = vi.hoisted(() => ({
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
   users: { list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
-  courses: { list: vi.fn(), get: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
+  courses: { list: vi.fn(), get: vi.fn(), getPractice: vi.fn(), examResults: vi.fn(), abortedExamSessions: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -38,7 +38,12 @@ beforeEach(() => {
   authApi.users.update.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
   authApi.users.delete.mockResolvedValue({ success: true });
   authApi.courses.list.mockResolvedValue([...coursesData]);
+  authApi.courses.examResults.mockResolvedValue([]);
+  authApi.courses.abortedExamSessions.mockResolvedValue([]);
   authApi.courses.get.mockImplementation((slug: string) => Promise.resolve(
+    coursesData.find((course) => course.slug === slug || course.id === slug),
+  ));
+  authApi.courses.getPractice.mockImplementation((slug: string) => Promise.resolve(
     coursesData.find((course) => course.slug === slug || course.id === slug),
   ));
 });
@@ -61,6 +66,27 @@ describe("portal shell", () => {
 
     expect(document.documentElement.dataset.theme).toBe("dark");
     expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
+  });
+
+  it("nests exam results under eLearning without adding a home destination", async () => {
+    render(<App />);
+    await screen.findByRole("heading", { name: "Willkommen, Alex" });
+
+    const learningNavigation = screen.getByRole("group", { name: "eLearning-Bereiche" });
+    expect(within(learningNavigation).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
+    expect(within(screen.getByRole("main")).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
+
+    await userEvent.click(within(learningNavigation).getByRole("link", { name: "eLearning" }));
+    const resultsLink = within(learningNavigation).getByRole("link", { name: "Prüfungsauswertung" });
+    expect(resultsLink).toHaveClass("nav-subitem");
+
+    await userEvent.click(resultsLink);
+    expect(await screen.findByRole("heading", { name: "Noch keine Prüfungen abgelegt" })).toBeInTheDocument();
+    expect(resultsLink).toHaveClass("nav-subitem--active");
+    expect(within(learningNavigation).getByRole("link", { name: "eLearning" })).toHaveClass("nav-item--active");
+
+    await userEvent.click(screen.getByRole("link", { name: "Übersicht" }));
+    expect(within(learningNavigation).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
   });
 
   it("opens a protected placeholder from portal navigation", async () => {
@@ -116,6 +142,7 @@ describe("portal shell", () => {
       if (!el) throw new Error("Dialog not found");
       return el as HTMLElement;
     });
+
     expect(within(dialog).getByText("Passwort ändern", { selector: "h2" })).toBeInTheDocument();
 
     const currentPwInput = within(dialog).getByLabelText("Aktuelles Passwort", { selector: "input" });
@@ -152,6 +179,26 @@ describe("portal shell", () => {
     fireEvent.click(securitySubLink);
     expect(await screen.findByRole("region", { name: "Sicherheit" })).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Persönliche Daten" })).not.toBeInTheDocument();
+  });
+
+  it("shows profile subnavigation only while the profile area is open", async () => {
+    render(<App />);
+    const sidebar = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    expect(within(sidebar).queryByRole("group", { name: "Profil-Bereiche" })).not.toBeInTheDocument();
+
+    const profileLink = within(sidebar).getByRole("link", { name: "Mein Profil" });
+    await userEvent.click(profileLink);
+    expect(within(sidebar).getByRole("link", { name: "Persönliche Daten" })).toBeInTheDocument();
+    expect(within(sidebar).getByRole("link", { name: "Sicherheit" })).toBeInTheDocument();
+
+    await userEvent.click(profileLink);
+    expect(within(sidebar).getByRole("group", { name: "Profil-Bereiche" })).toBeInTheDocument();
+
+    await userEvent.click(within(sidebar).getByRole("link", { name: "eLearning" }));
+    expect(within(sidebar).queryByRole("group", { name: "Profil-Bereiche" })).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("link", { name: "Mein Profil: alex@example.test" }));
+    expect(within(sidebar).getByRole("group", { name: "Profil-Bereiche" })).toBeInTheDocument();
   });
 
   it("allows selecting the admin role in the user form without crashing", async () => {

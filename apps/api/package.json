@@ -13,6 +13,7 @@
     "seed": "tsx --env-file=../../.env src/db/seed.ts",
     "seed:admin": "tsx --env-file=../../.env src/db/seed.ts",
     "seed:prod": "tsx src/db/seed.ts",
+    "questions:import:istqb": "tsx --env-file-if-exists=../../.env src/db/istqb-question-command.ts",
     "content:export": "tsx --env-file=../../.env src/db/content-command.ts export",
     "content:import": "tsx src/db/content-command.ts import",
     "content:import:local": "tsx --env-file=../../.env src/db/content-command.ts import-missing deploy/portal-content.json"

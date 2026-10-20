@@ -4,19 +4,26 @@ import {
   ArrowDownload20Regular,
   ArrowLeft20Regular,
   BookOpen24Regular,
-  DocumentPdf24Regular,
+  Clock20Regular,
   Info20Regular,
   Play20Regular,
   QuizNew24Regular,
 } from "@fluentui/react-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import type { Course } from "@portal/shared";
+import type { CourseSummary } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
+
+const imageExtensions = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
+
+function isImageMaterial(fileName: string) {
+  const extension = fileName.match(/\.[^.]+$/)?.[0].toLowerCase();
+  return extension !== undefined && imageExtensions.has(extension);
+}
 
 export function CourseDetailPage() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  const [course, setCourse] = useState<Course | null>(null);
+  const [course, setCourse] = useState<CourseSummary | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "not-found" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
 
@@ -109,20 +116,27 @@ export function CourseDetailPage() {
         <section className="course-detail-card" aria-labelledby="materials-heading">
           <div className="course-detail-card__heading">
             <h2 id="materials-heading">
-              <DocumentPdf24Regular aria-hidden="true" />
+              <BookOpen24Regular aria-hidden="true" />
               Lernmaterialien
             </h2>
-            <p>Zugehörige Begleitdokumente und Leitfäden zum Download.</p>
+            <p>Zugehörige Begleitdokumente, Leitfäden und Bilder.</p>
           </div>
 
           {course.materials.length > 0 ? (
             <div className="course-materials-list">
               {course.materials.map((material) => (
                 <div key={material.id} className="course-material-item">
+                  {isImageMaterial(material.fileName) && (
+                    <img
+                      className="course-material-item__preview"
+                      src={`${material.url}${material.url.includes("?") ? "&" : "?"}preview=1`}
+                      alt={material.title}
+                    />
+                  )}
                   <div className="course-material-item__info">
                     <span className="course-material-item__title">{material.title}</span>
                     <span className="course-material-item__meta">
-                      PDF-Dokument • {material.fileName}
+                      {isImageMaterial(material.fileName) ? "Bilddatei" : "PDF-Dokument"} • {material.fileName}
                       {material.fileSize ? ` • ${material.fileSize}` : ""}
                     </span>
                   </div>
@@ -143,37 +157,37 @@ export function CourseDetailPage() {
             <div className="course-materials-empty">
               <p className="course-materials-empty__text">Lernmaterialien folgen</p>
               <span className="course-materials-empty__hint">
-                Für diesen Kurs sind derzeit noch keine PDF-Unterlagen hinterlegt.
+                Für diesen Kurs sind derzeit noch keine Lernmaterialien hinterlegt.
               </span>
             </div>
           )}
         </section>
 
         {/* Übungsfragen */}
-        <section className="course-detail-card" aria-labelledby="practice-heading">
+        <section className="course-detail-card course-detail-card--practice" aria-labelledby="practice-heading">
           <div className="course-detail-card__heading">
             <h2 id="practice-heading">
               <QuizNew24Regular aria-hidden="true" />
               Übungsfragen
             </h2>
             <p>
-              Vertiefe dein Wissen mit interaktiven Multiple-Choice-Fragen. Du erhältst nach jeder Antwort sofortige Rückmeldung und eine fachliche Erklärung.
+              Übe mit sofortiger Rückmeldung oder starte eine Probeprüfung. Im Prüfungsmodus werden die Lösungen und Erklärungen erst nach der Abgabe angezeigt.
             </p>
           </div>
 
           <div className="course-practice-info">
             <div className="course-practice-metrics">
               <div className="metric-box">
-                <span className="metric-box__value">{course.questions.length}</span>
-                <span className="metric-box__label">Übungsfragen</span>
+                <span className="metric-box__value">{course.questionCount}</span>
+                <span className="metric-box__label">Fragen im Katalog</span>
               </div>
               <div className="metric-box">
-                <span className="metric-box__value">Sofort</span>
-                <span className="metric-box__label">Lösungserklärung</span>
+                <span className="metric-box__value">{course.slug === "istqb-foundation" ? "60 / 75 Min" : "10 Min"}</span>
+                <span className="metric-box__label">Probeprüfungszeit</span>
               </div>
               <div className="metric-box">
-                <span className="metric-box__value">Unbegrenzt</span>
-                <span className="metric-box__label">Wiederholbar</span>
+                <span className="metric-box__value">65 %</span>
+                <span className="metric-box__label">Bestehensgrenze</span>
               </div>
             </div>
 
@@ -184,6 +198,13 @@ export function CourseDetailPage() {
               >
                 <Play20Regular aria-hidden="true" />
                 <span>Übung starten</span>
+              </Link>
+              <Link
+                to={`/areas/elearning/${course.slug}/exam`}
+                className="fui-Button fui-Button--primary elearning-start-btn elearning-start-btn--exam"
+              >
+                <Clock20Regular aria-hidden="true" />
+                <span>Prüfungsmodus</span>
               </Link>
             </div>
           </div>

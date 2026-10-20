@@ -31,6 +31,9 @@
    Get-Content -Raw apps/api/migrations/006_benefit_urls.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/007_enable_multi_user_management.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/008_create_elearning_courses.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/009_create_exam_attempts.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/010_create_practice_progress.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/011_create_exam_sessions.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
 
@@ -62,7 +65,7 @@ Die API legt beim Start die PostgreSQL-Tabelle `portal_sessions` über `connect-
 
 ### Kacheln nach einem Pull lokal übernehmen
 
-Die freigegebenen Application Links und Benefits sind in [deploy/portal-content.json](../deploy/portal-content.json) versioniert. Nach `git pull` und dem normalen Datenbank-/Account-Setup importiert `npm run dev` automatisch fehlende Kacheln und richtet einmalig die Standardkurse ein, bevor die API startet. Das gilt auch für `npm run dev --workspace @portal/api`. Die Datenbank muss laufen und alle Migrationen müssen angewendet sein (einschließlich `005_order_benefits.sql`, `006_benefit_urls.sql`, `007_enable_multi_user_management.sql` und `008_create_elearning_courses.sql`); Importfehler werden ausgegeben und verhindern den API-Start, statt ein leeres Portal vorzutäuschen.
+Die freigegebenen Application Links und Benefits sind in [deploy/portal-content.json](../deploy/portal-content.json) versioniert. Nach `git pull` und dem normalen Datenbank-/Account-Setup importiert `npm run dev` automatisch fehlende Kacheln und richtet einmalig die Standardkurse ein, bevor die API startet. Das gilt auch für `npm run dev --workspace @portal/api`. Die Datenbank muss laufen und alle Migrationen müssen angewendet sein (einschließlich `005_order_benefits.sql`, `006_benefit_urls.sql`, `007_enable_multi_user_management.sql`, `008_create_elearning_courses.sql` und `009_create_exam_attempts.sql`); Importfehler werden ausgegeben und verhindern den API-Start, statt ein leeres Portal vorzutäuschen.
 
 Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-Stamm einmal `npm run content:import:local --workspace @portal/api` ausführen. Der lokale Import lädt die `.env` im Repository-Stamm, ergänzt nur fehlende URLs bzw. Benefit-Titel und importiert die Standardkurse ausschließlich beim ersten Lauf. Bestehende Inhalte und Reihenfolgen werden nicht überschrieben, zusätzliche lokale Kacheln nicht gelöscht. Wiederholte Starts erzeugen keine Duplikate. Tasks-Tickets, Benutzer, Passwörter und Sitzungen werden nicht übertragen.
 
@@ -71,6 +74,32 @@ Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-S
 Alle angemeldeten Mitarbeitenden können Kurse, Lernmaterialien und Übungen lesen. Nur Admins können Kurse samt PDFs und Übungsfragen anlegen, bearbeiten oder löschen. Hochgeladene PDFs werden in PostgreSQL gespeichert; pro Datei gilt ein Limit von 25 MB. Die initialen Standardkurse werden beim ersten lokalen Content-Import einmalig angelegt. Die Kursübersicht für Mitarbeitende zeigt weiterhin die ersten zwei Kurse; Admins sehen alle Kurse zur Verwaltung.
 
 Neue lokal angelegte Links und Benefits werden nicht allein durch einen Code-Push übertragen. Für ihre Freigabe im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins importiert denselben Export auf Produktion; dort können `updateExistingLinks` und `updateExistingBenefits` bestehende Inhalte ausdrücklich aktualisieren. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen).
+
+### ISTQB-Fragen aus der Referenzdatei übernehmen
+
+Der vorhandene Kurs „ISTQB Foundation“ kann gezielt mit den 90 Fragen aus [FRAGEN-MIT-LOESUNGEN.md](elearning/istqb-portal/FRAGEN-MIT-LOESUNGEN.md) befüllt werden:
+
+```powershell
+npm run questions:import:istqb --workspace @portal/api
+```
+
+Der Befehl **ersetzt alle bisherigen Fragen dieses Kurses**, einschließlich der vier Demo-Fragen. Er übernimmt Fragetexte, vier Antwortmöglichkeiten, Einfach-/Mehrfachauswahl, Lösungen und Erklärungen mit stabilen IDs sowie Kapitel, Lernziel und K1/K2/K3 aus den Markdown-Überschriften. Ein Regressionstest gleicht alle 90 Zuordnungen mit `istqb-ctfl-fragenpool.json` ab. Vor dem Schreiben werden alle 90 Fragen validiert; bei Fehlern bleibt der Kurs unverändert. PDFs, Kursbeschreibung, andere Kurse und gespeicherte Prüfungsergebnisse bleiben erhalten. Wiederholter Import desselben Inhalts schreibt keine Duplikate.
+
+Der Import wird bewusst nicht bei jedem Start ausgeführt, damit spätere Änderungen im Kurseditor erhalten bleiben. Er benötigt die bestehende Datenbankkonfiguration. Bereits importierte Fragen einmal erneut importieren, um ihre Zuordnung zu ergänzen.
+
+### ISTQB-Übungsauswahl und persönlicher Fortschritt
+
+„Übung starten“ öffnet für ISTQB Foundation zunächst die Auswahlseite: sechs Kapitel (anfangs alle), optionale Wissensstufen K1/K2/K3 (keine Auswahl bedeutet alle), 10/20/alle verfügbaren Fragen und „Fehler wiederholen“. Kapitel und Wissensstufen werden kombiniert. Bei leerer Treffermenge ist der Start gesperrt. Fehlende Metadaten werden als Importfehler angezeigt, nicht durch geschätzte Zuordnungen ersetzt.
+
+Für den dauerhaft nutzerbezogenen Fortschritt einmalig die additive Migration ausführen:
+
+```powershell
+Get-Content -Raw apps\api\migrations\010_create_practice_progress.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+```
+
+Jede Sitzung enthält höchstens die gewählte Anzahl verschiedener Fragen. Noch nicht beantwortete Fragen werden bevorzugt; Fragen und Antwortoptionen werden gemischt. Lösungen erscheinen erst nach „Antwort prüfen“ und erfolgreichem Speichern. Geprüfte Antworten bleiben gesperrt. „Fehler wiederholen“ berücksichtigt ausschließlich die zuletzt falsch beantworteten Fragen des angemeldeten Benutzers; nach einer richtigen Antwort entfällt die Frage aus dieser Auswahl. Änderungen am Frageninhalt machen alten Fortschritt für diese Frage ungültig. Lade- und Speicherfehler werden sichtbar gemeldet und können erneut versucht werden.
+
+`GET /api/courses/:slug/practice/progress` liest den eigenen Fortschritt, `POST /api/courses/:slug/practice/answer` bewertet und speichert `{ questionId, selectedOptionIds }` serverseitig. Beide Endpunkte erfordern Anmeldung und übernehmen keine Benutzer-ID aus dem Client. Übungsfortschritt wird nicht in der Prüfungsauswertung gespeichert. Der Prüfungsmodus und Übungen anderer Kurse bleiben unverändert.
 
 ## Checks
 

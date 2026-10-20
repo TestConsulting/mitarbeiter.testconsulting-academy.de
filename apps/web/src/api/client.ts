@@ -1,4 +1,23 @@
-import type { AppLink, AppLinkInput, ArchivedTicket, Benefit, BenefitInput, BoardColumn, BoardState, Course, CourseInput, LearningMaterial, PortalUser, Ticket } from "@portal/shared";
+import type {
+  AppLink,
+  AppLinkInput,
+  ArchivedTicket,
+  Benefit,
+  BenefitInput,
+  BoardColumn,
+  BoardState,
+  Course,
+  CourseInput,
+  CourseSummary,
+  ExamAnswer,
+  ExamAttempt,
+  ExamCourse,
+  ExamSubmissionResult,
+  LearningMaterial,
+  PortalUser,
+  PracticeProgress,
+  Ticket,
+} from "@portal/shared";
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -138,12 +157,66 @@ export const api = {
   },
   courses: {
     async list() {
-      const result = await request<{ courses: Course[] }>("/api/courses");
+      const result = await request<{ courses: CourseSummary[] }>("/api/courses");
       return result.courses;
     },
     async get(slug: string) {
-      const result = await request<{ course: Course }>(`/api/courses/${encodeURIComponent(slug)}`);
+      const result = await request<{ course: CourseSummary }>(`/api/courses/${encodeURIComponent(slug)}`);
       return result.course;
+    },
+    async getAdmin(slug: string) {
+      const result = await request<{ course: Course }>(`/api/courses/admin/${encodeURIComponent(slug)}`);
+      return result.course;
+    },
+    async getPractice(slug: string) {
+      const result = await request<{ course: Course }>(`/api/courses/${encodeURIComponent(slug)}/practice`);
+      return result.course;
+    },
+    async getPracticeProgress(slug: string) {
+      const result = await request<{ progress: PracticeProgress[] }>(
+        `/api/courses/${encodeURIComponent(slug)}/practice/progress`,
+      );
+      return result.progress;
+    },
+    async checkPracticeAnswer(slug: string, questionId: string, selectedOptionIds: string[]) {
+      const result = await request<{ progress: PracticeProgress }>(
+        `/api/courses/${encodeURIComponent(slug)}/practice/answer`,
+        { method: "POST", body: JSON.stringify({ questionId, selectedOptionIds }) },
+      );
+      return result.progress;
+    },
+    async getExam(slug: string) {
+      const result = await request<{ course: ExamCourse }>(`/api/courses/${encodeURIComponent(slug)}/exam`);
+      return result.course;
+    },
+    async currentExamSession() {
+      return (await request<{ session: import("@portal/shared").ExamSession | null }>("/api/exam-sessions/current")).session;
+    },
+    async startExamSession(extended: boolean) {
+      return (await request<{ session: import("@portal/shared").ExamSession }>("/api/exam-sessions/start", {
+        method: "POST", body: JSON.stringify({ slug: "istqb-foundation", extended }),
+      })).session;
+    },
+    async changeExamSession(id: string, action: "save" | "submit" | "abort", answers?: ExamAnswer[]) {
+      return (await request<{ session: import("@portal/shared").ExamSession }>(
+        `/api/exam-sessions/${encodeURIComponent(id)}/${action}`,
+        { method: "POST", body: JSON.stringify({ answers }) },
+      )).session;
+    },
+    async abortedExamSessions() {
+      return (await request<{ attempts: import("@portal/shared").AbortedExamSession[] }>("/api/exam-sessions/aborted")).attempts;
+    },
+    async submitExam(slug: string, answers: ExamAnswer[]) {
+      const result = await request<{ result: ExamSubmissionResult }>(
+        `/api/courses/${encodeURIComponent(slug)}/exam/submit`,
+        { method: "POST", body: JSON.stringify({ answers }) },
+      );
+      return result.result;
+    },
+    async examResults() {
+      await this.currentExamSession();
+      const result = await request<{ attempts: ExamAttempt[] }>("/api/courses/results");
+      return result.attempts;
     },
     async create(input: CourseInput) {
       const result = await request<{ course: Course }>("/api/courses", {
@@ -165,14 +238,14 @@ export const api = {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/pdf",
+          "Content-Type": file.type,
           "X-File-Name": encodeURIComponent(file.name),
         },
         body: file,
       });
       if (!response.ok) {
         const payload = await response.json().catch(() => ({})) as { error?: string };
-        throw new ApiError(payload.error ?? "Die PDF-Datei konnte nicht hochgeladen werden.", response.status);
+        throw new ApiError(payload.error ?? "Das Lernmaterial konnte nicht hochgeladen werden.", response.status);
       }
       const result = await response.json() as { material: LearningMaterial };
       return result.material;

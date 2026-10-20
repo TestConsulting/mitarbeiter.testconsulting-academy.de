@@ -8,9 +8,23 @@ export type {
   Course,
   CourseCategory,
   CourseInput,
+  CourseSummary,
+  ExamAnswer,
+  ExamAttempt,
+  ExamCourse,
+  ExamQuestion,
+  ExamQuestionResult,
+  ExamSubmissionResult,
+  ExamSession,
+  AbortedExamSession,
   LearningMaterial,
   PracticeQuestion,
+  PracticeProgress,
   QuestionOption,
+} from "./elearning.js";
+export {
+  EXAM_PASS_THRESHOLD, CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_K_LEVEL_COUNTS,
+  CTFL_EXAM_DURATION_MINUTES, CTFL_EXAM_EXTENDED_MINUTES, CTFL_EXAM_QUESTION_COUNT,
 } from "./elearning.js";
 
 export type PortalUser = {

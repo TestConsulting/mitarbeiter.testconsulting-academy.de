@@ -24,7 +24,7 @@ import {
 } from "@fluentui/react-icons";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import type { Course, CourseInput, CourseCategory } from "@portal/shared";
+import type { Course, CourseInput, CourseCategory, CourseSummary, ExamAttempt } from "@portal/shared";
 import { canManagePortal } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { useAuth } from "../../app/auth-context.js";
@@ -33,17 +33,24 @@ import {
 } from "./elearning-data.js";
 import { CourseEditorDialog } from "./course-editor-dialog.js";
 
+const examDateFormatter = new Intl.DateTimeFormat("de-DE", {
+  dateStyle: "short",
+});
+
 export function ElearningPage() {
   const { user } = useAuth();
   const isAdmin = canManagePortal(user);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<"Alle" | CourseCategory>("Alle");
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<CourseSummary[]>([]);
+  const [latestExamByCourse, setLatestExamByCourse] = useState<Record<string, ExamAttempt>>({});
+  const [examResultsStatus, setExamResultsStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [examResultsLoadAttempt, setExamResultsLoadAttempt] = useState(0);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [creatingCourse, setCreatingCourse] = useState(false);
-  const [deletingCourse, setDeletingCourse] = useState<Course | null>(null);
+  const [deletingCourse, setDeletingCourse] = useState<CourseSummary | null>(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -60,6 +67,26 @@ export function ElearningPage() {
     });
     return () => { active = false; };
   }, [loadAttempt]);
+
+  useEffect(() => {
+    let active = true;
+    setExamResultsStatus("loading");
+    api.courses.examResults().then((attempts) => {
+      if (!active) return;
+      const latest = attempts.reduce<Record<string, ExamAttempt>>((current, attempt) => {
+        const previous = current[attempt.courseId];
+        if (!previous || Date.parse(attempt.submittedAt) > Date.parse(previous.submittedAt)) {
+          current[attempt.courseId] = attempt;
+        }
+        return current;
+      }, {});
+      setLatestExamByCourse(latest);
+      setExamResultsStatus("ready");
+    }).catch(() => {
+      if (active) setExamResultsStatus("error");
+    });
+    return () => { active = false; };
+  }, [examResultsLoadAttempt]);
 
   const visibleCourses = isAdmin ? courses : courses.slice(0, 2);
 
@@ -81,9 +108,20 @@ export function ElearningPage() {
       const saved = editingCourse
         ? await api.courses.update(editingCourse.id, input)
         : await api.courses.create(input);
+      const summary: CourseSummary = {
+        id: saved.id,
+        slug: saved.slug,
+        title: saved.title,
+        category: saved.category,
+        description: saved.description,
+        ...(saved.isDemo !== undefined ? { isDemo: saved.isDemo } : {}),
+        ...(saved.demoNotice !== undefined ? { demoNotice: saved.demoNotice } : {}),
+        materials: saved.materials,
+        questionCount: saved.questions.length,
+      };
       setCourses((current) => editingCourse
-        ? current.map((course) => course.id === saved.id ? saved : course)
-        : [...current, saved]);
+        ? current.map((course) => course.id === saved.id ? summary : course)
+        : [...current, summary]);
       setNotice(`Kurs „${saved.title}“ wurde gespeichert.`);
 
       if (editingCourse) {
@@ -99,6 +137,15 @@ export function ElearningPage() {
     } catch (failure) {
       setError(failure instanceof ApiError ? failure.message : "Der Kurs konnte nicht gespeichert werden.");
       throw failure;
+    }
+  }
+
+  async function beginEditing(course: CourseSummary) {
+    setError("");
+    try {
+      setEditingCourse(await api.courses.getAdmin(course.slug));
+    } catch (failure) {
+      setError(failure instanceof ApiError ? failure.message : "Der Kurs konnte nicht geladen werden.");
     }
   }
 
@@ -138,6 +185,14 @@ export function ElearningPage() {
       {isAdmin && <p className="elearning-admin-note">Du verwaltest Kurse, PDFs und Übungsfragen. Mitarbeitende sehen die ersten zwei Kurse.</p>}
       {notice && <p role="status">{notice}</p>}
       {error && <MessageBar intent="error"><MessageBarBody>{error}</MessageBarBody></MessageBar>}
+      {examResultsStatus === "error" && <MessageBar intent="error">
+        <MessageBarBody>
+          Prüfungsergebnisse konnten nicht geladen werden.
+          <Button appearance="transparent" onClick={() => setExamResultsLoadAttempt((attempt) => attempt + 1)}>
+            Erneut versuchen
+          </Button>
+        </MessageBarBody>
+      </MessageBar>}
       {status === "loading" && <p role="status">Kurse werden geladen …</p>}
       {status === "error" && (
         <section className="empty-state" role="alert">
@@ -197,7 +252,7 @@ export function ElearningPage() {
         <div className="elearning-course-grid">
           {filteredCourses.map((course) => {
             const materialCount = course.materials.length;
-            const questionCount = course.questions.length;
+            const questionCount = course.questionCount;
 
             return (
               <article key={course.id} className="elearning-card" aria-label={course.title}>
@@ -211,7 +266,7 @@ export function ElearningPage() {
                     </Badge>
                   )}
                   {isAdmin && <div className="elearning-card__admin-actions">
-                    <Button appearance="subtle" size="small" icon={<Edit20Regular />} aria-label={`${course.title} bearbeiten`} onClick={() => setEditingCourse(course)} />
+                    <Button appearance="subtle" size="small" icon={<Edit20Regular />} aria-label={`${course.title} bearbeiten`} onClick={() => void beginEditing(course)} />
                     <Button appearance="subtle" size="small" icon={<Delete20Regular />} aria-label={`${course.title} löschen`} onClick={() => setDeletingCourse(course)} />
                   </div>}
                 </div>
@@ -231,6 +286,23 @@ export function ElearningPage() {
                     {questionCount > 0 ? `${questionCount} Übungsfragen` : "Fragen in Vorbereitung"}
                   </span>
                 </div>
+
+                {examResultsStatus === "ready" && latestExamByCourse[course.id] && (() => {
+                  const attempt = latestExamByCourse[course.id];
+                  return (
+                    <div className="elearning-card__last-exam" aria-label="Letztes Prüfungsergebnis">
+                      <div>
+                        <span className="elearning-card__last-exam-label">
+                          Letzte Prüfung · {examDateFormatter.format(new Date(attempt.submittedAt))}
+                        </span>
+                        <strong>Richtigkeit: {attempt.percentage} %</strong>
+                      </div>
+                      <Badge appearance="tint" color={attempt.passed ? "success" : "danger"}>
+                        {attempt.passed ? "Bestanden" : "Nicht bestanden"}
+                      </Badge>
+                    </div>
+                  );
+                })()}
 
                 <div className="elearning-card__footer">
                   <Link

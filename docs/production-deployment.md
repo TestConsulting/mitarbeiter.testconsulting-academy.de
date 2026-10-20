@@ -46,8 +46,30 @@ Mit `"updateExistingBenefits": true` aktualisiert Jenkins Kurzbeschreibung, Deta
 
 `006_benefit_urls.sql` ergänzt eine optionale Zieladresse für Benefits. Bestehende Benefits erhalten `url = NULL` und bleiben ohne externen Link verwendbar. Neue Exporte enthalten die URL; ältere Exportdateien ohne dieses Feld sind weiterhin importierbar. Bereits vorhandene Prod-Benefits werden nur mit aktiviertem `updateExistingBenefits` aktualisiert.
 
-`008_create_elearning_courses.sql` legt den persistenten Kurskatalog, die einmalige Initialisierungsmarkierung und den PostgreSQL-Speicher für hochgeladene PDFs an (maximal 25 MB je Datei). Der nachfolgende Content-Import fügt die versionierten Standardkurse nur beim ersten Lauf ein; Änderungen und Löschungen aus der Benutzeroberfläche werden nicht bei späteren Deployments überschrieben. Alle angemeldeten Mitarbeitenden können Kurse ansehen und absolvieren. Kurs-, Fragen- und PDF-Verwaltung ist serverseitig auf Admins beschränkt.
+`008_create_elearning_courses.sql` legt den persistenten Kurskatalog, die einmalige Initialisierungsmarkierung und den PostgreSQL-Speicher für hochgeladene Lernmaterialien an (maximal 25 MB je Datei). `009_create_exam_attempts.sql` speichert Prüfungsergebnisse nutzerbezogen und löscht diese beim Entfernen eines Benutzerkontos. Der nachfolgende Content-Import fügt die versionierten Standardkurse nur beim ersten Lauf ein; Änderungen und Löschungen aus der Benutzeroberfläche werden nicht bei späteren Deployments überschrieben. Alle angemeldeten Mitarbeitenden können Kurse ansehen und absolvieren. Kurs-, Fragen- und Materialverwaltung ist serverseitig auf Admins beschränkt.
 
 Der gesamte Import läuft in einer Transaktion und sperrt Schreibzugriffe auf beide Tabellen für seine Dauer. Fehler brechen den Job ab und rollen den Import zurück. Der Seed für Benutzer wird dabei nicht ausgeführt. Eine fehlende oder ungültige Exportdatei ist ein Deploymentfehler.
 
 Ein normaler Code-Push ohne aktualisierten Export überträgt keine neuen lokalen Datenbankinhalte. Vor dem ersten Deployment mit Migrationen und Import die produktive Datenbank sichern. Nach dem Job im angemeldeten Portal prüfen, dass Links und Benefits einschließlich Icons, Details, Zieladressen und der gewünschten Reihenfolge geladen werden und zusätzliche Prod-Einträge erhalten bleiben.
+
+## ISTQB-Kursfragen gezielt importieren
+
+Die 90 Fragen aus `docs/elearning/istqb-portal/FRAGEN-MIT-LOESUNGEN.md` werden nicht automatisch durch Jenkins importiert. Nach Freigabe und Datenbankbackup kann im aktualisierten API-Container gezielt ausgeführt werden:
+
+```sh
+docker compose -p mitarbeiter-portal --env-file /var/www/mitarbeiter-portal/.env -f docker-compose.prod.yml exec api npm run questions:import:istqb
+```
+
+Dies ersetzt ausschließlich die Fragen des vorhandenen Kurses mit Slug `istqb-foundation`, einschließlich ihrer Kapitel-, Lernziel- und K1/K2/K3-Zuordnung. Kursdaten, Materialien, andere Kurse und bisherige Prüfungsergebnisse bleiben erhalten. Der Import validiert die Markdown-Datei und schreibt atomar; identischer Inhalt wird nicht erneut geschrieben. Spätere manuelle Änderungen an Kursfragen werden erst bei ausdrücklichem erneutem Import ersetzt.
+
+Die vorgeschaltete ISTQB-Übungsauswahl benötigt diese Metadaten auch bei bereits importierten Fragen: den Befehl nach Freigabe erneut ausführen. Migration `010_create_practice_progress.sql` ergänzt ausschließlich die Tabelle `elearning_practice_progress` für den persönlichen Übungsstand (nach Migration 008 ausführen). Die Migration wird über den bestehenden Deployment-Migrationslauf angewendet. Keine neuen Konfigurationswerte erforderlich. Nach dem Deployment Kapitel-/Wissensstufenfilter und eine gespeicherte Antwort nach erneutem Öffnen der Übung prüfen.
+
+### Persistente CTFL-Prüfungssimulation
+
+Migration `011_create_exam_sessions.sql` muss vor Verwendung des neuen Foundation-Prüfungsmodus angewendet sein; Jenkins berücksichtigt sie im vorhandenen Migrationslauf. Die Simulation beginnt erst mit „Prüfung starten“ und zieht exakt 40 unterschiedliche Fragen nach den versionierten Lernzielgruppen des Fragenpools (Kapitel: 8/6/4/11/9/2, Wissensstufen K1/K2/K3: 8/24/8). Ein unvollständiger oder falsch zugeordneter Pool führt zu einer ausdrücklichen Fehlermeldung, nicht zu einer verkürzten Prüfung.
+
+Fragen, Optionen, Lösungen, Antworten und die unveränderliche 60-/75-Minuten-Frist werden serverseitig als Snapshot gespeichert. Ein partieller eindeutiger Index und transaktionale Benutzersperren erlauben nur einen aktiven Versuch pro Benutzerkonto. Bei einem gemeinsam verwendeten Konto gilt diese Grenze gemeinsam für alle Personen. Es gibt keine Pause; Abmeldung oder Browser-Schließen hält die Frist nicht an. Speichern, Abgeben und Abbrechen werden pro Konto serialisiert. Zu spät eingehende Antworten werden nicht mehr übernommen.
+
+Zeitablauf wird bei der nächsten Prüfungsanfrage bzw. beim Abruf des Verlaufs nachgezogen, mit dem tatsächlichen Fristende als Ergebniszeitpunkt; dafür ist kein Hintergrundjob nötig. Antworten brauchen eine funktionierende Verbindung: fehlgeschlagene Speicherungen bleiben in der geöffneten Seite zur Wiederholung erhalten und werden sichtbar gemeldet. Vor erfolgreicher Speicherung nicht schließen. Abbrüche bleiben ohne Wertung in einem separaten Verlauf und zählen nicht zum Durchschnitt. Lösungen erscheinen nur nach gewerteter Abgabe oder Zeitablauf, nicht beim Abbruch. Andere Kurse behalten ihre bisherige zehnminütige Demo-Prüfung.
+
+Nach Deployment Start mit 60/75 Minuten, automatische Speicherung, Neuladen/Wiederaufnahme und getrennten Abbruchverlauf prüfen. Integrationstests gegen eine lokale PostgreSQL-Datenbank laufen aus dem API-Verzeichnis mit `RUN_EXAM_DB_TESTS=1`, geladener `DATABASE_URL` und `vitest run src/db/exam-session-repository.integration.test.ts`. Sie verwenden ein eigenes zufälliges Schema und entfernen ausschließlich dieses anschließend.

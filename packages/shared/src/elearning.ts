@@ -20,6 +20,17 @@ export type PracticeQuestion = {
   options: QuestionOption[];
   correctOptionIds: string[];
   explanation: string;
+  metadata?: {
+    chapter: number;
+    chapterTitle: string;
+    learningObjective: string;
+    kLevel: "K1" | "K2" | "K3";
+  };
+};
+
+export type PracticeProgress = {
+  questionId: string;
+  lastCorrect: boolean;
 };
 
 export type Course = {
@@ -32,6 +43,78 @@ export type Course = {
   demoNotice?: string;
   materials: LearningMaterial[];
   questions: PracticeQuestion[];
+};
+
+export type CourseSummary = Omit<Course, "questions"> & {
+  questionCount: number;
+};
+
+export type ExamQuestion = Omit<PracticeQuestion, "correctOptionIds" | "explanation"> & {
+  requiredSelections?: number;
+};
+
+export type ExamCourse = Pick<
+  Course,
+  "id" | "slug" | "title" | "category" | "description" | "isDemo" | "demoNotice"
+> & {
+  questions: ExamQuestion[];
+};
+
+export type ExamAnswer = {
+  questionId: string;
+  selectedOptionIds: string[];
+};
+
+export type ExamQuestionResult = {
+  question: ExamQuestion;
+  selectedOptionIds: string[];
+  correctOptionIds: string[];
+  explanation: string;
+  isCorrect: boolean;
+};
+
+export type ExamSubmissionResult = {
+  percentage: number;
+  passed: boolean;
+  correctCount: number;
+  totalQuestions: number;
+  results: ExamQuestionResult[];
+};
+
+export type ExamAttempt = ExamSubmissionResult & {
+  id: string;
+  courseId: string;
+  courseSlug: string;
+  courseTitle: string;
+  submittedAt: string;
+};
+
+export const EXAM_PASS_THRESHOLD = 65;
+
+export const CTFL_EXAM_CHAPTER_COUNTS = [8, 6, 4, 11, 9, 2] as const;
+export const CTFL_EXAM_K_LEVEL_COUNTS = { K1: 8, K2: 24, K3: 8 } as const;
+export const CTFL_EXAM_DURATION_MINUTES = 60;
+export const CTFL_EXAM_EXTENDED_MINUTES = 75;
+export const CTFL_EXAM_QUESTION_COUNT = 40;
+
+export type ExamSession = {
+  id: string;
+  course: ExamCourse;
+  status: "active" | "submitted" | "expired" | "aborted";
+  startedAt: string;
+  expiresAt: string;
+  finishedAt: string | null;
+  serverTime: string;
+  durationMinutes: number;
+  answers: ExamAnswer[];
+  result: ExamSubmissionResult | null;
+};
+
+export type AbortedExamSession = {
+  id: string;
+  courseTitle: string;
+  startedAt: string;
+  finishedAt: string;
 };
 
 export type CourseInput = Omit<Course, "id" | "slug">;
