@@ -25,9 +25,14 @@ pipeline {
       }
     }
     stage('Import uploaded learning materials') {
-      when { changeset "deploy/elearning-materials/**" }
+      when {
+        anyOf {
+          changeset "deploy/elearning-materials/**"
+          changeset "Jenkinsfile"
+        }
+      }
       steps {
-        sh "${COMPOSE} run --rm --no-deps api npm run materials:import:bundle -- deploy/elearning-materials"
+        sh "${COMPOSE} run --rm --no-deps api npm run materials:import:bundle -- import deploy/elearning-materials"
       }
     }
     stage('Deploy') { steps { sh "${COMPOSE} up -d --remove-orphans" } }
