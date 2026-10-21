@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { coursesData } from "@portal/shared";
 import { createPracticeProgressRepository } from "./practice-progress-repository.js";
@@ -30,5 +31,27 @@ describe("practice progress persistence", () => {
     database.query.mockRejectedValue(new Error("Unavailable"));
     await expect(repository.record("employee", "course", question, true)).rejects.toThrow("Unavailable");
     await expect(repository.list("employee", "course", [question])).rejects.toThrow("Unavailable");
+  });
+
+  it("preserves text-only fingerprints and invalidates progress when a diagram changes", async () => {
+    await repository.record("employee", "course", question, true);
+    expect(database.query.mock.calls[0][1][3]).toBe(createHash("sha256").update(JSON.stringify([
+      question.question, question.type, question.options, question.correctOptionIds, question.explanation,
+    ])).digest("hex"));
+    const illustrated = {
+      ...question,
+      image: { url: "/questions/istqb-foundation/prozess-116.png", alt: "Markierter Testprozess" },
+    };
+    await repository.record("employee", "course", illustrated, true);
+    const fingerprint = database.query.mock.calls[1][1][3];
+    database.query.mockResolvedValue({ rows: [
+      { questionId: question.id, lastCorrect: true, fingerprint },
+    ] });
+    await expect(repository.list("employee", "course", [illustrated]))
+      .resolves.toEqual([{ questionId: question.id, lastCorrect: true }]);
+    await expect(repository.list("employee", "course", [{
+      ...illustrated, image: { ...illustrated.image, url: "/questions/istqb-foundation/prozess-117.png" },
+    }])).resolves.toEqual([]);
+    await expect(repository.list("employee", "course", [question])).resolves.toEqual([]);
   });
 });

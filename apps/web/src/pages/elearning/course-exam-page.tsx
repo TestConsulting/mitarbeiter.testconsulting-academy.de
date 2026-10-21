@@ -15,6 +15,7 @@ import {
 import { ApiError, api } from "../../api/client.js";
 import { FoundationExamPage } from "./foundation-exam-page.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
+import { QuestionContent } from "./question-content.js";
 
 const examDurationSeconds = 10 * 60;
 
@@ -198,7 +199,7 @@ function LegacyCourseExamPage() {
                         : <DismissCircle24Regular aria-hidden="true" />}
                       <div>
                         <span>Frage {index + 1}</span>
-                        <h3>{item.question.question}</h3>
+                        <h3><QuestionContent question={item.question} /></h3>
                       </div>
                     </div>
                     <p><strong>Deine Antwort:</strong> {selectedTexts.length > 0 ? selectedTexts.join(", ") : "Keine Antwort abgegeben"}</p>
@@ -326,7 +327,7 @@ function LegacyCourseExamPage() {
           <Badge appearance="tint" color="informative">Frage {currentIndex + 1}</Badge>
           <span>{question.type === "multiple" ? "Mehrfachauswahl" : "Einfachauswahl"}</span>
         </div>
-        <h1 id="exam-question-title">{question.question}</h1>
+        <h1 id="exam-question-title"><QuestionContent question={question} /></h1>
         <p className="exam-question-card__hint">
           {question.type === "multiple" ? "Wähle alle zutreffenden Antworten aus." : "Wähle die richtige Antwort aus."}
         </p>

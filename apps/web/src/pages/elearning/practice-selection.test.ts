@@ -9,9 +9,96 @@ const questions: PracticeQuestion[] = Array.from({ length: 30 }, (_, index) => (
   metadata: { chapter: index < 15 ? 1 : 2, chapterTitle: "Kapitel",
     learningObjective: "FL-1.1.1", kLevel: (["K1", "K2", "K3"] as const)[index % 3] },
 }));
-const selection: PracticeSelection = { chapters: [1, 2], kLevels: [], limit: 30, errorsOnly: false };
+const selection: PracticeSelection = { chapters: [1, 2], kLevels: [], limit: 20, errorsOnly: false };
+const allChapters = [1, 2, 3, 4, 5, 6];
+const fullPool: PracticeQuestion[] = allChapters.flatMap((chapter) =>
+  Array.from({ length: 30 }, (_, index) => ({
+    ...questions[index],
+    id: `chapter-${chapter}-${index}`,
+    metadata: { ...questions[index].metadata!, chapter },
+  })));
+const chapterCounts = (session: PracticeQuestion[]) => allChapters.map((chapter) =>
+  session.filter((question) => question.metadata?.chapter === chapter).length);
 
 describe("practice selection", () => {
+  it.each([
+    [20, [4, 3, 2, 6, 4, 1]],
+    [40, [8, 6, 4, 11, 9, 2]],
+  ] as const)("uses CTFL chapter proportions for %i questions with all chapters selected", (limit, counts) => {
+    const original = structuredClone(fullPool);
+    for (let run = 0; run < 50; run++) {
+      const session = createPracticeSession(fullPool, [], { ...selection, chapters: [...allChapters].reverse(), limit });
+      expect(chapterCounts(session)).toEqual(counts);
+      expect(new Set(session.map((question) => question.id)).size).toBe(limit);
+    }
+    expect(fullPool).toEqual(original);
+  });
+
+  it("keeps all matching questions without quotas when all available questions are requested", () => {
+    const session = createPracticeSession(fullPool, [], { ...selection, chapters: allChapters, limit: "all" });
+    expect(session).toHaveLength(180);
+    expect(chapterCounts(session)).toEqual([30, 30, 30, 30, 30, 30]);
+    expect(new Set(session.map((question) => question.id)).size).toBe(180);
+  });
+
+  it("uses only the selected chapter for a single chapter", () => {
+    const session = createPracticeSession(fullPool, [], { ...selection, chapters: [4], limit: 20 });
+    expect(chapterCounts(session)).toEqual([0, 0, 0, 20, 0, 0]);
+  });
+
+  it.each([20, 40] as const)("balances chapter subsets for %i questions and distributes remainders", (limit) => {
+    for (const chapters of [[1, 4], [1, 3, 5], [1, 2, 4, 6], [1, 2, 3, 4, 5]]) {
+      for (let run = 0; run < 20; run++) {
+        const session = createPracticeSession(fullPool, [], { ...selection, chapters, limit });
+        const counts = chapters.map((chapter) => session.filter((q) => q.metadata?.chapter === chapter).length);
+        expect(session).toHaveLength(limit);
+        expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+        expect(session.every((q) => chapters.includes(q.metadata!.chapter))).toBe(true);
+        expect(new Set(session.map((q) => q.id)).size).toBe(limit);
+      }
+    }
+  });
+
+  it("fills shortages in equally weighted subsets and leaves all-available sessions uncapped", () => {
+    const pool = fullPool.filter((q) => q.metadata?.chapter !== 1 || q.id === "chapter-1-0");
+    const session = createPracticeSession(pool, [], { ...selection, chapters: [1, 2], limit: 20 });
+    expect(chapterCounts(session)).toEqual([1, 19, 0, 0, 0, 0]);
+    const all = createPracticeSession(pool, [], { ...selection, chapters: [1, 2], limit: "all" });
+    expect(chapterCounts(all)).toEqual([1, 30, 0, 0, 0, 0]);
+  });
+
+  it("preserves filters and fills missing chapter places without repeating or introducing ineligible questions", () => {
+    const progress = fullPool.filter((question) =>
+      question.metadata?.chapter !== 6 && (question.metadata?.chapter !== 4 || question.id === "chapter-4-0"))
+      .map((question) => ({ questionId: question.id, lastCorrect: false }));
+    const filteredSelection: PracticeSelection = {
+      chapters: allChapters, kLevels: ["K1"], limit: 40, errorsOnly: true,
+    };
+    const eligible = filterPracticeQuestions(fullPool, progress, filteredSelection);
+    const session = createPracticeSession(fullPool, progress, filteredSelection);
+    expect(session).toHaveLength(40);
+    expect(new Set(session.map((question) => question.id)).size).toBe(40);
+    expect(session.every((question) => eligible.some((candidate) => candidate.id === question.id))).toBe(true);
+    expect(chapterCounts(session)[3]).toBe(1);
+    expect(chapterCounts(session)[5]).toBe(0);
+    expect(createPracticeSession(fullPool, [], filteredSelection)).toEqual([]);
+    const smallProgress = eligible.slice(0, 3).map((question) => ({ questionId: question.id, lastCorrect: false }));
+    expect(createPracticeSession(fullPool, smallProgress, filteredSelection)).toHaveLength(3);
+  });
+
+  it("prioritizes unseen questions within each chapter quota and while filling shortages", () => {
+    const progress = fullPool.filter((question) => Number(question.id.split("-")[2]) >= 15)
+      .map((question) => ({ questionId: question.id, lastCorrect: true }));
+    const selectionWithQuotas: PracticeSelection = { ...selection, chapters: allChapters, limit: 40 };
+    const session = createPracticeSession(fullPool, progress, selectionWithQuotas);
+    expect(chapterCounts(session)).toEqual([8, 6, 4, 11, 9, 2]);
+    expect(session.every((question) => Number(question.id.split("-")[2]) < 15)).toBe(true);
+    const limitedPool = fullPool.filter((question) => question.metadata?.chapter !== 4);
+    const filled = createPracticeSession(limitedPool, progress, selectionWithQuotas);
+    expect(filled).toHaveLength(40);
+    expect(filled.every((question) => Number(question.id.split("-")[2]) < 15)).toBe(true);
+  });
+
   it("combines chapter and K-level filters, with no K-level selection meaning all levels", () => {
     expect(filterPracticeQuestions(questions, [], selection)).toHaveLength(30);
     expect(filterPracticeQuestions(questions, [], { ...selection, chapters: [2], kLevels: ["K3"] }))
@@ -33,17 +120,19 @@ describe("practice selection", () => {
     expect(createPracticeSession(questions, [], { ...selection, errorsOnly: true })).toEqual([]);
   });
 
-  it("honors 30, 60 and all limits, caps smaller pools, and never repeats a question", () => {
+  it("honors 20, 40 and all limits, caps smaller pools, and never repeats a question", () => {
     const largerPool = Array.from({ length: 75 }, (_, index) => ({
       ...questions[index % questions.length],
       id: `larger-question-${index}`,
     }));
-    for (const limit of [30, 60, "all"] as const) {
+    for (const limit of [20, 40, "all"] as const) {
       const session = createPracticeSession(largerPool, [], { ...selection, limit });
       expect(session).toHaveLength(limit === "all" ? 75 : limit);
       expect(new Set(session.map((question) => question.id)).size).toBe(session.length);
     }
-    expect(createPracticeSession(questions, [], { ...selection, chapters: [1], limit: 30 })).toHaveLength(15);
+    for (const limit of [20, 40, "all"] as const) {
+      expect(createPracticeSession(questions, [], { ...selection, chapters: [1], limit })).toHaveLength(15);
+    }
   });
 
   it("prioritizes unseen questions and shuffles questions/options without mutating the pool or solution IDs", () => {
@@ -52,7 +141,7 @@ describe("practice selection", () => {
     try {
       const progress = questions.slice(0, 20).map((question) => ({ questionId: question.id, lastCorrect: true }));
       const session = createPracticeSession(questions, progress, selection);
-      expect(session.slice(0, 10).every((question) => Number(question.id.split("-")[1]) >= 20)).toBe(true);
+      expect(session.filter((question) => Number(question.id.split("-")[1]) >= 20)).toHaveLength(10);
       expect(createPracticeSession(questions, [], selection).map((question) => question.id))
         .not.toEqual(questions.map((question) => question.id));
       expect(session[0].options.map((option) => option.id)).toEqual(["b", "c", "a"]);

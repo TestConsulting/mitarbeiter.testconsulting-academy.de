@@ -18,6 +18,7 @@ import type { Course, PracticeProgress, PracticeQuestion } from "@portal/shared"
 import { ApiError, api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
 import { PracticeSetup } from "./practice-setup.js";
+import { QuestionContent } from "./question-content.js";
 
 type AnswerEvaluation = {
   questionId: string;
@@ -399,6 +400,7 @@ export function CoursePracticePage() {
                       {summaryText}
                     </span>
                   </summary>
+                  {question.image && <QuestionContent question={{ question: "", image: question.image }} />}
                   <ol className="exam-history-review__list">
                     <li>
                       <div>
@@ -515,7 +517,7 @@ export function CoursePracticePage() {
 
           <h2 className="practice-question-index">Frage {currentIndex + 1} von {totalQuestions}</h2>
           <h1 id="current-question-text" className="practice-card__question exam-question-card__question">
-            {currentQuestion.question}
+            <QuestionContent question={currentQuestion} />
           </h1>
           {currentQuestion.metadata && <p className="practice-question-metadata">
             Kapitel {currentQuestion.metadata.chapter} · {currentQuestion.metadata.learningObjective} · {currentQuestion.metadata.kLevel}

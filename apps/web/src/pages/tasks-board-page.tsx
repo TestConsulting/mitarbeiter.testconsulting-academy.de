@@ -3,12 +3,16 @@ import {
   DragOverlay,
   PointerSensor,
   closestCenter,
+  pointerWithin,
+  useDndContext,
+  useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
+  type CollisionDetection,
 } from "@dnd-kit/core";
-import { SortableContext, horizontalListSortingStrategy, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, horizontalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   Avatar,
@@ -27,7 +31,7 @@ import {
   Option,
 } from "@fluentui/react-components";
 import { Add20Regular, Archive16Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type UIEvent } from "react";
 import { canManagePortal, type BoardColumn, type BoardState, type PortalUser, type Ticket } from "@portal/shared";
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
@@ -217,6 +221,27 @@ export function TasksBoardPage() {
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
+  const detectCollision = useCallback<CollisionDetection>((args) => {
+    if (board?.columns.some((column) => column.id === args.active.id)) {
+      return closestCenter({
+        ...args,
+        droppableContainers: args.droppableContainers.filter((container) =>
+          board.columns.some((column) => column.id === container.id)),
+      });
+    }
+    const collisions = pointerWithin(args);
+    const insertionCollision = collisions.find((collision) =>
+      args.droppableContainers.find((container) => container.id === collision.id)?.data.current?.type === "ticket-insertion");
+    if (insertionCollision) {
+      const targetId: unknown = args.droppableContainers
+        .find((container) => container.id === insertionCollision.id)?.data.current?.targetId;
+      if (typeof targetId === "string") return [{ ...insertionCollision, id: targetId }];
+    }
+    const ticketCollisions = collisions.filter((collision) =>
+      board?.tickets.some((ticket) => ticket.id === collision.id));
+    return ticketCollisions.length > 0 ? ticketCollisions : collisions;
+  }, [board]);
+
   const handleDragStart = useCallback((event: DragStartEvent) => {
     const activeId = String(event.active.id);
     const isColumnDrag = board?.columns.some((column) => column.id === activeId) ?? false;
@@ -232,6 +257,7 @@ export function TasksBoardPage() {
 
     const activeId = String(active.id);
     const overId = String(over.id);
+    if (activeId === overId) return;
 
     const activeColumn = board.columns.find((entry) => entry.id === activeId);
     const overColumn = board.columns.find((entry) => entry.id === overId);
@@ -311,7 +337,7 @@ export function TasksBoardPage() {
 
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
+        collisionDetection={detectCollision}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={() => { setActiveTicketId(null); setActiveColumnId(null); }}
@@ -331,7 +357,7 @@ export function TasksBoardPage() {
                 onArchiveTicket={handleArchiveTicket}
                 onAddTicket={() => openAddTicket(column.id)}
                 canArchive={column.title === "Erledigt" || column.title === "Done" || column.title === "Fertig"}
-                dragDisabled={normalizedFilter.length > 0}
+                isTicketDragging={activeTicketId !== null}
                 onRenameColumn={() => openRenameColumn(column)}
                 onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
                 canManageColumns={canManageColumns}
@@ -339,7 +365,7 @@ export function TasksBoardPage() {
             ))}
           </div>
         </SortableContext>
-        <DragOverlay>
+        <DragOverlay dropAnimation={null}>
           {activeTicket ? (
             <TicketCardPreview
               ticket={activeTicket}
@@ -528,7 +554,7 @@ function BoardColumnView({
   onArchiveTicket,
   onAddTicket,
   canArchive,
-  dragDisabled,
+  isTicketDragging,
   onRenameColumn,
   onDeleteColumn,
   canManageColumns,
@@ -543,16 +569,40 @@ function BoardColumnView({
   onArchiveTicket: (id: string) => void;
   onAddTicket: () => void;
   canArchive: boolean;
-  dragDisabled: boolean;
+  isTicketDragging: boolean;
   onRenameColumn: () => void;
   onDeleteColumn: () => void;
   canManageColumns: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({ id: column.id, disabled: dragDisabled || !canManageColumns });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({ id: column.id, disabled: !canManageColumns });
+  const { active, over } = useDndContext();
+  const isColumnOver = isOver || (isTicketDragging && tickets.some((ticket) => ticket.id === over?.id));
+  const insertionTargetId = isTicketDragging && isColumnOver && over?.id !== active?.id
+    ? over?.id
+    : null;
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.75 : 1 };
+  const [scrollIndicator, setScrollIndicator] = useState<{ height: number; top: number } | null>(null);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (scrollTimeout.current !== null) clearTimeout(scrollTimeout.current);
+  }, []);
+
+  function handleScroll(event: UIEvent<HTMLDivElement>) {
+    const { clientHeight, scrollHeight, scrollTop } = event.currentTarget;
+    if (scrollTimeout.current !== null) clearTimeout(scrollTimeout.current);
+    if (scrollHeight <= clientHeight) {
+      setScrollIndicator(null);
+      return;
+    }
+    const height = Math.min(clientHeight, Math.max(24, clientHeight * clientHeight / scrollHeight));
+    const top = Math.max(0, Math.min(1, scrollTop / (scrollHeight - clientHeight))) * (clientHeight - height);
+    setScrollIndicator({ height, top });
+    scrollTimeout.current = setTimeout(() => setScrollIndicator(null), 800);
+  }
 
   return (
-    <section className={`board-column${isDragging ? " board-column--dragging" : ""}${isOver ? " board-column--over" : ""}`} ref={setNodeRef} style={style}>
+    <section className={`board-column${isDragging ? " board-column--dragging" : ""}${isColumnOver ? " board-column--over" : ""}`} ref={setNodeRef} style={style}>
       <header className="board-column__header">
         <div className="board-column__header-main">
           {canManageColumns ? (
@@ -613,21 +663,34 @@ function BoardColumnView({
         </div>
       </header>
 
-      <SortableContext items={tickets.map((ticket) => ticket.id)} strategy={verticalListSortingStrategy}>
-        <div className="board-column__cards">
-          {tickets.map((ticket) => (
-            <TicketCard
-              key={ticket.id}
-              ticket={ticket}
-              columnTitle={column.title}
-              assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
-              dragDisabled={dragDisabled}
-              canArchive={canArchive}
-              onArchive={() => onArchiveTicket(ticket.id)}
-              onEdit={() => onEditTicket(ticket)}
-              onDelete={() => onDeleteTicket(ticket.id)}
-            />
-          ))}
+      <SortableContext items={tickets.map((ticket) => ticket.id)} strategy={() => null}>
+        <div className="board-column__scroll-area">
+          <div className="board-column__cards" onScroll={handleScroll}>
+            {tickets.map((ticket) => (
+              <Fragment key={ticket.id}>
+                {insertionTargetId === ticket.id && (
+                  <TicketInsertionMarker columnId={column.id} targetId={ticket.id} />
+                )}
+                <TicketCard
+                  ticket={ticket}
+                  columnTitle={column.title}
+                  assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
+                  canArchive={canArchive}
+                  onArchive={() => onArchiveTicket(ticket.id)}
+                  onEdit={() => onEditTicket(ticket)}
+                  onDelete={() => onDeleteTicket(ticket.id)}
+                />
+              </Fragment>
+            ))}
+            {insertionTargetId === column.id && (
+              <TicketInsertionMarker columnId={column.id} targetId={column.id} />
+            )}
+          </div>
+          <div
+            className={`board-column__scroll-indicator${scrollIndicator ? " board-column__scroll-indicator--visible" : ""}`}
+            style={{ height: scrollIndicator?.height ?? 0, top: scrollIndicator?.top ?? 0 }}
+            aria-hidden="true"
+          />
         </div>
       </SortableContext>
 
@@ -645,11 +708,18 @@ function BoardColumnView({
   );
 }
 
+function TicketInsertionMarker({ columnId, targetId }: { columnId: string; targetId: string }) {
+  const { setNodeRef } = useDroppable({
+    id: `ticket-insertion-${columnId}`,
+    data: { type: "ticket-insertion", targetId },
+  });
+  return <div ref={setNodeRef} className="board-column__insertion-marker" aria-hidden="true"><div /></div>;
+}
+
 function TicketCard({
   ticket,
   columnTitle,
   assignee,
-  dragDisabled,
   canArchive,
   onArchive,
   onEdit,
@@ -658,13 +728,12 @@ function TicketCard({
   ticket: Ticket;
   columnTitle: string;
   assignee: PortalUser | undefined;
-  dragDisabled: boolean;
   canArchive: boolean;
   onArchive: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id, disabled: dragDisabled });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.2 : 1 };
   const tone = columnTitle === "Erledigt" ? "done" : columnTitle === "In Review" ? "review" : columnTitle === "In Arbeit" ? "doing" : "todo";
 

@@ -1,0 +1,3650 @@
+{
+  "version": 1,
+  "sourceQuestionCount": 150,
+  "missingSourceNumbers": [
+    118,
+    119,
+    120
+  ],
+  "duplicates": [],
+  "confirmedAnswers": {
+    "37": {
+      "answer": "die Anpassung an geänderte Einsatzbedingungen und -erwartungen",
+      "source": "Benutzer-Screenshot der Auflösung.",
+      "examEligible": false
+    },
+    "54": {
+      "answer": "hoch kritische Bereiche testen",
+      "source": "Benutzer-Screenshot der Auflösung.",
+      "examEligible": false
+    }
+  },
+  "questions": [
+    {
+      "id": "ctfl-grundlagen-001",
+      "question": "A. Testen von Software kann erforderlich sein, um gesetzlichen oder vertraglichen\nAnforderungen gerecht zu werden.\nB. Testen von Software ist vor allem notwendig, um die Qualität der Arbeit der Entwickler zu\nverbessern.\nC. Konsequentes Testen und das Beheben gefundener Fehler kann dazu beitragen, das Risiko\nvon auftretenden Problemen in einem betrieblichen Umfeld zu reduzieren.\nD. Konsequentes Testen wird manchmal für nicht-triviale Testobjekte verwendet, um zu\nbeweisen, dass alle Fehler gefunden wurden.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-001-a",
+          "text": "C und D sind wahr, A und B sind falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-001-b",
+          "text": "B und C sind wahr; A und D sind falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-001-c",
+          "text": "A und C sind wahr, B und D sind falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-001-d",
+          "text": "A und D sind wahr; B und C sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-001-c"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-002",
+      "question": "Auf welche der genannten Informationen kann in einer Fehlerbeschreibung am ehesten\nverzichtet werden ?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-002-a",
+          "text": "Angabe zur genutzten Testumgebung"
+        },
+        {
+          "id": "ctfl-grundlagen-002-b",
+          "text": "Angabe zum genutzten Testfallentwurfsverfahren"
+        },
+        {
+          "id": "ctfl-grundlagen-002-c",
+          "text": "Angabe zum ausgeführten Testfall"
+        },
+        {
+          "id": "ctfl-grundlagen-002-d",
+          "text": "Angabe zur Organisation und Name des ausführenden Testers"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-002-b"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-005",
+      "question": "Das Qualitätsmerkmal Effizienz testet man mittels:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-005-a",
+          "text": "Nicht-funktionaler Tests"
+        },
+        {
+          "id": "ctfl-grundlagen-005-b",
+          "text": "Änderungsbezogener Tests"
+        },
+        {
+          "id": "ctfl-grundlagen-005-c",
+          "text": "Strukturbezogener Tests"
+        },
+        {
+          "id": "ctfl-grundlagen-005-d",
+          "text": "Funktionaler Tests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-005-a"
+      ],
+      "explanation": "Nicht-funktionale Tests prüfen, wie gut ein System arbeitet. Dazu gehören Performanzmerkmale wie Zeit- und Ressourcenverhalten; im Original wird dafür der ältere Begriff Effizienz verwendet. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-006",
+      "question": "Defect bedeutet ...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-006-a",
+          "text": "Fehlermaskierung"
+        },
+        {
+          "id": "ctfl-grundlagen-006-b",
+          "text": "Fehlerwirkung"
+        },
+        {
+          "id": "ctfl-grundlagen-006-c",
+          "text": "Fehlhandlung"
+        },
+        {
+          "id": "ctfl-grundlagen-006-d",
+          "text": "Fehlerzustand"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-006-d"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-007",
+      "question": "Die Prüfung, ob die Ergebnisse einer Entwicklungsphase die Vorgabe der\nVorgängerdokumente erfüllen, heißt...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-007-a",
+          "text": "Spezifikation"
+        },
+        {
+          "id": "ctfl-grundlagen-007-b",
+          "text": "Validation"
+        },
+        {
+          "id": "ctfl-grundlagen-007-c",
+          "text": "Inspektion"
+        },
+        {
+          "id": "ctfl-grundlagen-007-d",
+          "text": "Verifikation"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-007-d"
+      ],
+      "explanation": "Statische Prüfungen untersuchen Arbeitsergebnisse ohne Ausführung und können Fehlerzustände früh finden. Verifikation prüft spezifizierte Vorgaben; präventive Qualitätsmaßnahmen sollen Fehlhandlungen und Fehlerzustände vermeiden. Quelle: Lehrplan 4.0.2, Abschnitte 1.1, 1.2 und 3.1; Basiswissen Softwaretest, Kapitel 2 und 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-010",
+      "question": "Ein Testtreiber ist...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-010-a",
+          "text": "ein Teil des Testobjektes"
+        },
+        {
+          "id": "ctfl-grundlagen-010-b",
+          "text": "ein Teil des Testprozesses"
+        },
+        {
+          "id": "ctfl-grundlagen-010-c",
+          "text": "ein Teil des Testrahmens"
+        },
+        {
+          "id": "ctfl-grundlagen-010-d",
+          "text": "ein Teil des Testteams"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-010-c"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-012",
+      "question": "Error bedeutet ...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-012-a",
+          "text": "Fehlerwirkung"
+        },
+        {
+          "id": "ctfl-grundlagen-012-b",
+          "text": "Fehlermaskierung"
+        },
+        {
+          "id": "ctfl-grundlagen-012-c",
+          "text": "Fehlhandlung"
+        },
+        {
+          "id": "ctfl-grundlagen-012-d",
+          "text": "Fehlerzustand"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-012-c"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-013",
+      "question": "Failure bedeutet ...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-013-a",
+          "text": "Fehlerzustand"
+        },
+        {
+          "id": "ctfl-grundlagen-013-b",
+          "text": "Fehlerwirkung"
+        },
+        {
+          "id": "ctfl-grundlagen-013-c",
+          "text": "Fehlermaskierung"
+        },
+        {
+          "id": "ctfl-grundlagen-013-d",
+          "text": "Fehlerhandlung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-013-b"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-014",
+      "question": "Fault bedeutet",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-014-a",
+          "text": "Fehlerzustand"
+        },
+        {
+          "id": "ctfl-grundlagen-014-b",
+          "text": "Fehlhandlung"
+        },
+        {
+          "id": "ctfl-grundlagen-014-c",
+          "text": "Fehlermaskierung"
+        },
+        {
+          "id": "ctfl-grundlagen-014-d",
+          "text": "Fehlerwirkung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-014-a"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-015",
+      "question": "Für den Endnutzer sichtbare Abweichungen vom spezifizierten oder erwarteten Verhalten der\nSoftware bezeichnet man das als:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-015-a",
+          "text": "error"
+        },
+        {
+          "id": "ctfl-grundlagen-015-b",
+          "text": "failure"
+        },
+        {
+          "id": "ctfl-grundlagen-015-c",
+          "text": "defect"
+        },
+        {
+          "id": "ctfl-grundlagen-015-d",
+          "text": "fault"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-015-b"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-029",
+      "question": "Ist die Akzeptanz durch Systembetreiber eine typische Form des Abnahmetests?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-029-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-grundlagen-029-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-029-b"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-030",
+      "question": "Ist ein Feldtest (Alpha- und Beta-Test) eine typische Form eines Abnahmetests?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-030-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-grundlagen-030-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-030-b"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-031",
+      "question": "Mit was beschäftigt sich die Teststeuerung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-031-a",
+          "text": "Anstoßen von Korrekturmaßnahmen, Anpassung (Showstopper, Tickets)"
+        },
+        {
+          "id": "ctfl-grundlagen-031-b",
+          "text": "nie Entscheidungen treffen"
+        },
+        {
+          "id": "ctfl-grundlagen-031-c",
+          "text": "keine Überwachung und Dokumentation des Testfortschritts, der Testabdeckung und der Ausgangskriterien"
+        },
+        {
+          "id": "ctfl-grundlagen-031-d",
+          "text": "Vorbereitung einer Testautomatisierung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-031-a"
+      ],
+      "explanation": "Die Teststeuerung reagiert auf Abweichungen vom Plan mit Korrekturmaßnahmen, damit die vereinbarten Testziele erreicht werden. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-032",
+      "question": "Nachfolgend finden Sie eine Liste von Problemen, die während des Testens oder im Betrieb\nbeobachtet werden können. Welche Beobachtung ist am wahrscheinlichsten eine\nFehlerwirkung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-032-a",
+          "text": "Der Entwickler hat die Anforderungen an den Algorithmus falsch interpretiert"
+        },
+        {
+          "id": "ctfl-grundlagen-032-b",
+          "text": "Das Produkt stürzte ab, als der Benutzer eine Option in einer Dialogbox auswählte"
+        },
+        {
+          "id": "ctfl-grundlagen-032-c",
+          "text": "Der Berechnungsalgorithmus verwendet die falschen Eingangsvariablen"
+        },
+        {
+          "id": "ctfl-grundlagen-032-d",
+          "text": "Eine kompilierte Quellcodedatei wurde in der falschen Version zum System hinzugefügt."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-032-b"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-033",
+      "question": "Nicht-funktionale Systemtests beinhalten:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-033-a",
+          "text": "den Test eines Features nur mit dessen Software"
+        },
+        {
+          "id": "ctfl-grundlagen-033-b",
+          "text": "den Test von Qualitätsmerkmalen wie Performance und Usability"
+        },
+        {
+          "id": "ctfl-grundlagen-033-c",
+          "text": "Testaktivitäten, um zu sehen, wo das System nicht funktioniert"
+        },
+        {
+          "id": "ctfl-grundlagen-033-d",
+          "text": "Untersuchung auf Funktionen, die nicht existieren sollten"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-033-b"
+      ],
+      "explanation": "Performance und Gebrauchstauglichkeit sind nicht-funktionale Qualitätsmerkmale. Ihre Prüfung bewertet, wie gut das Gesamtsystem arbeitet. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-037",
+      "question": "Softwarepflege beinhaltet...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-037-a",
+          "text": "die Wiederherstellung der Funktionsfähigkeit"
+        },
+        {
+          "id": "ctfl-grundlagen-037-b",
+          "text": "das Neustarten der Software"
+        },
+        {
+          "id": "ctfl-grundlagen-037-c",
+          "text": "das Entfernen von Fehlerzuständen"
+        },
+        {
+          "id": "ctfl-grundlagen-037-d",
+          "text": "die Anpassung an geänderte Einsatzbedingungen und -erwartungen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-037-d"
+      ],
+      "explanation": "Bewertung gemäß der vom Benutzer bereitgestellten Originalauflösung. Quelle: Vom Benutzer bestätigter Lösungsschlüssel; Basiswissen Softwaretest, Abschnitt 3.8; Lehrplan 4.0.2, Abschnitt 2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-038",
+      "question": "Stimmt die Aussage?\nBeim Abnahmetest steht die Sicht und das Urteil des Kunden bzw. des Anwenders im\nVordergrund.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-038-a",
+          "text": "Ja"
+        },
+        {
+          "id": "ctfl-grundlagen-038-b",
+          "text": "Nein"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-038-a"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-039",
+      "question": "Stimmt die Aussage?\nEin vollständiger Test, bei dem alle möglichen Eingabewerte und deren Kombinationen unter\nBerücksichtigung aller unterschiedlichen Vorbedingungen ausgeführt werden, ist nicht\ndurchführbar, mit Ausnahme bei sehr trivialen Objekten.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-039-a",
+          "text": "Ja"
+        },
+        {
+          "id": "ctfl-grundlagen-039-b",
+          "text": "Nein"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-039-a"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-040",
+      "question": "Stimmt die Aussage?\nEine Gleichverteilung der Fehlerzustände im Testobjekt ist in der Regel gegeben.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-040-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-grundlagen-040-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-040-a"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-041",
+      "question": "Stimmt die Aussage?\nKeine Fehlerwirkungen im Test sind ein Nachweis für Fehlerfreiheit?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-041-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-grundlagen-041-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-041-a"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-044",
+      "question": "Testen leistet einen Beitrag zur Qualitätssicherung (1. Aussage)\nWEIL\ndurch das Testen Fehlerwirkungen früher provoziert und erkannt werden können (2. Aussage).",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-044-a",
+          "text": "Beide Aussagen sind richtig, die \"WEIL\" Verknüpfung ist richtig."
+        },
+        {
+          "id": "ctfl-grundlagen-044-b",
+          "text": "Die erste Aussage ist falsch, die zweite Aussage ist richtig."
+        },
+        {
+          "id": "ctfl-grundlagen-044-c",
+          "text": "Die erste Aussage ist richtig, die zweite Aussage ist falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-044-d",
+          "text": "Beide Aussagen sind richtig, die \"WEIL\" Verknüpfung ist falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-044-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-045",
+      "question": "Testprotokollierung: die Testdurchführung muss für nicht direkt Beteiligte (z.B. Kunden)\nnachvollziehbar sein.\nIst die Aussage richtig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-045-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-grundlagen-045-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-045-b"
+      ],
+      "explanation": "Bei der Testdurchführung werden Ergebnisse und relevante Ausführungsbedingungen protokolliert. Nachvollziehbare Aufzeichnungen unterstützen Berichterstattung, Reproduktion und Entscheidungen der Stakeholder. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1 und 5.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-046",
+      "question": "Unten sind Attribute aufgelistet. Welche Attribute gehören normalerweise in eine\nFehlermeldung?\nI Bezeichnung des Testobjekts\nII. Name des Entdeckers\nIII. Beschreibung des Testfalls (Name, Nummer) und Schritte zur Reproduzierbarkeit\nIV. Verweis auf betroffene Anforderungen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-046-a",
+          "text": "I, II und III gehören dazu, IV gehört zum Testfall"
+        },
+        {
+          "id": "ctfl-grundlagen-046-b",
+          "text": "I und IV gehören dazu, II und III nicht."
+        },
+        {
+          "id": "ctfl-grundlagen-046-c",
+          "text": "I, II gehören dazu, III und IV gehören zum Testfall"
+        },
+        {
+          "id": "ctfl-grundlagen-046-d",
+          "text": "Alle Attribute gehören zu einer Fehlermeldung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-046-d"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-047",
+      "question": "Wann sollte mit der Testplanung begonnen werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-047-a",
+          "text": "wenn die Testanalyse durchgeführt worden ist"
+        },
+        {
+          "id": "ctfl-grundlagen-047-b",
+          "text": "sobald Lastenheft fertiggestellt oder ggf. noch früher"
+        },
+        {
+          "id": "ctfl-grundlagen-047-c",
+          "text": "Wenn der Realisierer mit der Programmierung beginnt"
+        },
+        {
+          "id": "ctfl-grundlagen-047-d",
+          "text": "Wenn die Software programmiert wurde"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-047-b"
+      ],
+      "explanation": "Die Testplanung beginnt früh im Entwicklungslebenszyklus. Auf ein fertiges oder bereits implementiertes System zu warten, verhindert eine rechtzeitige Abstimmung von Zielen, Ressourcen und Vorgehen. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.3.1 und 5.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-048",
+      "question": "Warum sollten Tests exakt und vollständig protokolliert werden?\nA: Um festzustellen, welche Testläufe mit welchem Ergebnis (erfolgreich oder fehlerhaft)\ndurchgeführt wurde.\nB: Um festzustellen, welcher Entwickler die meisten Fehler programmiert.\nC: Um zu sehen, ob die Teststrategie tatsächlich umgesetzt wurde.\nD: Um die Programmierqualität des Entwicklers zu verbessern.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-048-a",
+          "text": "A und C"
+        },
+        {
+          "id": "ctfl-grundlagen-048-b",
+          "text": "nur A"
+        },
+        {
+          "id": "ctfl-grundlagen-048-c",
+          "text": "A, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-048-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-048-a"
+      ],
+      "explanation": "Testprotokolle dokumentieren ausgeführte Tests und Ergebnisse und erlauben den Vergleich des tatsächlichen Testens mit dem geplanten Vorgehen. Sie dienen nicht der persönlichen Schuldzuweisung. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1 und 5.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-049",
+      "question": "Warum werden Softwaretests durchgeführt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-049-a",
+          "text": "um Vertrauen in die Software zu erlangen"
+        },
+        {
+          "id": "ctfl-grundlagen-049-b",
+          "text": "um ein fehlerfreies Produkt zu erhalten"
+        },
+        {
+          "id": "ctfl-grundlagen-049-c",
+          "text": "um die Entwickler zu bewerten"
+        },
+        {
+          "id": "ctfl-grundlagen-049-d",
+          "text": "immer nur um die Funktionalität der Software sicherzustellen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-049-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-050",
+      "question": "Was bedeutet Testfallexplosion?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-050-a",
+          "text": "Es darf nicht weitergetestet werden"
+        },
+        {
+          "id": "ctfl-grundlagen-050-b",
+          "text": "der Test ist gescheitert"
+        },
+        {
+          "id": "ctfl-grundlagen-050-c",
+          "text": "Anzahl der Testfälle wächst gegen \"unendlich\""
+        },
+        {
+          "id": "ctfl-grundlagen-050-d",
+          "text": "es ist ein kritischer Testfall gescheitert"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-050-c"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-051",
+      "question": "Was charakterisiert einen Softwaretest?\nA: Absicht Fehler zu finden\nB: Stichprobenartig\nC: wird immer durch den Auftraggeber durchgeführt\nD: kann auch als Feldtest erfolgen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-051-a",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-051-b",
+          "text": "B"
+        },
+        {
+          "id": "ctfl-grundlagen-051-c",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-051-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-051-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-052",
+      "question": "Was gehört nicht dazu?\nWählen Sie aus den untenstehenden Antworten diejenige aus, die nicht zu den anderen passt!",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-052-a",
+          "text": "Logische Prüfung"
+        },
+        {
+          "id": "ctfl-grundlagen-052-b",
+          "text": "Definition von Standards"
+        },
+        {
+          "id": "ctfl-grundlagen-052-c",
+          "text": "Prozessaudit"
+        },
+        {
+          "id": "ctfl-grundlagen-052-d",
+          "text": "Definition von QS-Prozessen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-052-a"
+      ],
+      "explanation": "Statische Prüfungen untersuchen Arbeitsergebnisse ohne Ausführung und können Fehlerzustände früh finden. Verifikation prüft spezifizierte Vorgaben; präventive Qualitätsmaßnahmen sollen Fehlhandlungen und Fehlerzustände vermeiden. Quelle: Lehrplan 4.0.2, Abschnitte 1.1, 1.2 und 3.1; Basiswissen Softwaretest, Kapitel 2 und 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-053",
+      "question": "Was ist das Wespennestprinzip?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-053-a",
+          "text": "der Tester darf den Entwickler nicht kritisieren"
+        },
+        {
+          "id": "ctfl-grundlagen-053-b",
+          "text": "Dort wo ein Fehler gefunden wird, kann kein weiterer sein."
+        },
+        {
+          "id": "ctfl-grundlagen-053-c",
+          "text": "man soll Fehler vermeiden"
+        },
+        {
+          "id": "ctfl-grundlagen-053-d",
+          "text": "Die Fehlerwahrscheinlichkeit ist dort am höchsten, wo bereits Fehler festgestellt worden sind."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-053-d"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-054",
+      "question": "Was ist das wichtigste Ziel beim Testen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-054-a",
+          "text": "eine möglichst hohe Testabdeckung zu erreichen"
+        },
+        {
+          "id": "ctfl-grundlagen-054-b",
+          "text": "alle leicht zu testenden Programmteile testen"
+        },
+        {
+          "id": "ctfl-grundlagen-054-c",
+          "text": "hoch kritische Bereiche testen"
+        },
+        {
+          "id": "ctfl-grundlagen-054-d",
+          "text": "möglichst viele Fehler finden"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-054-c"
+      ],
+      "explanation": "Bewertung gemäß der vom Benutzer bereitgestellten Originalauflösung. Risikoorientiertes Testen priorisiert kritische Bereiche. Ein universell wichtigstes Testziel gibt es unabhängig vom Kontext nicht. Quelle: Vom Benutzer bestätigter Lösungsschlüssel; Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-056",
+      "question": "Was ist eine Testfallexplosion?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-056-a",
+          "text": "Die Anzahl der Testfälle explodiert, wenn alle möglichen Kombinationen getestet werden sollen."
+        },
+        {
+          "id": "ctfl-grundlagen-056-b",
+          "text": "Der Tester explodiert, weil er viele Fehlerwirkungen findet."
+        },
+        {
+          "id": "ctfl-grundlagen-056-c",
+          "text": "Der Test ist fehlgeschlagen, da die Software eine zu geringe Qualität hat."
+        },
+        {
+          "id": "ctfl-grundlagen-056-d",
+          "text": "Der Entwickler explodiert, weil er viele Fehler beheben muss."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-056-a"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-057",
+      "question": "Was ist eine wichtige Tätigkeit bei der Arbeit mit Software-Entwicklungsmodellen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-057-a",
+          "text": "Das Anpassen der Modelle auf den Kontext der Projekt- und Produkteigenschaften."
+        },
+        {
+          "id": "ctfl-grundlagen-057-b",
+          "text": "Ausschließlich die Organisation auf das gewählte Modell anpassen und nicht umgekehrt."
+        },
+        {
+          "id": "ctfl-grundlagen-057-c",
+          "text": "Das Wasserfall-Modell auswählen, weil es das erste und bewährteste Modell ist"
+        },
+        {
+          "id": "ctfl-grundlagen-057-d",
+          "text": "Mit dem V-Modell beginnen und dann entweder auf iterative oder inkrementelle Modelle wechseln."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-057-a"
+      ],
+      "explanation": "Entwicklungs- und Testvorgehen werden an Projekt- und Produktkontext angepasst. Kein Entwicklungsmodell ist unabhängig vom Kontext immer die richtige Wahl. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-059",
+      "question": "Was ist kein Synonym für den Begriff Failure...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-059-a",
+          "text": "Ausfall"
+        },
+        {
+          "id": "ctfl-grundlagen-059-b",
+          "text": "Fehlfunktion"
+        },
+        {
+          "id": "ctfl-grundlagen-059-c",
+          "text": "Fehlerzustand"
+        },
+        {
+          "id": "ctfl-grundlagen-059-d",
+          "text": "äußerer Fehler"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-059-c"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-060",
+      "question": "Was ist typischerweise der WICHTIGSTE Grund für die Verwendung des Risikos zur\nBestimmung des Testaufwandes?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-060-a",
+          "text": "Weil Software grundsätzlich Risiken beinhaltet."
+        },
+        {
+          "id": "ctfl-grundlagen-060-b",
+          "text": "Weil risikobasiertes Testen der effektivste Weg ist, um den Wert des Testens zu zeigen."
+        },
+        {
+          "id": "ctfl-grundlagen-060-c",
+          "text": "Weil es nicht möglich ist, alles zu testen."
+        },
+        {
+          "id": "ctfl-grundlagen-060-d",
+          "text": "Weil risikobasiertes Testen der effizienteste Weg ist, um Fehler zu finden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-060-c"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-061",
+      "question": "Was ist vor der Durchführung eines Testfalls zwingend zu spezifizieren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-061-a",
+          "text": "Die Auswirkung eines durch den Test gefundenen Fehlers auf das System"
+        },
+        {
+          "id": "ctfl-grundlagen-061-b",
+          "text": "Referenzen auf die Anforderungen, die der Testfall prüft"
+        },
+        {
+          "id": "ctfl-grundlagen-061-c",
+          "text": "Das verwendete Testentwurfsverfahren"
+        },
+        {
+          "id": "ctfl-grundlagen-061-d",
+          "text": "Die Angabe des erwarteten Ergebnisses oder des vom Testobjekt erwarteten Verhaltens"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-061-d"
+      ],
+      "explanation": "Vor der Ausführung muss das erwartete Ergebnis bzw. Verhalten feststehen, damit das tatsächliche Ergebnis nachvollziehbar damit verglichen werden kann. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-062",
+      "question": "Was sind die Vorteile eines Reviews?\nI: Erkennung der Fehler in der frühen Testphase\nII: Führt zu früher Produktivitätssteigerung\nIII: Steigerung des Vertrauens in das geprüfte Produkt\nIV: reduzierte Testkosten und -dauer\nV: weniger Fehlerzustände",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-062-a",
+          "text": "nur III"
+        },
+        {
+          "id": "ctfl-grundlagen-062-b",
+          "text": "alle sind richtig"
+        },
+        {
+          "id": "ctfl-grundlagen-062-c",
+          "text": "nur I, II und III"
+        },
+        {
+          "id": "ctfl-grundlagen-062-d",
+          "text": "nur I, IV und V"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-062-b"
+      ],
+      "explanation": "Statische Prüfungen untersuchen Arbeitsergebnisse ohne Ausführung und können Fehlerzustände früh finden. Verifikation prüft spezifizierte Vorgaben; präventive Qualitätsmaßnahmen sollen Fehlhandlungen und Fehlerzustände vermeiden. Quelle: Lehrplan 4.0.2, Abschnitte 1.1, 1.2 und 3.1; Basiswissen Softwaretest, Kapitel 2 und 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-063",
+      "question": "Was sind keine Grundsätze des Softwaretestens?\nA: Testen zeigt die Abwesenheit von Fehlern\nB: Vollständiges Testen ist nicht möglich\nC: Dort wo Fehlerwirkungen nachgewiesen wurden, finden sich meist noch weitere.\nD: Testen ist unabhängig vom Umfeld",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-063-a",
+          "text": "nur A"
+        },
+        {
+          "id": "ctfl-grundlagen-063-b",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-063-c",
+          "text": "A und D"
+        },
+        {
+          "id": "ctfl-grundlagen-063-d",
+          "text": "nur D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-063-c"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-064",
+      "question": "Was sind sinnvolle Ausgangskriterien?\nA: Zeit zu Ende\nB: Geld zu Ende\nC: keine Testfälle ohne Fehler\nD: Überdeckungsgrad unterschritten\nE: Fehlerfindungsrate hat einen Grenzwert unterschritten",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-064-a",
+          "text": "A, C, E"
+        },
+        {
+          "id": "ctfl-grundlagen-064-b",
+          "text": "A, B und E"
+        },
+        {
+          "id": "ctfl-grundlagen-064-c",
+          "text": "A, B, C"
+        },
+        {
+          "id": "ctfl-grundlagen-064-d",
+          "text": "C, D und E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-064-b"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-067",
+      "question": "Was trägt am ehesten zu gut wartbaren Testfällen bei?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-067-a",
+          "text": "Die Erstellung von abstrakten Testfällen"
+        },
+        {
+          "id": "ctfl-grundlagen-067-b",
+          "text": "gute Anforderungen"
+        },
+        {
+          "id": "ctfl-grundlagen-067-c",
+          "text": "gute Testbedingungen"
+        },
+        {
+          "id": "ctfl-grundlagen-067-d",
+          "text": "Die Erstellung von konkreten Testfällen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-067-a"
+      ],
+      "explanation": "Abstrakte Testbeschreibungen trennen die Testabsicht von konkreten Daten und Ausführungsdetails. Dadurch müssen bei Änderungen nicht sämtliche Testbeschreibungen neu erstellt werden. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1 und 1.4.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-068",
+      "question": "Was validiert der Abnahmetest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-068-a",
+          "text": "Anforderungsdefinition"
+        },
+        {
+          "id": "ctfl-grundlagen-068-b",
+          "text": "Funktionaler Systementwurf"
+        },
+        {
+          "id": "ctfl-grundlagen-068-c",
+          "text": "Technischer Systementwurf"
+        },
+        {
+          "id": "ctfl-grundlagen-068-d",
+          "text": "Komponentenspezifikation"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-068-a"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-069",
+      "question": "Was validiert der Integrationstest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-069-a",
+          "text": "Komponentenspezifikation"
+        },
+        {
+          "id": "ctfl-grundlagen-069-b",
+          "text": "Technischer Systementwurf"
+        },
+        {
+          "id": "ctfl-grundlagen-069-c",
+          "text": "Funktionaler Systementwurf"
+        },
+        {
+          "id": "ctfl-grundlagen-069-d",
+          "text": "Anforderungsdefinition"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-069-b"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-070",
+      "question": "Was validiert der Komponententest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-070-a",
+          "text": "Technischer Systementwurf"
+        },
+        {
+          "id": "ctfl-grundlagen-070-b",
+          "text": "Komponentenspezifikation"
+        },
+        {
+          "id": "ctfl-grundlagen-070-c",
+          "text": "Anforderungsdefinition"
+        },
+        {
+          "id": "ctfl-grundlagen-070-d",
+          "text": "Funktionaler Systementwurf"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-070-b"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-071",
+      "question": "Was versteht man unter dem Begriff \"Debugging\"?\nA: Lokalisieren von Fehlerzuständen\nB: Analysieren von Fehlerzuständen\nC: Dokumentieren von Fehlerzuständen\nD: Entfernen von Fehlerzuständen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-071-a",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-071-b",
+          "text": "nur B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-071-c",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-071-d",
+          "text": "nur D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-071-a"
+      ],
+      "explanation": "Dynamisches Testen kann Fehlerwirkungen aufdecken. Debugging untersucht, lokalisiert und behebt die verursachenden Fehlerzustände; Testen und Debugging sind unterschiedliche Aktivitäten. Quelle: Lehrplan 4.0.2, Abschnitt 1.1.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-072",
+      "question": "Was versteht man unter dem Komponententest?\nA: Erster systematischer Test von Softwarebausteinen\nB: Testobjekte sind Programmmodule bzw. Klassen und andere Softwarebausteine.\nC: Jeweils ein Softwarebaustein wird in Wechselwirkung mit Nachbarkomponenten geprüft.\nD: Jeweils ein Softwarebaustein wird isoliert von anderen Softwarebausteinen des Systems\ngeprüft.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-072-a",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-072-b",
+          "text": "nur A und B"
+        },
+        {
+          "id": "ctfl-grundlagen-072-c",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-grundlagen-072-d",
+          "text": "A, B und C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-072-a"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-073",
+      "question": "Was wird durch das Testen nachgewiesen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-073-a",
+          "text": "Anwesenheit von Fehlerzuständen"
+        },
+        {
+          "id": "ctfl-grundlagen-073-b",
+          "text": "Abwesenheit von Fehlerzuständen"
+        },
+        {
+          "id": "ctfl-grundlagen-073-c",
+          "text": "Abwesenheit von Fehlerwirkungen"
+        },
+        {
+          "id": "ctfl-grundlagen-073-d",
+          "text": "Anwesenheit von Fehlerwirkungen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-073-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-074",
+      "question": "Was wird durch Prioritäten erreicht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-074-a",
+          "text": "Prioritäten geben die logische Reihenfolge der Bearbeitung an."
+        },
+        {
+          "id": "ctfl-grundlagen-074-b",
+          "text": "Prioritäten werden von der Projektleitung zur Steuerung der Arbeitslast vergeben"
+        },
+        {
+          "id": "ctfl-grundlagen-074-c",
+          "text": "Prioritäten geben mit Berücksichtigung des Risikos die zeitliche Reihenfolge der Bearbeitung an."
+        },
+        {
+          "id": "ctfl-grundlagen-074-d",
+          "text": "Prioritäten ermöglichen eine unabhängige Steuerung von Anforderungen und Testfällen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-074-c"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-076",
+      "question": "Welche Antwortmöglichkeit umfasst alle allgemeinen Prinzipien des Softwaretestens aus den\nnachfolgenden Punkten (I bis IV)?\nI: Testen zeigt die Anwesenheit von Fehlern\nII: Vollständiges Testen ist nicht möglich (Ausnahme von sehr trivialen Testobjekten)\nIII: Häufung von Fehlern\nIV: Mit dem Testen können alle Fehler einer Software gefunden werden",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-076-a",
+          "text": "I, II"
+        },
+        {
+          "id": "ctfl-grundlagen-076-b",
+          "text": "I, II, III"
+        },
+        {
+          "id": "ctfl-grundlagen-076-c",
+          "text": "I, II, III, IV"
+        },
+        {
+          "id": "ctfl-grundlagen-076-d",
+          "text": "I, III"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-076-b"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-079",
+      "question": "Welche Aussage ist falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-079-a",
+          "text": "Ein Incident kann auch bei der Softwaredokumentation festgestellt werden."
+        },
+        {
+          "id": "ctfl-grundlagen-079-b",
+          "text": "Incidents sollten immer gleich behoben werden."
+        },
+        {
+          "id": "ctfl-grundlagen-079-c",
+          "text": "Ein Incident entsteht, wenn das erwartete und das tatsächliche Ergebnis nicht übereinstimmen."
+        },
+        {
+          "id": "ctfl-grundlagen-079-d",
+          "text": "Ein Incident kann ein Fehlerzustand oder techn. Problem sein."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-079-b"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-080",
+      "question": "Welche Aussage ist falsch?\nKein Ziel des Testens ist...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-080-a",
+          "text": "...die Generierung von Informationen, um Entscheidungen treffen zu können."
+        },
+        {
+          "id": "ctfl-grundlagen-080-b",
+          "text": "...das Aufdecken von Fehlerzuständen in einer Anweisung oder Datendefinition."
+        },
+        {
+          "id": "ctfl-grundlagen-080-c",
+          "text": "...Vertrauen im Hinblick des Qualitätsniveaus der Software zu erzeugen."
+        },
+        {
+          "id": "ctfl-grundlagen-080-d",
+          "text": "...die Ursachen einer Fehlerwirkung festzustellen und zu untersuchen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-080-d"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-081",
+      "question": "Welche Aussage ist wahr?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-081-a",
+          "text": "Fehlerzustände führen zu Fehlerwirkungen"
+        },
+        {
+          "id": "ctfl-grundlagen-081-b",
+          "text": "Fehlerzustände werden von Menschen begangen"
+        },
+        {
+          "id": "ctfl-grundlagen-081-c",
+          "text": "Fehlerwirkungen führen zu Fehlerhandlungen"
+        },
+        {
+          "id": "ctfl-grundlagen-081-d",
+          "text": "Fehlerwirkungen führen zu Fehlerzuständen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-081-a"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-082",
+      "question": "Welche Aussage zu Alpha-Test und Beta-Test ist richtig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-082-a",
+          "text": "Sowohl der Alpha-Test als auch der Beta-Test werden beim Kunden durchgeführt. Sie gehören zur Teststufe Systemtest."
+        },
+        {
+          "id": "ctfl-grundlagen-082-b",
+          "text": "Sowohl der Alpha-Test als auch der Beta-Test werden beim Hersteller durchgeführt."
+        },
+        {
+          "id": "ctfl-grundlagen-082-c",
+          "text": "Der Alpha-Test wird beim Kunden durchgeführt und der Beta-Test wird beim Hersteller durchgeführt."
+        },
+        {
+          "id": "ctfl-grundlagen-082-d",
+          "text": "Der Alpha-Test wird beim Hersteller durchgeführt und der Beta-Test wird beim Kunden durchgeführt. Beide gehören zur Teststufe Abnahmetest."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-082-d"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-083",
+      "question": "Welche Aussage zum Begriff \"Metrik\" stimmt nicht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-083-a",
+          "text": "Eine Metrik ist eine Größe zur Messung einer bestimmten Eigenschaft eines Programms oder einer Komponente."
+        },
+        {
+          "id": "ctfl-grundlagen-083-b",
+          "text": "Die Ermittlung von Metriken geschieht während der Regressionstests."
+        },
+        {
+          "id": "ctfl-grundlagen-083-c",
+          "text": "Die Ermittlung von Metriken ist Aufgabe der statischen Analyse."
+        },
+        {
+          "id": "ctfl-grundlagen-083-d",
+          "text": "Bei der Überwachung der Erfolgskontrolle ist darauf zu achten, dass nur solche Metriken verwendet werden, die regelmäßig, zuverlässig und einfach zu messen sind."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-083-b"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-085",
+      "question": "Welche Aussagen bzgl. der Ursache und Wirkungen eines Fehlers sind richtig?\nI. Fehlerhandlungen können durch Tests vermieden werden.\nII. Fehlerwirkungen können durch die Umgebung (z.B. Strahlung, Staub, elektrische Felder\nusw.) hervorgerufen werden.\nIII. Fehlerhandlungen können zu einem Fehlerzustand im Code des Programms führen, jedoch\nnicht zu einem Fehlerzustand in einem Dokument.\nIV. Fehlerzustände treten auf, weil Menschen versehentlich oder absichtlich Fehlhandlungen\nbegehen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-085-a",
+          "text": "alle sind richtig"
+        },
+        {
+          "id": "ctfl-grundlagen-085-b",
+          "text": "I., III. und IV. sind richtig"
+        },
+        {
+          "id": "ctfl-grundlagen-085-c",
+          "text": "II. und IV. sind richtig"
+        },
+        {
+          "id": "ctfl-grundlagen-085-d",
+          "text": "I., II. und III. sind richtig"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-085-c"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-087",
+      "question": "Welche Behauptung ist falsch?\nA: Fehler sind schwerwiegender als Mängel\nB: CRUD steht für: Create, Read, Update, Delete\nC: ein Problem (Incident) muss nicht zwangsläufig ein Fehler sein\nD: Glassboxtest bedeutet das gleiche wie Whiteboxtest",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-087-a",
+          "text": "A"
+        },
+        {
+          "id": "ctfl-grundlagen-087-b",
+          "text": "keine"
+        },
+        {
+          "id": "ctfl-grundlagen-087-c",
+          "text": "B"
+        },
+        {
+          "id": "ctfl-grundlagen-087-d",
+          "text": "D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-087-a"
+      ],
+      "explanation": "Gründlichkeit, Neugier und konstruktive Kommunikation sind wichtige Testkompetenzen. Unabhängige Tester können aufgrund anderer Perspektiven andere Fehler finden. Kritik sollte sich auf das Arbeitsergebnis und nicht auf Personen beziehen. Quelle: Lehrplan 4.0.2, Abschnitte 1.5.1 und 1.5.3; Basiswissen Softwaretest, Abschnitte 2.3 und 6.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-088",
+      "question": "Welche Behauptung ist richtig?\nA: Fehlerzustände können durch dynamische Tests nachgewiesen werden\nB: Fehlerwirkungen können durch statische Tests nachgewiesen werden\nC: Fehlerzustände können durch statische Tests nachgewiesen werden\nD: Fehlerwirkungen können durch dynamische Tests nachgewiesen werden",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-088-a",
+          "text": "A und B"
+        },
+        {
+          "id": "ctfl-grundlagen-088-b",
+          "text": "keine"
+        },
+        {
+          "id": "ctfl-grundlagen-088-c",
+          "text": "C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-088-d",
+          "text": "A und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-088-c"
+      ],
+      "explanation": "Statische Prüfungen untersuchen Arbeitsergebnisse ohne Ausführung und können Fehlerzustände früh finden. Verifikation prüft spezifizierte Vorgaben; präventive Qualitätsmaßnahmen sollen Fehlhandlungen und Fehlerzustände vermeiden. Quelle: Lehrplan 4.0.2, Abschnitte 1.1, 1.2 und 3.1; Basiswissen Softwaretest, Kapitel 2 und 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-089",
+      "question": "Welche Behauptungen sind ggf. richtig?\nA: Testanalyse analysiert die Testfälle\nB: In der Testanalyse werden die Testbedingungen festgelegt\nC: Exploratives Testen wird nicht als Testmethode in der Teststrategie festgelegt\nD: Testwerkzeuge sollen erst zu Beginn der Testrealisierung beschafft werden",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-089-a",
+          "text": "B"
+        },
+        {
+          "id": "ctfl-grundlagen-089-b",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-grundlagen-089-c",
+          "text": "A, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-089-d",
+          "text": "A und B"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-089-a"
+      ],
+      "explanation": "Die Testanalyse bestimmt und priorisiert die Testbedingungen aus der Testbasis. Die Testfälle werden darauf aufbauend beim Testentwurf ausgearbeitet. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-090",
+      "question": "Welche Behauptungen sind wahr?\nA: Tests zeigen die Abwesenheit von Fehlern\nB: Software kann immer vollständig getestet werden\nC: Nur im Fall von Regressionstests und Fehlernachtests ist die Wiederholung mit gleichen\nDaten sinnvoll\nD: Sobald man einen Fehler in einer Komponente gefunden hat, sollte man diese nicht mehr\ntesten, um noch Zeit für andere Komponenten zu haben\nE: Keine Fehler gefunden bedeutet nicht automatisch, dass ein brauchbares System vorliegt",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-090-a",
+          "text": "C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-090-b",
+          "text": "C und E"
+        },
+        {
+          "id": "ctfl-grundlagen-090-c",
+          "text": "A, B und E"
+        },
+        {
+          "id": "ctfl-grundlagen-090-d",
+          "text": "A und E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-090-b"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-091",
+      "question": "Welche Definition ist richtig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-091-a",
+          "text": "Volumen-/Massetest: Prüfung des Systemverhaltens in Abhängigkeit zur Benutzerzahl"
+        },
+        {
+          "id": "ctfl-grundlagen-091-b",
+          "text": "Lasttest/ Stresstest: Messung des Stresspegels bei Mitarbeitern in Abhängigkeit von steigender Arbeitsbelastung"
+        },
+        {
+          "id": "ctfl-grundlagen-091-c",
+          "text": "Test auf Robustheit: Prüfung der Zuverlässigkeit eines Systems im Dauerbetrieb (d.h. Verhältnis Ausfallzeiten zu Gesamtlaufzeit)"
+        },
+        {
+          "id": "ctfl-grundlagen-091-d",
+          "text": "Performancetest: Prüfung der Verarbeitungsgeschwindigkeit bzw. Antwortzeit für bestimmte Anwendungsfälle, in der Regel in Abhängigkeit steigernder Last"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-091-d"
+      ],
+      "explanation": "Performanztests untersuchen unter anderem Antwortzeiten und Verarbeitungsgeschwindigkeit unter einer festgelegten Last. Die anderen Antworten verwechseln Last, Datenvolumen oder Zuverlässigkeit mit unpassenden Messgrößen. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-092",
+      "question": "Welche der Behauptungen über \"Error Guessing\" stimmt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-092-a",
+          "text": "kann nur in Komponenten-, Integrations- und Systemtests eingesetzt werden"
+        },
+        {
+          "id": "ctfl-grundlagen-092-b",
+          "text": "eine Ergänzung der formalen Test-Design-Techniken"
+        },
+        {
+          "id": "ctfl-grundlagen-092-c",
+          "text": "kann nicht reproduziert werden und sollte daher vermieden werden"
+        },
+        {
+          "id": "ctfl-grundlagen-092-d",
+          "text": "darf nur im Benutzerakzeptanztest durchgeführt werden"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-092-b"
+      ],
+      "explanation": "Black-Box-Verfahren leiten Tests aus der Spezifikation ab, White-Box-Verfahren aus der Struktur; erfahrungsbasierte Verfahren ergänzen sie. Anwendungsfallbasierte Tests nutzen Szenarien. Äquivalenzklassen können gültige und ungültige Werte enthalten. Quelle: Basiswissen Softwaretest, Kapitel 5; Lehrplan 4.0.2, Kapitel 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-095",
+      "question": "Welche der folgenden Aussagen beschreibt am besten den Unterschied zwischen Testen und\nDebuggen ?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-095-a",
+          "text": "Dynamische Tests verhindern Fehlerursachen. Debugging entfernt die Fehlerwirkungen."
+        },
+        {
+          "id": "ctfl-grundlagen-095-b",
+          "text": "Dynamische Tests zeigen Fehlerwirkungen auf, die durch Fehlerzustände verursacht wurden. Debuggen findet, analysiert und beseitigt die Fehlerursachen in der Software."
+        },
+        {
+          "id": "ctfl-grundlagen-095-c",
+          "text": "Testen identifiziert die Fehlerursache. Debuggen analysiert die Fehlerursache und schlägt Präventionsmaßnahmen vor."
+        },
+        {
+          "id": "ctfl-grundlagen-095-d",
+          "text": "Testen entfernt Fehlerzustände. Debugging identifiziert die Fehlerursachen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-095-b"
+      ],
+      "explanation": "Dynamisches Testen kann Fehlerwirkungen aufdecken. Debugging untersucht, lokalisiert und behebt die verursachenden Fehlerzustände; Testen und Debugging sind unterschiedliche Aktivitäten. Quelle: Lehrplan 4.0.2, Abschnitt 1.1.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-096",
+      "question": "Welche der Folgenden Aussagen beschreibt am besten die vier Vorgehensweisen der\nÄquivalenzklassenbildung?\nA. Ein und Ausgabebedingungen definieren.\nB. Bildung der Äquivalenzklasse.\nC. Testfälle für gültige Äquivalenzklassen definieren.\nD. Testfälle für ungültige Äquivalenzklassen definieren.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-096-a",
+          "text": "A und C und D sind wahr; B ist falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-096-b",
+          "text": "B und C und A sind wahr; D ist falsch."
+        },
+        {
+          "id": "ctfl-grundlagen-096-c",
+          "text": "alle sind wahr."
+        },
+        {
+          "id": "ctfl-grundlagen-096-d",
+          "text": "B und D und C sind wahr; A ist falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-096-c"
+      ],
+      "explanation": "Black-Box-Verfahren leiten Tests aus der Spezifikation ab, White-Box-Verfahren aus der Struktur; erfahrungsbasierte Verfahren ergänzen sie. Anwendungsfallbasierte Tests nutzen Szenarien. Äquivalenzklassen können gültige und ungültige Werte enthalten. Quelle: Basiswissen Softwaretest, Kapitel 5; Lehrplan 4.0.2, Kapitel 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-097",
+      "question": "Welche der folgenden Aussagen beschreibt am besten einen der sieben Grundsätze des\nSoftware-Testens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-097-a",
+          "text": "Automatisierte Tests sind besser als manuelle Tests zum Vermeiden von „Vollständigem Testen\" geeignet."
+        },
+        {
+          "id": "ctfl-grundlagen-097-b",
+          "text": "Es ist normalerweise unmöglich, alle Input / Output-Kombinationen für ein Software- System zu testen."
+        },
+        {
+          "id": "ctfl-grundlagen-097-c",
+          "text": "Zweck des Testens ist es, die Abwesenheit von Fehlern nachzuweisen."
+        },
+        {
+          "id": "ctfl-grundlagen-097-d",
+          "text": "Vollständiges Testen ist, mit genügend Anstrengung und Werkzeugunterstützung, für alle Arten von Software praktikabel."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-097-b"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-098",
+      "question": "Welche der folgenden Aussagen beschreibt am besten nicht-funktionales Testen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-098-a",
+          "text": "Der Testprozess eines integrierten Systems, welcher prüft, ob das System die spezifizierten Anforderungen erfüllt."
+        },
+        {
+          "id": "ctfl-grundlagen-098-b",
+          "text": "Testen ohne Kenntnis der internen Struktur eines Systems."
+        },
+        {
+          "id": "ctfl-grundlagen-098-c",
+          "text": "Der Testprozess zur Überprüfung der Konformität eines Systems mit Programmierrichtlinien."
+        },
+        {
+          "id": "ctfl-grundlagen-098-d",
+          "text": "Testen von Systemmerkmalen, wie Benutzerfreundlichkeit, Zuverlässigkeit oder Wartbarkeit."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-098-d"
+      ],
+      "explanation": "Nicht-funktionale Tests prüfen Qualitätsmerkmale wie Gebrauchstauglichkeit, Zuverlässigkeit und Wartbarkeit und damit, wie gut das System arbeitet. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-099",
+      "question": "Welche der folgenden Aussagen beschreibt einen Vorteil der Unabhängigkeit der Tester?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-099-a",
+          "text": "Solange das unabhängige Testen nicht beendet ist, kann der Code nicht zur Produktion übergeben werden."
+        },
+        {
+          "id": "ctfl-grundlagen-099-b",
+          "text": "Unabhängige Tester sehen andere Fehler und sind nicht voreingenommen."
+        },
+        {
+          "id": "ctfl-grundlagen-099-c",
+          "text": "Testen ist von der Entwicklung isoliert."
+        },
+        {
+          "id": "ctfl-grundlagen-099-d",
+          "text": "Entwickler brauchen nicht so viel Verantwortung für die Qualität zu übernehmen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-099-b"
+      ],
+      "explanation": "Gründlichkeit, Neugier und konstruktive Kommunikation sind wichtige Testkompetenzen. Unabhängige Tester können aufgrund anderer Perspektiven andere Fehler finden. Kritik sollte sich auf das Arbeitsergebnis und nicht auf Personen beziehen. Quelle: Lehrplan 4.0.2, Abschnitte 1.5.1 und 1.5.3; Basiswissen Softwaretest, Abschnitte 2.3 und 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.5.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-100",
+      "question": "Welche der folgenden Aussagen gehört nicht zu den 7 Grundsätzen des Softwaretestens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-100-a",
+          "text": "Testen ist abhängig vom Umfeld"
+        },
+        {
+          "id": "ctfl-grundlagen-100-b",
+          "text": "Trugschluss: \"Keine Fehler\" bedeutet ein brauchbares System"
+        },
+        {
+          "id": "ctfl-grundlagen-100-c",
+          "text": "Einmal definierte Tests sollen nach jeder Änderung der Software mit den gleichen Testdaten wiederholt werden."
+        },
+        {
+          "id": "ctfl-grundlagen-100-d",
+          "text": "Häufung von Fehlern. Der Testaufwand soll sich auf die Module konzentrieren, in denen die meisten Fehler erwartet werden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-100-c"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-102",
+      "question": "Welche der folgenden Aussagen sind richtig?\nI: Defect, auch Fault, wäre z.B. fehlender, oder falscher Code\nII: Error Guessing bedeutet Fehlerwirkung\nIII: Bei einem Error wurde in der Programmierung eine falsche Kondition entwickelt\nIV: Failure ist gleichzusetzen mit einer falschen Berechnung (falscher Ausgabewert)\nV: Bei einem Bug handelt es sich um eine Fehlhandlung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-102-a",
+          "text": "II, III, V"
+        },
+        {
+          "id": "ctfl-grundlagen-102-b",
+          "text": "I, II, III und IV"
+        },
+        {
+          "id": "ctfl-grundlagen-102-c",
+          "text": "I, III, IV"
+        },
+        {
+          "id": "ctfl-grundlagen-102-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-102-c"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-103",
+      "question": "Welche der folgenden Aussagen über exploratives Testen sind richtig?\nI: Exploratives Testen ist weder ein White- noch ein Blackbox-Verfahren.\nII: Exploratives Testen ist nicht geeignet zum Testen, wenn unzureichende Spezifikationen oder\nZeitdruck vorliegen.\nIII: Exploratives Testen ist ein Whitebox-Verfahren.\nIV: Beim explorativen Testen werden die Testfälle intuitive und erfahrungsbasiert ermittelt.\nV: Exploratives Testen ist ein Blackbox-Verfahren.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-103-a",
+          "text": "nur I und II"
+        },
+        {
+          "id": "ctfl-grundlagen-103-b",
+          "text": "nur II und III"
+        },
+        {
+          "id": "ctfl-grundlagen-103-c",
+          "text": "II, IV und V"
+        },
+        {
+          "id": "ctfl-grundlagen-103-d",
+          "text": "nur I und IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-103-d"
+      ],
+      "explanation": "Black-Box-Verfahren leiten Tests aus der Spezifikation ab, White-Box-Verfahren aus der Struktur; erfahrungsbasierte Verfahren ergänzen sie. Anwendungsfallbasierte Tests nutzen Szenarien. Äquivalenzklassen können gültige und ungültige Werte enthalten. Quelle: Basiswissen Softwaretest, Kapitel 5; Lehrplan 4.0.2, Kapitel 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-105",
+      "question": "Welche der folgenden Formen sind typisch für Abnahmetests?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-105-a",
+          "text": "Test auf Benutzerakzeptanz"
+        },
+        {
+          "id": "ctfl-grundlagen-105-b",
+          "text": "Robustheitstest"
+        },
+        {
+          "id": "ctfl-grundlagen-105-c",
+          "text": "White-Box-Test"
+        },
+        {
+          "id": "ctfl-grundlagen-105-d",
+          "text": "Zweigtest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-105-a"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-106",
+      "question": "Welche der folgenden Risiken können als Produktrisiken kategorisiert werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-106-a",
+          "text": "Geringe Qualität der Anforderungen, des Designs, des Codes und der Testfälle."
+        },
+        {
+          "id": "ctfl-grundlagen-106-b",
+          "text": "Politische Probleme und Verzögerungen bei besonders komplexen Teilen des Produkts."
+        },
+        {
+          "id": "ctfl-grundlagen-106-c",
+          "text": "Probleme bei der Definition korrekter Anforderungen, mögliche Fehlerbereiche in der Software oder des Systems."
+        },
+        {
+          "id": "ctfl-grundlagen-106-d",
+          "text": "Fehleranfällige Komponenten, möglicher Schaden für den Mensch, schlechte Softwareeigenschaften."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-106-d"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-107",
+      "question": "Welche der folgenden Situationen, wenn sie in Reviews und Tests beobachtet werden, würden\nzu vergleichsweise schlimmen Konflikten innerhalb von gemischten Tester-Entwicklerteams\nführen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-107-a",
+          "text": "Tester und Reviewer sind nicht genügend qualifiziert, um Fehler zu finden."
+        },
+        {
+          "id": "ctfl-grundlagen-107-b",
+          "text": "Tester und Reviewer kommunizieren Fehler als Kritik an Personen und nicht als Kritik an dem Software-Produkt."
+        },
+        {
+          "id": "ctfl-grundlagen-107-c",
+          "text": "Tester und Reviewer erwarten, dass Fehler im Software-Produkt bereits von den Entwicklern gefunden und behoben wurden."
+        },
+        {
+          "id": "ctfl-grundlagen-107-d",
+          "text": "Tester und Reviewer sind nicht neugierig genug, um Fehler zu finden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-107-b"
+      ],
+      "explanation": "Gründlichkeit, Neugier und konstruktive Kommunikation sind wichtige Testkompetenzen. Unabhängige Tester können aufgrund anderer Perspektiven andere Fehler finden. Kritik sollte sich auf das Arbeitsergebnis und nicht auf Personen beziehen. Quelle: Lehrplan 4.0.2, Abschnitte 1.5.1 und 1.5.3; Basiswissen Softwaretest, Abschnitte 2.3 und 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-108",
+      "question": "Welche der folgenden vier Aussagen ist NICHT richtig?\nSoftwaretest kann zum Ziel haben",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-108-a",
+          "text": "das Fehlerzustände aufgedeckt werden"
+        },
+        {
+          "id": "ctfl-grundlagen-108-b",
+          "text": "das Fehlerzustände vorgebeugt werden"
+        },
+        {
+          "id": "ctfl-grundlagen-108-c",
+          "text": "die Fehlerfreiheit des Produktes nachzuweisen"
+        },
+        {
+          "id": "ctfl-grundlagen-108-d",
+          "text": "das Vertrauen in das Produkt zu erhöhen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-108-c"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-109",
+      "question": "Welche der folgenden Ziele gelten für das Testen?\nA. Fehler zu finden.\nB. Sicherheit über den Qualitätslevel zu erlangen.\nC. Den Grund für die Fehler zu finden.\nD. Fehlerwirkungen vorzubeugen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-109-a",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-109-b",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-grundlagen-109-c",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-109-d",
+          "text": "A, C und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-109-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-111",
+      "question": "Welche der genannten Personenkreise können während der Produktentwicklung funktionale\nAbweichungsmeldungen erstellen?\n1. Der Kunde\n2. Alle NICHT an der Entwicklung beteiligten Personen\n3. Alle an der Entwicklung beteiligten Personen\n4. Die Tester\n5. Der Testmanager\n6. Die Entwickler",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-111-a",
+          "text": "Antworten 1, 2, 4 und 5 sind richtig, 3 und 6 sind falsch"
+        },
+        {
+          "id": "ctfl-grundlagen-111-b",
+          "text": "Antworten 3 und 6 sind richtig, 1, 2,4 und 5 sind falsch"
+        },
+        {
+          "id": "ctfl-grundlagen-111-c",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-grundlagen-111-d",
+          "text": "Antworten 3, 5, und 6 sind richtig, 1, 2 und 4 sind falsch"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-111-c"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-113",
+      "question": "Welche der Tests ist keine Teststufe nach dem allgemeinen V-Modell?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-113-a",
+          "text": "Installationstest"
+        },
+        {
+          "id": "ctfl-grundlagen-113-b",
+          "text": "Systemtest"
+        },
+        {
+          "id": "ctfl-grundlagen-113-c",
+          "text": "Komponententest"
+        },
+        {
+          "id": "ctfl-grundlagen-113-d",
+          "text": "Abnahmetest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-113-a"
+      ],
+      "explanation": "Komponententests prüfen einzelne Bausteine, Integrationstests deren Zusammenspiel, Systemtests das Gesamtsystem und Abnahmetests die Eignung aus Sicht von Anwendern oder Betreibern. Treiber und Platzhalter vervollständigen die Testumgebung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2–3.5; Lehrplan 4.0.2, Abschnitt 2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-125",
+      "question": "Welche Schritte sind NOTWENDIG, um (dynamische) Tests durchzuführen?\nI: Auswahl der Tester\nII: Bedingungen u. Voraussetzungen für den Test und die verfolgten Ziele auswählen\nIII: Spezifikation der einzelnen Testfälle\nIV: Festlegung der Metriken\nV: Festlegung der Testausführung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-125-a",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-grundlagen-125-b",
+          "text": "nur I, II, III, V"
+        },
+        {
+          "id": "ctfl-grundlagen-125-c",
+          "text": "III und V"
+        },
+        {
+          "id": "ctfl-grundlagen-125-d",
+          "text": "nur II, III, V"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-125-d"
+      ],
+      "explanation": "Dynamische Tests erfordern festgelegte Testziele und Bedingungen, spezifizierte Testfälle und eine organisierte Ausführung. Die Auswahl von Personal oder zusätzlicher Metriken ist nicht bei jedem einzelnen Test erneut notwendig. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-130",
+      "question": "Welche Ziele werden durch das Testen verfolgt.\nA: Ausführung des Programms mit dem Ziel, Fehlerwirkungen nachzuweisen.\nB: Ausführung des Programms mit dem Ziel, die Qualität zu bestimmen.\nC: Ausführung des Programms mit dem Ziel, Vertrauen in das Programm zu erhöhen.\nD: Analysieren des Programms oder der Dokumentation, um Fehlerwirkungen vorzubeugen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-130-a",
+          "text": "nur A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-130-b",
+          "text": "nur B und C"
+        },
+        {
+          "id": "ctfl-grundlagen-130-c",
+          "text": "nur A, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-130-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-130-d"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-133",
+      "question": "Welcher Test dient dazu ein System über seine spezifizierten Grenzen hinaus zu prüfen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-133-a",
+          "text": "Stresstest"
+        },
+        {
+          "id": "ctfl-grundlagen-133-b",
+          "text": "Sicherheitstest"
+        },
+        {
+          "id": "ctfl-grundlagen-133-c",
+          "text": "Lasttest"
+        },
+        {
+          "id": "ctfl-grundlagen-133-d",
+          "text": "Zuverlässigkeitstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-133-a"
+      ],
+      "explanation": "Ein Stresstest untersucht das Verhalten bei oder jenseits der spezifizierten Belastungsgrenzen. Er ist eine Form nicht-funktionaler Performanzprüfung. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-134",
+      "question": "Welcher Test testet das Merkmal Effizienz?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-134-a",
+          "text": "Sicherheitstest"
+        },
+        {
+          "id": "ctfl-grundlagen-134-b",
+          "text": "Datenkonventionentest"
+        },
+        {
+          "id": "ctfl-grundlagen-134-c",
+          "text": "Volumen-Masse-Test"
+        },
+        {
+          "id": "ctfl-grundlagen-134-d",
+          "text": "Test des Wiederanlaufverhaltens"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-134-c"
+      ],
+      "explanation": "Ein Volumen- bzw. Massentest prüft das Verhalten bei großen Datenmengen. Dabei können Performanzprobleme bei Verarbeitung und Ressourcennutzung sichtbar werden; der Originaltext bezeichnet dies als Effizienz. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-136",
+      "question": "Welches der folgenden Merkmale in Bezug auf gutes Testen gilt für alle\nSoftware Entwicklungsmodelle?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-136-a",
+          "text": "Der Abnahmetest ist immer die letzte Teststufe, welche angewendet wird."
+        },
+        {
+          "id": "ctfl-grundlagen-136-b",
+          "text": "Alle Teststufen sind geplant und abgeschlossen für jedes einzelne entwickelte Feature."
+        },
+        {
+          "id": "ctfl-grundlagen-136-c",
+          "text": "Tester sind beteiligt, sobald die erste Komponente ausgeführt werden kann."
+        },
+        {
+          "id": "ctfl-grundlagen-136-d",
+          "text": "Für jede Entwicklungstätigkeit gibt es eine entsprechende Testaktivität."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-136-d"
+      ],
+      "explanation": "Zu jeder Entwicklungsaktivität gehört eine entsprechende Testaktivität. Diese bewährte Praktik gilt unabhängig davon, ob das Projekt sequenziell, iterativ oder inkrementell arbeitet. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.1.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-137",
+      "question": "Welches dieser allgemeinen Prinzipien stimmt nicht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-137-a",
+          "text": "Testen ist unabhängig vom Umfeld"
+        },
+        {
+          "id": "ctfl-grundlagen-137-b",
+          "text": "Zunehmende Testresistenz"
+        },
+        {
+          "id": "ctfl-grundlagen-137-c",
+          "text": "Mit dem Testen frühzeitig beginnen"
+        },
+        {
+          "id": "ctfl-grundlagen-137-d",
+          "text": "Kein Fehler bedeutet ein brauchbares System ist ein Trugschluss"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-137-a"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-139",
+      "question": "Welches ist keine Eigenschaft eines Softwaretesters?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-139-a",
+          "text": "Ein Auge fürs Detail"
+        },
+        {
+          "id": "ctfl-grundlagen-139-b",
+          "text": "Kommunikationsstärke"
+        },
+        {
+          "id": "ctfl-grundlagen-139-c",
+          "text": "großzügig über Fehler hinwegzusehen"
+        },
+        {
+          "id": "ctfl-grundlagen-139-d",
+          "text": "Neugier und Aufmerksamkeit"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-139-c"
+      ],
+      "explanation": "Gründlichkeit, Neugier und konstruktive Kommunikation sind wichtige Testkompetenzen. Unabhängige Tester können aufgrund anderer Perspektiven andere Fehler finden. Kritik sollte sich auf das Arbeitsergebnis und nicht auf Personen beziehen. Quelle: Lehrplan 4.0.2, Abschnitte 1.5.1 und 1.5.3; Basiswissen Softwaretest, Abschnitte 2.3 und 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-140",
+      "question": "Welches sind Aufgaben des Prozessschritts \"Abschluss der Testaktivitäten\"?\nA: Erstellung des Testabschlussberichts\nB: Übergabe der Testmittel an die Wartungsorganisation\nC: Nutzung der gesammelten Informationen um die Testreife zu verbessern\nD: Kontrolle, welche der geplanten Arbeitsergebnisse geliefert wurden",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-140-a",
+          "text": "nur B"
+        },
+        {
+          "id": "ctfl-grundlagen-140-b",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-grundlagen-140-c",
+          "text": "nur B, C und D"
+        },
+        {
+          "id": "ctfl-grundlagen-140-d",
+          "text": "nur B und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-140-b"
+      ],
+      "explanation": "Zum Testabschluss gehören der Abschlussbericht, die Archivierung bzw. Übergabe wiederverwendbarer Testmittel und die Auswertung der Testaktivitäten für Verbesserungen. Dazu wird auch der Stand der vereinbarten Arbeitsergebnisse geprüft. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-142",
+      "question": "Welches sind Ziele von Software-Tests?\nA: Aufdecken von Fehlerzuständen\nB: Erzeugen von Vertrauen bezüglich des Qualitätsniveaus des Systems\nC: Beweisen, dass keine Fehlerzustände im Testobjekt vorhanden sind\nD: Liefern von Informationen zur Entscheidungsfindung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-142-a",
+          "text": "nur A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-142-b",
+          "text": "nur A, B und C"
+        },
+        {
+          "id": "ctfl-grundlagen-142-c",
+          "text": "nur A und B"
+        },
+        {
+          "id": "ctfl-grundlagen-142-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-142-a"
+      ],
+      "explanation": "Tests liefern Informationen zur Qualität, schaffen Vertrauen und verringern Risiken; sie beweisen keine Fehlerfreiheit. Die Priorisierung richtet sich nach dem Kontext und den Risiken. Quelle: Lehrplan 4.0.2, Abschnitte 1.1.1 und 1.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-143",
+      "question": "Wenn bei der Testausführung ein Unterschied zwischen dem tatsächlichem und dem\nvorausgesagten Ergebnis auftritt, liegt dann immer eine Fehlerwirkung vor?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-143-a",
+          "text": "Ja, nur wenn das Lastenheft korrekt ist"
+        },
+        {
+          "id": "ctfl-grundlagen-143-b",
+          "text": "Ja"
+        },
+        {
+          "id": "ctfl-grundlagen-143-c",
+          "text": "Ja, wenn der Test eine hohe Testabdeckung hat"
+        },
+        {
+          "id": "ctfl-grundlagen-143-d",
+          "text": "Nein"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-143-d"
+      ],
+      "explanation": "Eine Abweichung muss analysiert werden: Auch falsche Testdaten, unzutreffende Erwartungen oder eine fehlerhafte Testumgebung können sie verursachen. Sie belegt nicht automatisch einen Fehler im getesteten Produkt. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 1.4.1 und 5.5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-144",
+      "question": "Wie sieht die Ursachenkette bei Fehlern aus?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-144-a",
+          "text": "Fehleraufdeckung erzeugt Fehlerprotokollierung erzeugt Fehlerbehebung"
+        },
+        {
+          "id": "ctfl-grundlagen-144-b",
+          "text": "Fehlerzustand erzeugt Fehlerereignis erzeugt Fehlerauswirkung"
+        },
+        {
+          "id": "ctfl-grundlagen-144-c",
+          "text": "Fehlhandlung erzeugt Fehlerzustand erzeugt Fehlerwirkung"
+        },
+        {
+          "id": "ctfl-grundlagen-144-d",
+          "text": "Fehlerwirkung erzeugt Fehlhandlung erzeugt Fehlerzustand"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-144-c"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-145",
+      "question": "Wie teste ich das Merkmal Benutzbarkeit?\nA: Benutzerfreundlichkeitstest\nB: Stresstest\nC: Prüfung der Dokumente: Benutzer- und Wartungsdokumentation\nD: Test der Zuverlässigkeit",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-145-a",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-grundlagen-145-b",
+          "text": "A und C"
+        },
+        {
+          "id": "ctfl-grundlagen-145-c",
+          "text": "A und D"
+        },
+        {
+          "id": "ctfl-grundlagen-145-d",
+          "text": "A"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-145-b"
+      ],
+      "explanation": "Gebrauchstauglichkeit wird durch die Prüfung der Bedienung und unterstützender Benutzerinformationen untersucht. Stress- und Zuverlässigkeitstests haben andere Schwerpunkte. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-146",
+      "question": "Wie teste ich das Merkmal Effizienz?\nA: Lasttest\nB: Tests des Wiederanlaufverhaltens\nC: Stresstest\nD: Volumentest",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-146-a",
+          "text": "B, C"
+        },
+        {
+          "id": "ctfl-grundlagen-146-b",
+          "text": "A, B, C"
+        },
+        {
+          "id": "ctfl-grundlagen-146-c",
+          "text": "A, C"
+        },
+        {
+          "id": "ctfl-grundlagen-146-d",
+          "text": "A, C, D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-146-d"
+      ],
+      "explanation": "Last-, Stress- und Volumentests untersuchen das Performanzverhalten unter unterschiedlichen Belastungen. Wiederanlauftests prüfen dagegen die Wiederherstellung nach einem Ausfall. Quelle: CTFL-Lehrplan 4.0.2, Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-147",
+      "question": "Wie viele allgemeine Grundprinzipien des Softwaretestens gibt es?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-147-a",
+          "text": "5"
+        },
+        {
+          "id": "ctfl-grundlagen-147-b",
+          "text": "7"
+        },
+        {
+          "id": "ctfl-grundlagen-147-c",
+          "text": "8"
+        },
+        {
+          "id": "ctfl-grundlagen-147-d",
+          "text": "1"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-147-b"
+      ],
+      "explanation": "Zu den sieben Testgrundsätzen gehören: Testen zeigt die Anwesenheit, nicht die Abwesenheit von Fehlerzuständen; vollständiges Testen ist unmöglich; frühes Testen; Fehlerhäufung; Tests nutzen sich ab; Kontextabhängigkeit; der Trugschluss, dass Fehlerfreiheit automatisch Brauchbarkeit bedeutet. Quelle: Lehrplan 4.0.2, Abschnitt 1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-148",
+      "question": "Wie wird eine Abweichung vom spezifizierten oder erwarteten Verhalten genannt, die für den\nEndnutzer sichtbar ist?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-148-a",
+          "text": "Failure"
+        },
+        {
+          "id": "ctfl-grundlagen-148-b",
+          "text": "Fault"
+        },
+        {
+          "id": "ctfl-grundlagen-148-c",
+          "text": "Error"
+        },
+        {
+          "id": "ctfl-grundlagen-148-d",
+          "text": "Defect"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-148-a"
+      ],
+      "explanation": "Eine Fehlhandlung (Error) kann einen Fehlerzustand (Defect/Fault) verursachen. Wird dieser wirksam, kann eine Fehlerwirkung (Failure) auftreten. Nicht jeder Fehlerzustand führt in jeder Ausführung zu einer Fehlerwirkung. Quelle: Lehrplan 4.0.2, Abschnitt 1.2.3; Basiswissen Softwaretest, Abschnitt 2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-150",
+      "question": "Worauf beziehen sich Ausgangskriterien eines Testes?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-150-a",
+          "text": "Auf die Endbedingungen - wann man aus dem Test herausgeht, im Gegensatz zu den Eingangskriterien."
+        },
+        {
+          "id": "ctfl-grundlagen-150-b",
+          "text": "Auf die Ausgangsbasis für den Test, in der die Kriterien enthalten sind von denen der Test ausgeht."
+        },
+        {
+          "id": "ctfl-grundlagen-150-c",
+          "text": "Auf den Startpunkt des Testes - den Ausgangspunkt."
+        },
+        {
+          "id": "ctfl-grundlagen-150-d",
+          "text": "Auf die Vorannahmen des Testers - wovon man ausgeht, wenn man testet."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-150-a"
+      ],
+      "explanation": "Testplanung legt Ziele, Vorgehen, Ressourcen und Kriterien fest. Risikobasierte Priorisierung beachtet Eintrittswahrscheinlichkeit und Schadensausmaß. Fehlermeldungen müssen die Beobachtung und ihre Reproduktion nachvollziehbar beschreiben. Quelle: Basiswissen Softwaretest, Kapitel 6 und Anhang A; Lehrplan 4.0.2, Kapitel 5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-152",
+      "question": "Wozu werden Wartungstests verwendet? Wählen Sie das am besten Zutreffende aus.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-152-a",
+          "text": "Für Tests der Integration von Funktionen während der Entwicklung eines neuen Systems."
+        },
+        {
+          "id": "ctfl-grundlagen-152-b",
+          "text": "Zur Prüfung von Fehlerkorrekturen während der Entwicklungsphase."
+        },
+        {
+          "id": "ctfl-grundlagen-152-c",
+          "text": "Für Tests bei Erweiterungen eines produktiv eingesetzten Systems."
+        },
+        {
+          "id": "ctfl-grundlagen-152-d",
+          "text": "Zur Prüfung von Beschwerden über die Systemqualität während des Anwender- Abnahmetest."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-152-c"
+      ],
+      "explanation": "Änderungen, Erweiterungen, Migrationen oder Korrekturen an einem bereits betriebenen System lösen Wartungstests aus. Die Auswirkungen der Änderung bestimmen auch den notwendigen Regressionstest. Quelle: Basiswissen Softwaretest, Abschnitt 3.8; Lehrplan 4.0.2, Abschnitt 2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-153",
+      "question": "Zweck der konstruktiven Qualitätssicherung ist es...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-grundlagen-153-a",
+          "text": "Fehlermaskierungen zu vermeiden"
+        },
+        {
+          "id": "ctfl-grundlagen-153-b",
+          "text": "Fehlerwirkungen aufzudecken"
+        },
+        {
+          "id": "ctfl-grundlagen-153-c",
+          "text": "Fehlerzustände aufzudecken"
+        },
+        {
+          "id": "ctfl-grundlagen-153-d",
+          "text": "Fehlerhandlungen zu vermeiden"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-grundlagen-153-d"
+      ],
+      "explanation": "Statische Prüfungen untersuchen Arbeitsergebnisse ohne Ausführung und können Fehlerzustände früh finden. Verifikation prüft spezifizierte Vorgaben; präventive Qualitätsmaßnahmen sollen Fehlhandlungen und Fehlerzustände vermeiden. Quelle: Lehrplan 4.0.2, Abschnitte 1.1, 1.2 und 3.1; Basiswissen Softwaretest, Kapitel 2 und 4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 1,
+        "chapterTitle": "Grundlagen des Testens",
+        "learningObjective": "FL-1.2.1",
+        "kLevel": "K2"
+      }
+    }
+  ],
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "excludedQuestions": [
+    {
+      "id": "ctfl-grundlagen-131",
+      "sourceNumber": 131,
+      "reason": "Abfrage des historischen IEEE-829-Testplans statt der aktuellen Testdokumentationsreferenzen.",
+      "syllabusSections": [
+        "5.1.1",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-003",
+      "sourceNumber": 3,
+      "reason": "Detaillierte historische Integrationsklassifikation einschließlich Backbone-/Ad-hoc-Integration; nicht Inhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "2.2.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-004",
+      "sourceNumber": 4,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-008",
+      "sourceNumber": 8,
+      "reason": "Detaillierte Definition und Inhalte der alten Teststrategie-Systematik; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5",
+        "5.1.1"
+      ],
+      "originalConfirmation": {
+        "answer": "alles ist richtig",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-009",
+      "sourceNumber": 9,
+      "reason": "Detaillierte Definition und Inhalte der alten Teststrategie-Systematik; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5",
+        "5.1.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-011",
+      "sourceNumber": 11,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-016",
+      "sourceNumber": 16,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-017",
+      "sourceNumber": 17,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-018",
+      "sourceNumber": 18,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-019",
+      "sourceNumber": 19,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-020",
+      "sourceNumber": 20,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-021",
+      "sourceNumber": 21,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-022",
+      "sourceNumber": 22,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-023",
+      "sourceNumber": 23,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-024",
+      "sourceNumber": 24,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-025",
+      "sourceNumber": 25,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-026",
+      "sourceNumber": 26,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-027",
+      "sourceNumber": 27,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-028",
+      "sourceNumber": 28,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-034",
+      "sourceNumber": 34,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-035",
+      "sourceNumber": 35,
+      "reason": "Detaillierte Zuordnung historischer V-Modell-Entwicklungsphasen; nicht Inhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "2.1.1",
+        "2.2.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-036",
+      "sourceNumber": 36,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-042",
+      "sourceNumber": 42,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-043",
+      "sourceNumber": 43,
+      "reason": "Historischer Originalschlüssel reduziert Produktqualität auf die Anzahl gefundener Fehlerzustände; nicht mit der aktuellen Qualitätsbewertung vereinbar.",
+      "syllabusSections": [
+        "1.1.1",
+        "5.3.1"
+      ],
+      "originalConfirmation": {
+        "answer": "Die Qualität wird durch die Anzahl der gefundenen Fehlerzustände ausgedrückt.",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-055",
+      "sourceNumber": 55,
+      "reason": "Historische Glossarfrage zur Fehlermaskierung; kein Lerninhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "1.2.3"
+      ],
+      "originalConfirmation": {
+        "answer": "Es ist durchaus möglich, dass ein Fehlerzustand durch einen oder mehrere andere Defekte in anderen Teilen des Programms kompensiert wird",
+        "source": "Vom Benutzer bereitgestellter Screenshot der Auflösung."
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-058",
+      "sourceNumber": 58,
+      "reason": "Originalschlüssel schließt das Aufdecken unbekannter Risiken als Ziel explorativen Testens aus; nicht mit dem aktuellen erfahrungsbasierten Testen vereinbar.",
+      "syllabusSections": [
+        "4.4.2"
+      ],
+      "originalConfirmation": {
+        "answer": "unbekannte Risiken aufdecken",
+        "source": "Vom Benutzer bereitgestellter Screenshot der Auflösung.",
+        "examEligible": false,
+        "note": "Originalschlüssel auf ausdrücklichen Benutzerwunsch beibehalten; widerspricht der Eignung explorativen Testens zum Aufdecken unbekannter Risiken."
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-065",
+      "sourceNumber": 65,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-066",
+      "sourceNumber": 66,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-075",
+      "sourceNumber": 75,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-077",
+      "sourceNumber": 77,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-078",
+      "sourceNumber": 78,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-084",
+      "sourceNumber": 84,
+      "reason": "Historischer Originalschlüssel setzt allgemeine Verifikation mit einem formalen mathematischen Korrektheitsbeweis gleich.",
+      "syllabusSections": [
+        "1.1"
+      ],
+      "originalConfirmation": {
+        "answer": "A und B sind richtig.",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-086",
+      "sourceNumber": 86,
+      "reason": "Historische Klassifikation logischer gegenüber konkreten Testfällen; kein eigenständiger Lerninhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "1.4.1",
+        "1.4.3"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-093",
+      "sourceNumber": 93,
+      "reason": "Abfrage der acht Leitlinien des früheren Ethik-Kodex; nicht Bestandteil des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "1.5.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-094",
+      "sourceNumber": 94,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-101",
+      "sourceNumber": 101,
+      "reason": "Historische pauschale Einordnung des Testens als destruktiv; der aktuelle Lehrplan umfasst auch statische und präventive Testaktivitäten.",
+      "syllabusSections": [
+        "1.1",
+        "1.1.2"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-104",
+      "sourceNumber": 104,
+      "reason": "Historische Gleichsetzung von Zweig- und Entscheidungstests; CTFL 4 ersetzt Entscheidungstests ausdrücklich durch Zweigtests.",
+      "syllabusSections": [
+        "4.3.2",
+        "10: Änderungen in Kapitel 4"
+      ],
+      "originalConfirmation": {
+        "answer": "II., III., IV. und VI.",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-110",
+      "sourceNumber": 110,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-112",
+      "sourceNumber": 112,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-114",
+      "sourceNumber": 114,
+      "reason": "Detaillierte Definition und Inhalte der alten Teststrategie-Systematik; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5",
+        "5.1.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-115",
+      "sourceNumber": 115,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ],
+      "originalConfirmation": {
+        "answer": "A und D",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-116",
+      "sourceNumber": 116,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-117",
+      "sourceNumber": 117,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-121",
+      "sourceNumber": 121,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-122",
+      "sourceNumber": 122,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-123",
+      "sourceNumber": 123,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-124",
+      "sourceNumber": 124,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-126",
+      "sourceNumber": 126,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-127",
+      "sourceNumber": 127,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-128",
+      "sourceNumber": 128,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-129",
+      "sourceNumber": 129,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-132",
+      "sourceNumber": 132,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-135",
+      "sourceNumber": 135,
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell mit zusammengefassten Aktivitäten; CTFL 4.0.2 unterscheidet sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-138",
+      "sourceNumber": 138,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-141",
+      "sourceNumber": 141,
+      "reason": "Historischer Normenstand bzw. Merkmals-/Teilmerkmalszuordnung nach ISO 9126 statt der im aktuellen Lehrplan verwendeten ISO/IEC 25010.",
+      "syllabusSections": [
+        "2.2.2",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-grundlagen-149",
+      "sourceNumber": 149,
+      "reason": "Anwendungsfallbasiertes Testen wurde aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 4"
+      ],
+      "originalConfirmation": {
+        "answer": "Szenarien",
+        "source": "Benutzer-Screenshot der Auflösung.",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-grundlagen-151",
+      "sourceNumber": 151,
+      "reason": "Klassifikation von RAD als spezifischem Entwicklungsmodell; nicht Inhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "2.1.1"
+      ]
+    }
+  ]
+}

@@ -123,6 +123,66 @@ function asInput(course: Course): CourseInput {
 }
 
 describe("eLearning courses API", () => {
+  it("hides exam-only fallback questions from practice, progress and counts, but retains them for admins", async () => {
+    const original = initialCourse.questions[0];
+    savedCourses[0] = { ...initialCourse, questions: [
+      original, { ...original, id: "exam-only", usage: "exam" },
+    ] };
+    const employee = await loginAs("employee");
+    const practice = await employee.get(`/api/courses/${initialCourse.slug}/practice`).expect(200);
+    expect(practice.body.course.questions).toEqual([original]);
+    const list = await employee.get("/api/courses").expect(200);
+    expect(list.body.courses[0].questionCount).toBe(1);
+    await employee.get(`/api/courses/${initialCourse.slug}/practice/progress`).expect(200);
+    expect(practiceProgressRepository.list).toHaveBeenCalledWith(expect.any(String), initialCourse.id, [original]);
+    await employee.post(`/api/courses/${initialCourse.slug}/practice/answer`)
+      .send({ questionId: "exam-only", selectedOptionIds: ["option-1"] }).expect(400);
+    const admin = await loginAs("admin");
+    const editable = await admin.get(`/api/courses/admin/${initialCourse.slug}`).expect(200);
+    expect(editable.body.course.questions).toHaveLength(2);
+  });
+
+  it("allows admins to save the enlarged pool with diagrams and question usage intact", async () => {
+    const admin = await loginAs("admin");
+    const input = asInput({
+      ...initialCourse,
+      questions: Array.from({ length: 379 }, (_, index) => ({
+        ...initialCourse.questions[0], id: `question-${index}`, usage: "practice",
+        image: { url: [
+          "/questions/istqb-foundation/prozess-116.png",
+          "/questions/istqb-foundation/lebenszyklus-015.png",
+          "/questions/istqb-foundation/statisch-005.png",
+          "/questions/istqb-foundation/testentwurf-002.png",
+        ][index % 4], alt: "Aufgabengrafik" },
+      })),
+    });
+    const response = await admin.post("/api/courses").send(input).expect(201);
+    expect(response.body.course.questions).toEqual(input.questions);
+    input.questions[0].image = { url: "https://untrusted.invalid/image.png", alt: "Extern" };
+    await admin.post("/api/courses").send(input).expect(400);
+  });
+
+  it("excludes practice-only questions consistently from legacy exam delivery and grading", async () => {
+    const original = initialCourse.questions[0];
+    savedCourses[0] = { ...initialCourse, questions: [
+      { ...original, image: { url: "/questions/istqb-foundation/prozess-116.png", alt: "Testprozess" } },
+      { ...original, id: "practice-only", usage: "practice" },
+    ] };
+    const employee = await loginAs("employee");
+    const url = `/api/courses/${initialCourse.slug}/exam`;
+    const exam = await employee.get(url).expect(200);
+    expect(exam.body.course.questions).toHaveLength(1);
+    expect(exam.body.course.questions[0].image).toEqual(savedCourses[0].questions[0].image);
+    const submitted = await employee.post(`${url}/submit`)
+      .send({ answers: [{ questionId: original.id, selectedOptionIds: ["option-1"] }] }).expect(200);
+    expect(submitted.body.result).toMatchObject({ totalQuestions: 1, correctCount: 1, percentage: 100 });
+    expect(submitted.body.result.results[0].question.image).toEqual(savedCourses[0].questions[0].image);
+    await employee.post(`${url}/submit`)
+      .send({ answers: [{ questionId: "practice-only", selectedOptionIds: ["option-1"] }] }).expect(400);
+    savedCourses[0] = { ...initialCourse, questions: [{ ...original, usage: "practice" }] };
+    await employee.post(`${url}/submit`).send({ answers: [] }).expect(400);
+  });
+
   it("requires the complete correct set for multiple-choice practice answers", async () => {
     savedCourses[0] = { ...initialCourse, questions: [{
       ...initialCourse.questions[0], type: "multiple",

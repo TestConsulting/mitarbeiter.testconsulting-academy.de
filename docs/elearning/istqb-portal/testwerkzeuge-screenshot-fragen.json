@@ -1,0 +1,1078 @@
+{
+  "version": 1,
+  "sourceQuestionCount": 43,
+  "missingSourceNumbers": [],
+  "duplicates": [],
+  "confirmedAnswers": {},
+  "questions": [
+    {
+      "id": "ctfl-testwerkzeuge-002",
+      "question": "Bei Einsatz welchen Testwerkzeuges sind Schnittstellen zu anderen Werkzeugen sinnvoll, um eine angemessene Informationsaufbereitung zu ermöglichen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-002-a",
+          "text": "Performancetestwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-002-b",
+          "text": "Compiler"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-002-c",
+          "text": "Testmanagementwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-002-d",
+          "text": "Testausführungswerkzeug"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-002-c"
+      ],
+      "explanation": "Das Testmanagementwerkzeug verknüpft Informationen aus Anforderungen, Testfällen, Testergebnissen und Fehlermeldungen. Schnittstellen zu anderen Werkzeugen ermöglichen eine zusammenhängende Auswertung. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.1. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-003",
+      "question": "Damit ein Testfall reproduziert durchgeführt werden kann, müssen neben Vor- und Nachbedingungen, die Testdaten festgelegt werden. Bei der Erzeugung der Testdaten können Testdatengeneratoren, den Testdesigner unterstützen.\nIst diese Aussage richtig oder falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-003-a",
+          "text": "Richtig"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-003-b",
+          "text": "FALSCH"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-003-a"
+      ],
+      "explanation": "Reproduzierbare Testfälle benötigen festgelegte Vorbedingungen, Eingaben und erwartete Nachbedingungen. Testdatengeneratoren unterstützen die Bereitstellung der Eingabedaten. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.2. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-005",
+      "question": "Die Kosten-Nutzen-Bilanz der Testwerkzeuge zur Automatisierung der Testdurchführung fällt im ersten Durchlauf meist negativ aus, im Vergleich zur manuellen Testdurchführung (bei nur einem Testzyklus).",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-005-a",
+          "text": "FALSCH"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-005-b",
+          "text": "Richtig"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-005-b"
+      ],
+      "explanation": "Auswahl, Einrichtung und Automatisierung verursachen zunächst Aufwand. Einsparungen entstehen meist erst durch weitere Wiederholungen, insbesondere durch Regressionstests; ein einzelner Testzyklus amortisiert die Investition häufig nicht. Quelle: Basiswissen Softwaretest, Abschnitt 7.2.1. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.2.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-006",
+      "question": "Ein Komparator ist am ehesten in einem der folgenden Werkzeuge enthalten:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-006-a",
+          "text": "Werkzeug zur dynamischen Analyse"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-006-b",
+          "text": "Sicherheitsprüfwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-006-c",
+          "text": "Statisches Analysewerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-006-d",
+          "text": "Werkzeug für die Testdurchführung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-006-d"
+      ],
+      "explanation": "Ein Komparator vergleicht tatsächliche mit erwarteten Ergebnissen. Testausführungswerkzeuge bzw. Testroboter enthalten häufig solche Vergleichsfunktionen. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-007",
+      "question": "Ein Werkzeug enthält zwei Funktionen: durch die Lastgenerierung werden hohe Eingabedatenvolumen simuliert. Während der Testdurchführung werden Antwortzeiten von ausgewählten Transaktionen gemessen und protokolliert. Das Werkzeug liefert Berichte auf der Basis der Testprotokolle und Diagramme des Verhaltens unter Last in Relation zu den Antwortzeiten.\nEs geht hier um ein:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-007-a",
+          "text": "Sicherheitsprüfwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-007-b",
+          "text": "Testmonitor"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-007-c",
+          "text": "Performanztestwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-007-d",
+          "text": "Lasttestwerkzeug"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-007-c"
+      ],
+      "explanation": "Die Kombination aus erzeugter Last und Messung, Protokollierung und Auswertung des Antwortzeitverhaltens kennzeichnet hier ein Performanztestwerkzeug. Ein reiner Lastgenerator erzeugt vor allem Last. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.5. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-011",
+      "question": "Mit dem Tool \"Selenium\" kann man Interaktionen mit einer Webanwendung aufzeichnen und diesen Vorgang automatisch und beliebig oft wiedergeben.\nBei diesem Tool handelt es sich um ein:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-011-a",
+          "text": "Komparator"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-011-b",
+          "text": "Performanztestwerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-011-c",
+          "text": "Testausführungswerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-011-d",
+          "text": "Reviewwerkzeug"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-011-c"
+      ],
+      "explanation": "Die beschriebene Aufzeichnungs- und Wiedergabefunktion, etwa von Selenium IDE, unterstützt die automatisierte Testausführung. Sie ist keine statische Review- oder reine Performanzmessfunktion. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-012",
+      "question": "Mit welchem Werkzeug oder Vorgehen werden am ehesten nicht eingehaltene Programmierkonventionen aufgedeckt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-012-a",
+          "text": "Stand-up Meeting"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-012-b",
+          "text": "Statisches Analysewerkzeug"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-012-c",
+          "text": "Technisches Review"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-012-d",
+          "text": "Compiler"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-012-b"
+      ],
+      "explanation": "Statische Analysewerkzeuge können Quellcode automatisiert auf die Einhaltung vorgegebener Programmierregeln prüfen, ohne das Testobjekt auszuführen. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-015",
+      "question": "Unten finden Sie eine Liste möglicher Ziele zur Effizienzsteigerung einer Software-Entwicklungs- und Testorganisation.\nWelches dieser Ziele wird am besten durch ein Testmanagementwerkzeug unterstützt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-015-a",
+          "text": "Die Rückverfolgbarkeit zwischen Anforderungen, Testfällen und Fehlerzuständen herstellen."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-015-b",
+          "text": "Die Auswahl von Testfällen für die Testausführung automatisieren."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-015-c",
+          "text": "Die Fehlerzustände schneller beheben."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-015-d",
+          "text": "Die Fähigkeit der Tests optimieren, Fehlerwirkungen zu identifizieren."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-015-a"
+      ],
+      "explanation": "Testmanagementwerkzeuge verknüpfen Anforderungen, Testfälle, Ergebnisse und Fehlermeldungen. Diese Rückverfolgbarkeit ist ihre direkte Stärke; Fehlerbehebung und die Qualität des Testentwurfs bleiben fachliche Aufgaben. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.1. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-016",
+      "question": "Unten finden Sie eine Liste von möglichen Zielen zur Effizienzsteigerung einer Softwareentwicklungs- und Testorganisation.\nWelches dieser Ziele wird am besten durch ein Testmanagementwerkzeug unterstützt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-016-a",
+          "text": "Die Rückverfolgbarkeit zwischen Anforderungen, Testfällen und Fehlern."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-016-b",
+          "text": "Die Auswahl von Testfällen für die Testausführung automatisieren."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-016-c",
+          "text": "Die Fähigkeit die Tests zu optimieren, Fehler zu identifizieren."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-016-d",
+          "text": "Fehler schneller beheben."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-016-a"
+      ],
+      "explanation": "Ein Testmanagementwerkzeug unterstützt insbesondere die Rückverfolgbarkeit zwischen Anforderungen, Tests und Fehlermeldungen. Es behebt Fehler nicht selbst und ersetzt keinen qualifizierten Testentwurf. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.1. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-017",
+      "question": "Von einem Testentwurfswerkzeug können typischerweise welche der folgenden Aufgaben übernommen werden?\nA. Konsistenzprüfungen\nB. Testdatengenerierung\nC. Testfallgenerierung aus der Softwarespezifikation\nD. Testfallgenerierung basierend auf einer Analyse des Quellcodes\nE. Datengenerierung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-017-a",
+          "text": "A, C und D können automatisiert werden, B und E nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-017-b",
+          "text": "B, C und E können automatisiert werden, A und D nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-017-c",
+          "text": "A, B und C können automatisiert werden, D und E nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-017-d",
+          "text": "B, C, D und E können automatisiert werden, A nicht."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-017-d"
+      ],
+      "explanation": "In der Werkzeugklassifikation des Originalkatalogs unterstützen Testentwurfswerkzeuge die Testfall- und Datengenerierung aus Spezifikation oder Code. Konsistenzprüfungen sind dort der statischen Analyse zugeordnet; heutige integrierte Werkzeuge können mehrere Kategorien abdecken. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.2 und 7.1.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-019",
+      "question": "Wann könnte es zu Problemen bei der Benutzung von Capture-and-Replay-Tools kommen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-019-a",
+          "text": "Änderung der GUI"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-019-b",
+          "text": "Benutzung anderer Tools"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-019-c",
+          "text": "Änderung von Variablen"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-019-d",
+          "text": "Änderung von Berechnungsfunktionen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-019-a"
+      ],
+      "explanation": "Aufgezeichnete Interaktionen sind an die Benutzungsoberfläche gekoppelt. Änderungen an GUI-Elementen oder Abläufen können die Wiedergabe brechen und Wartung der Skripte erfordern. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.2.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-020",
+      "question": "Was ist ein Komparator/Testkomparator?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-020-a",
+          "text": "Ein Werkzeug zum automatischen Vergleich der tatsächlichen (Ist-) mit den vorausgesagten (Soll-) Ergebnissen."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-020-b",
+          "text": "Diese Werkzeuge unterstützen Entwickler und Tester in der Aufdeckung von Fehlerzuständen vor dem dynamischen Testen, indem sie Programmierkonventionen einschließlich sicherer Programmierung (secure coding) erzwingen und die Analyse von Strukturen und Abhängigkeiten ermöglichen."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-020-c",
+          "text": "Diese Werkzeuge speichern und verwalten Fehler- und Abweichungsberichte, d.h. Fehlerzustände, Änderungsanforderungen (change requests), Fehlerwirkungen oder wahrgenommene Probleme und Anomalien."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-020-d",
+          "text": "Ein Testwerkzeug, das eine zu testende Komponente/ein System aufruft und/oder steuert."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-020-a"
+      ],
+      "explanation": "Komparatoren stellen Unterschiede zwischen erwarteten und tatsächlich beobachteten Ergebnissen fest. Die übrigen Beschreibungen betreffen statische Analyse, Fehlermanagement und Testtreiber. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-021",
+      "question": "Was ist kein Testwerkzeug im engeren Sinne (Testwerkzeug für die Testdurchführung)?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-021-a",
+          "text": "Testrahmen"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-021-b",
+          "text": "Testausführungswerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-021-c",
+          "text": "Werkzeug zur Überdeckungsanalyse"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-021-d",
+          "text": "Testdatengeneratoren"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-021-d"
+      ],
+      "explanation": "In der hier verwendeten engeren Einteilung dienen Testdatengeneratoren der Testspezifikation bzw. Vorbereitung. Testrahmen, Ausführungswerkzeuge und Überdeckungsanalyse unterstützen den Testlauf. Der aktuelle Lehrplan verwendet einen breiteren Werkzeugbegriff. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.2 und 7.1.4. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-023",
+      "question": "Was sind mögliche Risiken bei der Verwendung eines neu eingeführten Testwerkzeugs?\nI. Unrealistische Erwartungen an das Werkzeug.\nII. Mangelhafte Unterstützung durch den Hersteller des Werkzeugs.\nIII. Interoperabilitätsproblematik zwischen den Werkzeugen.\nIV. Unterschätzung von Zeit, Kosten und Aufwand über die Einführung des Werkzeuges.\nV. Risiko, dass der Werkzeughersteller den Betrieb einstellt.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-023-a",
+          "text": "alle sind Risiken"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-023-b",
+          "text": "nur I. und IV. sind Risiken"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-023-c",
+          "text": "nur I., IV. und V. sind Risiken"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-023-d",
+          "text": "nur II., III., IV. und V. sind Risiken"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-023-a"
+      ],
+      "explanation": "Alle fünf Punkte sind mögliche Risiken: überhöhte Erwartungen, fehlender Support, inkompatible Werkzeuge, unterschätzter Einführungsaufwand und die Abhängigkeit von einem möglicherweise ausscheidenden Anbieter. Quelle: Basiswissen Softwaretest, Abschnitt 7.2. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.2.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-028",
+      "question": "Welche Aussage zu statischen Analysewerkzeugen ist falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-028-a",
+          "text": "Die Warnmeldungen sollen analysiert werden, weil deren Behebung die Wartbarkeit des Quellcodes verbessert."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-028-b",
+          "text": "Alle Warnmeldungen müssen vor Testende behoben werden, weil die Einhaltung von Programmierkonventionen erzwungen werden muss."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-028-c",
+          "text": "Es sollte möglich sein, Regeln im Werkzeug zu deaktivieren, damit für existierenden Quellcode nicht so viele Warnungen angezeigt werden."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-028-d",
+          "text": "Statische Analysewerkzeuge erzwingen sichere Programmierung (secure coding) und ermöglichen die Analyse von Strukturen und Abhängigkeiten."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-028-b"
+      ],
+      "explanation": "Warnungen müssen bewertet und priorisiert werden; nicht jede Warnung muss zwingend vor Testende behoben sein. Regelprüfungen unterstützen Programmierkonventionen und sichere Programmierung, garantieren jedoch keine Sicherheit. Regel-Deaktivierungen müssen begründet sein und dürfen relevante Befunde nicht bloß verstecken. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-030",
+      "question": "Welche der folgenden Aussagen trifft nicht auf daten- und schlüsselwortgetriebene Testvorgehensweisen zu?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-030-a",
+          "text": "Aktionen eines manuellen Tests sollten aufgezeichnet werden und können daraufhin für eine beliebig große Software verwendet werden."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-030-b",
+          "text": "Zur Implementierung von daten- und schlüsselwortgetriebenen Tests werden häufig technische Kenntnisse in Skriptsprachen benötigt."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-030-c",
+          "text": "Zur Ausführung von daten- und schlüsselwortgetriebenen Tests sind Testausführungswerkzeuge zur effizienten Testdurchführung notwendig."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-030-d",
+          "text": "Datengetriebene Tests trennen Testdaten von Testfällen, sodass das gleiche Skript mit unterschiedlichen Testdaten ausgeführt werden kann."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-030-a"
+      ],
+      "explanation": "Eine Aufzeichnung lässt sich nicht automatisch auf beliebig große oder beliebige Software übertragen. Daten- und schlüsselwortgetriebene Ansätze verbessern Wiederverwendung und Strukturierung, benötigen aber Implementierung, geeignete Werkzeuge und Wartung. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.2.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-031",
+      "question": "Welche der folgenden Eigenschaften beschreiben am besten ein schlüsselwortgetriebenes Testausführungswerkzeug?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-031-a",
+          "text": "Aktionen von Testern, die in einem Skript aufgezeichnet wurden und mehrfach ausgeführt werden."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-031-b",
+          "text": "Die Möglichkeit, Testergebnisse aufzuzeichnen und sie danach mit den erwarteten Ergebnissen zu vergleichen, welche in einer Textdatei gespeichert sind."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-031-c",
+          "text": "Aktionen von Testern, die in einem Skript aufgezeichnet wurden, das danach mit mehreren Sets von Test-Eingabedaten ausgeführt wird."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-031-d",
+          "text": "Eine Tabelle mit Testeingangsdaten, Aktionswörtern und den erwarteten Ergebnissen steuert die Ausführung des zu testenden Systems."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-031-d"
+      ],
+      "explanation": "Beim schlüsselwortgetriebenen Testen beschreiben Aktionswörter die auszuführenden Testaktionen; Tabellen können diese mit Daten und Sollwerten kombinieren. Reine Aufzeichnung ist Capture-and-Replay, mehrere Datensätze allein kennzeichnen datengetriebenes Testen. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-032",
+      "question": "Welche der folgenden Testaktivitäten können automatisiert werden?\nA. Reviews und Inspektionen\nB. Sammeln von Messgrößen\nC. Testplanung\nD. Testausführung\nE. Datengenerierung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-032-a",
+          "text": "A, B und C können automatisiert werden, D und E nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-032-b",
+          "text": "B, C und E können automatisiert werden, A und D nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-032-c",
+          "text": "B und D können automatisiert werden, A, C und E nicht."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-032-d",
+          "text": "B, D und E können automatisiert werden, A und C nicht."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-032-d"
+      ],
+      "explanation": "Messwerterfassung, Testausführung und Datengenerierung lassen sich automatisieren. Reviews und Testplanung können durch Werkzeuge unterstützt werden, ihre fachlichen Bewertungen und Entscheidungen werden dadurch jedoch nicht vollständig automatisiert. Quelle: Basiswissen Softwaretest, Abschnitt 7.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-033",
+      "question": "Welche Kategorie von Testtools unterstützt nicht das Management des Testens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-033-a",
+          "text": "Modellierungswerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-033-b",
+          "text": "Konfigurationsmanagementwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-033-c",
+          "text": "Fehler- und Abweichungsmanagementwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-033-d",
+          "text": "Anforderungsmanagementwerkzeuge"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-033-a"
+      ],
+      "explanation": "In der Katalogeinteilung dienen Modellierungswerkzeuge insbesondere Spezifikation und Analyse. Konfigurations-, Fehler- und Anforderungsmanagement sind unmittelbar dem Management und der Steuerung von Tests zugeordnet. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.1 und 7.1.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-034",
+      "question": "Welche Testart profitiert am meisten durch die Verwendung von Testtools, die \"Capture & Replay\" unterstützen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-034-a",
+          "text": "Abnahmetest"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-034-b",
+          "text": "Regressionstest"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-034-c",
+          "text": "Benutzerfreundlichkeitstest"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-034-d",
+          "text": "Integrationstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-034-b"
+      ],
+      "explanation": "Wiederholte Regressionstests profitieren besonders von der automatisierten Wiedergabe bereits bekannter Abläufe. Eine Bewertung der Benutzbarkeit erfordert dagegen insbesondere menschliche Beobachtung und Beurteilung. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4 und 7.2.1. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.2.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-036",
+      "question": "Welches ist ein Testwerkzeug für den statischen Test?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-036-a",
+          "text": "Debugger"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-036-b",
+          "text": "Test-Roboter"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-036-c",
+          "text": "Model Checker"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-036-d",
+          "text": "Simulatoren"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-036-c"
+      ],
+      "explanation": "Ein Model Checker untersucht Eigenschaften eines formalen Modells, ohne das eigentliche Testobjekt dynamisch auszuführen. Debugger, Testroboter und Simulatoren werden bei der dynamischen Ausführung eingesetzt. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-037",
+      "question": "Welches sind die Ziele der dynamischen Analysewerkzeuge?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-037-a",
+          "text": "Analysieren und protokollieren der Verwendung spezifischer Systemressourcen; Ausgabe von Warnungen."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-037-b",
+          "text": "Aufdecken von Fehlerzuständen, die nur zur Laufzeit sichtbar sind (Zeitabhängigkeiten; Speicherengpässe)."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-037-c",
+          "text": "Aufdecken von Fehlerzuständen vor dynamischen Tests."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-037-d",
+          "text": "Überwachen und Protokollieren des Verhaltens eines Systems unter Nutzungsbedingungen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-037-b"
+      ],
+      "explanation": "Dynamische Analyse untersucht den internen Zustand während der Programmausführung, beispielsweise Speicherbelegung, Speicherfreigabe und Laufzeitprobleme. Die anderen Laufzeitbeschreibungen betreffen in der hier verwendeten Einteilung eher Monitore. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4 und 7.1.5. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-038",
+      "question": "Welches Tool ist kein Werkzeug für den dynamischen Test?\nA: Debugger: Ermöglichen es, ein Programm zeilenweise abzuarbeiten, die Abarbeitung an jeder Programmanweisung anzuhalten, Variablen zu setzen und auszulesen u.v.m.\nB: Model Checker: Analyse von Spezifikation, sofern sie in einem formalen Modell bzw. Notation vorliegt. Werkzeug kann z.B. fehlende Zustände, fehlende Zustandsübergänge und andere Inkonsistenzen entdecken.\nC: Simulatoren: Bildet die eigentliche Einsatzumgebung möglichst umfassend nach, wenn ein Systemtest nicht in der echten Umgebung möglich ist.\nD: Testtreiber: Bieten Mechanismen um Testobjekte über deren Programmierschnittstelle anzusprechen. Benötigt werden Testtreiber hauptsächlich für Komponenten- und Integrationstests oder für spezielle Aufgaben im Systemtest. Eventuell erzeugt er auch Dummies und Platzhalter.\nE: Testroboter: Dient als Testschnittstelle direkt in die Bedienoberfläche eines Softwaresystems.\nF: Komparatoren: Stellen automatisch Unterschiede, zwischen erwartetem und aktuellem Ergebnis fest.\nG: Dynamische Analyse: Ermitteln während der Programmausführung im dynamischen Test, zusätzliche Informationen über den internen Zustand der getesteten Software, z.B. die Belegung und Verwendung und Freigabe von Speicher.\nH: Überdeckungsanalyse: Liefert Maßzahlen der strukturellen Testabdeckung während der Testdurchführung.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-038-a",
+          "text": "nur B"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-038-b",
+          "text": "keines"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-038-c",
+          "text": "nur F und H"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-038-d",
+          "text": "nur A, B, D und E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-038-a"
+      ],
+      "explanation": "Nur der Model Checker ist hier der statischen Prüfung eines Modells zugeordnet. Die übrigen aufgezählten Werkzeuge unterstützen Ausführung, Beobachtung, Steuerung oder Auswertung dynamischer Tests. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3 und 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-039",
+      "question": "Welches Tool ist kein Werkzeug für den statischen Test?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-039-a",
+          "text": "Model Checker: Analyse von Spezifikation, sofern sie in einem formalen Modell bzw. Notation vorliegt. Werkzeug kann z.B. fehlende Zustände, fehlende Zustandsübergänge und andere Inkonsistenzen entdecken."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-039-b",
+          "text": "Debugger: Ermöglichen es, ein Programm zeilenweise abzuarbeiten, die Abarbeitung an jeder Programmanweisung anzuhalten, Variablen zu setzen und auszulesen u.v.m."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-039-c",
+          "text": "Werkzeug zur Reviewunterstützung: Hilft bei der Planung, Durchführung und Ergebnisauswertung von Reviews. Sammelt Informationen über Reviewsitzungen, Reviewteilnehmer, Reviewbefunde und -ergebnisse."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-039-d",
+          "text": "Statische Analyse: Werkzeug, das Maßzahlen liefert, zu verschiedenen Charakteristika des Programmcodes, z.B. zyklomatische Zahl und anderen Codemetriken."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-039-b"
+      ],
+      "explanation": "Ein Debugger arbeitet mit einem ausgeführten Programm und gehört damit nicht zu den statischen Testwerkzeugen. Modellprüfung, Reviewunterstützung und statische Codeanalyse benötigen diese Programmausführung nicht. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3 und 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-040",
+      "question": "Werkzeugunterstützung für das Management des Testens. Was steht in der Liste falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-040-a",
+          "text": "Modellierungsmanagementwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-040-b",
+          "text": "Fehler- und Abweichungsmanagementwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-040-c",
+          "text": "Testmanagementwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-040-d",
+          "text": "Anforderungsmanagementwerkzeuge"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-040-a"
+      ],
+      "explanation": "Die Liste der Managementwerkzeuge im Originalkatalog umfasst Test-, Fehler- und Anforderungsmanagement. Modellierungswerkzeuge sind dort der Spezifikation bzw. statischen Prüfung zugeordnet, nicht als eigene Kategorie Modellierungsmanagement. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.1 und 7.1.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-041",
+      "question": "Werkzeugunterstützung für den statischen Test. Was steht in der Liste falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-041-a",
+          "text": "Werkzeuge zur Überdeckungsmessung"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-041-b",
+          "text": "Reviewwerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-041-c",
+          "text": "Modellierungswerkzeuge"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-041-d",
+          "text": "Statische Analysewerkzeuge"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-041-a"
+      ],
+      "explanation": "Strukturelle Testüberdeckung wird während dynamischer Testläufe erfasst. Review-, Modellierungs- und statische Analysewerkzeuge unterstützen dagegen die Prüfung ohne Ausführung des eigentlichen Testobjekts. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.3 und 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-042",
+      "question": "Wo werden am ehesten Komparatoren eingesetzt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-042-a",
+          "text": "Testdurchführung"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-042-b",
+          "text": "Testentwurfsverfahren"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-042-c",
+          "text": "Testmanagement"
+        },
+        {
+          "id": "ctfl-testwerkzeuge-042-d",
+          "text": "Testplanung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-042-a"
+      ],
+      "explanation": "Komparatoren vergleichen während bzw. nach der Testausführung tatsächliche und erwartete Ergebnisse und unterstützen damit insbesondere die Testdurchführung und Auswertung. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-043",
+      "question": "Wozu dienen Werkzeuge zur dynamischen Analyse?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testwerkzeuge-043-a",
+          "text": "Sie analysieren, verifizieren und zeichnen kontinuierlich die Verwendung von spezifischen Systemressourcen auf und geben Warnungen zu möglichen Problemen bei der Erbringung von Diensten aus."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-043-b",
+          "text": "Diese Werkzeuge messen – mit intrusiven oder nicht-intrusiven Mitteln – den prozentualen Anteil spezifischer Codestrukturtypen (z.B. Anweisungen, Zweige oder Entscheidungen und Module oder Funktionsaufrufe), die durch eine Menge von Tests ausgeführt bzw. durchlaufen wurden."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-043-c",
+          "text": "Dynamische Analysewerkzeuge decken Fehlerzustände auf, wie sie lediglich zur Laufzeit eines Programms sichtbar werden, also z.B. Zeitabhängigkeiten und Speicherengpässe. Diese werden typischerweise im Komponenten- und Komponentenintegrationstest sowie im Rahmen der Tests der Middleware verwendet."
+        },
+        {
+          "id": "ctfl-testwerkzeuge-043-d",
+          "text": "Diese Werkzeuge werden verwendet, um Testeingaben, ausführbare Tests und/oder Testorakel aus den Anforderungen, der graphischen Benutzungsschnittstelle (GUI), dem Entwurfsmodell (Zustands-, Daten- oder Objektmodell) oder aus dem Code zu generieren."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testwerkzeuge-043-c"
+      ],
+      "explanation": "Dynamische Analyse untersucht Laufzeitzustände, insbesondere Speicher- und Zeitprobleme. Die anderen Beschreibungen betreffen Monitoring, Überdeckungsanalyse und Testgenerierung. Quelle: Basiswissen Softwaretest, Abschnitt 7.1.4. Ergänzend: CTFL-Lehrplan 4.0.2, Abschnitt 6.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 6,
+        "chapterTitle": "Testwerkzeuge",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    }
+  ],
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "excludedQuestions": [
+    {
+      "id": "ctfl-testwerkzeuge-001",
+      "sourceNumber": 1,
+      "reason": "Detailfrage zum Untersuchungseffekt von Last-/Performanzmesswerkzeugen; kein Lerninhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "6.1",
+        "6.2"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-004",
+      "sourceNumber": 4,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-008",
+      "sourceNumber": 8,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-009",
+      "sourceNumber": 9,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-010",
+      "sourceNumber": 10,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-013",
+      "sourceNumber": 13,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-014",
+      "sourceNumber": 14,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-018",
+      "sourceNumber": 18,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ],
+      "originalConfirmation": {
+        "answer": "Fehlermanagement, Konfigurationsmanagement, Testplanung, Testdurchführung, Testspezifikation",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung"
+      }
+    },
+    {
+      "id": "ctfl-testwerkzeuge-022",
+      "sourceNumber": 22,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-024",
+      "sourceNumber": 24,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-025",
+      "sourceNumber": 25,
+      "reason": "Historische Testorakel-Klassifikation; kein Lerninhalt des aktuellen Foundation-Lehrplans.",
+      "syllabusSections": [
+        "6.1"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-026",
+      "sourceNumber": 26,
+      "reason": "Historische mehrdeutige Industrie-Definition von Testframework; nicht die aktuelle Verwendung als Unterstützung des Komponententests.",
+      "syllabusSections": [
+        "2.2.1",
+        "6.1"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-027",
+      "sourceNumber": 27,
+      "reason": "Historische enge Klassifikation von Testmonitoren und Ausführungswerkzeugen; nicht die aktuelle aktivitätsbezogene Werkzeugklassifikation.",
+      "syllabusSections": [
+        "6.1"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-029",
+      "sourceNumber": 29,
+      "reason": "Werkzeugauswahl, Pilotprojekte und organisationsweite Werkzeugeinführung wurden ausdrücklich aus dem Foundation-Lehrplan entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 6"
+      ]
+    },
+    {
+      "id": "ctfl-testwerkzeuge-035",
+      "sourceNumber": 35,
+      "reason": "Historische enge Klassifikation von Testmonitoren und Ausführungswerkzeugen; nicht die aktuelle aktivitätsbezogene Werkzeugklassifikation.",
+      "syllabusSections": [
+        "6.1"
+      ],
+      "originalConfirmation": {
+        "answer": "1. 2. 6.",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung"
+      }
+    }
+  ]
+}

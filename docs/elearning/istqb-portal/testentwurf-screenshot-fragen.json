@@ -1,0 +1,4144 @@
+{
+  "version": 1,
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "sourceQuestionCount": 121,
+  "sourceScreenshotCount": 123,
+  "additionalQuestionScreenshotCount": 1,
+  "sourceDescription": "123 Screenshots aus Testfallentwurfsverfahren plus zusätzlich nachgereichte Entscheidungstabelle. Zwei verschiedene Fragen tragen die Quellnummer 11; die Bonusfrage erhält stabile ID 123. ID 109 bezeichnet eine unnummerierte Black-Box-Frage; ID 122 die zusätzliche Tabelle.",
+  "confirmedAnswers": {
+    "2": {
+      "answer": "R1 > R2 > R4 > R5 > R3 > R7 > R8 > R9 > R6.",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "7": {
+      "answer": "Nur B ist wahr; A, C und D sind falsch.",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "22": {
+      "answer": "Entscheidungstabellen",
+      "source": "Gelbe Originalauflösungsbox im vom Benutzer am 21.10.2026 bereitgestellten Screenshot",
+      "examEligible": false
+    },
+    "32": {
+      "answer": "A, B, E, B, F",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": true
+    },
+    "48": {
+      "answer": "Alle",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "66": {
+      "answer": "Eine Einheit oder ein Ereignis, welche bzw. welches durch einen oder mehrere Testfälle verifiziert werden kann.",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "76": {
+      "answer": "a, b, f, g, h, d, e",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": true
+    },
+    "83": {
+      "answer": "Die Testfälle decken sowohl gültige und ungültige Übergänge des Zustandsübergangsdiagramms ab.",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "84": {
+      "answer": "Die Testfälle decken alle möglichen einzelnen Übergänge des Zustandsübergangsdiagramms ab.",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": true
+    },
+    "89": {
+      "answer": "B, C, D",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "93": {
+      "answer": "I, II, IV",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    },
+    "115": {
+      "answer": "Vier",
+      "source": "Gelbe Originalauflösungsbox im vom Benutzer am 21.10.2026 bereitgestellten Screenshot",
+      "examEligible": false
+    },
+    "117": {
+      "answer": "1 Testfall",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": true
+    },
+    "122": {
+      "answer": "3",
+      "source": "Vom Benutzer am 21.10.2026 um 13:52 bereitgestellte zwölf Auflösungsscreenshots; jeweils gelbe Lösungsbox, nicht falsche Auswahl",
+      "examEligible": false
+    }
+  },
+  "excludedQuestions": [
+    {
+      "id": "ctfl-testentwurf-001",
+      "sourceNumber": 1,
+      "reason": "Die behauptete ausschließliche Findbarkeit im Review passt nicht eindeutig zu den angebotenen Antwortkombinationen. Die nachgereichte erste Lösung zeigt stattdessen eine zusätzliche Entscheidungstabelle, die separat als 122 erfasst ist.",
+      "syllabusSections": [
+        "3.1.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-005",
+      "sourceNumber": 5,
+      "reason": "Pfadüberdeckung wird im aktuellen Foundation-Lehrplan nicht als Testverfahren bzw. Überdeckungskriterium behandelt.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-009",
+      "sourceNumber": 9,
+      "reason": "Die vorgegebene historische Ablaufkette mit Testszenario, Testsequenz und Testablaufspezifikation bildet die aktuellen Aktivitäten Analyse, Entwurf und Realisierung nicht korrekt ab.",
+      "syllabusSections": [
+        "1.4.1",
+        "1.4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-012",
+      "sourceNumber": 12,
+      "reason": "Die historische starre Reihenfolge vermischt Testanalyse, Testentwurf und Testrealisierung; erwartete Ergebnisse werden bereits beim Entwurf der Testfälle festgelegt.",
+      "syllabusSections": [
+        "1.4.1",
+        "1.4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-015",
+      "sourceNumber": 15,
+      "reason": "Zyklomatische Komplexität gehört nicht zu den aktuellen Foundation-Lernzielen für White-Box-Tests.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-023",
+      "sourceNumber": 23,
+      "reason": "Die Originalaufgabe misst ausschließlich Entscheidungsausgänge. Der aktuelle Zweigtest zählt auch unbedingte Kontrollübergänge; im dargestellten Graphen sind die Maße nicht identisch. Die alte Prozentaufgabe wird nicht als aktueller Zweigtest umgedeutet.",
+      "syllabusSections": [
+        "4.3.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-029",
+      "sourceNumber": 29,
+      "reason": "Die Primzahlroutine besitzt drei unterschiedliche return-Anweisungen, aber keine angebotene Antwort nennt mindestens drei Tests für vollständige Anweisungsüberdeckung. Kein gültiger Lösungsschlüssel.",
+      "syllabusSections": [
+        "4.3.1"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-039",
+      "sourceNumber": 39,
+      "reason": "Die Aufgabe verlangt 1-Switch-Überdeckung. Aktuell behandelt werden Zustands-, gültige Übergangs- (0-Switch-) und alle Übergangsüberdeckung, nicht Übergangspaare.",
+      "syllabusSections": [
+        "4.2.4"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-040",
+      "sourceNumber": 40,
+      "reason": "Die Anzahl von Übergangspaaren für 1-Switch-Überdeckung gehört nicht zu den aktuell behandelten Foundation-Kriterien.",
+      "syllabusSections": [
+        "4.2.4"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-050",
+      "sourceNumber": 50,
+      "reason": "Die historische Klassifikation von Kontroll- und Datenflussanalyse ist kein aktuelles explizites Foundation-Lernziel zur statischen Analyse.",
+      "syllabusSections": [
+        "3.1",
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-054",
+      "sourceNumber": 54,
+      "reason": "Anwendungsfallbasiertes Testen ist nicht mehr eines der im aktuellen Foundation-Kapitel behandelten Black-Box-Testverfahren.",
+      "syllabusSections": [
+        "4.2",
+        "4.5"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-056",
+      "sourceNumber": 56,
+      "reason": "Die historische Definition des Zweigtests berücksichtigt ausschließlich Entscheidungsausgänge. Die aktuelle Definition umfasst ausdrücklich auch unbedingte Kontrollübergänge.",
+      "syllabusSections": [
+        "4.3.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-061",
+      "sourceNumber": 61,
+      "reason": "Die historische Synonymzuordnung zur Testablaufspezifikation ist kein aktuelles Lernziel und vermischt Szenarien, Skripte und Ausführungsplanung.",
+      "syllabusSections": [
+        "1.4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-065",
+      "sourceNumber": 65,
+      "reason": "Pfad-, Datenfluss- und weitere historische White-Box-Verfahren der Antwortlisten gehören nicht zu den aktuellen Foundation-Verfahren Anweisungs- und Zweigtest.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-067",
+      "sourceNumber": 67,
+      "reason": "Die pauschalen Definitionen von Last-, Performanz- und Robustheitstests setzen Datenmenge, Geschwindigkeit und Ausfallgrenze fachlich unzutreffend gleich.",
+      "syllabusSections": [
+        "2.2.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-068",
+      "sourceNumber": 68,
+      "reason": "Der Schluss von Anweisungs- auf Zweigüberdeckung benötigt exklusiv erreichbare Anweisungen je Ausgang. Diese notwendige Einschränkung fehlt in der Originalantwort.",
+      "syllabusSections": [
+        "4.3.1",
+        "4.3.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-069",
+      "sourceNumber": 69,
+      "reason": "Der aktuelle Lehrplan fordert mindestens einen Vertreter pro Klasse, aber keine zwingende Gleichheit logischer und konkreter Testfallzahlen. Die ersten beiden Antwortoptionen sind zudem mathematisch gleichbedeutend. Historische pauschale Zuordnung nicht als aktuelle Lehrplanfrage importieren.",
+      "syllabusSections": [
+        "4.2.1"
+      ],
+      "originalConfirmation": {
+        "answer": "genauso viele logische wie konkrete Testfälle",
+        "source": "Gelbe Originalauflösungsbox im vom Benutzer am 21.10.2026 bereitgestellten Screenshot",
+        "examEligible": false
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-071",
+      "sourceNumber": 71,
+      "reason": "Minimale und einfache Mehrfachbedingungsüberdeckung gehören nicht zu den aktuellen Foundation-White-Box-Lernzielen.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-072",
+      "sourceNumber": 72,
+      "reason": "Anwendungsfälle als eigenständiges historisches Testverfahren und ihre Szenariotypen werden nicht mehr als Foundation-Black-Box-Lernziel behandelt.",
+      "syllabusSections": [
+        "4.2",
+        "4.5"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-081",
+      "sourceNumber": 81,
+      "reason": "Die Vorteile des früheren anwendungsfallbasierten Testverfahrens sind kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "4.2",
+        "4.5"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-082",
+      "sourceNumber": 82,
+      "reason": "Die Aufgabe prüft zusätzlich Pfad- und atomare Bedingungsüberdeckung außerhalb der aktuellen Foundation-White-Box-Lernziele.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-085",
+      "sourceNumber": 85,
+      "reason": "Die Beziehungen zu Pfad- und Mehrfachbedingungsüberdeckung gehören nicht zum aktuellen Foundation-Umfang.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-086",
+      "sourceNumber": 86,
+      "reason": "Die historische C0/C1-Bezeichnung ist nicht Teil der aktuellen Foundation-Definitionen; aktuelle Anweisungs- und Zweigüberdeckung wird durch andere aktive Aufgaben abgedeckt.",
+      "syllabusSections": [
+        "4.3.1",
+        "4.3.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-090",
+      "sourceNumber": 90,
+      "reason": "Ursache-Wirkungs-Graph-Analyse ist nicht mehr eines der im aktuellen Foundation-Kapitel behandelten Black-Box-Verfahren.",
+      "syllabusSections": [
+        "4.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-091",
+      "sourceNumber": 91,
+      "reason": "Die historische Liste setzt Kenntnisse über anwendungsfallbasierte Tests und Datenflussanalyse voraus, die nicht zu den aktuellen expliziten Foundation-Verfahren zählen.",
+      "syllabusSections": [
+        "3.1",
+        "4.2",
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-100",
+      "sourceNumber": 100,
+      "reason": "Die zwei verlangten Antworten setzen anwendungsfallbasiertes Testen als aktuelles Black-Box-Verfahren voraus; es ist nicht mehr Teil dieses Foundation-Verfahrenskapitels.",
+      "syllabusSections": [
+        "4.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-101",
+      "sourceNumber": 101,
+      "reason": "Die erste und dritte Antwort nennen beide Black-Box und White-Box. Die Antwortmöglichkeiten sind semantisch nicht eindeutig; TDD ist zudem ein Entwicklungsansatz, keine exklusive Testentwurfskategorie.",
+      "syllabusSections": [
+        "2.1.3",
+        "4.1"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-103",
+      "sourceNumber": 103,
+      "reason": "Die Abgrenzung datenflussbasierter Testverfahren setzt ein außerhalb des aktuellen Foundation-Umfangs liegendes Verfahren voraus.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-107",
+      "sourceNumber": 107,
+      "reason": "Die Rangfolge zu Pfad- und Mehrfachbedingungsüberdeckung setzt historische, im aktuellen Foundation-Lehrplan nicht behandelte Kriterien voraus.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-111",
+      "sourceNumber": 111,
+      "reason": "Die pauschale ausschließliche Verantwortung einer einzelnen Rolle für Testszenarien entspricht nicht der kontextabhängigen Aufgabenverteilung und dem Whole-Team-Ansatz.",
+      "syllabusSections": [
+        "1.4.5",
+        "1.5.2"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-113",
+      "sourceNumber": 113,
+      "reason": "Die Anzahl der Tests für minimale Mehrfachbedingungsüberdeckung gehört nicht zu den aktuellen Foundation-Lernzielen.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-114",
+      "sourceNumber": 114,
+      "reason": "Jeder Parameter hat nicht zwingend mindestens zwei Klassen. Die Zahl ergibt sich aus seiner konkreten Spezifikation; die pauschale Originalfrage ist fachlich nicht allgemeingültig.",
+      "syllabusSections": [
+        "4.2.1"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-116",
+      "sourceNumber": 116,
+      "reason": "Vollständige Pfadüberdeckung gehört nicht zu den aktuell behandelten Foundation-White-Box-Kriterien.",
+      "syllabusSections": [
+        "4.3"
+      ]
+    },
+    {
+      "id": "ctfl-testentwurf-121",
+      "sourceNumber": 121,
+      "reason": "Der bestätigte Originalschlüssel schließt den erwarteten Folgezustand aus. Das passt nicht zur aktuellen Beschreibung von Übergängen einschließlich Zielzustand und ggf. Aktionen sowie zu erwarteten Ergebnissen als Testfallbestandteil.",
+      "syllabusSections": [
+        "1.4.3",
+        "4.2.4"
+      ],
+      "originalConfirmation": {
+        "answer": "der vorausgesagte Folgezustand",
+        "source": "Gelbe Originalauflösungsbox im vom Benutzer am 21.10.2026 bereitgestellten Screenshot",
+        "examEligible": false
+      }
+    }
+  ],
+  "duplicates": [
+    {
+      "file": "{9BB3EC0C-6F79-4543-9641-83F8BA66CC66}.png",
+      "duplicateOf": "ctfl-testentwurf-065",
+      "printedNumber": 65
+    },
+    {
+      "file": "{FC55CADA-7C15-4A9B-A350-4B5C2AC5ADFF}.png",
+      "duplicateOf": "ctfl-testentwurf-065",
+      "printedNumber": 65
+    }
+  ],
+  "sourceRecords": [
+    {
+      "file": "{8CC6EF5D-C77C-4822-A7F5-6DD0846D44D5}.png",
+      "printedNumber": 1,
+      "id": "ctfl-testentwurf-001",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C7E38A20-520C-4B06-9FAB-04E5483E6B8E}.png",
+      "printedNumber": 2,
+      "id": "ctfl-testentwurf-002",
+      "disposition": "active"
+    },
+    {
+      "file": "{6A97D4A2-A62E-494A-821C-3A8E69A01954}.png",
+      "printedNumber": 3,
+      "id": "ctfl-testentwurf-003",
+      "disposition": "active"
+    },
+    {
+      "file": "{B6081C58-7290-4C6C-B7C1-CF6E2C78D220}.png",
+      "printedNumber": 4,
+      "id": "ctfl-testentwurf-004",
+      "disposition": "active"
+    },
+    {
+      "file": "{711EA6CE-77EC-4B1D-8ADC-9148D5096BF4}.png",
+      "printedNumber": 5,
+      "id": "ctfl-testentwurf-005",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{3A28208F-FA75-4190-9DE5-F14199E9D88F}.png",
+      "printedNumber": 6,
+      "id": "ctfl-testentwurf-006",
+      "disposition": "active"
+    },
+    {
+      "file": "{89E19B8D-8250-41FF-AEB7-0776EE34BC3D}.png",
+      "printedNumber": 7,
+      "id": "ctfl-testentwurf-007",
+      "disposition": "active"
+    },
+    {
+      "file": "{31C45EE2-9993-44F0-878B-D5A23AF6E5CD}.png",
+      "printedNumber": 8,
+      "id": "ctfl-testentwurf-008",
+      "disposition": "active"
+    },
+    {
+      "file": "{86967D2D-FA44-4FF7-9E42-3461DF68877A}.png",
+      "printedNumber": 9,
+      "id": "ctfl-testentwurf-009",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{27BBA473-E942-4F25-B147-CD56E5D924A9}.png",
+      "printedNumber": 10,
+      "id": "ctfl-testentwurf-010",
+      "disposition": "active"
+    },
+    {
+      "file": "{AFDE5980-CC8E-4AAA-AA6A-01D3A6C7E789}.png",
+      "printedNumber": 11,
+      "id": "ctfl-testentwurf-011",
+      "disposition": "active"
+    },
+    {
+      "file": "{DD85F9F9-C3CB-4614-971F-B98C3F215C5B}.png",
+      "printedNumber": 11,
+      "id": "ctfl-testentwurf-123",
+      "disposition": "active"
+    },
+    {
+      "file": "{5D975F8B-93C9-44C9-B611-C0BD0FDDC82B}.png",
+      "printedNumber": 12,
+      "id": "ctfl-testentwurf-012",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C57179F6-263F-408F-B2CE-2F2F593D1581}.png",
+      "printedNumber": 13,
+      "id": "ctfl-testentwurf-013",
+      "disposition": "active"
+    },
+    {
+      "file": "{16A60B6B-401A-4A99-8B1A-91C77DD90BF3}.png",
+      "printedNumber": 14,
+      "id": "ctfl-testentwurf-014",
+      "disposition": "active"
+    },
+    {
+      "file": "{9CA1C778-CF01-40FE-BFE5-4FE1CD908CA9}.png",
+      "printedNumber": 15,
+      "id": "ctfl-testentwurf-015",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{EC358CC1-2277-4620-AB45-7B824423EEB8}.png",
+      "printedNumber": 16,
+      "id": "ctfl-testentwurf-016",
+      "disposition": "active"
+    },
+    {
+      "file": "{179B1716-27E5-4539-8FEC-ECEEA85AD0EA}.png",
+      "printedNumber": 17,
+      "id": "ctfl-testentwurf-017",
+      "disposition": "active"
+    },
+    {
+      "file": "{9797CE30-740E-4828-B42E-C55C66F4FA26}.png",
+      "printedNumber": 18,
+      "id": "ctfl-testentwurf-018",
+      "disposition": "active"
+    },
+    {
+      "file": "{CF4D2123-5071-49DC-9D8F-6BD0DE8A4366}.png",
+      "printedNumber": 19,
+      "id": "ctfl-testentwurf-019",
+      "disposition": "active"
+    },
+    {
+      "file": "{9CF6AD7E-6BC3-4C89-A675-EEFCC1E8D25A}.png",
+      "printedNumber": 20,
+      "id": "ctfl-testentwurf-020",
+      "disposition": "active"
+    },
+    {
+      "file": "{1261CCC9-FD82-40FE-B2F1-E4216E37AC89}.png",
+      "printedNumber": 21,
+      "id": "ctfl-testentwurf-021",
+      "disposition": "active"
+    },
+    {
+      "file": "{26A8B395-6D52-4893-A719-A0205371137B}.png",
+      "printedNumber": 22,
+      "id": "ctfl-testentwurf-022",
+      "disposition": "active"
+    },
+    {
+      "file": "{213D7780-469C-4113-B169-588F0F3D6607}.png",
+      "printedNumber": 23,
+      "id": "ctfl-testentwurf-023",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{39788F57-4CE4-42EE-8E15-BC8CB46453C7}.png",
+      "printedNumber": 24,
+      "id": "ctfl-testentwurf-024",
+      "disposition": "active"
+    },
+    {
+      "file": "{107647B3-D566-4502-8BEF-B6956148BE58}.png",
+      "printedNumber": 25,
+      "id": "ctfl-testentwurf-025",
+      "disposition": "active"
+    },
+    {
+      "file": "{8073B3C2-08AE-4F85-9BAD-7A7056E559D9}.png",
+      "printedNumber": 26,
+      "id": "ctfl-testentwurf-026",
+      "disposition": "active"
+    },
+    {
+      "file": "{A33EB085-AF2C-47A4-A43E-497561E7C4AA}.png",
+      "printedNumber": 27,
+      "id": "ctfl-testentwurf-027",
+      "disposition": "active"
+    },
+    {
+      "file": "{ABB35374-7A1A-440D-831F-88C12B584185}.png",
+      "printedNumber": 28,
+      "id": "ctfl-testentwurf-028",
+      "disposition": "active"
+    },
+    {
+      "file": "{0C7B394A-1156-40FA-BC6C-AF513CEA58F3}.png",
+      "printedNumber": 29,
+      "id": "ctfl-testentwurf-029",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{DB9D04EA-3683-44F9-9406-1AB4AA3679F3}.png",
+      "printedNumber": 30,
+      "id": "ctfl-testentwurf-030",
+      "disposition": "active"
+    },
+    {
+      "file": "{EDD6FA64-66A9-4977-BDC2-B4431D91B59B}.png",
+      "printedNumber": 31,
+      "id": "ctfl-testentwurf-031",
+      "disposition": "active"
+    },
+    {
+      "file": "{924876F6-5B2F-47FD-B3C2-127B5C5EA49C}.png",
+      "printedNumber": 32,
+      "id": "ctfl-testentwurf-032",
+      "disposition": "active"
+    },
+    {
+      "file": "{FDCB812C-5497-4707-B602-B402F167EA65}.png",
+      "printedNumber": 33,
+      "id": "ctfl-testentwurf-033",
+      "disposition": "active"
+    },
+    {
+      "file": "{25AB3541-F666-4DDD-B062-D0B18272A464}.png",
+      "printedNumber": 34,
+      "id": "ctfl-testentwurf-034",
+      "disposition": "active"
+    },
+    {
+      "file": "{3AFFD2BF-2195-498A-9E71-751234A9DEBC}.png",
+      "printedNumber": 35,
+      "id": "ctfl-testentwurf-035",
+      "disposition": "active"
+    },
+    {
+      "file": "{A9E811B2-BAA7-435D-AFAA-AA6097AC2AA3}.png",
+      "printedNumber": 36,
+      "id": "ctfl-testentwurf-036",
+      "disposition": "active"
+    },
+    {
+      "file": "{0EE6F548-752E-4202-89C7-F6F6473C6D49}.png",
+      "printedNumber": 37,
+      "id": "ctfl-testentwurf-037",
+      "disposition": "active"
+    },
+    {
+      "file": "{8676E75C-5814-483F-BF56-9813FEC852D5}.png",
+      "printedNumber": 38,
+      "id": "ctfl-testentwurf-038",
+      "disposition": "active"
+    },
+    {
+      "file": "{EA9A8536-2188-4978-8479-277D7F93C358}.png",
+      "printedNumber": 39,
+      "id": "ctfl-testentwurf-039",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{10EF9878-8105-4C27-ADA5-9FC6E8446D0D}.png",
+      "printedNumber": 40,
+      "id": "ctfl-testentwurf-040",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{3E7232B0-D778-42B2-B523-A48D7A26A325}.png",
+      "printedNumber": 41,
+      "id": "ctfl-testentwurf-041",
+      "disposition": "active"
+    },
+    {
+      "file": "{F3697BBB-8A5A-4BDC-9658-525F1DEF4988}.png",
+      "printedNumber": 42,
+      "id": "ctfl-testentwurf-042",
+      "disposition": "active"
+    },
+    {
+      "file": "{E0040D51-1B07-4CD7-B012-B3A3299EFFB1}.png",
+      "printedNumber": 43,
+      "id": "ctfl-testentwurf-043",
+      "disposition": "active"
+    },
+    {
+      "file": "{43917B5C-D6FC-4544-86F4-189FB575B09A}.png",
+      "printedNumber": 44,
+      "id": "ctfl-testentwurf-044",
+      "disposition": "active"
+    },
+    {
+      "file": "{21E15AF3-B381-4E5D-BAD0-BC32017E6354}.png",
+      "printedNumber": 45,
+      "id": "ctfl-testentwurf-045",
+      "disposition": "active"
+    },
+    {
+      "file": "{E914E4E9-0470-4CF3-9115-5249933D383A}.png",
+      "printedNumber": 46,
+      "id": "ctfl-testentwurf-046",
+      "disposition": "active"
+    },
+    {
+      "file": "{226C1455-3984-4600-ACC0-8488263BD661}.png",
+      "printedNumber": 47,
+      "id": "ctfl-testentwurf-047",
+      "disposition": "active"
+    },
+    {
+      "file": "{E1CAE812-16DB-4385-915C-A96F067FBD14}.png",
+      "printedNumber": 48,
+      "id": "ctfl-testentwurf-048",
+      "disposition": "active"
+    },
+    {
+      "file": "{386433DF-C232-4DD1-B435-09BEB179713B}.png",
+      "printedNumber": 49,
+      "id": "ctfl-testentwurf-049",
+      "disposition": "active"
+    },
+    {
+      "file": "{6412743F-59F7-40A3-8745-A23709979A9A}.png",
+      "printedNumber": 50,
+      "id": "ctfl-testentwurf-050",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{61B1107E-3F37-4FDA-8C0E-81F71545A0FE}.png",
+      "printedNumber": 51,
+      "id": "ctfl-testentwurf-051",
+      "disposition": "active"
+    },
+    {
+      "file": "{0576C42E-AA86-40B0-B9A1-79DFEBC99F0D}.png",
+      "printedNumber": 52,
+      "id": "ctfl-testentwurf-052",
+      "disposition": "active"
+    },
+    {
+      "file": "{02BB0982-B019-440D-B329-7DEF3874374A}.png",
+      "printedNumber": 53,
+      "id": "ctfl-testentwurf-053",
+      "disposition": "active"
+    },
+    {
+      "file": "{CC74207E-1C2C-4E0D-A3CF-169D9C835CBC}.png",
+      "printedNumber": 54,
+      "id": "ctfl-testentwurf-054",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{1C04ECD8-ACE8-41C0-BFA1-7B8789F833AE}.png",
+      "printedNumber": 55,
+      "id": "ctfl-testentwurf-055",
+      "disposition": "active"
+    },
+    {
+      "file": "{33226F46-057C-4212-A997-3CA6A6323448}.png",
+      "printedNumber": 56,
+      "id": "ctfl-testentwurf-056",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{BC8D8DD3-524C-43FD-992A-895A93CA25A5}.png",
+      "printedNumber": 57,
+      "id": "ctfl-testentwurf-057",
+      "disposition": "active"
+    },
+    {
+      "file": "{55E4D521-6831-43FF-842E-4CB0ACA73481}.png",
+      "printedNumber": 58,
+      "id": "ctfl-testentwurf-058",
+      "disposition": "active"
+    },
+    {
+      "file": "{02D40E03-F704-4D67-9062-7EE6BC843EAD}.png",
+      "printedNumber": 59,
+      "id": "ctfl-testentwurf-059",
+      "disposition": "active"
+    },
+    {
+      "file": "{5BAC694F-A30D-48A5-915F-A88302B33E17}.png",
+      "printedNumber": 60,
+      "id": "ctfl-testentwurf-060",
+      "disposition": "active"
+    },
+    {
+      "file": "{7E2DD0D1-5504-4433-88ED-E724A07102BC}.png",
+      "printedNumber": 61,
+      "id": "ctfl-testentwurf-061",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{07184F31-3924-4A2B-B1FF-1EA171697578}.png",
+      "printedNumber": 62,
+      "id": "ctfl-testentwurf-062",
+      "disposition": "active"
+    },
+    {
+      "file": "{9AB78AA3-42FA-447D-A7BC-FE79DD46414E}.png",
+      "printedNumber": 63,
+      "id": "ctfl-testentwurf-063",
+      "disposition": "active"
+    },
+    {
+      "file": "{783856B0-6101-4F6A-9E7C-A7DC66294E90}.png",
+      "printedNumber": 64,
+      "id": "ctfl-testentwurf-064",
+      "disposition": "active"
+    },
+    {
+      "file": "{61FEC92F-B292-4843-8B2E-5B55E1A58A7C}.png",
+      "printedNumber": 65,
+      "id": "ctfl-testentwurf-065",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{9BB3EC0C-6F79-4543-9641-83F8BA66CC66}.png",
+      "printedNumber": 65,
+      "disposition": "duplicate",
+      "id": "ctfl-testentwurf-065"
+    },
+    {
+      "file": "{FC55CADA-7C15-4A9B-A350-4B5C2AC5ADFF}.png",
+      "printedNumber": 65,
+      "disposition": "duplicate",
+      "id": "ctfl-testentwurf-065"
+    },
+    {
+      "file": "{7847DDFA-DD4E-4081-B5CD-8FD8A2486A3B}.png",
+      "printedNumber": 66,
+      "id": "ctfl-testentwurf-066",
+      "disposition": "active"
+    },
+    {
+      "file": "{7818BE55-1B91-461F-85E3-69B9CA9D4298}.png",
+      "printedNumber": 67,
+      "id": "ctfl-testentwurf-067",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{58B9571E-C604-4328-9247-3D0B0BCC330B}.png",
+      "printedNumber": 68,
+      "id": "ctfl-testentwurf-068",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{F50254B2-4A81-4761-AE28-8890563B7050}.png",
+      "printedNumber": 69,
+      "id": "ctfl-testentwurf-069",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{7D47DEF2-9D01-4D21-AAB5-A65D8A92B755}.png",
+      "printedNumber": 70,
+      "id": "ctfl-testentwurf-070",
+      "disposition": "active"
+    },
+    {
+      "file": "{72AD9DAE-FBD4-4229-97F8-EF5751082E86}.png",
+      "printedNumber": 71,
+      "id": "ctfl-testentwurf-071",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{6B70F862-4478-4E7A-80FB-55AC999F7088}.png",
+      "printedNumber": 72,
+      "id": "ctfl-testentwurf-072",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C9430D07-7BBC-4738-AA48-83269ACA73F5}.png",
+      "printedNumber": 72,
+      "disposition": "excluded",
+      "reason": "Zusätzliche Testmanagementfrage aus einem anderen Katalog; kein Ersatz für die Kapitel-4-Quellnummer 72."
+    },
+    {
+      "file": "{12D19657-7F7F-43E4-B7D7-644EA998E52F}.png",
+      "printedNumber": 73,
+      "id": "ctfl-testentwurf-073",
+      "disposition": "active"
+    },
+    {
+      "file": "{05104942-7694-49E4-A537-5DC2474253B8}.png",
+      "printedNumber": 74,
+      "id": "ctfl-testentwurf-074",
+      "disposition": "active"
+    },
+    {
+      "file": "{32A17773-7975-428B-ADA8-19077B8665E3}.png",
+      "printedNumber": 75,
+      "id": "ctfl-testentwurf-075",
+      "disposition": "active"
+    },
+    {
+      "file": "{F9436FB2-66E9-4671-B9BF-CD6BE67D0B2B}.png",
+      "printedNumber": 76,
+      "id": "ctfl-testentwurf-076",
+      "disposition": "active"
+    },
+    {
+      "file": "{E860EA03-E3CE-4728-B21F-192B872515C5}.png",
+      "printedNumber": 77,
+      "id": "ctfl-testentwurf-077",
+      "disposition": "active"
+    },
+    {
+      "file": "{82DFB302-A5BF-4A22-AAB7-0D10CC20A4CC}.png",
+      "printedNumber": 78,
+      "id": "ctfl-testentwurf-078",
+      "disposition": "active"
+    },
+    {
+      "file": "{B483F851-7FFF-475B-9FC0-0BACB48387C9}.png",
+      "printedNumber": 79,
+      "id": "ctfl-testentwurf-079",
+      "disposition": "active"
+    },
+    {
+      "file": "{8357B1EC-0FF0-4DAB-9CC4-470040368D3E}.png",
+      "printedNumber": 80,
+      "id": "ctfl-testentwurf-080",
+      "disposition": "active"
+    },
+    {
+      "file": "{598B087F-1EC4-413C-8ECE-6E9AF56B9071}.png",
+      "printedNumber": 81,
+      "id": "ctfl-testentwurf-081",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{7948043B-9969-4E0A-85F2-1576CA5F7E84}.png",
+      "printedNumber": 82,
+      "id": "ctfl-testentwurf-082",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{D9B8B321-0A4B-4CB7-946B-FED091ADDCA3}.png",
+      "printedNumber": 83,
+      "id": "ctfl-testentwurf-083",
+      "disposition": "active"
+    },
+    {
+      "file": "{6850FB75-0EA4-4A93-AB92-3F2719017ED2}.png",
+      "printedNumber": 84,
+      "id": "ctfl-testentwurf-084",
+      "disposition": "active"
+    },
+    {
+      "file": "{FAE6EDEB-135A-4E3D-A2F9-6F6F4ACFBBF8}.png",
+      "printedNumber": 85,
+      "id": "ctfl-testentwurf-085",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{661DF7A4-9BC9-403F-BE6D-F52A47FFABC0}.png",
+      "printedNumber": 86,
+      "id": "ctfl-testentwurf-086",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C66D4113-DC04-4165-B9CF-CA16D27E497E}.png",
+      "printedNumber": 87,
+      "id": "ctfl-testentwurf-087",
+      "disposition": "active"
+    },
+    {
+      "file": "{F6210E79-D748-4122-A316-02FF84F28A6F}.png",
+      "printedNumber": 88,
+      "id": "ctfl-testentwurf-088",
+      "disposition": "active"
+    },
+    {
+      "file": "{975C164F-6EB7-4575-9348-125DDAE4B01D}.png",
+      "printedNumber": 89,
+      "id": "ctfl-testentwurf-089",
+      "disposition": "active"
+    },
+    {
+      "file": "{6A27528B-E4E1-427F-A1F2-7C816E5268F5}.png",
+      "printedNumber": 90,
+      "id": "ctfl-testentwurf-090",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{57ABAFF3-08A8-47F9-8F5B-0CF8439E65B5}.png",
+      "printedNumber": 91,
+      "id": "ctfl-testentwurf-091",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{996D4D7E-8B58-43E6-832A-3177EBF2138C}.png",
+      "printedNumber": 92,
+      "id": "ctfl-testentwurf-092",
+      "disposition": "active"
+    },
+    {
+      "file": "{B33CE956-4337-4270-8D5E-B23C4D8AC496}.png",
+      "printedNumber": 93,
+      "id": "ctfl-testentwurf-093",
+      "disposition": "active"
+    },
+    {
+      "file": "{D56D67F7-6A2E-48B3-9D1F-3C1AF04D63BE}.png",
+      "printedNumber": 94,
+      "id": "ctfl-testentwurf-094",
+      "disposition": "active"
+    },
+    {
+      "file": "{F1E1240E-589C-46A7-9E92-7A322FA79EF2}.png",
+      "printedNumber": 95,
+      "id": "ctfl-testentwurf-095",
+      "disposition": "active"
+    },
+    {
+      "file": "{073E1664-E5D8-4508-8542-CB886DA3327C}.png",
+      "printedNumber": 96,
+      "id": "ctfl-testentwurf-096",
+      "disposition": "active"
+    },
+    {
+      "file": "{556A13CD-538C-49C5-AFA7-0E04877B2BA5}.png",
+      "printedNumber": 97,
+      "id": "ctfl-testentwurf-097",
+      "disposition": "active"
+    },
+    {
+      "file": "{68369643-9C67-4BB7-8C0B-920096273FF0}.png",
+      "printedNumber": 98,
+      "id": "ctfl-testentwurf-098",
+      "disposition": "active"
+    },
+    {
+      "file": "{55F2AFFC-7F00-40EE-99E7-82144745C571}.png",
+      "printedNumber": 99,
+      "id": "ctfl-testentwurf-099",
+      "disposition": "active"
+    },
+    {
+      "file": "{A6B24474-38A2-4768-B8D6-77B36C83B8FB}.png",
+      "printedNumber": 100,
+      "id": "ctfl-testentwurf-100",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{258DFC3A-5D1D-40E1-B19B-5352CFC7EF4D}.png",
+      "printedNumber": 101,
+      "id": "ctfl-testentwurf-101",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{EDFDE564-ADFF-480D-9578-24D2251024E3}.png",
+      "printedNumber": 102,
+      "id": "ctfl-testentwurf-102",
+      "disposition": "active"
+    },
+    {
+      "file": "{400BC437-BDE9-40DB-B3EE-3BD40E53CFEA}.png",
+      "printedNumber": 103,
+      "id": "ctfl-testentwurf-103",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{132D3AB4-0E36-4B1F-A4C6-8A4D944FEBCC}.png",
+      "printedNumber": 104,
+      "id": "ctfl-testentwurf-104",
+      "disposition": "active"
+    },
+    {
+      "file": "{0ACE1C9B-E117-4712-8D9E-E2DB99A2C8F2}.png",
+      "printedNumber": 105,
+      "id": "ctfl-testentwurf-105",
+      "disposition": "active"
+    },
+    {
+      "file": "{832553FC-7160-4EE6-868D-4E9153B61A01}.png",
+      "printedNumber": 106,
+      "id": "ctfl-testentwurf-106",
+      "disposition": "active"
+    },
+    {
+      "file": "{CD8B8846-6225-4ED7-81E8-555919283DE2}.png",
+      "printedNumber": 107,
+      "id": "ctfl-testentwurf-107",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{7990FE7B-0C82-4197-9B3D-7DC0C8FA8099}.png",
+      "printedNumber": null,
+      "id": "ctfl-testentwurf-109",
+      "disposition": "active"
+    },
+    {
+      "file": "{E756EC40-CC00-41A0-A0EC-C2C5BCD730F9}.png",
+      "printedNumber": 110,
+      "id": "ctfl-testentwurf-110",
+      "disposition": "active"
+    },
+    {
+      "file": "{D0E0F20D-CB97-4BDB-BA85-A135053BCF55}.png",
+      "printedNumber": 111,
+      "id": "ctfl-testentwurf-111",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{864D597C-5B90-4BA3-B790-8FDD6D6A39E3}.png",
+      "printedNumber": 112,
+      "id": "ctfl-testentwurf-112",
+      "disposition": "active"
+    },
+    {
+      "file": "{58DCD35F-D79A-460F-BE66-98A7368CE569}.png",
+      "printedNumber": 113,
+      "id": "ctfl-testentwurf-113",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{8250FD43-0FD6-4AC2-9287-B329EACDA6AD}.png",
+      "printedNumber": 114,
+      "id": "ctfl-testentwurf-114",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{E3555B5A-194F-4411-B4E1-F26DCCA8BA9D}.png",
+      "printedNumber": 115,
+      "id": "ctfl-testentwurf-115",
+      "disposition": "active"
+    },
+    {
+      "file": "{3FA18A6D-51B5-40EE-B83B-EFC5DE472407}.png",
+      "printedNumber": 116,
+      "id": "ctfl-testentwurf-116",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{8D387850-20A6-439D-8226-937E90B12BDF}.png",
+      "printedNumber": 117,
+      "id": "ctfl-testentwurf-117",
+      "disposition": "active"
+    },
+    {
+      "file": "{25700CBC-EA07-47C0-8AA8-77D24EFC7090}.png",
+      "printedNumber": 118,
+      "id": "ctfl-testentwurf-118",
+      "disposition": "active"
+    },
+    {
+      "file": "{480FC198-7C6F-47C2-8DC0-8C3A11E317E7}.png",
+      "printedNumber": 120,
+      "id": "ctfl-testentwurf-120",
+      "disposition": "active"
+    },
+    {
+      "file": "{BF5C2A16-8BB2-4CCE-8F1D-2AD08B9465B0}.png",
+      "printedNumber": 121,
+      "id": "ctfl-testentwurf-121",
+      "disposition": "excluded"
+    },
+    {
+      "file": "0b093516-ec57-47d1-bcbd-dc4f8a3bb0dd\\Pasted Image.png",
+      "printedNumber": null,
+      "id": "ctfl-testentwurf-122",
+      "disposition": "active",
+      "source": "Zusätzlich nachgereichte Entscheidungstabelle"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ctfl-testentwurf-002",
+      "question": "Als Testmanager testen Sie neun Anforderungen. R1 (Prozessanomalien) hat hohe Komplexität; R2 (Remote Services), R3 (Synchronisation), R4 (Zulassung) und R9 (Änderungen am Benutzerprofil) haben mittlere Komplexität; R5 (Prozessendverarbeitung), R6 (Problembearbeitung), R7 (Finanzdaten) und R8 (Diagrammdaten) niedrige Komplexität. A → B bedeutet: B ist von A abhängig. Wie bauen Sie den Testausführungsplan entsprechend den dargestellten Abhängigkeiten auf?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-002-a",
+          "text": "R1 > R2 > R3 > R7 > R8 > R4 > R5 > R6 > R9."
+        },
+        {
+          "id": "ctfl-testentwurf-002-b",
+          "text": "R4 > R5 > R1 > R2 > R3 > R7 > R8 > R9 > R6."
+        },
+        {
+          "id": "ctfl-testentwurf-002-c",
+          "text": "R1 > R2 > R4 > R5 > R3 > R7 > R8 > R9 > R6."
+        },
+        {
+          "id": "ctfl-testentwurf-002-d",
+          "text": "R1 > R2 > R3 > R4 > R5 > R7 > R8 > R9 > R6."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-002-c"
+      ],
+      "explanation": "Der bestätigte Plan berücksichtigt zunächst die Voraussetzung R1/R2, dann die abhängige Gruppe R4/R5 und anschließend R3 mit seinen Folgeanforderungen. Abhängigkeiten können eine rein nach Komplexität gewählte Reihenfolge einschränken. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 5.1.5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-5.1.5",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-002.png",
+        "alt": "Abhängigkeiten zwischen R1/R2, R4/R5, R3/R7/R8 sowie R6 und R9."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-003",
+      "question": "Auf einer Webseite werden Tag, Monat und Jahr eines Geburtsdatums getrennt eingegeben. Tag: 1–31, höchstens zwei Ziffern. Monat: 1–12, höchstens zwei Ziffern. Jahr: 1899–2019 (Kalenderjahr im beschriebenen Szenario), höchstens vier Ziffern. Nur numerische Eingaben sind möglich; führende Nullen werden entfernt. Monatsabhängige Tageszahlen werden nicht geprüft. Keine Eingabe wird mit einer ungültigen Klasse abgedeckt. Wie viele Äquivalenzklassen sind insgesamt zu definieren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-003-a",
+          "text": "6"
+        },
+        {
+          "id": "ctfl-testentwurf-003-b",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-003-c",
+          "text": "12"
+        },
+        {
+          "id": "ctfl-testentwurf-003-d",
+          "text": "9"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-003-d"
+      ],
+      "explanation": "Jedes der drei Felder hat eine gültige Klasse und zwei ungültige Klassen unterhalb bzw. oberhalb des zulässigen Intervalls. Insgesamt sind es 3 × 3 = 9. Die Jahreszahl ist ein festes Szenariodatum, keine aktuelle Datumsregel. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-004",
+      "question": "Auftragsnummern eines Webshops können zwischen 10000 und 99999 liegen, beide Grenzen eingeschlossen. Welche Eingaben eignen sich für eine Prüfung mit Grenzwertanalyse?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-004-a",
+          "text": "9.999, 10.000, 50.000, 99.999, 100.000"
+        },
+        {
+          "id": "ctfl-testentwurf-004-b",
+          "text": "10.000, 50.000, 99.999"
+        },
+        {
+          "id": "ctfl-testentwurf-004-c",
+          "text": "9.999, 10.000, 10.001, 99.998, 99.999, 100.000"
+        },
+        {
+          "id": "ctfl-testentwurf-004-d",
+          "text": "1.000, 5.000, 99.999"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-004-c"
+      ],
+      "explanation": "Die dritte Auswahl enthält die untere und obere gültige Grenze sowie jeweils beide Nachbarn. Damit werden die Überdeckungselemente der 3-Wert-Grenzwertanalyse erfasst. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.2",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-006",
+      "question": "Bei welchem Testverfahren wird eine Test-Charta erstellt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-006-a",
+          "text": "Entscheidungstest"
+        },
+        {
+          "id": "ctfl-testentwurf-006-b",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-006-c",
+          "text": "Kontrollflussanalyse"
+        },
+        {
+          "id": "ctfl-testentwurf-006-d",
+          "text": "exploratives Testen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-006-d"
+      ],
+      "explanation": "Eine Test-Charta beschreibt Ziele und Rahmen einer explorativen Testsitzung. Testentwurf, Durchführung und Lernen erfolgen dabei gemeinsam. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.4.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.4.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-007",
+      "question": "Betrachten Sie das Zustandsübergangsdiagramm und die Testfalltabelle des Fernsehers. Welche Aussage ist wahr?\nA: Die Testfälle führen die geringste Anzahl an Übergängen aus.\nB: Die Testfälle decken die meisten ausschließlich gültigen Zustandsübergänge ab.\nC: Die Testfälle decken nur die ungültigen Zustandsübergänge ab.\nD: Die Testfälle führen die größte Anzahl an Übergängen aus.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-007-a",
+          "text": "Nur A ist wahr; B, C und D sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-007-b",
+          "text": "A und D sind wahr; B, C sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-007-c",
+          "text": "Nur C ist wahr; A, B und D sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-007-d",
+          "text": "Nur B ist wahr; A, C und D sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-007-d"
+      ],
+      "explanation": "Die Folgen führen definierte gültige Übergänge aus. Eine globale Minimal- oder Maximalzahl ist durch diese Tabelle nicht belegt; ungültige Übergänge sind nicht das ausschließliche Testziel. Wegen der unscharfen Formulierung „die meisten“ bleibt die Originalfrage nur in der Übung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-007.png",
+        "alt": "Fernseher mit S1 Aus, S2 Stand-by und S3 Wiedergabe sowie sieben Testfällen mit jeweils zwei Übergängen."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-008",
+      "question": "Betrachten Sie den Quellcode:\nfloat Wurzel(float Zahl) {\n  float Wert = 0.0;\n  if (Zahl > 0) {\n    Wert = 2.0;\n    while (abs(Wert*Wert-Zahl) > 0.01) {\n      Wert = Wert - ((Wert*Wert-Zahl) / (2.0*Wert));\n    }\n  }\n  return Wert;\n}\nWie viele Testfälle benötigen Sie mindestens für vollständige Entscheidungsüberdeckung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-008-a",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-008-b",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-008-c",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-008-d",
+          "text": "1"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-008-b"
+      ],
+      "explanation": "Zwei Fälle genügen: Zahl ≤ 0 durchläuft den falschen if-Ausgang; eine positive Zahl mit zunächst nicht erfüllter Genauigkeit durchläuft den wahren if-Ausgang und beide while-Ausgänge. Im aktuellen Lehrplan heißt das relevante Verfahren Zweigtest; in diesem strukturierten Beispiel werden damit die bedingten Zweige erfasst. Die historische Entscheidungsformulierung wird nicht für die Simulation verwendet. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-010",
+      "question": "Das Tupel (X, Y) beschreibt einen Übergang von X nach Y. Im Diagramm existieren die Testfälle:\n1. (S,S1), (S1,E)\n2. (S,S1), (S1,S2), (S2,S1), (S1,E)\n3. (S,S1), (S1,S2), (S2,S3), (S3,S2), (S2,E)\nWelcher Testfall fehlt für einen vollständigen Test der gültigen Zustandsübergänge?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-010-a",
+          "text": "(S,S1), (S1,S2), (S2,S3), (S3,E)"
+        },
+        {
+          "id": "ctfl-testentwurf-010-b",
+          "text": "Keiner der genannten"
+        },
+        {
+          "id": "ctfl-testentwurf-010-c",
+          "text": "(S,S1), (S1,S2), (S2,S3), (S3,S2), (S2,S1), (S1,E)"
+        },
+        {
+          "id": "ctfl-testentwurf-010-d",
+          "text": "(S,S1), (S1,S2), (S2,E)"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-010-a"
+      ],
+      "explanation": "Alle dargestellten gültigen Übergänge außer S3 → E wurden bereits ausgeführt. Der erste zusätzliche Test erreicht S3 und führt genau diesen fehlenden Übergang aus. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-010.png",
+        "alt": "Zustandsgraph: S nach S1; S1 und S2 sowie S2 und S3 sind wechselseitig verbunden; S1, S2 und S3 führen nach E."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-011",
+      "question": "Wie viele Tests sind für 100 % Entscheidungsüberdeckung und 100 % Anweisungsüberdeckung in folgender Struktur notwendig? Die Klammern fassen logisch zusammengehörige Abschnitte zusammen.\nif (Bedingung 1) {\n  Anweisung 1;\n  if (Bedingung 2) {\n    Anweisung 2;\n  }\n}\nif (Bedingung 3) {\n  Anweisung 3;\n}",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-011-a",
+          "text": "2 Anweisungsüberdeckungstests, 3 Entscheidungsüberdeckungstests"
+        },
+        {
+          "id": "ctfl-testentwurf-011-b",
+          "text": "1 Anweisungsüberdeckungstest, 3 Entscheidungsüberdeckungstests"
+        },
+        {
+          "id": "ctfl-testentwurf-011-c",
+          "text": "1 Anweisungsüberdeckungstest, 2 Entscheidungsüberdeckungstests"
+        },
+        {
+          "id": "ctfl-testentwurf-011-d",
+          "text": "3 Anweisungsüberdeckungstests, 5 Entscheidungsüberdeckungstests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-011-b"
+      ],
+      "explanation": "Bedingung 2 wird nur bei wahrer Bedingung 1 erreicht. Deshalb werden drei Fälle benötigt: 1=wahr/2=wahr, 1=wahr/2=falsch und 1=falsch. Die unabhängige Bedingung 3 kann über diese Fälle wahr und falsch gewählt werden. Ein Fall mit allen Bedingungen wahr deckt alle Anweisungen ab. Die verschachtelte zweite Bedingung darf nicht als unabhängiges if missverstanden werden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-013",
+      "question": "Die Überdeckung der Äquivalenzklassen (ÄK) ist definiert als …",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-013-a",
+          "text": "(Anzahl erlaubter ÄK / Gesamtanzahl ÄK) × 100 %"
+        },
+        {
+          "id": "ctfl-testentwurf-013-b",
+          "text": "(Anzahl getesteter ÄK-Kombinationen / Gesamtzahl ÄK-Kombinationen) × 100 %"
+        },
+        {
+          "id": "ctfl-testentwurf-013-c",
+          "text": "(Anzahl getesteter ÄK / Gesamtanzahl ÄK) × 100 %"
+        },
+        {
+          "id": "ctfl-testentwurf-013-d",
+          "text": "(Anzahl getesteter ÄK / Gesamtanzahl getesteter ÄK) × 100 %"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-013-c"
+      ],
+      "explanation": "Das Überdeckungsmaß zählt ausgeführte Klassen im Verhältnis zu allen identifizierten Klassen, einschließlich der ungültigen. Kombinationen sind ein anderes Überdeckungskriterium. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-014",
+      "question": "Ein Server stürzt ab, wenn er beim Datenempfang vom Netzwerk getrennt wird. Die Korrektur prüft die Verfügbarkeit des Netzes während der Übertragung. Die bestehenden Tests decken 100 % aller Anweisungen des Moduls ab. Zur Prüfung der Korrektur und zur höheren funktionalen Testabdeckung werden neue Tests hinzugefügt und alle ausgeführt. Welche Testarten sind erwähnt?\nA: Funktionale Tests\nB: Strukturelle Tests\nC: Fehlernachtest\nD: Performanztest",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-014-a",
+          "text": "A, B und C sind erwähnt – D nicht."
+        },
+        {
+          "id": "ctfl-testentwurf-014-b",
+          "text": "A und C sind erwähnt – B und D nicht."
+        },
+        {
+          "id": "ctfl-testentwurf-014-c",
+          "text": "A, B und D sind erwähnt – C nicht."
+        },
+        {
+          "id": "ctfl-testentwurf-014-d",
+          "text": "A, C und D sind erwähnt – B nicht."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-014-a"
+      ],
+      "explanation": "Das fachliche Verhalten wird funktional getestet, die Anweisungsüberdeckung beschreibt strukturelles Testen und die Prüfung der Korrektur einen Fehlernachtest. Zeit- oder Durchsatzmessungen werden nicht genannt. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 2.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-016",
+      "question": "Ein Algorithmus hat zwei voneinander unabhängige Parameter mit den Werten wahr/falsch und einen Parameter mit drei möglichen Werten. Eine Entscheidungstabelle wird für den Testfallentwurf verwendet. Wie viele Spalten hat diese Tabelle ohne Optimierung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-016-a",
+          "text": "8"
+        },
+        {
+          "id": "ctfl-testentwurf-016-b",
+          "text": "15"
+        },
+        {
+          "id": "ctfl-testentwurf-016-c",
+          "text": "7"
+        },
+        {
+          "id": "ctfl-testentwurf-016-d",
+          "text": "12"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-016-d"
+      ],
+      "explanation": "Eine vollständige erweiterte Entscheidungstabelle hat eine Regel je Kombination: 2 × 2 × 3 = 12. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-017",
+      "question": "Ein Backshop bietet Mo.–Sa. von 07:00–21:00 Uhr ab 20:00 Uhr 5 % Abendrabatt. Eine Kundenkarte gewährt unabhängig davon 5 %, kombinierbar mit dem Abendrabatt. Neu erhält ein Kunde nach Einkäufen an mindestens 15 Tagen im Monat eine „Back-Genuss“-Karte mit 15 % Rabatt, nicht kombinierbar mit anderen Rabatten. Das bestehende System wurde mit vier aus einer Entscheidungstabelle abgeleiteten Tests geprüft. Diese werden erweitert. Wie viele NEUE Tests müssen für einen effektiven Entscheidungstabellentest erstellt werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-017-a",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-017-b",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-017-c",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-017-d",
+          "text": "4"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-017-a"
+      ],
+      "explanation": "Die vier bisherigen Kombinationen gelten weiter für Kunden ohne die neue Karte. Mit neuer Karte sind die anderen Rabatte irrelevant; die zusammengefasste neue Regel benötigt einen weiteren Test. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-018",
+      "question": "Ein Benutzername soll genau acht Zeichen umfassen. Wie viele Äquivalenzklassen gibt es für diese Längenanforderung, ohne Berücksichtigung technischer Rechnergrenzen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-018-a",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-018-b",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-018-c",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-018-d",
+          "text": "3"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-018-d"
+      ],
+      "explanation": "Es gibt die Klassen Länge unter acht, genau acht und über acht. Nur die mittlere Klasse ist gültig. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-019",
+      "question": "Ein Funktionstest (funktionaler Test) …",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-019-a",
+          "text": "ist eine White-Box-Methode"
+        },
+        {
+          "id": "ctfl-testentwurf-019-b",
+          "text": "wendet Black-Box-Methoden an"
+        },
+        {
+          "id": "ctfl-testentwurf-019-c",
+          "text": "ist ein einzelner Komponententest"
+        },
+        {
+          "id": "ctfl-testentwurf-019-d",
+          "text": "ist eine Teststufe des V-Modells"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-019-b"
+      ],
+      "explanation": "Funktionale Tests prüfen, was das System tun soll, und verwenden dazu spezifikationsbasierte Black-Box-Verfahren. Funktional ist eine Testart, keine feste Teststufe. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-020",
+      "question": "Ein Großhändler verkauft Druckerpatronen. Die Mindestbestellmenge beträgt fünf Patronen. Ab 100 Patronen gibt es Rabatt. Welche Gruppe enthält drei mit Grenzwertanalyse erzeugte Eingabewerte?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-020-a",
+          "text": "4, 5, 80"
+        },
+        {
+          "id": "ctfl-testentwurf-020-b",
+          "text": "5, 6, 20"
+        },
+        {
+          "id": "ctfl-testentwurf-020-c",
+          "text": "4, 5, 99"
+        },
+        {
+          "id": "ctfl-testentwurf-020-d",
+          "text": "1, 20, 100"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-020-c"
+      ],
+      "explanation": "4 und 5 liegen an der Mindestmengengrenze; 99 liegt unmittelbar unter der Rabattgrenze 100. 80 und 20 sind dagegen keine Grenzwerte dieser Spezifikation. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.2",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-021",
+      "question": "Ein grundsätzlicher Nachteil der Black-Box-Methode ist, dass …",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-021-a",
+          "text": "nicht erfüllte nicht-funktionale Eigenschaften nicht erkannt werden können"
+        },
+        {
+          "id": "ctfl-testentwurf-021-b",
+          "text": "fehlende Funktionalität nicht erkannt werden kann"
+        },
+        {
+          "id": "ctfl-testentwurf-021-c",
+          "text": "fehlerhafte Funktionalität nicht erkannt werden kann"
+        },
+        {
+          "id": "ctfl-testentwurf-021-d",
+          "text": "zusätzliche (gegebenenfalls überflüssige) Funktionalität nicht erkannt werden kann"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-021-d"
+      ],
+      "explanation": "Aus der Spezifikation abgeleitete Tests adressieren nicht gezielt dort nicht beschriebene Funktionalität. White-Box-Tests können ungetesteten implementierten Code sichtbar machen. „Nicht erkannt werden kann“ ist als methodische Grenze zu verstehen, nicht als Ausschluss zufälliger Beobachtungen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-022",
+      "question": "Ein Programm verwaltet Studentendaten und ermittelt die Durchschnittsnote in einem Fach. Es benötigt Name, Matrikelnummer, Studienfach und Fachsemester. Bei fehlenden Angaben fordert es deren Eingabe an; sonst liefert es die Durchschnittsnote mit den Studentendaten zurück. Mit welcher Testmethode starten Sie Ihre Überlegung zum Testen dieser Funktion?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-022-a",
+          "text": "Entscheidungstabellen"
+        },
+        {
+          "id": "ctfl-testentwurf-022-b",
+          "text": "Zustandsbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-022-c",
+          "text": "Äquivalenzklassenanalyse"
+        },
+        {
+          "id": "ctfl-testentwurf-022-d",
+          "text": "Anweisungstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-022-a"
+      ],
+      "explanation": "Eine Entscheidungstabelle stellt Kombinationen vorhandener bzw. fehlender Angaben und die daraus folgenden Aktionen dar. Äquivalenzklassen sind ergänzend für einzelne Eingabewerte sinnvoll. Die offene Frageformulierung begründet keine allgemeine Vorrangregel; deshalb nur Übung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-024",
+      "question": "Ein Zeiterfassungssystem erlaubt je eine An- und Abmeldung pro Tag. Bei Anmeldung vor 9:00 Uhr werden 15 Minuten Frühstückspause abgezogen; nach 9:00 Uhr nicht. Bei mehr als sechs Stunden Arbeitszeit werden 30 Minuten Mittagspause abgezogen. Welche zwei Tests erfassen mit minimaler Testanzahl jeweils beide Ausprägungen der Bedingungen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-024-a",
+          "text": "08:13–13:24 Uhr; 11:03–16:58 Uhr"
+        },
+        {
+          "id": "ctfl-testentwurf-024-b",
+          "text": "09:03–17:21 Uhr; 10:25–16:02 Uhr"
+        },
+        {
+          "id": "ctfl-testentwurf-024-c",
+          "text": "10:42–16:14 Uhr; 08:17–17:02 Uhr"
+        },
+        {
+          "id": "ctfl-testentwurf-024-d",
+          "text": "07:42–13:21 Uhr; 08:59–17:02 Uhr"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-024-c"
+      ],
+      "explanation": "10:42–16:14 liegt nach 9 Uhr und unter sechs Stunden, 08:17–17:02 vor 9 Uhr und über sechs Stunden. Damit tritt jede Bedingung wahr und falsch auf. Dies deckt nicht sämtliche vier Regeln einer vollständigen Entscheidungstabelle ab; die Originalaufgabe fragt nur nach beiden Bedingungsausprägungen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-025",
+      "question": "Eine Klimaanlage heizt unter 17 °C und kühlt über 26 °C. Sie ist zwischen −10 und 40 °C zu betreiben. Welche Wertemenge verwendet die Äquivalenzklassenbildung ordnungsgemäß?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-025-a",
+          "text": "−11, 18, 51"
+        },
+        {
+          "id": "ctfl-testentwurf-025-b",
+          "text": "−11, −1, 18, 27, 51"
+        },
+        {
+          "id": "ctfl-testentwurf-025-c",
+          "text": "−11, −1, 12, 18, 27, 51"
+        },
+        {
+          "id": "ctfl-testentwurf-025-d",
+          "text": "−1, 12, 18, 27"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-025-b"
+      ],
+      "explanation": "Die fünf Klassen sind unter −10, −10 bis unter 17, 17 bis 26, über 26 bis 40 und über 40. Die zweite Auswahl enthält je einen Vertreter ohne redundante Klasse. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-026",
+      "question": "Eine Eingabe erlaubt Werte größer null und kleiner 1000. Bestimmen Sie die ungültigen Äquivalenzklassen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-026-a",
+          "text": "Zwei Klassen: 0 ≤ Eingabewert und 1000 < Eingabewert"
+        },
+        {
+          "id": "ctfl-testentwurf-026-b",
+          "text": "Zwei Klassen: Eingabewert < 0 und Eingabewert > 1000"
+        },
+        {
+          "id": "ctfl-testentwurf-026-c",
+          "text": "Eine Klasse: 0 < Eingabewert < 1000"
+        },
+        {
+          "id": "ctfl-testentwurf-026-d",
+          "text": "Zwei Klassen: Eingabewert ≤ 0 und 1000 ≤ Eingabewert"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-026-d"
+      ],
+      "explanation": "Da beide Grenzen ausgeschlossen sind, sind auch null und 1000 ungültig. Die zwei ungültigen Intervalle schließen die Grenzen ein. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-027",
+      "question": "Eine Einheit oder ein Ereignis, zum Beispiel eine Funktion, Transaktion, ein Qualitätsmerkmal oder strukturelles Element, das durch einen oder mehrere Testfälle verifiziert werden kann, ist eine …",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-027-a",
+          "text": "Testausgang"
+        },
+        {
+          "id": "ctfl-testentwurf-027-b",
+          "text": "Testanalyse"
+        },
+        {
+          "id": "ctfl-testentwurf-027-c",
+          "text": "Testspezifikation"
+        },
+        {
+          "id": "ctfl-testentwurf-027-d",
+          "text": "Testbedingung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-027-d"
+      ],
+      "explanation": "Eine Testbedingung bezeichnet einen testbaren Aspekt des Testobjekts. Aus den bei der Analyse ermittelten Testbedingungen werden im Testentwurf Testfälle abgeleitet. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 1.4.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-1.4.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-028",
+      "question": "Eine Funktion erhält einen String mit mindestens zwei und maximal sechs Zeichen. Welche Äquivalenzklassen existieren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-028-a",
+          "text": "gültig 2–6 Zeichen, ungültig 1 Zeichen, ungültig 7 Zeichen"
+        },
+        {
+          "id": "ctfl-testentwurf-028-b",
+          "text": "gültig 3–5 Zeichen, ungültig 0–2 Zeichen, ungültig 6 und mehr Zeichen"
+        },
+        {
+          "id": "ctfl-testentwurf-028-c",
+          "text": "gültig 2–6 Zeichen, ungültig 0–1 Zeichen"
+        },
+        {
+          "id": "ctfl-testentwurf-028-d",
+          "text": "gültig 2–6 Zeichen, ungültig 0–1 Zeichen, ungültig 7 und mehr Zeichen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-028-d"
+      ],
+      "explanation": "Die drei vollständigen, disjunkten Klassen sind Längen 0–1, 2–6 und ab 7. Einzelne ungültige Vertreter sind keine vollständige Beschreibung ihrer Klassen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-030",
+      "question": "Eine Software soll prüfen, dass eine fünfstellige Postleitzahl die korrekte Anzahl Stellen hat. Wie viele Äquivalenzklassen sind für diese Längenbedingung erforderlich? Ob die Postleitzahl tatsächlich existiert, wird nicht berücksichtigt.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-030-a",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-030-b",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-030-c",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-030-d",
+          "text": "2"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-030-b"
+      ],
+      "explanation": "Die Klassen sind weniger als fünf, genau fünf und mehr als fünf Stellen. Die Prüfung betrifft ausschließlich die Länge. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-031",
+      "question": "Für den abgebildeten Kontrollflussgraphen ist 100 % Entscheidungsüberdeckung gefordert. Test A: A, B, D, E, G. Test B: A, B, D, E, F, G. Test C: A, C, F, C, F, C, F, G. Welche Aussage trifft zu?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-031-a",
+          "text": "Entscheidung E wurde nicht vollständig getestet."
+        },
+        {
+          "id": "ctfl-testentwurf-031-b",
+          "text": "Entscheidung F wurde nicht vollständig getestet."
+        },
+        {
+          "id": "ctfl-testentwurf-031-c",
+          "text": "100 % Entscheidungsüberdeckung wurde erreicht."
+        },
+        {
+          "id": "ctfl-testentwurf-031-d",
+          "text": "Entscheidung D wurde nicht vollständig getestet."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-031-d"
+      ],
+      "explanation": "A und B decken die Ausgänge von E nach G und F ab. C und B decken die Ausgänge von F nach C und G ab. D wird dagegen nur über D→E verlassen; D→F fehlt. Daher ist das Testziel nicht erreicht. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-031.png",
+        "alt": "Kontrollflussgraph A→B/C, B→D, C→F, D→E/F, E→G/F und F→C/G."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-032",
+      "question": "Das Zustandsdiagramm zeigt die Übergänge A bis F. Welcher Testfall deckt die Zustandsfolge SS, S1, S2, S1, S2, ES ab?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-032-a",
+          "text": "A, B, C, D"
+        },
+        {
+          "id": "ctfl-testentwurf-032-b",
+          "text": "A, B, F"
+        },
+        {
+          "id": "ctfl-testentwurf-032-c",
+          "text": "A, B, E, B, F"
+        },
+        {
+          "id": "ctfl-testentwurf-032-d",
+          "text": "A, B, E, B, C, D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-032-c"
+      ],
+      "explanation": "A führt von SS nach S1, B nach S2, E zurück nach S1, B erneut nach S2 und F direkt nach ES. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-032.png",
+        "alt": "Zustandsdiagramm SS–A→S1–B→S2–C→S3–D→ES; E führt S2 nach S1, F führt S2 nach ES."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-033",
+      "question": "Exploratives Testen ist …",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-033-a",
+          "text": "kein Abnahmetestvorgehen"
+        },
+        {
+          "id": "ctfl-testentwurf-033-b",
+          "text": "das Wählen einiger Testfälle aus einer vorbereiteten Menge"
+        },
+        {
+          "id": "ctfl-testentwurf-033-c",
+          "text": "Testen mit zufälligen Werten"
+        },
+        {
+          "id": "ctfl-testentwurf-033-d",
+          "text": "erfahrungsbasiertes Testen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-033-d"
+      ],
+      "explanation": "Beim explorativen Test beeinflussen Lernen und bisherige Beobachtungen unmittelbar Entwurf und Durchführung weiterer Tests. Das ist ein erfahrungsbasiertes Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.4.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.4.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-034",
+      "question": "Für ein Kühlsystem gilt: t_act < 25 °C: kein Lüfter; 25 °C ≤ t_act ≤ 40 °C: Lüfter mit kleiner Drehzahl; t_act > 40 °C: Lüfter mit hoher Drehzahl. Welche Auswahl prüft drei Werte derselben Äquivalenzklasse?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-034-a",
+          "text": "30 °C, 40 °C, 41 °C"
+        },
+        {
+          "id": "ctfl-testentwurf-034-b",
+          "text": "24 °C, 25 °C, 26 °C"
+        },
+        {
+          "id": "ctfl-testentwurf-034-c",
+          "text": "25 °C, 30 °C, 40 °C"
+        },
+        {
+          "id": "ctfl-testentwurf-034-d",
+          "text": "0 °C, −10 °C, 100 °C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-034-c"
+      ],
+      "explanation": "25, 30 und 40 liegen sämtlich im eingeschlossenen Intervall für die kleine Drehzahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-035",
+      "question": "Eine Zusatzversicherung gilt bis 27 Jahre. Die Beiträge hängen von Geschlecht, Alter und Risikozuschlag ab. Für weiblich Versicherte liegen Stufengrenzen bei einschließlich 14, 16 und 21 Jahren, für männlich Versicherte bei einschließlich 14 und 23 Jahren. Für Bauberufe wird ein Zuschlag erhoben. Welche Testzeile in der Tabelle ist redundant?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-035-a",
+          "text": "nur k"
+        },
+        {
+          "id": "ctfl-testentwurf-035-b",
+          "text": "nur d"
+        },
+        {
+          "id": "ctfl-testentwurf-035-c",
+          "text": "nur j"
+        },
+        {
+          "id": "ctfl-testentwurf-035-d",
+          "text": "k und h"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-035-d"
+      ],
+      "explanation": "Zeile k (männlich, 18, kein Zuschlag) gehört zur selben Kombination von Klassen wie g (männlich, 16, kein Zuschlag). Auch h (männlich, 20, Zuschlag) und i (männlich, 23, Zuschlag) liegen in derselben Altersklasse bis einschließlich 23 und haben denselben Zuschlagsstatus. Daher können k und h entfallen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-035.png",
+        "alt": "Elf Versicherungs-Testfälle a bis k mit Geschlecht, Alter, Zuschlag und Beitrag; g: männlich/16/nein, k: männlich/18/nein."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-036",
+      "question": "Unter 18 Jahren ist keine Versicherung möglich. Von 18 bis 30 Jahren gibt es 20 % Reduktion; über 30 keine Reduktion. Welche drei Werte liegen in derselben Äquivalenzklasse?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-036-a",
+          "text": "29, 30, 31"
+        },
+        {
+          "id": "ctfl-testentwurf-036-b",
+          "text": "17, 18, 39"
+        },
+        {
+          "id": "ctfl-testentwurf-036-c",
+          "text": "18, 29, 30"
+        },
+        {
+          "id": "ctfl-testentwurf-036-d",
+          "text": "17, 29, 31"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-036-c"
+      ],
+      "explanation": "18, 29 und 30 liegen im geschlossenen Altersintervall mit 20 % Reduktion. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-037",
+      "question": "Zustandsübergangstabelle:\nS1 --A--> S2\nS2 --B--> S1\nS2 --C--> S3\nS3 --D--> S4\nS4 --E--> S1\nWelche Zustandsfolge ist gültig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-037-a",
+          "text": "B aus S1 heraus"
+        },
+        {
+          "id": "ctfl-testentwurf-037-b",
+          "text": "von S2 nach S1 und zurück nach S2"
+        },
+        {
+          "id": "ctfl-testentwurf-037-c",
+          "text": "von S2 über S1 nach S3"
+        },
+        {
+          "id": "ctfl-testentwurf-037-d",
+          "text": "von S3 über C nach S2"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-037-b"
+      ],
+      "explanation": "Die Folge S2→S1→S2 verwendet B und anschließend A. B ist aus S1 nicht definiert; von S1 führt kein direkter Übergang nach S3. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-038",
+      "question": "Zustandsübergangstabelle:\nS1 --A--> S2\nS2 --B--> S1\nS2 --C--> S3\nS3 --D--> S4\nS4 --E--> S1\nWelcher Testfall gehört zur Menge der Testfälle für 0-Switch-Überdeckung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-038-a",
+          "text": "von S3 nach S4"
+        },
+        {
+          "id": "ctfl-testentwurf-038-b",
+          "text": "von S4 nach S2"
+        },
+        {
+          "id": "ctfl-testentwurf-038-c",
+          "text": "von S2 nach S4"
+        },
+        {
+          "id": "ctfl-testentwurf-038-d",
+          "text": "von S1 nach S1"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-038-a"
+      ],
+      "explanation": "0-Switch-Überdeckung ist im aktuellen Lehrplan ausdrücklich die Überdeckung der einzelnen gültigen Übergänge. S3→S4 ist der durch D definierte Übergang. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-041",
+      "question": "Nur Premiummitglieder erhalten im Online-Shop ab 20 € Einkauf 15 %, ab 50 € 20 % und ab 100 € 25 % Rabatt. Der Rabattbetrag ist auf 100 € begrenzt. Wie viele Äquivalenzklassen können für diese Rabattberechnung gebildet werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-041-a",
+          "text": "6"
+        },
+        {
+          "id": "ctfl-testentwurf-041-b",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-041-c",
+          "text": "5"
+        },
+        {
+          "id": "ctfl-testentwurf-041-d",
+          "text": "3"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-041-a"
+      ],
+      "explanation": "Bei der im Original verwendeten Aufteilung wird Nichtmitgliedschaft separat betrachtet. Für Premiummitglieder sind es unter 20, 20 bis unter 50, 50 bis unter 100, 100 bis 400 und über 400 Euro (gedeckelter Rabatt). Das sind sechs Gruppen. Für unabhängig betrachtete Eingabeparameter wären Mitgliedschaft und Einkaufswert gesondert zu partitionieren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-042",
+      "question": "Nur Premiummitglieder erhalten ab 20 € Einkauf 15 %, ab 50 € 20 % und ab 100 € 25 % Rabatt, maximal 100 € Rabattbetrag. Welche Auswahl enthält Vertreter aller im Original unterschiedenen Klassen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-042-a",
+          "text": "keine Premiummitgliedschaft und Einkauf mit −10 €; Premiummitgliedschaft und jeweils Einkauf mit 10 €, 30 €, 410 €, 50 €, 350 €"
+        },
+        {
+          "id": "ctfl-testentwurf-042-b",
+          "text": "0 €, 100 €, 200 €"
+        },
+        {
+          "id": "ctfl-testentwurf-042-c",
+          "text": "keine Premiummitgliedschaft; Premiummitgliedschaft und jeweils Einkauf mit 0 €, 30 €, 100 €, 450 €, 350 €"
+        },
+        {
+          "id": "ctfl-testentwurf-042-d",
+          "text": "0 €, 20 €, 50 €, 100 €"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-042-a"
+      ],
+      "explanation": "Die erste Auswahl enthält Nichtmitgliedschaft sowie die Mitglieds-Einkaufswerte 10, 30, 50, 350 und 410 für die fünf Rabattintervalle einschließlich Deckelung. Der negative Betrag beim Nichtmitglied wird im Original als bloßer Vertreter des Falls ohne Rabatt verwendet. Eine fachliche Validierung negativer Einkaufswerte ist nicht spezifiziert; deshalb bleibt die Frage nur Übung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-043",
+      "question": "Gegeben ist der Pseudocode:\nInput Number_of_Coins\nWhile Number_of_Coins > 0\n  Input Value_of_Coins\n  Total = Total + Value_of_Coins\n  Number_of_Coins = Number_of_Coins - 1\nEnd Loop\nPrint \"Ihre Münzen haben den Wert: \" & Total\nWie viele Tests sind mindestens für 100 % Entscheidungsüberdeckung nötig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-043-a",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-043-b",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-043-c",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-043-d",
+          "text": "2"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-043-c"
+      ],
+      "explanation": "Ein Test mit zunächst positiver Münzanzahl betritt die Schleife und verlässt sie nach dem Herunterzählen. Er führt somit beide while-Ausgänge aus. Die alte Entscheidungsbezeichnung bezieht sich hier auf die bedingten Zweige. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-044",
+      "question": "Eine Eingabe soll zwischen 0 und 100 liegen, beide Werte eingeschlossen. Welche Auswahl beschreibt ungültige Eingabewerte?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-044-a",
+          "text": "Eingabe < 0 oder Eingabe > 100"
+        },
+        {
+          "id": "ctfl-testentwurf-044-b",
+          "text": "0 > Eingabe < 100"
+        },
+        {
+          "id": "ctfl-testentwurf-044-c",
+          "text": "Eingabe = 0 und Eingabe = 100"
+        },
+        {
+          "id": "ctfl-testentwurf-044-d",
+          "text": "0 < Eingabe < 100"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-044-a"
+      ],
+      "explanation": "Die erste Auswahl erfasst ausschließlich Werte außerhalb des gültigen Intervalls. Unterhalb und oberhalb werden normalerweise zwei getrennte ungültige Klassen gebildet; die Originalformulierung als eine Klasse wird deshalb nicht als Simulationsaufgabe verwendet. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-045",
+      "question": "Die ersten 4000 CHF Einkommen werden nicht versteuert, die folgenden 1500 CHF mit 10 %, die folgenden 28000 CHF mit 22 %, alle weiteren Beträge mit 40 %. Einkommen werden auf ganze Franken gerundet. Welche Auswahl enthält Vertreter dreier verschiedener Äquivalenzklassen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-045-a",
+          "text": "4000 CHF, 5000 CHF, 5500 CHF"
+        },
+        {
+          "id": "ctfl-testentwurf-045-b",
+          "text": "28000 CHF, 28001 CHF, 32001 CHF"
+        },
+        {
+          "id": "ctfl-testentwurf-045-c",
+          "text": "32001 CHF, 34000 CHF, 36500 CHF"
+        },
+        {
+          "id": "ctfl-testentwurf-045-d",
+          "text": "4000 CHF, 4200 CHF, 5600 CHF"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-045-d"
+      ],
+      "explanation": "Die Klassengrenzen liegen bei 4000, 5500 und 33500 CHF. 4000 liegt im ersten, 4200 im zweiten und 5600 im dritten Intervall. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-046",
+      "question": "In einem Friseurladen gibt es vormittags bis 12:00 Uhr Rabatt und für Stammkunden 5 % Rabatt, miteinander kombinierbar. Eine neue Mengenrabattkarte macht jeden elften Besuch kostenlos; sie ist nicht mit anderen Rabatten kombinierbar. Um wie viele zusätzliche Tests muss die bisherige Entscheidungstabelle erweitert werden, wenn bestehende Testfälle angepasst werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-046-a",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-046-b",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-046-c",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-046-d",
+          "text": "4"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-046-b"
+      ],
+      "explanation": "Die vier bisherigen Kombinationen gelten für einen normalen Besuch weiter. Ein zusätzlicher zusammengefasster Fall für den kostenlosen elften Besuch macht die anderen Rabattbedingungen irrelevant. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-047",
+      "question": "Zwei Parameter einer Funktion werden in einem Testfall beide mit Vertretern ungültiger Äquivalenzklassen getestet. Welcher Nachteil entsteht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-047-a",
+          "text": "Es kann nicht nachvollzogen werden, welcher ungültige Wert zu einer Fehlermeldung führt."
+        },
+        {
+          "id": "ctfl-testentwurf-047-b",
+          "text": "Es gibt keine Nachteile, weil eine Ausnahmebehandlung erwartet wird."
+        },
+        {
+          "id": "ctfl-testentwurf-047-c",
+          "text": "Die Kombination ungültiger Klassen erzeugt zu hohen Aufwand."
+        },
+        {
+          "id": "ctfl-testentwurf-047-d",
+          "text": "Ausschließlich gültige Klassen zu testen reicht aus."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-047-a"
+      ],
+      "explanation": "Eine frühe Zurückweisung kann die Verarbeitung des zweiten ungültigen Wertes verhindern. Ungültige Klassen werden deshalb getrennt getestet, um Fehlermaskierung zu vermeiden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-048",
+      "question": "In welchen Teststufen kommt Äquivalenzklassenbildung zum Einsatz?\n1. Komponententests\n2. Integrationstests\n3. Systemtests\n4. Abnahmetests",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-048-a",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-testentwurf-048-b",
+          "text": "nur 1."
+        },
+        {
+          "id": "ctfl-testentwurf-048-c",
+          "text": "1. 2. 3."
+        },
+        {
+          "id": "ctfl-testentwurf-048-d",
+          "text": "1. 2."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-048-a"
+      ],
+      "explanation": "Äquivalenzklassen können für Daten und Verhalten auf allen Teststufen gebildet werden. Die Technik ist nicht auf eine bestimmte Integrations- oder Systemebene beschränkt. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-049",
+      "question": "Ist ein Test mit mehreren ungültigen Äquivalenzklassen möglich und sinnvoll?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-049-a",
+          "text": "Tests mit ungültigen Äquivalenzklassen sind grundsätzlich unnötig."
+        },
+        {
+          "id": "ctfl-testentwurf-049-b",
+          "text": "Bei mehreren ungültigen Klassen sollte eine Fehlerbehandlung erfolgen, daher ist dies auch zu testen."
+        },
+        {
+          "id": "ctfl-testentwurf-049-c",
+          "text": "Ungültige Äquivalenzklassen immer nur einzeln testen, um Fehler korrekt zuzuordnen."
+        },
+        {
+          "id": "ctfl-testentwurf-049-d",
+          "text": "In einem Test dürfen maximal vier (2²) ungültige Klassen vorkommen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-049-c"
+      ],
+      "explanation": "Für die systematische Klassenüberdeckung empfiehlt der Lehrplan, ungültige Klassen nicht gemeinsam zu testen, um Fehlermaskierung zu vermeiden. Zusätzliche Robustheitstests mit mehreren Fehlern sind damit nicht grundsätzlich verboten; die Originalantwort ist im Kontext dieses Überdeckungsziels zu lesen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-051",
+      "question": "Was wird zur Herleitung von Testfällen mit der White-Box-Methode auf Komponentenstufe nicht als Testbasis benötigt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-051-a",
+          "text": "der Quellcode"
+        },
+        {
+          "id": "ctfl-testentwurf-051-b",
+          "text": "die Benutzeranforderungen"
+        },
+        {
+          "id": "ctfl-testentwurf-051-c",
+          "text": "der Testrahmen"
+        },
+        {
+          "id": "ctfl-testentwurf-051-d",
+          "text": "die Sollergebnisse"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-051-b"
+      ],
+      "explanation": "White-Box-Tests werden aus der inneren Struktur abgeleitet, nicht aus Benutzeranforderungen als Testbasis. Zur Ausführung und Auswertung sind Testrahmen und erwartete Ergebnisse trotzdem relevant. Anforderungen können ergänzend zur Bestimmung korrekter Ergebnisse dienen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-052",
+      "question": "Wie lässt sich der Testumfang bei umfangreichem Black-Box-Testing mit Äquivalenzklassen korrekt reduzieren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-052-a",
+          "text": "jede Äquivalenzklasse nur einmal nutzen"
+        },
+        {
+          "id": "ctfl-testentwurf-052-b",
+          "text": "nur linksseitige Grenzwerte nehmen"
+        },
+        {
+          "id": "ctfl-testentwurf-052-c",
+          "text": "gültige Äquivalenzklassen kombinieren, Äquivalenzklassen für ungültige Werte nicht miteinander kombinieren"
+        },
+        {
+          "id": "ctfl-testentwurf-052-d",
+          "text": "die Hälfte der Klassen streichen, aber niemals mehr"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-052-c"
+      ],
+      "explanation": "Vertreter gültiger Klassen verschiedener Parameter lassen sich zusammenfassen. Ungültige Klassen sollten getrennt bleiben, damit eine Zurückweisung keinen weiteren Fehler maskiert. Einmalige Nutzung ist kein Verbot zusätzlicher Tests. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-053",
+      "question": "Ein Programm berechnet den größten gemeinsamen Teiler zweier ganzer Zahlen A und B größer null: calcGGT(A,B). Es wurden folgende Tests spezifiziert:\nTC1: (1,1)\nTC2: (INT_MAX,INT_MAX)\nTC3: (1,0)\nTC4: (0,1)\nTC5: (INT_MAX+1,1)\nTC6: (1,INT_MAX+1)\nINT_MAX bezeichnet die größte zulässige ganze Zahl. Welche Testtechnik wurde angewandt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-053-a",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-053-b",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-053-c",
+          "text": "Zustandsbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-053-d",
+          "text": "Grenzwertanalyse"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-053-d"
+      ],
+      "explanation": "Die Tests verwenden die zulässigen Randwerte 1 und INT_MAX sowie unmittelbar angrenzende ungültige Werte 0 und INT_MAX+1. Letztere sind konzeptionelle Eingaben; ihre technische Darstellbarkeit hängt von der Schnittstelle ab. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-055",
+      "question": "Für den dargestellten Zustandsgraphen existieren die Tests:\n1. S, S1, E\n2. S, S1, S2, S1, E\n3. S, S1, S2, S3, E\nWelcher weitere Test wird benötigt, um alle dargestellten gültigen Übergänge abzudecken?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-055-a",
+          "text": "S1, S2, S3, S2, E"
+        },
+        {
+          "id": "ctfl-testentwurf-055-b",
+          "text": "S, S1, S2, S3, S2, S3, E"
+        },
+        {
+          "id": "ctfl-testentwurf-055-c",
+          "text": "S, S1, S2, S3, S2, E"
+        },
+        {
+          "id": "ctfl-testentwurf-055-d",
+          "text": "S, S1, S2, E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-055-c"
+      ],
+      "explanation": "Es fehlen S3→S2 und S2→E. Die dritte Auswahl deckt beide ab und startet wie die bestehenden Tests am Anfangspunkt S. Die Originalbezeichnung „Zweigabdeckung“ wird hier als Übergangsüberdeckung des Zustandsgraphen eingeordnet. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-055.png",
+        "alt": "Zustandsgraph S nach S1, wechselseitige Verbindungen S1/S2 und S2/S3, mit Ausgängen S1/S2/S3 nach E."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-057",
+      "question": "Stimmt diese Definition zum Zweigtest: kontrollflussbasiertes Black-Box-Testverfahren, das mindestens einmal alle Ausgänge von Entscheidungen (Zweige im Kontrollflussgraphen) des Testobjekts ausführt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-057-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-testentwurf-057-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-057-a"
+      ],
+      "explanation": "Zweigtest ist ein White-Box-Verfahren auf Basis der internen Struktur, kein Black-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-058",
+      "question": "Warum können erfahrungsbasierte Tests Fehler finden, die spezifikationsbasierte Black-Box-Tests nicht aufgedeckt haben?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-058-a",
+          "text": "Wissen über die Fehlerverteilung aus vorangegangenen Tests, etwa aus einem früheren Release oder einer früheren Teststufe, fließt ein."
+        },
+        {
+          "id": "ctfl-testentwurf-058-b",
+          "text": "Zusätzlich wird immer der Programmcode geprüft."
+        },
+        {
+          "id": "ctfl-testentwurf-058-c",
+          "text": "Zusätzlich werden immer funktionale und technische Systemanforderungen geprüft."
+        },
+        {
+          "id": "ctfl-testentwurf-058-d",
+          "text": "Zusätzlich werden immer Datenbanktabellen und Beziehungen berücksichtigt."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-058-a"
+      ],
+      "explanation": "Erfahrungswissen lenkt Tests auf typische Schwachstellen, die aus der Testbasis allein nicht hervorgehen. Ein Code- oder Datenbankzugriff ist kein notwendiges Merkmal erfahrungsbasierten Testens. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-059",
+      "question": "Was ist nach der Entscheidungstabelle das erwartete Ergebnis?\nA: Hugo ist ein 42-jähriger Extremsportler und lebt in Paris.\nB: Michael ist ein 70-jähriger Nicht-Extremsportler und lebt in Berlin.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-059-a",
+          "text": "A: versichern mit 10 % Rabatt, B: versichern ohne Rabatt"
+        },
+        {
+          "id": "ctfl-testentwurf-059-b",
+          "text": "A: nicht versichern, B: nicht versichern"
+        },
+        {
+          "id": "ctfl-testentwurf-059-c",
+          "text": "A: versichern ohne Rabatt, B: nicht versichern"
+        },
+        {
+          "id": "ctfl-testentwurf-059-d",
+          "text": "A: versichern ohne Rabatt, B: versichern mit 10 % Rabatt"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-059-c"
+      ],
+      "explanation": "Hugo erfüllt Regel 4: Frankreich, 18–55 Jahre und Extremsportler, also Versicherung ohne Rabatt. Michael fällt unter Regel 1: nicht in Frankreich, daher keine Versicherung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-059.png",
+        "alt": "Vier Versicherungsregeln nach Wohnort Frankreich, Alter 18–55 und Extremsport; Versicherung nur bei Frankreich und passendem Alter, 10 % Rabatt nur ohne Extremsport."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-060",
+      "question": "Was ist ein Bestanden-/Nicht-bestanden-Kriterium?\nA: Das Gleiche wie ein Testkriterium.\nB: Kriterien, die ein System oder eine Komponente für das Bestehen eines Tests erfüllen muss.\nC: Eine Bedingung, unter der ein Testfall erfolgreich ausgeführt wurde.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-060-a",
+          "text": "nur A und B"
+        },
+        {
+          "id": "ctfl-testentwurf-060-b",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-testentwurf-060-c",
+          "text": "B"
+        },
+        {
+          "id": "ctfl-testentwurf-060-d",
+          "text": "C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-060-c"
+      ],
+      "explanation": "Ein Bestanden-/Nicht-bestanden-Kriterium beurteilt das Ergebnis anhand der geforderten Bedingungen. Erfolgreiche technische Ausführung allein bedeutet nicht, dass das erwartete Ergebnis eingetreten ist. „Testkriterium“ ist ein weiterer, kontextabhängiger Begriff. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 1.4.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-1.4.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-062",
+      "question": "Was ist kein sinnvoller Faktor für die Auswahl von Testverfahren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-062-a",
+          "text": "Kenntnisse und Fähigkeiten des Testers"
+        },
+        {
+          "id": "ctfl-testentwurf-062-b",
+          "text": "das Ziel vollständigen Testens aller möglichen Eingabewerte und Kombinationen"
+        },
+        {
+          "id": "ctfl-testentwurf-062-c",
+          "text": "Softwareentwicklungslebenszyklus-Modell"
+        },
+        {
+          "id": "ctfl-testentwurf-062-d",
+          "text": "Zeit und Budget"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-062-b"
+      ],
+      "explanation": "Vollständiges Testen aller Kombinationen ist außer in trivialen Fällen unmöglich. Verfahren werden stattdessen kontextabhängig unter anderem nach Fähigkeiten, Entwicklungsmodell und Ressourcen ausgewählt. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-063",
+      "question": "Was ist keine gängige Notation für Bedingungen in Entscheidungstabellen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-063-a",
+          "text": "„N“ bedeutet, die Bedingung ist falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-063-b",
+          "text": "„I“ bedeutet, dass die Bedingung zu Interaktionen zwischen Akteuren und dem Objekt führt."
+        },
+        {
+          "id": "ctfl-testentwurf-063-c",
+          "text": "„J“ bedeutet, die Bedingung ist wahr."
+        },
+        {
+          "id": "ctfl-testentwurf-063-d",
+          "text": "„–“ bedeutet, der Bedingungswert ist für die Aktionen irrelevant."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-063-b"
+      ],
+      "explanation": "J, N und der Gedankenstrich stehen für wahr, falsch und irrelevant. Eine solche I-Notation für Interaktionen gehört nicht zu diesen Tabelleneinträgen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-064",
+      "question": "Was kann zur Herleitung von Testfällen mit Black-Box-Verfahren verwendet werden?\nA: Beschreibung des Quellcodeaufbaus\nB: Modell des Verhaltens von System, Software oder Komponente\nC: Analyse der Testbasisdokumentation\nD: Analyse der internen Komponentenstruktur",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-064-a",
+          "text": "A und C"
+        },
+        {
+          "id": "ctfl-testentwurf-064-b",
+          "text": "B und D"
+        },
+        {
+          "id": "ctfl-testentwurf-064-c",
+          "text": "A und D"
+        },
+        {
+          "id": "ctfl-testentwurf-064-d",
+          "text": "B und C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-064-d"
+      ],
+      "explanation": "Black-Box-Verfahren beziehen sich auf spezifiziertes Verhalten und die externe Testbasis. Quellcodeaufbau und interne Struktur kennzeichnen White-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-066",
+      "question": "Was wird durch eine Testbedingung beschrieben?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-066-a",
+          "text": "Eine Einheit oder ein Ereignis, welche bzw. welches durch einen oder mehrere Testfälle verifiziert werden kann."
+        },
+        {
+          "id": "ctfl-testentwurf-066-b",
+          "text": "Ein Aspekt (z.B. eine Funktion, eine Transaktion, ein Qualitätsmerkmal, etc.) der durch einen oder mehrere Testfälle verifiziert werden soll."
+        },
+        {
+          "id": "ctfl-testentwurf-066-c",
+          "text": "Eine Bedingung zum Teststart, die erfüllt sein muss, um mit der Testdurchführung beginnen zu können."
+        },
+        {
+          "id": "ctfl-testentwurf-066-d",
+          "text": "Eine Bedingung in der Entscheidungstabelle."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-066-a"
+      ],
+      "explanation": "Der bestätigte Originalschlüssel ist die erste Antwort. Die zweite beschreibt ebenfalls einen testbaren Aspekt und ist fachlich weitgehend gleichbedeutend. Aufgrund dieser Mehrdeutigkeit wird die Frage nicht in die Prüfungssimulation aufgenommen. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 1.4.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-1.4.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-070",
+      "question": "Welche Aussage ist wahr?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-070-a",
+          "text": "White-Box-Testing gehört zu den strukturbasierten Verfahren."
+        },
+        {
+          "id": "ctfl-testentwurf-070-b",
+          "text": "White-Box-Testing ist eine Teststufe."
+        },
+        {
+          "id": "ctfl-testentwurf-070-c",
+          "text": "White-Box-Testing ist eine Teststrategie."
+        },
+        {
+          "id": "ctfl-testentwurf-070-d",
+          "text": "White-Box-Testing ist ein Testkonzept."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-070-a"
+      ],
+      "explanation": "White-Box-Verfahren leiten Tests aus der inneren Struktur des Testobjekts ab. Sie sind nicht an eine einzelne Teststufe gebunden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-073",
+      "question": "Welche Aussage zur Beziehung zwischen Entscheidungs- und Anweisungsüberdeckung ist korrekt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-073-a",
+          "text": "100 % Entscheidungsüberdeckung schließt 100 % Anweisungsüberdeckung nur bei exakt drei Entscheidungen ein."
+        },
+        {
+          "id": "ctfl-testentwurf-073-b",
+          "text": "100 % Anweisungsüberdeckung schließt 100 % Entscheidungsüberdeckung aus."
+        },
+        {
+          "id": "ctfl-testentwurf-073-c",
+          "text": "100 % Anweisungsüberdeckung bringt immer 100 % Entscheidungsüberdeckung mit sich."
+        },
+        {
+          "id": "ctfl-testentwurf-073-d",
+          "text": "100 % Anweisungsüberdeckung bedingt 100 % Entscheidungsüberdeckung, wenn auf jedem Pfad einer Entscheidung eine Anweisung folgt, die nur über diesen Pfad ausgeführt wird und über keinen anderen Weg erreichbar ist."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-073-d"
+      ],
+      "explanation": "Die ausschließliche Erreichbarkeit der Anweisung erzwingt in diesem Sonderfall das Durchlaufen jedes Ausgangs. Allgemein gilt der umgekehrte Schluss von Anweisungs- auf Zweigüberdeckung nicht. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-074",
+      "question": "Welche Behauptungen zu Äquivalenzklassen sind richtig?\nA: Das Testobjekt verhält sich bei allen Elementen derselben Klasse unterschiedlich.\nB: Ein beim Test verwendetes Element einer Klasse heißt Repräsentant.\nC: Äquivalenzklassen erhöhen die benötigte Testfallzahl.\nD: Es gibt gültige und ungültige Klassen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-074-a",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-testentwurf-074-b",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-testentwurf-074-c",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testentwurf-074-d",
+          "text": "B und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-074-d"
+      ],
+      "explanation": "Elemente einer Klasse sollen gleichartig verarbeitet werden. Repräsentanten verringern den Testumfang; gültige und ungültige Klassen müssen berücksichtigt werden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-075",
+      "question": "Welche Anforderung ist ohne weitere Erläuterung durch den Auftraggeber im Abnahmetest messbar prüfbar?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-075-a",
+          "text": "Das System soll benutzerfreundlich sein."
+        },
+        {
+          "id": "ctfl-testentwurf-075-b",
+          "text": "Der Start des Programms darf maximal fünf Sekunden dauern."
+        },
+        {
+          "id": "ctfl-testentwurf-075-c",
+          "text": "Das System soll keine sicherheitskritischen Fehler enthalten."
+        },
+        {
+          "id": "ctfl-testentwurf-075-d",
+          "text": "Die Übertragbarkeit des Systems soll gewährleistet sein."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-075-b"
+      ],
+      "explanation": "Die zweite Anforderung enthält eine messbare Dauer und eine konkrete Obergrenze. Die übrigen benötigen operationalisierte Kriterien. Für einen reproduzierbaren Test müssen zusätzlich die vereinbarten Umgebungsbedingungen feststehen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.5.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.5.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-076",
+      "question": "Welche der folgenden Antworten erreicht im dargestellten Kontrollflussgraphen 100 % Anweisungsüberdeckung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-076-a",
+          "text": "a, b, f, c, g, h, d, k, e"
+        },
+        {
+          "id": "ctfl-testentwurf-076-b",
+          "text": "a, b, f, g, h, d, e"
+        },
+        {
+          "id": "ctfl-testentwurf-076-c",
+          "text": "a, b, f, g, i, h, d, e"
+        },
+        {
+          "id": "ctfl-testentwurf-076-d",
+          "text": "a, b, c, d, e"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-076-b"
+      ],
+      "explanation": "Der zweite Pfad betritt den DO-WHILE-Körper und erreicht anschließend alle weiteren ausführbaren Anweisungen. Die Schleifenrückkante i ist für Anweisungsüberdeckung nicht notwendig. Die Auswahl a,b,f,g,i,h,d,e ist ohne erneutes g nach i keine gültige vollständige Kantenfolge. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.1",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-076.png",
+        "alt": "Kontrollflussgraph a–k mit zwei IF-Verzweigungen und DO-WHILE-Schleife; der Pfad a,b,f,g,h,d,e führt durch den Schleifenkörper."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-077",
+      "question": "Welche Aussagen zur Äquivalenzklassenbildung sind wahr?\nA: Sie teilt mögliche Eingaben in Gruppen mit erwartetem gleichem Verhalten.\nB: Sie verwendet gültige und ungültige Datenklassen.\nC: Sie nutzt nur gültige Datenklassen.\nD: Sie muss mindestens zwei Werte pro Klasse enthalten.\nE: Sie kann nur Eingaben grafischer Benutzeroberflächen prüfen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-077-a",
+          "text": "A, B und E sind wahr; C und D sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-077-b",
+          "text": "A, C und D sind wahr; B und E sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-077-c",
+          "text": "A und E sind wahr; B, C und D sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-077-d",
+          "text": "A und B sind wahr; C, D und E sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-077-d"
+      ],
+      "explanation": "Ein Vertreter je identifizierter Klasse genügt für Klassenüberdeckung. Die Technik gilt auch für Ausgaben, Schnittstellenparameter und interne Daten, nicht nur für grafische Eingaben. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-078",
+      "question": "Welche Aussagen sind wahr?\nA: Regressionstests und Abnahmetests sind gleich.\nB: Regressionstests zeigen, ob alle Mängel beseitigt sind.\nC: Regressionstests eignen sich in der Regel gut für Automatisierung.\nD: Regressionstests suchen durch Codeänderungen verursachte oder aufgedeckte Fehler.\nE: Regressionstests sollten nur im Integrationstest stattfinden.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-078-a",
+          "text": "B und E sind wahr; A, C und D sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-078-b",
+          "text": "C und D sind wahr; A, B und E sind falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-078-c",
+          "text": "A, C, D und E sind wahr; B ist falsch."
+        },
+        {
+          "id": "ctfl-testentwurf-078-d",
+          "text": "A, C und E sind wahr; B und D sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-078-b"
+      ],
+      "explanation": "Regressionstests suchen unerwünschte Folgen von Änderungen und werden häufig wiederholt; das begünstigt Automatisierung. Sie sind auf allen relevanten Teststufen möglich und beweisen keine Fehlerfreiheit. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 2.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-079",
+      "question": "Welche Aussagen stimmen?\nA: Entscheidungstabellentest und Entscheidungstest sind dasselbe.\nB: Entscheidungstabellen enthalten Regeln aus Bedingungskombinationen und zugehörigen Aktionen.\nC: Entscheidungstest ist ein White-Box-Testverfahren.\nD: 100 % Entscheidungsüberdeckung fordert alle Ausgänge von Entscheidungen mindestens einmal.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-079-a",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testentwurf-079-b",
+          "text": "nur B, C und D"
+        },
+        {
+          "id": "ctfl-testentwurf-079-c",
+          "text": "nur A, B und C"
+        },
+        {
+          "id": "ctfl-testentwurf-079-d",
+          "text": "nur B und C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-079-b"
+      ],
+      "explanation": "Entscheidungstabellen sind Black-Box-Modelle für Geschäftsregeln. Das ältere White-Box-Maß Entscheidungsüberdeckung zählt dagegen Entscheidungsausgänge; im aktuellen Lehrplan steht der umfassendere Zweigtest im Vordergrund. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-080",
+      "question": "Welche Aussage über die Auswahl eines Testverfahrens ist falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-080-a",
+          "text": "Erfahrung mit frühzeitig gefundenen Fehlerwirkungen kann die Verfahrenswahl beeinflussen."
+        },
+        {
+          "id": "ctfl-testentwurf-080-b",
+          "text": "Industriestandards und Vorschriften können Verfahren und Überdeckungen vorschreiben."
+        },
+        {
+          "id": "ctfl-testentwurf-080-c",
+          "text": "Kunden können Verfahren und gewünschte Überdeckungen vorgeben."
+        },
+        {
+          "id": "ctfl-testentwurf-080-d",
+          "text": "Unabhängig von Kritikalität, Art und Komplexität wird ein allgemein passendes Verfahren angewendet."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-080-d"
+      ],
+      "explanation": "Die Auswahl ist kontextabhängig. Kritikalität, Testobjekt, Kenntnisse, Ressourcen und Vorgaben beeinflussen, welche Kombination von Verfahren geeignet ist. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-083",
+      "question": "Welche Aussage zu dem Zustandsübergangsdiagramm der Schranke und der Testfalltabelle ist wahr?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-083-a",
+          "text": "Die Testfälle decken sowohl gültige und ungültige Übergänge des Zustandsübergangsdiagramms ab."
+        },
+        {
+          "id": "ctfl-testentwurf-083-b",
+          "text": "Die Testfälle decken alle möglichen einzelnen Übergänge des Zustandsübergangsdiagramms ab."
+        },
+        {
+          "id": "ctfl-testentwurf-083-c",
+          "text": "Die Testfälle decken nur einige der möglichen einzelnen Übergänge des Zustandsübergangsdiagramms ab."
+        },
+        {
+          "id": "ctfl-testentwurf-083-d",
+          "text": "Die Testfälle decken alle Paare von Übergängen im Zustandsübergangsdiagramm ab."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-083-a"
+      ],
+      "explanation": "Die ersten drei Tests folgen den definierten Übergängen. Der vierte erwartet die Freigabe bei zu wenig Geld und widerspricht damit der Wächterbedingung für die Freigabe. So wird zusätzlich ein spezifikationsverletzender Übergang geprüft. Die Formulierung über ein „Abdecken“ dieses ungültigen Übergangs folgt dem Original; erwartet werden muss im realen Test dessen Zurückweisung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-083.png",
+        "alt": "Schranke mit Zuständen bereit/wartet auf Geld und vier Testfällen; Fall 4 fordert unzulässige Freigabe trotz zu wenig Geld."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-084",
+      "question": "Welche Aussage zum Zustandsübergangsdiagramm des Fernsehers und den fünf Testfällen ist wahr?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-084-a",
+          "text": "Die Testfälle decken nur einige der möglichen einzelnen Übergänge im Zustandsübergangsdiagramms ab."
+        },
+        {
+          "id": "ctfl-testentwurf-084-b",
+          "text": "Die Testfälle decken alle Paare von Übergängen im Zustandsübergangsdiagramm ab."
+        },
+        {
+          "id": "ctfl-testentwurf-084-c",
+          "text": "Die Testfälle decken alle möglichen einzelnen Übergänge des Zustandsübergangsdiagramms ab."
+        },
+        {
+          "id": "ctfl-testentwurf-084-d",
+          "text": "Die Testfälle decken sowohl gültige und ungültige Übergänge des Zustandsübergangsdiagramms ab."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-084-c"
+      ],
+      "explanation": "Die fünf Tests erfassen Power On (S1→S2), Power Off (S2→S1 und S3→S1), RC On (S2→S3) und RC Off (S3→S2). Damit sind alle fünf dargestellten gültigen Übergänge abgedeckt. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K3"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-084.png",
+        "alt": "Fernseher mit drei Zuständen und fünf gültigen Übergängen sowie einer Tabelle mit genau einem Test pro Übergang."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-087",
+      "question": "Welche Liste enthält ausschließlich Black-Box-Testverfahren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-087-a",
+          "text": "Äquivalenzklassenbildung, Entscheidungstabellentest, anwendungsfallbasierter Test, Bedingungsüberdeckung"
+        },
+        {
+          "id": "ctfl-testentwurf-087-b",
+          "text": "Äquivalenzklassenbildung, checklistenbasierter Test, Entscheidungstest, anwendungsfallbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-087-c",
+          "text": "Äquivalenzklassenbildung, Entscheidungstabellentest, zustandsbasierter Test, Grenzwertanalyse"
+        },
+        {
+          "id": "ctfl-testentwurf-087-d",
+          "text": "Äquivalenzklassenbildung, checklistenbasierter Test, Entscheidungstest, Grenzwertanalyse"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-087-c"
+      ],
+      "explanation": "Die dritte Liste enthält genau die vier im aktuellen Kapitel 4.2 behandelten Black-Box-Verfahren. Checklisten sind erfahrungsbasiert; Überdeckungsmaße des Codes gehören zu White-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-088",
+      "question": "Welche Quellen eignen sich für Black-Box-Testfälle?\nA: Beschreibung des Quellcodeaufbaus\nB: Modell des System-, Software- oder Komponentenverhaltens\nC: Analyse der Testbasisdokumentation\nD: Analyse der internen Komponentenstruktur",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-088-a",
+          "text": "A und C"
+        },
+        {
+          "id": "ctfl-testentwurf-088-b",
+          "text": "B und C"
+        },
+        {
+          "id": "ctfl-testentwurf-088-c",
+          "text": "B und D"
+        },
+        {
+          "id": "ctfl-testentwurf-088-d",
+          "text": "A und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-088-b"
+      ],
+      "explanation": "Verhaltensmodelle und spezifikationsbezogene Dokumentation sind passende Quellen. Der innere Aufbau ist dagegen Grundlage strukturbasierter White-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-089",
+      "question": "Welche Überdeckungskriterien sind für zustandsbasierte Tests sinnvoll?\nA: Jeden Zustand mindestens einmal von jedem anderen Zustand aus erreichen.\nB: Alle Zustandsübergänge mindestens einmal ausführen.\nC: Jeden Zustand mindestens einmal erreichen.\nD: Alle kritischen, spezifikationsverletzenden Übergänge testen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-089-a",
+          "text": "A, B, C"
+        },
+        {
+          "id": "ctfl-testentwurf-089-b",
+          "text": "B, C"
+        },
+        {
+          "id": "ctfl-testentwurf-089-c",
+          "text": "A, B"
+        },
+        {
+          "id": "ctfl-testentwurf-089-d",
+          "text": "B, C, D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-089-d"
+      ],
+      "explanation": "Zustands- und Übergangsüberdeckung sind definierte Kriterien. Das Testen ungültiger Übergänge prüft, dass sie zurückgewiesen werden. Nicht jeder Zustand muss von jedem anderen direkt erreichbar sein. Für vollständige Überdeckung aller Übergänge verlangt der aktuelle Lehrplan auch das versuchte Ausführen aller ungültigen Übergänge; D allein ist nur eine risikoorientierte Teilmenge. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-092",
+      "question": "Welche Testart nutzt besonders die Auswirkungsanalyse, um Folgen von Änderungen eines bestehenden Systems zu bestimmen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-092-a",
+          "text": "Nicht-funktionaler Systemtest"
+        },
+        {
+          "id": "ctfl-testentwurf-092-b",
+          "text": "Integrationstest"
+        },
+        {
+          "id": "ctfl-testentwurf-092-c",
+          "text": "Wartungstest"
+        },
+        {
+          "id": "ctfl-testentwurf-092-d",
+          "text": "Komponententest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-092-c"
+      ],
+      "explanation": "Die Auswirkungsanalyse im Wartungstest bestimmt, welche vorhandenen Teile und Tests durch eine Änderung betroffen sind und erneut geprüft werden müssen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 2.3.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-093",
+      "question": "Welche drei Testfälle erreichen im Kontrollflussgraphen 100 % Entscheidungsüberdeckung?\nI: a, b, c, d, e\nII: a, b, f, g, i, g, h, d, e\nIII: a, b, c, k, e\nIV: a, k, e\nV: a, b, f, g, i, h, d, e",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-093-a",
+          "text": "I, II, IV"
+        },
+        {
+          "id": "ctfl-testentwurf-093-b",
+          "text": "I, IV, V"
+        },
+        {
+          "id": "ctfl-testentwurf-093-c",
+          "text": "I, II, III"
+        },
+        {
+          "id": "ctfl-testentwurf-093-d",
+          "text": "II, IV, V"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-093-a"
+      ],
+      "explanation": "I wählt den zweiten IF-Ausgang c, II den Ausgang f und beide WHILE-Ausgänge i/h, IV den ersten IF-Ausgang k. III und V enthalten ungültige Kantenfolgen. Die Ausgänge decken in diesem strukturierten Graphen zugleich alle Zweige ab; die alte Entscheidungsbezeichnung wird nicht für die Simulation benutzt. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-093.png",
+        "alt": "Kontrollflussgraph mit IF-Ausgängen b/k, zweitem IF mit f/c und DO-WHILE-Ausgängen i/h."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-094",
+      "question": "Welche Schritte werden bei der Äquivalenzklassenbildung durchlaufen?\nA: Klassen verfeinern\nB: Basisklasse ermitteln\nC: Grenzwertanalyse durchführen\nD: Repräsentanten für konkrete Testfälle ermitteln",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-094-a",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-testentwurf-094-b",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-testentwurf-094-c",
+          "text": "B, A und D"
+        },
+        {
+          "id": "ctfl-testentwurf-094-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-094-c"
+      ],
+      "explanation": "Zuerst werden die zu partitionierenden Daten bestimmt und nach gleichartiger Verarbeitung in Klassen aufgeteilt bzw. verfeinert. Dann werden Vertreter gewählt. Grenzwertanalyse ist ein ergänzendes eigenes Verfahren, kein zwingender Schritt. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-095",
+      "question": "Welche spezifikationsorientierte Technik passt am besten zu Eingabefeldern mit konkreten Wertebereichen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-095-a",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-095-b",
+          "text": "Zustandsbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-095-c",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-095-d",
+          "text": "anwendungsfallbasierter Test"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-095-c"
+      ],
+      "explanation": "Wertebereiche lassen sich nach erwartetem Verhalten in gültige und ungültige Klassen partitionieren. Grenzwertanalyse wäre eine sinnvolle Ergänzung, ist aber nicht angeboten. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-096",
+      "question": "Welche spezifikationsorientierte Technik passt am besten, wenn der Programmablauf vom Wertebereich der Eingabe abhängt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-096-a",
+          "text": "Zustandsbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-096-b",
+          "text": "anwendungsfallbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-096-c",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-096-d",
+          "text": "Äquivalenzklassenbildung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-096-d"
+      ],
+      "explanation": "Klassen bilden jeweils Werte mit gleichartigem erwartetem Verhalten ab. Für mehrere zusammenwirkende Bedingungen wären Entscheidungstabellen ergänzend geeignet. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-097",
+      "question": "Welche spezifikationsorientierte Technik passt am besten zu vielen Geschäftsregeln?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-097-a",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-097-b",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-097-c",
+          "text": "Zustandsbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-097-d",
+          "text": "Entscheidungsüberdeckungstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-097-a"
+      ],
+      "explanation": "Entscheidungstabellen verknüpfen Bedingungskombinationen mit Aktionen und helfen, komplexe Geschäftslogik systematisch zu prüfen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-098",
+      "question": "Welche spezifikationsorientierte Technik passt am besten, wenn die Anforderungen einen Zustandsautomaten beschreiben?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-098-a",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-098-b",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-098-c",
+          "text": "anwendungsfallbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-098-d",
+          "text": "Zustandsbasierter Test"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-098-d"
+      ],
+      "explanation": "Zustandsübergangstests prüfen Zustände, auslösende Ereignisse, Wächterbedingungen, Aktionen und Folgezustände des Automaten. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-099",
+      "question": "Welches Testverfahren wird häufig für Embedded Software und in der Automatisierungstechnik eingesetzt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-099-a",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-099-b",
+          "text": "Entscheidungstabellentest"
+        },
+        {
+          "id": "ctfl-testentwurf-099-c",
+          "text": "anwendungsfallbasierter Test"
+        },
+        {
+          "id": "ctfl-testentwurf-099-d",
+          "text": "Zustandsbasierter Test"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-099-d"
+      ],
+      "explanation": "Eingebettete Steuerungen besitzen häufig klar definierte Zustände und ereignisgesteuerte Übergänge. Zustandsübergangstests sind dafür besonders passend; andere Verfahren bleiben ergänzend sinnvoll. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-102",
+      "question": "Welchen Fehlerzustand kann ein dynamischer White-Box-Test aufdecken?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-102-a",
+          "text": "eine falsche Zuweisung eines Variablenwertes"
+        },
+        {
+          "id": "ctfl-testentwurf-102-b",
+          "text": "nicht eingehaltene Programmierrichtlinien"
+        },
+        {
+          "id": "ctfl-testentwurf-102-c",
+          "text": "hohe Antwortzeiten bei Datenbankabfragen"
+        },
+        {
+          "id": "ctfl-testentwurf-102-d",
+          "text": "einen nicht aussagekräftigen Variablennamen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-102-a"
+      ],
+      "explanation": "Ein strukturell abgeleiteter dynamischer Test kann eine falsche Zuweisung ausführen und ihre Wirkung nachweisen. Stilrichtlinien und Namen prüft man typischerweise statisch; Antwortzeiten werden gezielt durch Performanztests geprüft. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-104",
+      "question": "Welches Merkmal kennzeichnet ein White-Box-Testverfahren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-104-a",
+          "text": "Testfälle werden aus Wissen und Erfahrung der Tester abgeleitet."
+        },
+        {
+          "id": "ctfl-testentwurf-104-b",
+          "text": "Testfälle werden aus der internen Struktur des Testobjekts abgeleitet."
+        },
+        {
+          "id": "ctfl-testentwurf-104-c",
+          "text": "Testfälle werden aus Zustandsmodellen des Anwenderverhaltens abgeleitet."
+        },
+        {
+          "id": "ctfl-testentwurf-104-d",
+          "text": "Testfälle werden aus der Spezifikation des Testobjekts abgeleitet."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-104-b"
+      ],
+      "explanation": "White-Box-Verfahren verwenden den inneren Aufbau als Grundlage. Erfahrung kennzeichnet erfahrungsbasierte und Spezifikationen bzw. externe Verhaltensmodelle Black-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-105",
+      "question": "Welches Verfahren passt am besten bei schlechter Spezifikation und Zeitdruck?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-105-a",
+          "text": "Pfadtest"
+        },
+        {
+          "id": "ctfl-testentwurf-105-b",
+          "text": "Exploratives Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-105-c",
+          "text": "Anwendungsfallbasierte Tests"
+        },
+        {
+          "id": "ctfl-testentwurf-105-d",
+          "text": "Bedingungsüberdeckung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-105-b"
+      ],
+      "explanation": "Exploratives Testen nutzt Erfahrung und direktes Lernen am Testobjekt. Eine knappe, aber klare Test-Charta gibt auch unter Zeitdruck Orientierung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.4.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.4.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-106",
+      "question": "Welches der folgenden Testverfahren ist strukturbasiert?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-106-a",
+          "text": "Entscheidungstests"
+        },
+        {
+          "id": "ctfl-testentwurf-106-b",
+          "text": "Grenzwertanalyse"
+        },
+        {
+          "id": "ctfl-testentwurf-106-c",
+          "text": "Äquivalenzklassenbildung"
+        },
+        {
+          "id": "ctfl-testentwurf-106-d",
+          "text": "Zustandsbasierter Test"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-106-a"
+      ],
+      "explanation": "Der Entscheidungstest ist die ältere Bezeichnung für das Prüfen von Entscheidungsausgängen im Code und damit strukturbasiert. Der aktuelle Lehrplan behandelt Anweisungs- und Zweigtest; die anderen drei Antworten sind Black-Box-Verfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-109",
+      "question": "Welchen Vorteil haben Black-Box-Testverfahren?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-109-a",
+          "text": "Es gibt weniger Konflikte zwischen Tester und Entwickler."
+        },
+        {
+          "id": "ctfl-testentwurf-109-b",
+          "text": "Fehlermaskierung behindert den Test nicht."
+        },
+        {
+          "id": "ctfl-testentwurf-109-c",
+          "text": "Sie können früh im Entwicklungsprozess eingesetzt werden."
+        },
+        {
+          "id": "ctfl-testentwurf-109-d",
+          "text": "Fehlerzustände werden immer direkt gefunden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-109-c"
+      ],
+      "explanation": "Tests können aus Anforderungen und Verhaltensmodellen entworfen werden, bevor die Implementierung fertig ist. Konfliktfreiheit, fehlende Maskierung und immer direkte Fehlerlokalisierung sind nicht garantiert. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-110",
+      "question": "Welches Testverfahren eignet sich bei knappem Budget und sehr hohem Zeitdruck für ein erfahrenes Testteam?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-110-a",
+          "text": "Walkthrough"
+        },
+        {
+          "id": "ctfl-testentwurf-110-b",
+          "text": "Anwendungsfallbasiertes Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-110-c",
+          "text": "Exploratives Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-110-d",
+          "text": "Grenzwertanalyse"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-110-c"
+      ],
+      "explanation": "Erfahrene Tester können Entwurf, Durchführung und Lernen in zeitlich begrenzten explorativen Sitzungen verbinden. Eine Charta und dokumentierte Ergebnisse bleiben wichtig. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.4.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.4.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-112",
+      "question": "Wie ist Anweisungsüberdeckung definiert?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-112-a",
+          "text": "(Anzahl ausgeführter Anweisungen / Gesamtzahl ausführbarer Anweisungen) × 100 %"
+        },
+        {
+          "id": "ctfl-testentwurf-112-b",
+          "text": "(Anzahl ausgeführter Anweisungen × Gesamtzahl Anweisungen) / 100 %"
+        },
+        {
+          "id": "ctfl-testentwurf-112-c",
+          "text": "(Anzahl ausgeführter Anweisungen + Gesamtzahl Anweisungen) × 0,5 × π"
+        },
+        {
+          "id": "ctfl-testentwurf-112-d",
+          "text": "Anweisungsüberdeckung kann nicht gemessen werden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-112-a"
+      ],
+      "explanation": "Gemessen wird der Anteil der mindestens einmal ausgeführten ausführbaren Anweisungen. Wiederholte Ausführung erhöht den Zähler nicht mehrfach. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-115",
+      "question": "Wie viele Äquivalenzklassen können zur PIN-Eingabe eines Türschlosses gebildet werden? Ein vierstelliger Code wird über ein Ziffernfeld eingegeben, das Zahlen bis 99999 zulässt. Erst ein Bestätigen-Knopf löst die Prüfung aus. Bei korrekter PIN öffnet die Tür, bei Fehleingaben ertönt ein Signal.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-115-a",
+          "text": "Vier"
+        },
+        {
+          "id": "ctfl-testentwurf-115-b",
+          "text": "Eine"
+        },
+        {
+          "id": "ctfl-testentwurf-115-c",
+          "text": "Drei"
+        },
+        {
+          "id": "ctfl-testentwurf-115-d",
+          "text": "Zwei"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-115-a"
+      ],
+      "explanation": "Der Originalschlüssel unterscheidet zu kurze Eingaben, korrekte vierstellige PIN, falsche vierstellige PIN und zu lange Eingaben. Diese vier Klassen sind bei zusätzlicher Partitionierung nach Eingabelänge plausibel. Rein nach dem beobachteten Öffnen/Signal könnten andere Gruppierungen gewählt werden; deshalb keine Simulationsfreigabe. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-117",
+      "question": "Wie viele Testfälle sind im dargestellten Flussdiagramm für 100 % Anweisungsüberdeckung nötig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-117-a",
+          "text": "1 Testfall"
+        },
+        {
+          "id": "ctfl-testentwurf-117-b",
+          "text": "2 Testfälle"
+        },
+        {
+          "id": "ctfl-testentwurf-117-c",
+          "text": "3 Testfälle"
+        },
+        {
+          "id": "ctfl-testentwurf-117-d",
+          "text": "4 Testfälle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-117-a"
+      ],
+      "explanation": "Ein Fall, der beide seitlichen Pfade über Grün und Weiß ausführt, erreicht zusätzlich Blau, Rot und Schwarz. So werden alle fünf ausführbaren Farbanweisungen abgedeckt; beide Entscheidungsausgänge pro Entscheidung sind hierfür nicht nötig. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.1",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-117.png",
+        "alt": "Flussdiagramm: Blau, optionale grüne Anweisung, Rot, optionale weiße Anweisung, Schwarz; ein geeigneter Pfad erreicht alle Farbanweisungen."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-118",
+      "question": "Wie viele Tests sind für 100 % Entscheidungsüberdeckung nötig?\nIF (P = q)\n  foo()\nELSE\n  IF (P > q)\n    bar()\n  END IF\nEND IF\nfoo und bar sind Platzhalter für Funktionsaufrufe.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-118-a",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-118-b",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-118-c",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-118-d",
+          "text": "1"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-118-c"
+      ],
+      "explanation": "Die Fälle P=q, P>q und P<q decken die zwei äußeren und zwei inneren Ausgänge ab. Da die innere Entscheidung bei Gleichheit nicht erreicht wird, sind mindestens drei Tests nötig. Im aktuellen Zweigtest werden in dieser Struktur damit alle bedingten und unbedingten Zweige ausgeführt. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-120",
+      "question": "Wo ist der Begriff „Test-Charta“ am treffendsten zuzuordnen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-120-a",
+          "text": "statisches Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-120-b",
+          "text": "experimentelles Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-120-c",
+          "text": "dynamisches Testen"
+        },
+        {
+          "id": "ctfl-testentwurf-120-d",
+          "text": "exploratives Testen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-120-d"
+      ],
+      "explanation": "Eine Test-Charta beschreibt Ziele und Rahmen einer explorativen Testsitzung. Explorative Tests sind zwar auch dynamisch, die spezifischere Zuordnung ist aber die vierte Antwort. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.4.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.4.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-122",
+      "question": "Die Entscheidungstabelle zeigt sieben Regeln. Wie viele Testfälle werden mindestens benötigt, um alle Aktionen abzudecken?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-122-a",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-122-b",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-testentwurf-122-c",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-122-d",
+          "text": "5"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-122-a"
+      ],
+      "explanation": "Eine der Regeln I/III/V/VII führt Aktion 3 aus, eine der Regeln II/IV Aktion 2 und Regel VI gemeinsam Aktion 1 und 4. Deshalb werden mindestens drei Tests benötigt. Die Abdeckung aller Aktionen ist nicht identisch mit der im aktuellen Lehrplan geforderten Abdeckung aller durchführbaren Regeln: Dafür wären hier sieben Tests nötig. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-122.png",
+        "alt": "Entscheidungstabelle mit sieben Regeln: I/III/V/VII bewirken Aktion 3, II/IV Aktion 2, VI die Aktionen 1 und 4."
+      }
+    },
+    {
+      "id": "ctfl-testentwurf-123",
+      "question": "Der Bonus eines Mitarbeiters ist nicht negativ. Er hängt von der Anstellungsdauer ab: höchstens zwei Jahre, mehr als zwei und weniger als fünf, fünf bis einschließlich zehn oder mehr als zehn Jahre. Je nach Dauer gibt es keinen Bonus oder einen unterschiedlich hohen prozentualen Bonus. Wie viele gültige Äquivalenzklassen sind für diese Berechnung nötig?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testentwurf-123-a",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-testentwurf-123-b",
+          "text": "1"
+        },
+        {
+          "id": "ctfl-testentwurf-123-c",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-testentwurf-123-d",
+          "text": "4"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testentwurf-123-d"
+      ],
+      "explanation": "Die Spezifikation unterscheidet vier Intervalle der Anstellungsdauer mit jeweils eigenem Bonus. Daher sind vier gültige Klassen nötig. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 4,
+        "chapterTitle": "Testanalyse und -entwurf",
+        "learningObjective": "FL-4.2.1",
+        "kLevel": "K3"
+      }
+    }
+  ]
+}

@@ -215,6 +215,7 @@ describe("ElearningPage - Kursübersicht", () => {
     const card = await screen.findByRole("article", { name: course.title });
     expect(await within(card).findByText("Letzte Prüfung · 19.10.26")).toBeInTheDocument();
     expect(within(card).getByText("Richtigkeit: 78 %")).toBeInTheDocument();
+    expect(within(card).getByText("Bestehensgrenze: 65 %")).toBeInTheDocument();
     expect(within(card).getByText("Bestanden")).toBeInTheDocument();
     expect(within(card).getByRole("link", { name: /Kurs ansehen/i })).toHaveAttribute(
       "href", `/areas/elearning/${course.slug}`,

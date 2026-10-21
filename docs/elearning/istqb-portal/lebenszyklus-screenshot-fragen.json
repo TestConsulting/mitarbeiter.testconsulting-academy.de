@@ -1,0 +1,3017 @@
+{
+  "version": 1,
+  "chapter": 2,
+  "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "sourceScreenshotCount": 94,
+  "sourceQuestionCount": 93,
+  "source": "Vom Benutzer bereitgestellter Screenshotkatalog Testen im Softwarelebenszyklus; gelbe Originalauflösungen zu 10, 53, 71 und 78.",
+  "sourceRecords": [
+    {
+      "file": "{CEDEC344-D495-47D9-8F49-1C2634E9FF92}.png",
+      "printedNumber": 1,
+      "id": "ctfl-lebenszyklus-001",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{71788296-8B35-48D8-A20F-AF83013F70D2}.png",
+      "printedNumber": 2,
+      "id": "ctfl-lebenszyklus-002",
+      "disposition": "active"
+    },
+    {
+      "file": "{BAD4A00B-5EC8-490D-B3C2-6D3F7E7DB25D}.png",
+      "printedNumber": 3,
+      "id": "ctfl-lebenszyklus-003",
+      "disposition": "active"
+    },
+    {
+      "file": "{346F8B9B-C687-4C36-9D3A-EADB277D1AE6}.png",
+      "printedNumber": 4,
+      "id": "ctfl-lebenszyklus-004",
+      "disposition": "active"
+    },
+    {
+      "file": "{F0A834A1-8326-4315-AE76-EC14DACCE19B}.png",
+      "printedNumber": 5,
+      "id": "ctfl-lebenszyklus-005",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{67D9A6C7-61B2-4705-A62C-EC08AB7F5D2F}.png",
+      "printedNumber": 6,
+      "id": "ctfl-lebenszyklus-006",
+      "disposition": "active"
+    },
+    {
+      "file": "{7818A7FC-F91F-4F09-A9BF-A8D5768A46E2}.png",
+      "printedNumber": 7,
+      "id": "ctfl-lebenszyklus-007",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{1126BBA4-DC05-4DFF-8159-8D5D0B7C427E}.png",
+      "printedNumber": 8,
+      "id": "ctfl-lebenszyklus-008",
+      "disposition": "active"
+    },
+    {
+      "file": "{2A11B264-7D83-4DE2-AC91-CDF25B101A25}.png",
+      "printedNumber": 9,
+      "id": "ctfl-lebenszyklus-009",
+      "disposition": "active"
+    },
+    {
+      "file": "{74CD299A-10FE-45F1-982C-39AFF06EF375}.png",
+      "printedNumber": 10,
+      "id": "ctfl-lebenszyklus-010",
+      "disposition": "active"
+    },
+    {
+      "file": "{B1CE6FA0-F24C-4FE4-A137-4641384536D2}.png",
+      "printedNumber": 11,
+      "id": "ctfl-lebenszyklus-011",
+      "disposition": "active"
+    },
+    {
+      "file": "{411E413A-D6A2-4655-AA9B-6C15E455E554}.png",
+      "printedNumber": 12,
+      "id": "ctfl-lebenszyklus-012",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{5C62EB91-0096-41CF-AA85-DBABA0191BE7}.png",
+      "printedNumber": 13,
+      "id": "ctfl-lebenszyklus-013",
+      "disposition": "active"
+    },
+    {
+      "file": "{ED3E3A1D-005B-45AA-8896-34020939E628}.png",
+      "printedNumber": 14,
+      "id": "ctfl-lebenszyklus-014",
+      "disposition": "active"
+    },
+    {
+      "file": "{31590A84-83DB-4825-A174-D8E0AE141552}.png",
+      "printedNumber": 15,
+      "id": "ctfl-lebenszyklus-015",
+      "disposition": "active"
+    },
+    {
+      "file": "{C451C86A-2509-4648-BE1D-3AF48BE77F6A}.png",
+      "printedNumber": 16,
+      "id": "ctfl-lebenszyklus-016",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{AE936F2F-AD09-4AF2-BA58-7361CF07B4BF}.png",
+      "printedNumber": 17,
+      "id": "ctfl-lebenszyklus-017",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{A7D853AD-F960-4DA1-8AD0-D7B4F8077C8E}.png",
+      "printedNumber": 18,
+      "id": "ctfl-lebenszyklus-018",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{91AF530F-701A-4E24-97ED-D470AAD66C5C}.png",
+      "printedNumber": 19,
+      "id": "ctfl-lebenszyklus-019",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C76DA1A3-42A0-45F5-BDAB-42A3DD318C7E}.png",
+      "printedNumber": 20,
+      "id": "ctfl-lebenszyklus-020",
+      "disposition": "active"
+    },
+    {
+      "file": "{55C4131B-E456-4039-8AC4-AF380A7656F4}.png",
+      "printedNumber": 21,
+      "id": "ctfl-lebenszyklus-021",
+      "disposition": "active"
+    },
+    {
+      "file": "{92105934-3827-4CD3-A35A-435717BD538E}.png",
+      "printedNumber": 22,
+      "id": "ctfl-lebenszyklus-022",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{E4EEE50F-A18C-47F4-8042-B88BBBD5E5E4}.png",
+      "printedNumber": 23,
+      "id": "ctfl-lebenszyklus-023",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{78A088C6-7849-4C31-AD6E-CD47EAC4A1A3}.png",
+      "printedNumber": 24,
+      "id": "ctfl-lebenszyklus-024",
+      "disposition": "active"
+    },
+    {
+      "file": "{2B5FD24F-98D4-41E0-8B78-3C955DA9300D}.png",
+      "printedNumber": 25,
+      "id": "ctfl-lebenszyklus-025",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{34716D4A-2E2D-4993-9918-29418D648C27}.png",
+      "printedNumber": 26,
+      "id": "ctfl-lebenszyklus-026",
+      "disposition": "active"
+    },
+    {
+      "file": "{388C6DD2-833B-4BF4-B7D2-2C6BC9FE5345}.png",
+      "printedNumber": 27,
+      "id": "ctfl-lebenszyklus-027",
+      "disposition": "active"
+    },
+    {
+      "file": "{D70B55F9-FDB2-48AC-82AA-E4E2DC0B18A8}.png",
+      "printedNumber": 28,
+      "id": "ctfl-lebenszyklus-028",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{0A508025-DF3D-4A6D-B681-63C93BD91ECC}.png",
+      "printedNumber": 29,
+      "id": "ctfl-lebenszyklus-029",
+      "disposition": "active"
+    },
+    {
+      "file": "{8ACB40B6-96D8-4C43-A270-4F73841EADAF}.png",
+      "printedNumber": 30,
+      "id": "ctfl-lebenszyklus-030",
+      "disposition": "active"
+    },
+    {
+      "file": "{215E0491-B4E9-4142-BEF1-85AA7E3A8B36}.png",
+      "printedNumber": 31,
+      "id": "ctfl-lebenszyklus-031",
+      "disposition": "active"
+    },
+    {
+      "file": "{9E948B06-4683-4AD6-A93C-0306A471D092}.png",
+      "printedNumber": 32,
+      "id": "ctfl-lebenszyklus-032",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{AFD6D0F7-B26E-4181-B890-7230F96E2BA4}.png",
+      "printedNumber": 33,
+      "id": "ctfl-lebenszyklus-033",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{89B273A3-36F2-4A57-A849-1BF6CD58926B}.png",
+      "printedNumber": 34,
+      "id": "ctfl-lebenszyklus-034",
+      "disposition": "active"
+    },
+    {
+      "file": "{CB4B25F3-446D-4974-8230-1B1A5BC08E6C}.png",
+      "printedNumber": 35,
+      "id": "ctfl-lebenszyklus-035",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{C89DD2DE-F790-4344-BB4B-0C47A8952D3E}.png",
+      "printedNumber": 36,
+      "id": "ctfl-lebenszyklus-036",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{D3120262-4221-4064-9F28-28FDF3914611}.png",
+      "printedNumber": 36,
+      "id": "ctfl-lebenszyklus-036",
+      "disposition": "duplicate"
+    },
+    {
+      "file": "{8C3B7ED3-0B97-444F-8B9C-49FD2FF26C07}.png",
+      "printedNumber": 38,
+      "id": "ctfl-lebenszyklus-038",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{3D8552C6-0D35-4396-9419-30C24EFAE6C2}.png",
+      "printedNumber": 39,
+      "id": "ctfl-lebenszyklus-039",
+      "disposition": "active"
+    },
+    {
+      "file": "{FE1487DB-A2CE-4EB3-92AB-2EE7410EA17B}.png",
+      "printedNumber": 40,
+      "id": "ctfl-lebenszyklus-040",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{EE9607B9-FA5D-4F09-91D3-1294B44B675B}.png",
+      "printedNumber": 41,
+      "id": "ctfl-lebenszyklus-041",
+      "disposition": "active"
+    },
+    {
+      "file": "{6924DF27-FF34-487D-83EC-300C2D3DECE9}.png",
+      "printedNumber": 42,
+      "id": "ctfl-lebenszyklus-042",
+      "disposition": "active"
+    },
+    {
+      "file": "{6BA5A489-39D3-40A4-BC74-812D49DE029F}.png",
+      "printedNumber": 43,
+      "id": "ctfl-lebenszyklus-043",
+      "disposition": "active"
+    },
+    {
+      "file": "{BAE8125D-17D0-4C1A-926D-37E98662E650}.png",
+      "printedNumber": 44,
+      "id": "ctfl-lebenszyklus-044",
+      "disposition": "active"
+    },
+    {
+      "file": "{C26831BD-9626-480B-9BD4-E96B7235559C}.png",
+      "printedNumber": 45,
+      "id": "ctfl-lebenszyklus-045",
+      "disposition": "active"
+    },
+    {
+      "file": "{73F688AA-A846-4995-B324-DEB530AE3BA2}.png",
+      "printedNumber": 46,
+      "id": "ctfl-lebenszyklus-046",
+      "disposition": "active"
+    },
+    {
+      "file": "{42404294-C58E-4686-83F5-521974A4D90B}.png",
+      "printedNumber": 47,
+      "id": "ctfl-lebenszyklus-047",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{9ACAA549-F79D-4A0F-A82D-AE9AFBE04B51}.png",
+      "printedNumber": 48,
+      "id": "ctfl-lebenszyklus-048",
+      "disposition": "active"
+    },
+    {
+      "file": "{9D07D132-1C4C-4FEA-886C-10B24729B797}.png",
+      "printedNumber": 49,
+      "id": "ctfl-lebenszyklus-049",
+      "disposition": "active"
+    },
+    {
+      "file": "{1156CBE0-D28C-4B54-9F77-BF26FA53CA5A}.png",
+      "printedNumber": 50,
+      "id": "ctfl-lebenszyklus-050",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{A13EDD1A-B5C9-4A11-9655-EC30C43881BB}.png",
+      "printedNumber": 51,
+      "id": "ctfl-lebenszyklus-051",
+      "disposition": "active"
+    },
+    {
+      "file": "{83D598FD-24E3-4F5B-AFA8-83516E00E96D}.png",
+      "printedNumber": 52,
+      "id": "ctfl-lebenszyklus-052",
+      "disposition": "active"
+    },
+    {
+      "file": "{8202BB6D-84C6-432D-87FE-CF1D07FA0BCA}.png",
+      "printedNumber": 53,
+      "id": "ctfl-lebenszyklus-053",
+      "disposition": "active"
+    },
+    {
+      "file": "{80430C0B-A7F4-42AB-8F29-2087B3E40DA9}.png",
+      "printedNumber": 54,
+      "id": "ctfl-lebenszyklus-054",
+      "disposition": "active"
+    },
+    {
+      "file": "{7E8CD143-EABE-4F1F-9E81-40A2F12B2873}.png",
+      "printedNumber": 55,
+      "id": "ctfl-lebenszyklus-055",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{4380498B-D1F4-41D1-958A-8F9DA6A11EA1}.png",
+      "printedNumber": 56,
+      "id": "ctfl-lebenszyklus-056",
+      "disposition": "active"
+    },
+    {
+      "file": "{B85CC9E4-62D8-49A9-9C57-320AA2935E03}.png",
+      "printedNumber": 57,
+      "id": "ctfl-lebenszyklus-057",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{CE5AC9E7-59D5-47D2-A42D-F3ADFC2994A7}.png",
+      "printedNumber": 58,
+      "id": "ctfl-lebenszyklus-058",
+      "disposition": "active"
+    },
+    {
+      "file": "{14ABBCDC-5CCB-478A-8612-DFCB6CAC379F}.png",
+      "printedNumber": 59,
+      "id": "ctfl-lebenszyklus-059",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{BFD41C17-CCC5-414F-A714-F9409FC64054}.png",
+      "printedNumber": 60,
+      "id": "ctfl-lebenszyklus-060",
+      "disposition": "active"
+    },
+    {
+      "file": "{23E98CE0-FBDF-4525-B4BB-B674352E54CF}.png",
+      "printedNumber": 61,
+      "id": "ctfl-lebenszyklus-061",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{6BBC0323-7E2F-49F7-B6CF-7D5C682F54FC}.png",
+      "printedNumber": 62,
+      "id": "ctfl-lebenszyklus-062",
+      "disposition": "active"
+    },
+    {
+      "file": "{C221EAC6-368E-457D-B302-55204C06CB6B}.png",
+      "printedNumber": 63,
+      "id": "ctfl-lebenszyklus-063",
+      "disposition": "active"
+    },
+    {
+      "file": "{7515409F-E8EC-47B8-9809-1E18735966FC}.png",
+      "printedNumber": 64,
+      "id": "ctfl-lebenszyklus-064",
+      "disposition": "active"
+    },
+    {
+      "file": "{96B50638-17E5-471D-BA3D-B23381F76FE6}.png",
+      "printedNumber": 65,
+      "id": "ctfl-lebenszyklus-065",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{3E3FD5EA-3FA0-45EB-9CA9-C9E72E72B4C8}.png",
+      "printedNumber": 66,
+      "id": "ctfl-lebenszyklus-066",
+      "disposition": "active"
+    },
+    {
+      "file": "{EABD9B7F-5F97-4FC3-BAEB-62E24CFC6E9D}.png",
+      "printedNumber": 67,
+      "id": "ctfl-lebenszyklus-067",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{AED36E14-39FE-45ED-B977-45B6CBF9B9E3}.png",
+      "printedNumber": 68,
+      "id": "ctfl-lebenszyklus-068",
+      "disposition": "active"
+    },
+    {
+      "file": "{69A4D086-9EE0-454A-8C96-14A8C278E4AE}.png",
+      "printedNumber": 69,
+      "id": "ctfl-lebenszyklus-069",
+      "disposition": "active"
+    },
+    {
+      "file": "{7F11F34A-D590-435B-A9CE-AF2D02B36482}.png",
+      "printedNumber": 70,
+      "id": "ctfl-lebenszyklus-070",
+      "disposition": "active"
+    },
+    {
+      "file": "{5581D308-B6D1-4FF7-91F8-246DEC80725C}.png",
+      "printedNumber": 71,
+      "id": "ctfl-lebenszyklus-071",
+      "disposition": "active"
+    },
+    {
+      "file": "{CA9BDBA2-3437-46F4-BD43-42EED3499295}.png",
+      "printedNumber": 72,
+      "id": "ctfl-lebenszyklus-072",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{43CAEDD3-ED25-4D5F-A35B-0565DA06CBFC}.png",
+      "printedNumber": 73,
+      "id": "ctfl-lebenszyklus-073",
+      "disposition": "active"
+    },
+    {
+      "file": "{552B7A30-44EE-48DB-8A6C-12D4C41463B6}.png",
+      "printedNumber": 74,
+      "id": "ctfl-lebenszyklus-074",
+      "disposition": "active"
+    },
+    {
+      "file": "{95A6B20A-C088-4007-A322-4AFDC3E0FB9A}.png",
+      "printedNumber": 75,
+      "id": "ctfl-lebenszyklus-075",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{D4260157-46F9-4F14-BBE8-8B9968E46544}.png",
+      "printedNumber": 76,
+      "id": "ctfl-lebenszyklus-076",
+      "disposition": "active"
+    },
+    {
+      "file": "{6A3348F0-0E72-498D-A63A-16DF1447A37B}.png",
+      "printedNumber": 77,
+      "id": "ctfl-lebenszyklus-077",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{CE0160D5-BEE7-4830-ABAB-4A971440E717}.png",
+      "printedNumber": 78,
+      "id": "ctfl-lebenszyklus-078",
+      "disposition": "active"
+    },
+    {
+      "file": "{D1C75BFB-60BC-455B-81E1-2B69E398984C}.png",
+      "printedNumber": 79,
+      "id": "ctfl-lebenszyklus-079",
+      "disposition": "active"
+    },
+    {
+      "file": "{DCA3C8F6-87EF-46C1-8380-E7CFA5A9E903}.png",
+      "printedNumber": 80,
+      "id": "ctfl-lebenszyklus-080",
+      "disposition": "active"
+    },
+    {
+      "file": "{BE2046B1-8B29-4564-94D0-1D87D4CD58F3}.png",
+      "printedNumber": 81,
+      "id": "ctfl-lebenszyklus-081",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{EB060D2E-2C63-4829-A655-56572742AEBA}.png",
+      "printedNumber": 82,
+      "id": "ctfl-lebenszyklus-082",
+      "disposition": "active"
+    },
+    {
+      "file": "{1224A8B8-8906-4485-8D99-37B5E3B1F164}.png",
+      "printedNumber": 83,
+      "id": "ctfl-lebenszyklus-083",
+      "disposition": "active"
+    },
+    {
+      "file": "{6A5E9A9E-9ACC-4A85-B999-853FFA61AE8B}.png",
+      "printedNumber": 84,
+      "id": "ctfl-lebenszyklus-084",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{9E449FB7-A8D3-4A5A-8BEF-23813890E19B}.png",
+      "printedNumber": 85,
+      "id": "ctfl-lebenszyklus-085",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{72FAAA91-A6EF-48D6-BCC7-D77CE15883E1}.png",
+      "printedNumber": 86,
+      "id": "ctfl-lebenszyklus-086",
+      "disposition": "active"
+    },
+    {
+      "file": "{A91B0B17-6DDC-4356-A6A6-407DCC56FD69}.png",
+      "printedNumber": 87,
+      "id": "ctfl-lebenszyklus-087",
+      "disposition": "active"
+    },
+    {
+      "file": "{9E61E6E7-903C-44A6-B231-6968D4F221D2}.png",
+      "printedNumber": 88,
+      "id": "ctfl-lebenszyklus-088",
+      "disposition": "active"
+    },
+    {
+      "file": "{1D07973C-9B13-4D80-8194-1EB30F863994}.png",
+      "printedNumber": 89,
+      "id": "ctfl-lebenszyklus-089",
+      "disposition": "active"
+    },
+    {
+      "file": "{07831D8B-4D6D-45ED-91B2-75FDD92533DC}.png",
+      "printedNumber": 90,
+      "id": "ctfl-lebenszyklus-090",
+      "disposition": "active"
+    },
+    {
+      "file": "{47C32D05-0F95-4CAD-94ED-0ACBE0BA0F0A}.png",
+      "printedNumber": 91,
+      "id": "ctfl-lebenszyklus-091",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{55B0834E-CD98-46D3-B8EC-EA01E175FCB9}.png",
+      "printedNumber": 92,
+      "id": "ctfl-lebenszyklus-092",
+      "disposition": "active"
+    },
+    {
+      "file": "{6ACC3D59-13A3-4536-A4C7-2381DA468F32}.png",
+      "printedNumber": 93,
+      "id": "ctfl-lebenszyklus-093",
+      "disposition": "active"
+    },
+    {
+      "file": "{8C8DF82A-2165-4709-BF41-ECABD4722547}.png",
+      "printedNumber": 94,
+      "id": "ctfl-lebenszyklus-094",
+      "disposition": "active"
+    }
+  ],
+  "duplicates": [
+    {
+      "file": "{D3120262-4221-4064-9F28-28FDF3914611}.png",
+      "duplicateOf": "{C89DD2DE-F790-4344-BB4B-0C47A8952D3E}.png",
+      "sourceNumber": 36
+    }
+  ],
+  "excludedQuestions": [
+    {
+      "id": "ctfl-lebenszyklus-001",
+      "sourceNumber": 1,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Detaillierte historische Dokumentzuordnung zur Integrationsstrategie, nicht aktuelles FL-2.2.1-Lernziel.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-005",
+      "sourceNumber": 5,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Altes fünfphasiges fundamentales Testprozessmodell; aktuell sieben Aktivitätsgruppen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-007",
+      "sourceNumber": 7,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Aus Rollenwechsel und organisatorischer Zuordnung folgen weder eine bestimmte Voreingenommenheit noch Demotivation zwingend; mehrere Antworten sind nur Möglichkeiten.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-012",
+      "sourceNumber": 12,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Testszenario-Definition mit angebotener Testablauf-Definition; kein eindeutiger aktueller Schlüssel.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-016",
+      "sourceNumber": 16,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Verifikationszuordnung einzelner V-Modell-Entwicklungsphasen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-017",
+      "sourceNumber": 17,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Verifikationszuordnung einzelner V-Modell-Entwicklungsphasen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-018",
+      "sourceNumber": 18,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Verifikationszuordnung einzelner V-Modell-Entwicklungsphasen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-019",
+      "sourceNumber": 19,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Verifikationszuordnung einzelner V-Modell-Entwicklungsphasen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-022",
+      "sourceNumber": 22,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Keine vollständige kontextabhängige Endekriterien-/Restrisikoantwort; allein Testabschluss, Zeit oder alle behobenen Fehler sind kein allgemeiner Maßstab.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-023",
+      "sourceNumber": 23,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische feste Zuordnung von vier V-Modell-Entwicklungsphasen zu vier Teststufen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-025",
+      "sourceNumber": 25,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Pauschale historische Prozent-Richtlinie für QA-Aufwand; kein aktuelles Lernziel und keine allgemeingültige Schwelle.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-028",
+      "sourceNumber": 28,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Übernahmetest/Smoke-/Sanity-Klassifikation nicht Bestandteil der aktuellen Foundation-Lernziele.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-032",
+      "sourceNumber": 32,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Datensicherheit kann funktionale wie nicht-funktionale Aspekte haben; Monitore sind keine funktionale Testart. Sicherheit ist im aktuellen Lehrplan nicht pauschal funktional.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-033",
+      "sourceNumber": 33,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Auswendiglernen historischer V-Modell-Phasenfolge statt aktueller SDLC-Auswirkungen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-035",
+      "sourceNumber": 35,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Auswendiglernen historischer V-Modell-Phasenfolge statt aktueller SDLC-Auswirkungen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-036",
+      "sourceNumber": 36,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Mehrere Quellen können Testbasis sein; starre historische Listenauswahl nicht als ausschließliche aktuelle Definition übernehmen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-038",
+      "sourceNumber": 38,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Mehrere angebotene Dokumentkombinationen können heute Testbasis des Systemtests sein.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-040",
+      "sourceNumber": 40,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Vermischt iterative und inkrementelle Modelle sowie Scrum als Methode; kein eindeutiger aktueller Schlüssel.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-047",
+      "sourceNumber": 47,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Historische feste Zuordnung Systemtest/funktionaler Systementwurf versus Abnahme/Anforderungsdefinition; aktuell bezieht sich Systemtest auf Anforderungsspezifikationen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-050",
+      "sourceNumber": 50,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Explizite alte fundamentale Prozessklassifikation; kein ungeprüftes Umschreiben auf das neue Modell.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-055",
+      "sourceNumber": 55,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Aktuell sind White-Box- und Black-Box-Tests auf allen Stufen möglich; Kundenbeteiligung ist kontextabhängig. Keine eindeutig falsche Antwort.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-057",
+      "sourceNumber": 57,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Verlangt eine einzige absolute zeitliche Beziehung von Testentwurf zur Implementierung ohne SDLC-Kontext.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-059",
+      "sourceNumber": 59,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Vermischt Komponenten- und Systemintegration, fordert pauschal bereits korrigierte Defekte und benutzt eine nicht allgemein gültige 50-Prozent-Schnittstellenmetapher.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-061",
+      "sourceNumber": 61,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische zusammengefasste Hauptaktivität Testanalyse und Testentwurf.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-065",
+      "sourceNumber": 65,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Pauschale Testperspektiven und vierstufige V-Modell-Reihenfolge; keine eindeutige Aussagekombination gemäß aktuellem Lehrplan.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-067",
+      "sourceNumber": 67,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Regressionstests müssen gepflegt werden und wachsen typischerweise mit Iterationen/Releases; die allein als wahr angebotene Seltenheitsbehauptung ist nicht allgemein gültig.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-072",
+      "sourceNumber": 72,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Klassifikation einschließlich Ad-hoc-Integration; aktueller Lehrplan nennt Bottom-up, Top-down und Big Bang.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-075",
+      "sourceNumber": 75,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Trennt normale Produktentwicklung pauschal von Wartung, obwohl geplante Erweiterungen ebenfalls Wartungsauslöser sein können.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-077",
+      "sourceNumber": 77,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Erforderliche Abnahmerollen hängen vom Kontext ab; auch Integrationstests oder Lieferantenbeteiligung können relevant sein.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-081",
+      "sourceNumber": 81,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Auswendiglernen einzelner historischer V-Modell-Entwicklungsphasen.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-084",
+      "sourceNumber": 84,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Pfadtest, Bedingungstest und Ursachen-Wirkungsgraph-Analyse sind nicht aktuelle Foundation-Verfahren.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-085",
+      "sourceNumber": 85,
+      "category": "ambiguousOrIncorrect",
+      "reason": "V-Modell XT kann iterativ zugeschnitten werden; neben Spiralmodell ist dessen pauschale Einordnung als sequenziell nicht eindeutig.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    },
+    {
+      "id": "ctfl-lebenszyklus-091",
+      "sourceNumber": 91,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Dokumentbezeichnungen; aktueller Lehrplan ordnet Testabläufe im Testausführungsplan an.",
+      "syllabusSections": [
+        "2.1",
+        "2.2",
+        "2.3"
+      ]
+    }
+  ],
+  "confirmedAnswers": {
+    "10": {
+      "answer": "2",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "bf282817-8404-4e75-8eec-e15b5a7b4bfe\\Pasted Image.png",
+      "examEligible": false
+    },
+    "53": {
+      "answer": "1, 2, 3, 5",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "f2cffae6-4ced-44b0-a3bc-9110b9ad8307\\Pasted Image 3.png",
+      "examEligible": false
+    },
+    "71": {
+      "answer": "A, B, C und D sind korrekt",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "a6e829a6-ffe1-4419-8e25-c5550b03647b\\Pasted Image 4.png",
+      "examEligible": false
+    },
+    "78": {
+      "answer": "B, C und D sind richtig",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "88d55685-a07e-468b-baec-afde4b9caa70\\Pasted Image 5.png",
+      "examEligible": false
+    }
+  },
+  "derivedAnswers": {
+    "15": {
+      "answer": "A-a-E",
+      "source": "Vollständig nachgereichtes Diagramm; alle Kanten gegen die drei vorhandenen Pfade geprüft. Keine gelbe Originalauflösungsbox vorhanden."
+    }
+  },
+  "questions": [
+    {
+      "id": "ctfl-lebenszyklus-002",
+      "question": "Als Ausgangskriterium eines Tests wird eine Metrik vorgegeben, die einen Überdeckungsgrad für systeminterne Schnittstellen vorsieht. Um welche Teststufe handelt es sich?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-002-a",
+          "text": "Komponententest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-002-b",
+          "text": "Integrationstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-002-c",
+          "text": "Abnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-002-d",
+          "text": "Systemtest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-002-b"
+      ],
+      "explanation": "Die Prüfung systeminterner Schnittstellen gehört zum Komponentenintegrationstest. Der aktuelle Lehrplan unterscheidet diesen vom Systemintegrationstest für Schnittstellen zu anderen Systemen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-003",
+      "question": "Auf welches Testziel ist der Sicherheitstest ausgerichtet? (Bitte Penetrationstests außer Betracht lassen.)",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-003-a",
+          "text": "Testen der Softwarestrukturen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-003-b",
+          "text": "Testen im Zusammenhang mit Änderungen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-003-c",
+          "text": "Testen der nicht-funktionalen Softwaremerkmale"
+        },
+        {
+          "id": "ctfl-lebenszyklus-003-d",
+          "text": "Testen der Funktionalität"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-003-c"
+      ],
+      "explanation": "Sicherheit ist ein nicht-funktionales Qualitätsmerkmal. Einzelne Sicherheitsfunktionen können zusätzlich funktional geprüft werden; der Schlüssel bezieht sich auf die hier gefragte allgemeine Merkmalszuordnung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-004",
+      "question": "Beim Komponententest ist der nötige Aufwand des Entwicklers entscheidend, das vorhandene\nProgramm (z. B. bei Codeübernahme eines Kollegen) zu verstehen. Wichtige Prüfaspekte sind\ndabei die Codestruktur, Modularität sowie Verständlichkeit und Aktualität der Dokumentation.\nDurch welche Tests sind diese Aspekte prüfbar?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-004-a",
+          "text": "Zweigtests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-004-b",
+          "text": "statische Tests und Review"
+        },
+        {
+          "id": "ctfl-lebenszyklus-004-c",
+          "text": "dynamische Tests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-004-d",
+          "text": "Anweisungstests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-004-b"
+      ],
+      "explanation": "Codestruktur, Modularität und Dokumentationsqualität lassen sich durch statische Analyse und Reviews prüfen, ohne das Testobjekt auszuführen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-006",
+      "question": "Der Test von Benutzerkonten-Administration sowie die Administration von Rollen und\nZugriffsrechten gehört zu welcher Art von Tests?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-006-a",
+          "text": "Vertragliche und regulatorische Abnahme"
+        },
+        {
+          "id": "ctfl-lebenszyklus-006-b",
+          "text": "Beta-Test"
+        },
+        {
+          "id": "ctfl-lebenszyklus-006-c",
+          "text": "Benutzerabnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-006-d",
+          "text": "betrieblicher Abnahmetest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-006-d"
+      ],
+      "explanation": "Die administrative Betriebsbereitschaft einschließlich Konten, Rollen und Berechtigungsverwaltung gehört im beschriebenen Kontext zur betrieblichen Abnahme. Berechtigungsfunktionen können auch in anderen Testarten geprüft werden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-008",
+      "question": "Dynamische Tests sind nur möglich, wenn das Testobjekt ausführbar ist. Einzelne Klassen,\nModule und Teilsystem sind jedoch in der Regel nicht lauffähig. Deswegen ist der dynamische\nTest von Komponenten bzw. Klassen nicht möglich.\nRichtig oder Falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-008-a",
+          "text": "FALSCH"
+        },
+        {
+          "id": "ctfl-lebenszyklus-008-b",
+          "text": "Richtig"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-008-a"
+      ],
+      "explanation": "Isolierte Komponenten können mit Testrahmen, Treibern und Platzhaltern ausführbar gemacht und dynamisch getestet werden. Fehlende eigenständige Ausführbarkeit verhindert den Komponententest nicht. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-009",
+      "question": "Ein Alpha-Test wird",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-009-a",
+          "text": "vom Kunden auf Kundenseite durchgeführt."
+        },
+        {
+          "id": "ctfl-lebenszyklus-009-b",
+          "text": "vom Kunden auf Herstellerseite durchgeführt."
+        },
+        {
+          "id": "ctfl-lebenszyklus-009-c",
+          "text": "vom Hersteller auf Kundenseite durchgeführt."
+        },
+        {
+          "id": "ctfl-lebenszyklus-009-d",
+          "text": "vom Hersteller auf Herstellerseite durchgeführt."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-009-b"
+      ],
+      "explanation": "Beim Alpha-Test testen potenzielle oder bestehende Benutzer beziehungsweise Kunden in der Herstellerumgebung. Beta-Tests erfolgen dagegen in externer Benutzerumgebung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-010",
+      "question": "Ein Frisörsalon möchte durch ein Rabattsystem eine höhere Kundenbindung erreichen.\nSo gibt es 4% Rabatt bei einem Besuch vor 12 Uhr und 6% Rabatt für Stammkunden. Diese\nRabatte können auch kombiniert werden, so dass Stammkunden vor 12 Uhr 10% Rabatt\nerhalten.\nUm einen zusätzlichen Anreiz zu schaffen, soll eine \"Goldkarte\" eingeführt werden. Mit dieser\nerhält der Kunde ab dem 11. Besuch einen Rabatt von 15%. Dieser Rabatt ist nicht mit\nden übrigen Rabattkategorien kombinierbar.\nZum Testen dieses softwarebasierten Systems soll die Testumgebung erweitert werden.\nWie viele Testfälle müssen zusätzlich zu den vier bestehenden Testfällen eines\nEntscheidungstabellentests (Normalkunde vor und nach 12 Uhr, Stammkunde vor und nach\n12 Uhr) ergänzt werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-010-a",
+          "text": "4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-010-b",
+          "text": "2"
+        },
+        {
+          "id": "ctfl-lebenszyklus-010-c",
+          "text": "3"
+        },
+        {
+          "id": "ctfl-lebenszyklus-010-d",
+          "text": "6"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-010-b"
+      ],
+      "explanation": "Der Originalschlüssel zählt zwei zusätzliche Fälle für die Goldkartenregel: vor und nach Erreichen des 11. Besuchs. Die bisherige Zeit-/Stammkundenmatrix bleibt bestehen; der Goldkartenrabatt übersteuert deren Rabatte. Bei vollständiger Kombination aller Bedingungen wäre die Zahl anders. Deshalb nur kontextbezogene Übung, keine Simulationsfreigabe. Der Schlüssel stammt aus der richtigen Antwort in der gelben Originalauflösungsbox, nicht aus einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-4.2.3",
+        "kLevel": "K3"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-011",
+      "question": "Ein statisches Analysewerkzeug wird typischerweise von wem genutzt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-011-a",
+          "text": "Entwickler"
+        },
+        {
+          "id": "ctfl-lebenszyklus-011-b",
+          "text": "Testmanager"
+        },
+        {
+          "id": "ctfl-lebenszyklus-011-c",
+          "text": "Autor"
+        },
+        {
+          "id": "ctfl-lebenszyklus-011-d",
+          "text": "Anwender"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-011-a"
+      ],
+      "explanation": "Statische Analyse von Quellcode wird typischerweise von Entwicklern verwendet, etwa direkt in Entwicklungsumgebung oder CI. Auch andere Rollen können entsprechende Werkzeuge einsetzen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-6.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-6.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-013",
+      "question": "Ein umfassender Regressionstest umfasst die Wiederholung...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-013-a",
+          "text": "der Tests, die Fehlerwirkungen erzeugt haben, deren Ursache ein nun korrigierter Fehlerzustand war"
+        },
+        {
+          "id": "ctfl-lebenszyklus-013-b",
+          "text": "der Tests aller Programmteile oder Bausteine, die neu eingefügt wurden"
+        },
+        {
+          "id": "ctfl-lebenszyklus-013-c",
+          "text": "der Tests aller Programmstellen, an denen korrigiert oder geändert wurde"
+        },
+        {
+          "id": "ctfl-lebenszyklus-013-d",
+          "text": "der Tests für das gesamte Testobjekt nach dessen Änderung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-013-d"
+      ],
+      "explanation": "Ein umfassender Regressionstest wiederholt die Tests des gesamten Testobjekts, um nachteilige Folgen einer Änderung zu entdecken. Praktisch kann eine Auswirkungsanalyse den Umfang risikobasiert reduzieren. Die erste Antwort beschreibt vor allem Fehlernachtests. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-014",
+      "question": "Für welche Test wird der Integrationstest angewendet?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-014-a",
+          "text": "Der Integrationstest dient als zweite Teststufe, um die einzelnen Testobjekte im Zusammenspiel zueinander zu testen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-014-b",
+          "text": "Der Integrationstest dient als zweite Teststufe, die einzelnen Komponenten in sich und danach zusammen (Schnittstellen) zu testen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-014-c",
+          "text": "Der Integrationstest dient als dritte Teststufe, um die einzelnen Teile des Systems zu integrieren."
+        },
+        {
+          "id": "ctfl-lebenszyklus-014-d",
+          "text": "Der Integrationstest dient als dritte Teststufe, um das System als Ganzes zu testen für den anschließenden Abnahmetest."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-014-a"
+      ],
+      "explanation": "Das Zusammenspiel einzelner Komponenten ist das Ziel des Komponentenintegrationstests. Die Nummerierung als zweite Stufe ist nur der klassische sequenzielle Kontext dieser Aufgabe. CTFL 4.0.2 unterscheidet fünf Teststufen und erlaubt zeitliche Überlappung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-015",
+      "question": "Gegeben ist die abgebildete Programmstruktur. Getestet werden die Abläufe A-a-b-a-c-d-E, A-a-b-c-d-E und A-a-b-a-d-E. Welcher Testfall fehlt noch zur vollständigen Zweigüberdeckung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-015-a",
+          "text": "A-a-c-d-E"
+        },
+        {
+          "id": "ctfl-lebenszyklus-015-b",
+          "text": "A-a-E"
+        },
+        {
+          "id": "ctfl-lebenszyklus-015-c",
+          "text": "A-a-b-a-d-E"
+        },
+        {
+          "id": "ctfl-lebenszyklus-015-d",
+          "text": "A-a-d-a-E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-015-b"
+      ],
+      "explanation": "Die vorhandenen Abläufe decken A→a, a→b, b→a, a→c, b→c, c→d, a→d und d→E ab. Nur a→E fehlt. A-a-E ergänzt diesen Zweig. A-a-d-a-E ist kein gültiger Pfad, da d→a nicht existiert. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.3.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-4.3.2",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/lebenszyklus-015.png",
+        "alt": "Kontrollflussgraph mit Start A, Ende E und Knoten a, b, c, d. Kanten: A→a; a→b/c/d/E; b→a/c; c→d; d→E."
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-020",
+      "question": "In welchem Szenario kommt ein Wartungstest zur Anwendung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-020-a",
+          "text": "Migration in eine neue Umgebung"
+        },
+        {
+          "id": "ctfl-lebenszyklus-020-b",
+          "text": "Modifikation von Programmfunktionen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-020-c",
+          "text": "in allen drei Szenarien"
+        },
+        {
+          "id": "ctfl-lebenszyklus-020-d",
+          "text": "Außerbetriebnahme der Software"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-020-c"
+      ],
+      "explanation": "Änderungen, Upgrades beziehungsweise Migrationen und Außerbetriebnahme sind ausdrücklich Auslöser für Wartungstests. Bei Außerbetriebnahme können Archivierung und Wiederherstellung von Daten geprüft werden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-021",
+      "question": "In welcher Reihenfolge werden die folgenden Testarten nach dem V-Modell durchgeführt?\n1) Systemtest\n2) Komponententest\n3) Integrationstest\n4) Abnahmetest",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-021-a",
+          "text": "2, 3, 4, 1"
+        },
+        {
+          "id": "ctfl-lebenszyklus-021-b",
+          "text": "3, 2, 1, 4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-021-c",
+          "text": "2, 3, 1, 4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-021-d",
+          "text": "1, 2, 3, 4"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-021-c"
+      ],
+      "explanation": "Im hier betrachteten klassischen V-Modell folgt auf Komponententest der Integrationstest, dann Systemtest und Abnahme. Es handelt sich um Teststufen, nicht Testarten. Aktuell werden Komponenten- und Systemintegration getrennt; Teststufen können sich je nach SDLC überschneiden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-024",
+      "question": "Regressionstests sollten durchgeführt werden\nA: jede Woche\nB: nachdem die Software geändert wurde\nC: so oft wie möglich\nD: wenn sich die Umgebung geändert hat\nE: wenn es der Projektmanager sagt",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-024-a",
+          "text": "B und D sind richtig; A, C und E sind falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-024-b",
+          "text": "B, C und D sind richtig; A und E sind falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-024-c",
+          "text": "A und B sind richtig; C, D und E sind falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-024-d",
+          "text": "B ist richtig; A, C, D und E sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-024-a"
+      ],
+      "explanation": "Änderungen an Software oder Umgebung können nachteilige Folgen auslösen und damit Regressionstests erfordern. Eine starre Wochenregel, möglichst häufiges Testen ohne Risikobezug oder allein eine Anweisung beschreiben keinen fachlichen Auslöser. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-026",
+      "question": "Sie testen die Antwortzeit einer Datenbank-Anwendung unter hoher Last. Welche Testart\nführen Sie damit aus?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-026-a",
+          "text": "Struktureller Test"
+        },
+        {
+          "id": "ctfl-lebenszyklus-026-b",
+          "text": "Funktionaler Test"
+        },
+        {
+          "id": "ctfl-lebenszyklus-026-c",
+          "text": "Benutzbarkeitstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-026-d",
+          "text": "Nichtfunktionaler Test"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-026-d"
+      ],
+      "explanation": "Antwortzeit unter hoher Last bewertet Performanz, also wie gut das System eine Funktion ausführt, nicht welche Funktion angeboten wird. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-027",
+      "question": "Testziel des Integrationstests ist es unter anderem...",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-027-a",
+          "text": "den Systemtest vorzubereiten"
+        },
+        {
+          "id": "ctfl-lebenszyklus-027-b",
+          "text": "Schnittstellenfehler aufzudecken"
+        },
+        {
+          "id": "ctfl-lebenszyklus-027-c",
+          "text": "Komponenten Top-down oder Bottom-up zusammenzuführen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-027-d",
+          "text": "die Systemarchitektur zu testen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-027-b"
+      ],
+      "explanation": "Integrationstests prüfen Schnittstellen und Interaktionen. Das Zusammenführen ist Integration, während der Test dabei auftretende Fehler aufdecken soll. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-029",
+      "question": "Wann gestaltet sich ein Wartungstest sehr schwierig?\nA: Bei veralteten oder gar fehlenden Spezifikationen.\nB: Wenn keine Tester mit entsprechendem Fachwissen verfügbar sind.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-029-a",
+          "text": "A und B sind falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-029-b",
+          "text": "A und B sind richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-029-c",
+          "text": "nur A ist richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-029-d",
+          "text": "nur B ist richtig"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-029-b"
+      ],
+      "explanation": "Fehlende oder veraltete Spezifikationen erschweren Testableitung und Auswirkungsanalyse. Fehlendes Fachwissen erschwert zusätzlich die Beurteilung von Änderungen und deren Risiken. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-030",
+      "question": "Warum wird der Softwaretest in verschiedenen Teststufen (z.B. Systemtest) unterteilt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-030-a",
+          "text": "die Testplanung gestaltet sich leichter durch die Einteilung in Etappen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-030-b",
+          "text": "durch die Verwendung von Teststufen steigt automatisch die Testqualität"
+        },
+        {
+          "id": "ctfl-lebenszyklus-030-c",
+          "text": "jede Teststufe hat einen spezifischen Zweck"
+        },
+        {
+          "id": "ctfl-lebenszyklus-030-d",
+          "text": "in jeder Teststufe laufen die Tests in verschiedenen Umgebungen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-030-c"
+      ],
+      "explanation": "Unterschiedliche Teststufen haben spezifische Testziele und Perspektiven. Weder automatisch bessere Qualität noch zwingend verschiedene Umgebungen definieren die Einteilung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-031",
+      "question": "Was gehört nicht zu den Testzielen beim Integrationstest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-031-a",
+          "text": "Validieren, ob und wie gut das fertige System die gestellten Anforderungen erfüllt"
+        },
+        {
+          "id": "ctfl-lebenszyklus-031-b",
+          "text": "Auffinden nicht-funktionaler Eigenschaften der Komponentenschnittstellen, die risikobehaftet sind"
+        },
+        {
+          "id": "ctfl-lebenszyklus-031-c",
+          "text": "Aufdecken von Schnittstellenfehlern"
+        },
+        {
+          "id": "ctfl-lebenszyklus-031-d",
+          "text": "Finden typischer Fehler beim Datenaustausch beziehungsweise in der Kommunikation zwischen den Komponenten"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-031-a"
+      ],
+      "explanation": "Die Gesamtvalidierung des fertigen Systems ist nicht das spezifische Ziel des Komponentenintegrationstests. Dieser konzentriert sich auf Schnittstellen, Interaktionen und Kommunikation. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-034",
+      "question": "Was ist der Unterschied zwischen Entscheidungstest und Entscheidungstabellentest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-034-a",
+          "text": "Entscheidungstests testen, wie gut die Oberfläche dem Nutzer beim Treffen von Entscheidungen hilft. Entscheidungstabellentests gibt es nicht."
+        },
+        {
+          "id": "ctfl-lebenszyklus-034-b",
+          "text": "Entscheidungstests testen Entscheidungen, während Entscheidungstabellentests die Korrektheit der Entscheidungstabelle testen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-034-c",
+          "text": "Bei Entscheidungstests entscheidet der Tester, bei Entscheidungstabellentests wird die zu testende Entscheidung aus einer Tabelle vorgegeben."
+        },
+        {
+          "id": "ctfl-lebenszyklus-034-d",
+          "text": "Entscheidungstabellentests sind Black-Box-Verfahren, Entscheidungstests sind White-Box-Verfahren."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-034-d"
+      ],
+      "explanation": "Entscheidungstabellen leiten Tests aus fachlichen Bedingungen und Aktionen ab. Die ältere Bezeichnung Entscheidungstest meint ein strukturbasiertes White-Box-Verfahren. Der aktuelle Foundation-Lehrplan verwendet Zweigtest und zählt auch unbedingte Kontrollübergänge; die Begriffe sind nicht uneingeschränkt austauschbar. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-039",
+      "question": "Was ist ein agiles Softwareentwicklungsmodell?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-039-a",
+          "text": "Scrum"
+        },
+        {
+          "id": "ctfl-lebenszyklus-039-b",
+          "text": "V-Modell"
+        },
+        {
+          "id": "ctfl-lebenszyklus-039-c",
+          "text": "Evolutionäres Modell"
+        },
+        {
+          "id": "ctfl-lebenszyklus-039-d",
+          "text": "Inkrementelles Entwicklungsmodell"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-039-a"
+      ],
+      "explanation": "Scrum ist in dieser Auswahl der agile Ansatz. Genau genommen ist Scrum ein agiles Framework, kein eigenständiges formales SDLC-Modell. Iterative oder inkrementelle Modelle sind nicht allein dadurch agil. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-041",
+      "question": "Was ist ein sequenzielles Softwareentwicklungsmodell?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-041-a",
+          "text": "Spiralmodell"
+        },
+        {
+          "id": "ctfl-lebenszyklus-041-b",
+          "text": "Scrum"
+        },
+        {
+          "id": "ctfl-lebenszyklus-041-c",
+          "text": "Inkrementelles Modell"
+        },
+        {
+          "id": "ctfl-lebenszyklus-041-d",
+          "text": "V-Modell"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-041-d"
+      ],
+      "explanation": "Das V-Modell ist im aktuellen Lehrplan ein Beispiel für ein sequenzielles Entwicklungsmodell; das Spiralmodell ist iterativ. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-042",
+      "question": "Was ist ein Test auf Kompatibilität/Datenkonversion?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-042-a",
+          "text": "Beobachtung des Systemverhaltens in Abhängigkeit zur Datenmenge"
+        },
+        {
+          "id": "ctfl-lebenszyklus-042-b",
+          "text": "Beobachtung des Systemverhaltens bei Überlastung"
+        },
+        {
+          "id": "ctfl-lebenszyklus-042-c",
+          "text": "Prüfung der Verträglichkeit mit vorhandenen Systemen, Import/Export von Datenbeständen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-042-d",
+          "text": "Prüfung auf Verständlichkeit und Aktualität der Entwicklungsdokumente; modulare Systemstruktur usw."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-042-c"
+      ],
+      "explanation": "Die dritte Antwort passt zur Verträglichkeit und zum Datenaustausch. Die Frage verbindet zwei unterschiedliche Aspekte: Kompatibilität ist ein nicht-funktionales Qualitätsmerkmal; korrekte Datenkonversion kann auch funktional geprüft werden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-043",
+      "question": "Was ist eine Komponente beim Softwaretest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-043-a",
+          "text": "Geld für die Durchführung des Tests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-043-b",
+          "text": "ein System"
+        },
+        {
+          "id": "ctfl-lebenszyklus-043-c",
+          "text": "kleinste Softwareeinheit, die noch eine Spezifikation hat"
+        },
+        {
+          "id": "ctfl-lebenszyklus-043-d",
+          "text": "ein Testfall"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-043-c"
+      ],
+      "explanation": "Im Kontext der Aufgabe bezeichnet Komponente eine einzeln prüfbare Softwareeinheit mit eigener Spezifikation. Ihre konkrete Größe hängt von Architektur und Testkontext ab; nicht jede Organisation hat dieselbe kleinste Einheit. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-044",
+      "question": "Was ist für die Tester der wichtigste Einsatzzweck einer Auswirkungsanalyse (Impact Analysis)?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-044-a",
+          "text": "Bestimmung, inwieweit das existierende System durch Änderungen betroffen ist."
+        },
+        {
+          "id": "ctfl-lebenszyklus-044-b",
+          "text": "Bestimmung, welcher Programmieraufwand notwendig ist, um die Änderungen durchzuführen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-044-c",
+          "text": "Bestimmung, welcher Anteil der Änderungen getestet werden muss."
+        },
+        {
+          "id": "ctfl-lebenszyklus-044-d",
+          "text": "Bestimmung, inwieweit Benutzer von den geplanten Änderungen betroffen sind."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-044-a"
+      ],
+      "explanation": "Die Auswirkungsanalyse identifiziert mögliche Auswirkungen einer Änderung auf bestehende Bereiche, auch unveränderte Teile und verbundene Systeme. Das unterstützt die Wahl des Regressionstestumfangs. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-045",
+      "question": "Was ist kein Kennzeichen des V-Modell?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-045-a",
+          "text": "Testen beginnt nach der Implementierung."
+        },
+        {
+          "id": "ctfl-lebenszyklus-045-b",
+          "text": "Konstruktions- und Testaktivitäten sind getrennt, aber gleichwertig."
+        },
+        {
+          "id": "ctfl-lebenszyklus-045-c",
+          "text": "Das V veranschaulicht die Prüfaspekte Verifizierung und Validierung."
+        },
+        {
+          "id": "ctfl-lebenszyklus-045-d",
+          "text": "Es werden arbeitsteilige Teststufen unterschieden, wobei jede Stufe ihre korrespondierende Entwicklungsstufe testet."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-045-a"
+      ],
+      "explanation": "Die Aussage zum Testbeginn ist falsch: Reviews, Testanalyse und Testentwurf beginnen bereits während der zugehörigen Entwicklungsaktivitäten. Das ist auch bei sequenziellen Modellen gute Praxis. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.2",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-046",
+      "question": "Was ist kein Synonyme für Komponententest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-046-a",
+          "text": "Modultest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-046-b",
+          "text": "Anwendertest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-046-c",
+          "text": "Programmtest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-046-d",
+          "text": "Unittest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-046-b"
+      ],
+      "explanation": "Anwendertest bezeichnet keine übliche alternative Bezeichnung des Komponententests. Unittest ist der im aktuellen Lehrplan ausdrücklich genannte Synonymbegriff; Modul- und Programmtest sind ältere, kontextabhängige Bezeichnungen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-048",
+      "question": "Was versteht man unter testgetriebener Entwicklung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-048-a",
+          "text": "Testgetriebene Entwicklung verwendet man überwiegend im Integrationstest."
+        },
+        {
+          "id": "ctfl-lebenszyklus-048-b",
+          "text": "Die Testfälle für den Komponententest werden nach der Implementierung der Funktionalität vorbereitet und automatisiert."
+        },
+        {
+          "id": "ctfl-lebenszyklus-048-c",
+          "text": "Die Testfälle für den Komponententest werden vor der Implementierung der Funktionalität vorbereitet und automatisiert."
+        },
+        {
+          "id": "ctfl-lebenszyklus-048-d",
+          "text": "Die Testfälle für den Komponententest werden während der Implementierung der Funktionalität vorbereitet und automatisiert."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-048-c"
+      ],
+      "explanation": "TDD beginnt mit einem Test. Danach wird der Code geschrieben, der diesen Test erfüllt, und anschließend werden Code und Tests überarbeitet. Tests treiben so die Entwicklung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-049",
+      "question": "Was wäre die beste Grundlage für das Testen mit Fehlerangriffen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-049-a",
+          "text": "Von Fachexperten abgeleitete anwendungsfallbasierte Tests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-049-b",
+          "text": "Zu Beginn des Projekts durchgeführte Risikoidentifikation"
+        },
+        {
+          "id": "ctfl-lebenszyklus-049-c",
+          "text": "Erwartete Ergebnisse im Vergleich mit einem bestehenden System"
+        },
+        {
+          "id": "ctfl-lebenszyklus-049-d",
+          "text": "Erfahrung, Informationen über Fehlerwirkungen und -ursachen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-049-d"
+      ],
+      "explanation": "Fehlerangriffe beziehungsweise intuitive Testfallermittlung nutzen Erfahrungen mit typischen Fehlhandlungen, Fehlerzuständen und Fehlerwirkungen. Sie ergänzen systematische Testverfahren. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.4.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-4.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-051",
+      "question": "Welche Antworten zum strukturbasierten Test sind richtig?\nI: Strukturelles Testen ist eine Entwicklungsaufgabe.\nII: Strukturelle Tests gehören zu den Black-Box-Testverfahren.\nIII: Strukturelle Tests basieren auf Eigenschaften, Funktionen und ihrer Interoperabilität zu bestimmten Systemen.\nIV: Strukturelle Testentwurfsverfahren werden am besten nach den spezifikationsorientierten Testverfahren eingesetzt, um die Testintensität anhand der gemessenen Abdeckungen zu beurteilen.\nV: Strukturelles Testen kann in allen Teststufen angewandt werden.\nVI: Strukturelle Tests gehören zu den White-Box-Tests.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-051-a",
+          "text": "nur I, II, III"
+        },
+        {
+          "id": "ctfl-lebenszyklus-051-b",
+          "text": "nur IV, V, VI"
+        },
+        {
+          "id": "ctfl-lebenszyklus-051-c",
+          "text": "nur I, IV, V, VI"
+        },
+        {
+          "id": "ctfl-lebenszyklus-051-d",
+          "text": "nur IV und VI"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-051-b"
+      ],
+      "explanation": "White-Box-Tests sind strukturbasiert und können auf allen Teststufen eingesetzt werden. Strukturüberdeckung kann Lücken ergänzend zu Black-Box-Tests aufzeigen. Die in IV genannte Reihenfolge ist eine mögliche Vorgehensweise, keine zwingende Regel; strukturelles Testen ist nicht ausschließlich Entwicklungsaufgabe. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-052",
+      "question": "Welche Art von Test beschreibt folgende Definition?\nPrüfung des Systemverhaltens bei Überlastung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-052-a",
+          "text": "Volumentest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-052-b",
+          "text": "Stresstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-052-c",
+          "text": "Abnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-052-d",
+          "text": "Regressionstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-052-b"
+      ],
+      "explanation": "Stresstests prüfen Verhalten an beziehungsweise jenseits erwarteter Belastungsgrenzen. Volumentests beziehen sich speziell auf Datenmengen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-053",
+      "question": "Welche Aufgaben enthält ein betrieblicher Abnahmetest durch den Systemadministrator?\n1. Test des Erstellens und Wiedereinspielens von Sicherheitskopien (backup / restore)\n2. Wiederherstellbarkeit nach Ausfällen\n3. Benutzermanagement\n4. Robustheitstest\n5. periodische Überprüfung von Sicherheitslücken",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-053-a",
+          "text": "1, 2, 3, 4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-053-b",
+          "text": "1, 2, 3, 5"
+        },
+        {
+          "id": "ctfl-lebenszyklus-053-c",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-lebenszyklus-053-d",
+          "text": "1, 2, 3"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-053-b"
+      ],
+      "explanation": "Die Originalauflösung ordnet Backup/Restore, Wiederanlauf, Benutzermanagement und periodische Sicherheitsprüfungen der betrieblichen Abnahme zu. Robustheitstests sind nicht generell davon ausgeschlossen; die gewählte Abgrenzung ist der Kontext des ursprünglichen Katalogs. Deshalb nur Übung. Der Schlüssel stammt aus der richtigen Antwort in der gelben Originalauflösungsbox, nicht aus einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-054",
+      "question": "Welche Aussage bezüglich Akzeptanztests ist falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-054-a",
+          "text": "Die Benutzerfreundlichkeit einer Komponente kann innerhalb des entsprechenden Komponententests auf Akzeptanz geprüft werden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-054-b",
+          "text": "Ein Standardsoftwareprodukt kann im Rahmen seiner Integration oder Installation auf Akzeptanz geprüft werden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-054-c",
+          "text": "Ein Akzeptanztest wird frühestens im Rahmen eines Systemtests eingesetzt und zielt darauf ab, die Sicht der Entwickler bezüglich des Codes zu erweitern."
+        },
+        {
+          "id": "ctfl-lebenszyklus-054-d",
+          "text": "Die Akzeptanz einer neuen Funktionalität kann vor dem Systemtest überprüft werden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-054-c"
+      ],
+      "explanation": "Akzeptanztests validieren Geschäftsanforderungen und Einsatzfähigkeit aus Benutzersicht, nicht die Sicht der Entwickler auf Code. Sie sind nicht pauschal auf einen Zeitpunkt nach Systemtests beschränkt; iterative Entwicklung erlaubt frühe Akzeptanzprüfungen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-056",
+      "question": "Welche Aussage zum Abnahmetest stimmt nicht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-056-a",
+          "text": "Die Ermittlung der geeigneten Abnahmetests oder Abnahmekriterien geschieht durch die Berücksichtigung von Geschäftsvorfällen einer typischen Abrechnungsperiode."
+        },
+        {
+          "id": "ctfl-lebenszyklus-056-b",
+          "text": "In der Praxis prüft der Softwarehersteller die Software noch vor dem Abnahmetest im eigenen Systemtest."
+        },
+        {
+          "id": "ctfl-lebenszyklus-056-c",
+          "text": "Der Abnahmetest beim Kunden darf wegen möglicher Störungen der Geschäftsprozesse nicht in der Abnahmeumgebung stattfinden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-056-d",
+          "text": "Die Testkriterien für die Abnahme sind die im Entwicklungsvertrag festgeschriebenen Abnahmekriterien, gesetzliche Vorschriften, Normen und Sicherheitsrichtlinien."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-056-c"
+      ],
+      "explanation": "Eine repräsentative Abnahmeumgebung ist gerade für die Abnahme geeignet. Risiken für den laufenden Betrieb müssen beherrscht werden; daraus folgt kein Verbot des Testens in der Abnahmeumgebung. Die übrigen Antworten beschreiben mögliche kontextabhängige Abnahmegrundlagen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-058",
+      "question": "Welche Aussagen über das Testen von funktionalem und nicht-funktionalem Verhalten sind richtig?\nI: Funktionale Tests betrachten das von außen sichtbare Verhalten einer Software (Black-Box-Test).\nII: Funktionale Tests können ausschließlich in System- oder Abnahmetests durchgeführt werden.\nIII: Die geforderten Funktionalitäten definieren, wie eine Software etwas leisten soll.\nIV: Nicht-funktionale Anforderungen können genauso wie funktionale Anforderungen durch Black-Box-Tests geprüft werden.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-058-a",
+          "text": "II, III, IV"
+        },
+        {
+          "id": "ctfl-lebenszyklus-058-b",
+          "text": "nur I und III"
+        },
+        {
+          "id": "ctfl-lebenszyklus-058-c",
+          "text": "alle sind richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-058-d",
+          "text": "nur I und IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-058-d"
+      ],
+      "explanation": "Funktionale Tests prüfen, was das Testobjekt leisten soll, und sind nicht auf System- und Abnahmetests beschränkt. Black-Box-Tests können sowohl funktionale als auch nicht-funktionale Anforderungen prüfen. Funktionales Testen ist nicht generell ausschließlich Black-Box; I beschreibt hier die verhaltensorientierte Sicht. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-060",
+      "question": "Welche Aussagen zum Regressionstest treffen zu?\nA) Die zu testenden Programme sind noch weitestgehend ungetestet.\nB) Regressionstests können Tests aller anderen Testarten enthalten.\nC) Ein Ziel ist es zuvor maskierte Fehlerzustände aufzuspüren.\nD) Es bietet sich an Regressionstest automatisiert durchzuführen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-060-a",
+          "text": "A und D"
+        },
+        {
+          "id": "ctfl-lebenszyklus-060-b",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-lebenszyklus-060-c",
+          "text": "B"
+        },
+        {
+          "id": "ctfl-lebenszyklus-060-d",
+          "text": "A und B"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-060-b"
+      ],
+      "explanation": "Regressionstests können funktionale und nicht-funktionale Tests umfassen und eignen sich wegen Wiederholung gut zur Automatisierung. Änderungen können auch zuvor maskierte Fehler sichtbar machen. Ihr Kernziel ist der Nachweis, dass Änderungen keine nachteiligen Folgen haben. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-062",
+      "question": "Welche der folgenden Anforderungen wäre primär im Rahmen eines funktionalen Systemtests\nzu testen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-062-a",
+          "text": "Das System muss die Registrierung von bis zu 12.000 neuen Benutzern pro Jahr erlauben."
+        },
+        {
+          "id": "ctfl-lebenszyklus-062-b",
+          "text": "Das System muss für eine Verfügbarkeit von 99 % ausgelegt sein."
+        },
+        {
+          "id": "ctfl-lebenszyklus-062-c",
+          "text": "Das System muss die Benutzerinteraktion in Echtzeit durchführen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-062-d",
+          "text": "Das System erzeugt eine Druckansicht der Rechnung."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-062-d"
+      ],
+      "explanation": "Eine Rechnungsdruckansicht ist eine konkrete Funktion. Die übrigen Antworten betreffen primär Kapazität, Verfügbarkeit und Zeitverhalten. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-063",
+      "question": "Welche der folgenden Anforderungen wäre primär im Rahmen eines funktionalen Systemtests\nzu testen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-063-a",
+          "text": "Das System muss die Registrierung von bis zu 12.000 neuen Benutzern pro Jahr erlauben."
+        },
+        {
+          "id": "ctfl-lebenszyklus-063-b",
+          "text": "Das System muss im Durchschnitt während 23 Stunden und 50 Minuten pro Tag zur Verfügung stehen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-063-c",
+          "text": "Das System muss eine adäquate Leistung für bis zu 30 gleichzeitige Benutzer aufweisen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-063-d",
+          "text": "Das System erlaubt es Anwendern, die Adressdaten eines Kunden zu ändern."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-063-d"
+      ],
+      "explanation": "Adressdaten ändern ist eine Funktion. Die anderen Anforderungen beschreiben Kapazität, Verfügbarkeit und Performanz unter gleichzeitiger Benutzung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-064",
+      "question": "Welche der folgenden Aussagen beschreibt am besten einen der sieben Grundsätze des\nSoftwaretestens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-064-a",
+          "text": "Es ist normalerweise unmöglich, alle Input-/Output-Kombinationen für ein Softwaresystem zu testen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-064-b",
+          "text": "Zweck des Testens ist es, die Abwesenheit von Fehlern nachzuweisen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-064-c",
+          "text": "Automatisierte Tests sind besser als manuelle Tests zum Vermeiden von vollständigem Testen geeignet."
+        },
+        {
+          "id": "ctfl-lebenszyklus-064-d",
+          "text": "Vollständiges Testen ist mit genügend Anstrengung und Werkzeugunterstützung für alle Arten von Software praktikabel."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-064-a"
+      ],
+      "explanation": "Vollständiges Testen ist außer bei trivialen Fällen nicht möglich. Stattdessen wird risikobasiert und mit geeigneten Testverfahren ausgewählt. Automatisierung hebt diesen Grundsatz nicht auf. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-1.3.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-066",
+      "question": "Welche der folgenden Aussagen sind wahr?\nA. Regressionstest und Fehlernachtest bedeutet das gleich\nB. Regressionstest zeigen Seiteneffekte von Fehlerkorrekturen an\nC. Regressionstest werden nur bei Änderung der Software durchgeführt\nD. Regressionstests müssen wiederholbar sein\nE. Regressionstest können nicht in allen Teststufen durchgeführt werden",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-066-a",
+          "text": "A, B und E sind wahr; C und D sind falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-066-b",
+          "text": "B und C sind wahr; A, D und E sind falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-066-c",
+          "text": "A, C, D und E sind wahr; B ist falsch."
+        },
+        {
+          "id": "ctfl-lebenszyklus-066-d",
+          "text": "B und D sind richtig; A, C und E sind falsch."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-066-d"
+      ],
+      "explanation": "Regressionstests prüfen Seiteneffekte von Änderungen und müssen wiederholbar sein. Sie sind nicht mit Fehlernachtests identisch, können auch durch Umgebungsänderungen ausgelöst werden und sind auf allen Teststufen möglich. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-068",
+      "question": "Welche der folgenden Aussagen trifft zu?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-068-a",
+          "text": "Inspektion von Quellcode wird immer im Komponententest eingesetzt."
+        },
+        {
+          "id": "ctfl-lebenszyklus-068-b",
+          "text": "Der Komponententest ist ein wichtiger Teil des Abnahmetests."
+        },
+        {
+          "id": "ctfl-lebenszyklus-068-c",
+          "text": "Komponententest zielt darauf ab, Probleme in den Schnittstellen zwischen Hard- und Software zu finden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-068-d",
+          "text": "Komponententest sucht Fehler in Programmen oder Programmteilen, welche einzeln getestet werden können."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-068-d"
+      ],
+      "explanation": "Der Komponententest konzentriert sich auf isolierte, einzeln prüfbare Komponenten. Schnittstellen zwischen Komponenten sind der Schwerpunkt des Komponentenintegrationstests. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-069",
+      "question": "Welche der folgenden Aussagen über den Regressionstest ist FALSCH?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-069-a",
+          "text": "Automatisierte Regressionstests sind immer effizienter als manuelle Regressionstests."
+        },
+        {
+          "id": "ctfl-lebenszyklus-069-b",
+          "text": "Regressionstests können viele Male wiederholt werden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-069-c",
+          "text": "Regressionstests sollten regelmäßig auf ihre Relevanz für die aktuellen Geschäftsprozesse geprüft werden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-069-d",
+          "text": "Ein Regressionstest erfolgt in der Regel nach jeder Änderung der Software."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-069-a"
+      ],
+      "explanation": "Automatisierung hat Erstellungs-, Wartungs- und Ausführungskosten und ist daher nicht immer effizienter. Wiederholte Regressionstests sind häufig gute Automatisierungskandidaten, aber die Wirtschaftlichkeit bleibt kontextabhängig. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-070",
+      "question": "Welche der folgenden Aussagen wird allgemein als eine Eigenschaft guten Testens in einem\nSoftwareentwicklungsmodell betrachtet?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-070-a",
+          "text": "Analyse und Design der Tests beginnt, sobald die Entwicklung abgeschlossen ist."
+        },
+        {
+          "id": "ctfl-lebenszyklus-070-b",
+          "text": "Jede Teststufe hat stufenspezifische Testziele."
+        },
+        {
+          "id": "ctfl-lebenszyklus-070-c",
+          "text": "Viele, aber nicht alle Entwicklungsaktivitäten haben eine entsprechende Testaktivität."
+        },
+        {
+          "id": "ctfl-lebenszyklus-070-d",
+          "text": "Alle Dokumentenreviews benötigen den Einbezug der Entwickler."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-070-b"
+      ],
+      "explanation": "Spezifische Testziele pro Teststufe sind eine ausdrücklich genannte gute Praxis. Weitere Praktiken sind eine Testaktivität zu jeder Entwicklungsaktivität sowie früher Beginn von Testanalyse, Testentwurf und Reviews. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.2",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-071",
+      "question": "Welche der folgenden Aussagen zum Komponententest stimmen?\nA: Testobjekte im Komponententest sind u. a. Datenkonvertierungs- und Migrationskomponenten, Konfigurationsdaten und Datenbankkomponenten.\nB: Typische Softwaredefekte, die beim Komponententest aufgedeckt werden, sind Berechnungsfehler oder fehlende Programmpfade (z. B. vergessene Sonderfälle).\nC: Zu den Testeingaben beim Komponententest gehören Methodenaufrufe, Daten und Sonderfälle, die laut Spezifikation nicht vorgesehen sind (Negativtests).\nD: Beim Komponententest wird häufig ein Test auf Effizienz durchgeführt, um eine höhere Komponentenqualität zu erreichen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-071-a",
+          "text": "A, B, C sind korrekt; D ist falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-071-b",
+          "text": "A, B, C und D sind korrekt"
+        },
+        {
+          "id": "ctfl-lebenszyklus-071-c",
+          "text": "A, B, D sind korrekt; C ist falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-071-d",
+          "text": "A und B sind korrekt; B und C sind falsch"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-071-b"
+      ],
+      "explanation": "Komponenten können funktional, mit Negativfällen und nicht-funktional, etwa hinsichtlich Speicherbedarf oder Laufzeit, geprüft werden. Der Originalschlüssel bewertet alle vier Aussagen als zutreffend. Das Wort häufig in D ist keine allgemeingültige Häufigkeitsregel; deshalb bleibt die Frage nur Übung. Die widersprüchliche vierte Antwort ist unverändert als Distraktor erhalten. Der Schlüssel stammt aus der richtigen Antwort in der gelben Originalauflösungsbox, nicht aus einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-073",
+      "question": "Welche der folgenden Definitionen beschreibt den Umfang des Wartungstests („Maintenance\nTesting\") am ehesten?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-073-a",
+          "text": "Anzahl gefundener Fehler im zuletzt durchgeführten Regressionstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-073-b",
+          "text": "Die vergangene Zeit seit der letzten Änderung im System"
+        },
+        {
+          "id": "ctfl-lebenszyklus-073-c",
+          "text": "Der Abdeckungsgrad des aktuellen Regressionstestumfangs"
+        },
+        {
+          "id": "ctfl-lebenszyklus-073-d",
+          "text": "Der Umfang und das Risiko einer Änderung am bestehenden System"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-073-d"
+      ],
+      "explanation": "Der aktuelle Lehrplan nennt Risiko der Änderung, Größe des bestehenden Systems und Umfang der Änderung als Einflussfaktoren. Von den angebotenen Antworten passt deshalb die letzte am besten. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.3.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-074",
+      "question": "Welche der folgenden Formen sind typische für Abnahmetests?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-074-a",
+          "text": "Zweigtest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-074-b",
+          "text": "Lasttest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-074-c",
+          "text": "Systemtest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-074-d",
+          "text": "Test auf vertragliche Akzeptanz"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-074-d"
+      ],
+      "explanation": "Vertragliche Abnahme ist eine der genannten Abnahmeformen. Zweigtest ist ein Testverfahren, Lasttest ein Performanztest und Systemtest eine andere Teststufe. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-076",
+      "question": "Welche der folgenden Situationen sind typischerweise Anlässe für die Wartung von\nSoftwareprodukten?\n1. Kunden äußern neue Wünsche.\n2. Nach längerer Betriebszeit treten sporadische Ausfälle auf, z.B. durch externe Einflüsse.\n3. Das System wird unter nicht geplanten Einsatzbedingungen betrieben, z.B. unter\nVerwendung eines veralteten Betriebssystems.\n4. Es werden Funktionen für bisher vergessene Sonderfälle benötigt.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-076-a",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-lebenszyklus-076-b",
+          "text": "keine"
+        },
+        {
+          "id": "ctfl-lebenszyklus-076-c",
+          "text": "nur 4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-076-d",
+          "text": "1 und 4, aber nicht 2 und 3"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-076-a"
+      ],
+      "explanation": "Bei bereits betriebener Software können neue Anforderungen, Ausfälle, geänderte Umgebungen und vergessene Sonderfälle Wartungsbedarf auslösen. Ob und wie geändert wird, ist kontext- und risikobasiert zu entscheiden. Neue Funktionen sind nicht grundsätzlich von Wartung ausgeschlossen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.3.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-078",
+      "question": "Welche der unten aufgeführten Antworten sind bezüglich des Komponententests zutreffend? Im Rahmen von Komponententests …\nA: werden isolierte funktionale Tests nur zwecks Verifizierung der Komponentenspezifikation ausgeführt.\nB: werden auch nicht-funktionale Aspekte geprüft.\nC: werden sehr oft statische Tests und Reviews genutzt, um zusätzliche Qualitätsmerkmale zu bewerten.\nD: werden isolierte funktionale Tests ausgeführt, um zu prüfen, ob die Komponentenspezifikation korrekt und vollständig realisiert wurde.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-078-a",
+          "text": "A, C und D sind richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-078-b",
+          "text": "B, C und D sind richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-078-c",
+          "text": "Alle Antworten sind richtig"
+        },
+        {
+          "id": "ctfl-lebenszyklus-078-d",
+          "text": "C und D sind richtig"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-078-b"
+      ],
+      "explanation": "Komponententests können funktionale und nicht-funktionale Aspekte abdecken; statische Prüfungen ergänzen dynamische Tests. Die Absolutheit von nur in A schränkt die möglichen Ziele zu stark ein. Häufigkeitsformulierungen in C sind kontextabhängig; die Frage ist daher nur Übung. Der Schlüssel stammt aus der richtigen Antwort in der gelben Originalauflösungsbox, nicht aus einer falsch markierten Auswahl. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-079",
+      "question": "Welche Integrationsstrategie benötigt zwingend das Erstellen von Platzhaltern (Stubs)?\nI: Bottom-up\nII: Big Bang\nIII: Ad hoc\nIV: Top-down",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-079-a",
+          "text": "nur III und IV"
+        },
+        {
+          "id": "ctfl-lebenszyklus-079-b",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-lebenszyklus-079-c",
+          "text": "nur IV"
+        },
+        {
+          "id": "ctfl-lebenszyklus-079-d",
+          "text": "nur I und III"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-079-c"
+      ],
+      "explanation": "Bei Top-down-Integration ersetzen Stubs noch nicht integrierte Unterkomponenten. Bottom-up verwendet eher Treiber für fehlende Aufrufer. Die alte Ad-hoc-Klassifikation ist kein aktuelles Lernziel; der weiterhin sinnvolle Stub-Vergleich bleibt nur Übung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-080",
+      "question": "Welche nicht-funktionalen Aspekte kann ein Komponententest umfassen?\n1. Testen der Ressourcenverwendung (z. B. Speicherverwendung)\n2. Performancetest\n3. Robustheitstest\n4. Struktureller Test (z. B. Entscheidungsüberdeckung)",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-080-a",
+          "text": "Keine"
+        },
+        {
+          "id": "ctfl-lebenszyklus-080-b",
+          "text": "1, 2, 3"
+        },
+        {
+          "id": "ctfl-lebenszyklus-080-c",
+          "text": "1, 3, 4"
+        },
+        {
+          "id": "ctfl-lebenszyklus-080-d",
+          "text": "1, 4"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-080-b"
+      ],
+      "explanation": "Ressourcenbedarf, Performanz und Robustheit betreffen nicht-funktionale Eigenschaften und können schon an Komponenten geprüft werden. Strukturelle Überdeckung ist ein White-Box-Ziel und nicht selbst ein nicht-funktionales Qualitätsmerkmal. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-082",
+      "question": "Welche Testart ist bevorzugter Kandidat für automatisierte Testfälle?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-082-a",
+          "text": "Abnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-082-b",
+          "text": "Komponententest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-082-c",
+          "text": "Systemtest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-082-d",
+          "text": "Regressionstest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-082-d"
+      ],
+      "explanation": "Die häufige Wiederholung von Regressionstests macht sie zu guten Automatisierungskandidaten. Die anderen Antworten bezeichnen Teststufen, auf denen ebenfalls automatisiert werden kann. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-083",
+      "question": "Welcher der folgenden Vergleiche zwischen Komponententest und Systemtest ist zutreffend?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-083-a",
+          "text": "Komponententests sind in der Verantwortung der technischen Tester, während die Systemtests in der Regel in der Verantwortung der Benutzer des Systems liegen."
+        },
+        {
+          "id": "ctfl-lebenszyklus-083-b",
+          "text": "Testfälle für den Komponententest werden in der Regel von Komponentenspezifikationen, Designentwürfen oder Datenmodellen abgeleitet, während Testfälle für den Systemtest in der Regel von Anforderungsspezifikationen, funktionalen Spezifikationen oder Anwendungsfällen abgeleitet werden."
+        },
+        {
+          "id": "ctfl-lebenszyklus-083-c",
+          "text": "Komponententests konzentrieren sich auf die funktionalen Eigenschaften, während Systemtests sich auf die funktionalen und nicht-funktionalen Eigenschaften konzentrieren."
+        },
+        {
+          "id": "ctfl-lebenszyklus-083-d",
+          "text": "Komponententests überprüfen die Funktion von separat prüfbaren Komponenten, Programmobjekten und Klassen, während Systemtests die Schnittstellen zwischen den Komponenten und Wechselwirkungen mit anderen Teilen des Systems überprüfen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-083-b"
+      ],
+      "explanation": "Die zweite Antwort unterscheidet typische Testbasen angemessen. Komponenten können auch nicht-funktional getestet werden; Schnittstellen zwischen Komponenten sind der Schwerpunkt der Komponentenintegration, nicht die Definition des Systemtests. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-086",
+      "question": "Welches ist kein Fall von einem Abnahmetest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-086-a",
+          "text": "Entwickler-Abnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-086-b",
+          "text": "Alpha-Test"
+        },
+        {
+          "id": "ctfl-lebenszyklus-086-c",
+          "text": "Betrieblicher Abnahmetest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-086-d",
+          "text": "Feldtest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-086-a"
+      ],
+      "explanation": "Entwickler-Abnahmetest ist keine eigenständige Standardform der Abnahme. Alpha, betriebliche Abnahme und externer Feld- beziehungsweise Beta-Test sind bekannte Formen. Entwickler können dennoch Abnahmeaktivitäten unterstützen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-087",
+      "question": "Wenn wir das Systemverhalten in Abhängigkeit steigender Systemlast messen, um zu\nbestimmen, welche Last durch ein System oder eine Komponente bewältigt werden kann,\nsprechen wir von ...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-087-a",
+          "text": "Regressionstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-087-b",
+          "text": "Stresstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-087-c",
+          "text": "Robustheitstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-087-d",
+          "text": "Lasttest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-087-d"
+      ],
+      "explanation": "Lasttests untersuchen Verhalten unter steigender Last und damit die bewältigbare Arbeitslast. Stresstests konzentrieren sich auf Grenzen und Überlastsituationen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-088",
+      "question": "Wenn wir den Grad testen, bei dem die Komponente oder das System bei Eingabe ungültiger\nWerte oder extremer Umgebungsbedingungen korrekt funktioniert, sprechen wir von ...?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-088-a",
+          "text": "Performanztests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-088-b",
+          "text": "Robustheitstest"
+        },
+        {
+          "id": "ctfl-lebenszyklus-088-c",
+          "text": "White-Box-Tests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-088-d",
+          "text": "Stresstests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-088-b"
+      ],
+      "explanation": "Robustheit bezeichnet hier den Umgang mit ungültigen Eingaben und extremen Bedingungen. Die Zuordnung betrifft das Verhalten bei solchen Störungen; White-Box bezeichnet dagegen die strukturbasierte Herleitung von Tests. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-089",
+      "question": "Wenn wir den Grad testen, in dem ein System oder eine Komponente seine vorgesehenen\nFunktionen innerhalb vorgegebener Bedingungen wie Bearbeitungsgeschwindigkeit und\nDurchsatzzeit erbringt, sprechen wir von",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-089-a",
+          "text": "Regressionstests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-089-b",
+          "text": "Performanztests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-089-c",
+          "text": "Stresstests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-089-d",
+          "text": "Lasttests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-089-b"
+      ],
+      "explanation": "Bearbeitungsgeschwindigkeit und Durchsatz sind Performanzaspekte. Last- und Stresstests sind spezifischere Belastungsuntersuchungen; die Definition fragt nach dem übergeordneten Qualitätsziel. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-090",
+      "question": "Wie sind die Behauptungen zu frühem Testentwurf zu bewerten?\ni. frühes Testdesign erschwert die Vermehrung von Defects\nii. Faults, die durch frühes Testdesign gefunden werden sind teurer bei der Behebung\niii. Frühes Testdesign kann Faults finden\niv. Frühes Testdesign kann eine Anpassung der Anforderungen verursachen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-090-a",
+          "text": "iii und iv sind korrekt; i und ii sind falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-090-b",
+          "text": "i, iii und iv sind korrekt; ii ist falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-090-c",
+          "text": "iii ist korrekt; i, ii und iv sind falsch"
+        },
+        {
+          "id": "ctfl-lebenszyklus-090-d",
+          "text": "i, ii, iii und iv sind korrekt"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-090-b"
+      ],
+      "explanation": "Frühe Testanalyse und früher Testentwurf können Fehler in der Testbasis finden, deren Weitergabe in spätere Arbeitsergebnisse verhindern und Anforderungsanpassungen auslösen. Früh erkannte Fehler sind typischerweise günstiger zu beheben, nicht teurer. Die vermischten Fault-/Defect-Begriffe werden hier als Fehlerzustände verstanden. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.1.5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.1.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-092",
+      "question": "Womit beschäftigt sich ein Systemtest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-092-a",
+          "text": "Schnittstellen zwischen Systemen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-092-b",
+          "text": "Verhalten eines Gesamtsystems/-produkts"
+        },
+        {
+          "id": "ctfl-lebenszyklus-092-c",
+          "text": "Verhalten der Komponenten zueinander"
+        },
+        {
+          "id": "ctfl-lebenszyklus-092-d",
+          "text": "Interaktionen zwischen verschiedenen Teilen eines Systems"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-092-b"
+      ],
+      "explanation": "Der Systemtest bewertet Gesamtverhalten und Leistungsfähigkeiten des vollständigen Systems oder Produkts. Schnittstellen und Interaktionen sind der Fokus der jeweiligen Integrationsteststufen. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-093",
+      "question": "Worin unterscheiden sich Systemtest und Abnahmetest grundlegend?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-093-a",
+          "text": "In den Testzielen"
+        },
+        {
+          "id": "ctfl-lebenszyklus-093-b",
+          "text": "In der Testumgebung"
+        },
+        {
+          "id": "ctfl-lebenszyklus-093-c",
+          "text": "In dem Testobjekt"
+        },
+        {
+          "id": "ctfl-lebenszyklus-093-d",
+          "text": "In dem Testgegenstand"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-093-a"
+      ],
+      "explanation": "Systemtest und Abnahme können dasselbe System prüfen, unterscheiden sich aber insbesondere in den Zielen: Gesamtverhalten gegenüber Anforderungen einerseits, Validierung der Geschäftsanforderungen und Einsatzfähigkeit andererseits. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-lebenszyklus-094",
+      "question": "Zu welcher Testart gehört der Wiederherstellbarkeitstest?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-lebenszyklus-094-a",
+          "text": "Abnahmetests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-094-b",
+          "text": "Effizienztests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-094-c",
+          "text": "Technische Sicherheitstests"
+        },
+        {
+          "id": "ctfl-lebenszyklus-094-d",
+          "text": "Zuverlässigkeitstests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-lebenszyklus-094-d"
+      ],
+      "explanation": "Wiederherstellbarkeit ist ein Teilaspekt der Zuverlässigkeit. Die Wiederherstellung kann auch im betrieblichen Abnahmetest geprüft werden; gefragt ist hier die Qualitätsmerkmalszuordnung. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-2.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 2,
+        "chapterTitle": "Testen während des Softwareentwicklungslebenszyklus",
+        "learningObjective": "FL-2.2.2",
+        "kLevel": "K2"
+      }
+    }
+  ]
+}

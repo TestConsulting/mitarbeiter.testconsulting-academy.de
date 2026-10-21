@@ -48,6 +48,57 @@ function renderPractice(withCourseNavigation = false) {
 }
 
 describe("ISTQB practice setup", () => {
+  it.each([
+    ["20 Fragen", [4, 3, 2, 6, 4, 1]],
+    ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", [8, 6, 4, 11, 9, 2]],
+  ] as const)("applies CTFL chapter quotas through the setup: %s", async (label, counts) => {
+    mocks.getPractice.mockResolvedValue({
+      ...course,
+      questions: [1, 2, 3, 4, 5, 6].flatMap((chapter) =>
+        Array.from({ length: 15 }, (_, index) => ({
+          ...course.questions[0], id: `chapter-${chapter}-${index}`, question: `Kapitel ${chapter} Frage ${index}`,
+          metadata: { ...course.questions[0].metadata!, chapter, chapterTitle: `Thema ${chapter}` },
+        }))),
+    });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    expect(screen.queryByText(/CTFL-Kapitelverteilung/)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("radio", { name: label }));
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    const navigation = screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" });
+    const buttons = within(navigation).getAllByRole("button");
+    const actual = [0, 0, 0, 0, 0, 0];
+    for (const button of buttons) {
+      fireEvent.click(button);
+      const title = screen.getByRole("heading", { name: /^Kapitel \d Frage \d+$/ }).textContent!;
+      actual[Number(title.split(" ")[1]) - 1] += 1;
+    }
+    expect(actual).toEqual(counts);
+    expect(mocks.checkPracticeAnswer).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["20 Fragen", 20], ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", 40], ["Alle verfügbaren Fragen", 45],
+  ] as const)("starts the selected session size: %s", async (label, count) => {
+    mocks.getPractice.mockResolvedValue({
+      ...course,
+      questions: Array.from({ length: 45 }, (_, index) => ({
+        ...course.questions[index % course.questions.length], id: `session-${index}`,
+      })),
+    });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    expect(screen.getByRole("radio", { name: "20 Fragen" })).toBeChecked();
+    expect(screen.queryByRole("radio", { name: "30 Fragen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("radio", { name: "60 Fragen" })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("radio", { name: label }));
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    expect(screen.getByRole("heading", { name: `Frage 1 von ${count}` })).toBeInTheDocument();
+    expect(within(screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" }))
+      .getAllByRole("button")).toHaveLength(count);
+    expect(mocks.checkPracticeAnswer).not.toHaveBeenCalled();
+  });
+
   it("does not apply a delayed answer response to another course after navigation", async () => {
     let finishAnswer: (progress: PracticeProgress) => void = () => { throw new Error("Promise not initialized"); };
     const pending = new Promise<PracticeProgress>((resolve) => { finishAnswer = resolve; });
@@ -75,8 +126,8 @@ describe("ISTQB practice setup", () => {
       .toHaveAttribute("href", "/areas/elearning/istqb-foundation");
     expect(screen.queryByText("Übungsfrage 1")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Alle Kapitel")).toBeChecked();
-    expect(screen.getByLabelText("30 Fragen")).toBeChecked();
-    expect(screen.getByLabelText("60 Fragen")).toBeInTheDocument();
+    expect(screen.getByLabelText("20 Fragen")).toBeChecked();
+    expect(screen.getByLabelText("40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)")).toBeInTheDocument();
     expect(screen.getByLabelText("Alle verfügbaren Fragen")).toBeInTheDocument();
     expect(screen.getByLabelText("K1 – Erinnern")).not.toBeChecked();
     fireEvent.click(screen.getByLabelText("Alle Kapitel"));

@@ -37,7 +37,7 @@ export class ExamSessionError extends Error {
 export function selectCtflExam(course: Course): Course {
   const selected = groups.flatMap(([count, objectives]) => {
     const available = objectives.map((objective) => course.questions.filter((question) =>
-      question.metadata?.learningObjective === `FL-${objective}`));
+      question.usage !== "practice" && question.metadata?.learningObjective === `FL-${objective}`));
     if (available.some((questions) => questions.length === 0)) {
       throw new ExamSessionError(409, "Der Fragenpool deckt den Prüfungsbauplan nicht vollständig ab. Bitte lasse ihn prüfen.");
     }

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { CTFL_EXAM_CHAPTER_COUNTS, type ExamSession } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
+import { QuestionContent } from "./question-content.js";
 
 const courseUrl = "/areas/elearning/istqb-foundation";
 const chapterNames = [
@@ -361,6 +362,7 @@ export function FoundationExamPage() {
               </span>
             </summary>
             <div className="exam-history-review__answer-card">
+              {item.question.image && <QuestionContent question={{ question: "", image: item.question.image }} />}
               <ul className="exam-history-review__options exam-history-review__options--standalone">{item.question.options.map((option) => <li key={option.id} className="practice-review-option">
                 {item.selectedOptionIds.includes(option.id) ? "◉ " : "○ "}{option.text}
                 {item.correctOptionIds.includes(option.id)
@@ -426,7 +428,7 @@ export function FoundationExamPage() {
       </div>
       <h2>Frage {index + 1} von 40</h2>
       <fieldset className="practice-options" disabled={disabled}>
-        <legend>{question.question}</legend>
+        <legend><QuestionContent question={question} /></legend>
         <p>{question.type === "multiple" ? `Wähle ${question.requiredSelections} Antworten.` : "Wähle eine Antwort."}</p>
         {question.options.map((option) => <label className={`practice-option${selected.includes(option.id) ? " practice-option--selected" : ""}`} key={option.id}>
           <input type={question.type === "multiple" ? "checkbox" : "radio"} name={question.id}

@@ -52,6 +52,11 @@ const questionSchema = z.object({
   }).strict()).min(2).max(10),
   correctOptionIds: z.array(idText).min(1).max(10),
   explanation: z.string().trim().min(1).max(5000),
+  usage: z.enum(["practice", "exam", "both"]).optional(),
+  image: z.object({
+    url: z.string().regex(/^\/questions\/istqb-foundation\/(?:prozess-\d+|(?:lebenszyklus|statisch|testentwurf)-\d{3})\.png$/),
+    alt: z.string().trim().min(1).max(500),
+  }).strict().optional(),
   metadata: z.object({
     chapter: z.number().int().min(1).max(6),
     chapterTitle: z.string().trim().min(1).max(200),
@@ -81,7 +86,7 @@ const courseInputSchema = z.object({
   isDemo: z.boolean().optional(),
   demoNotice: z.string().trim().max(5000).optional(),
   materials: z.array(materialSchema).max(20),
-  questions: z.array(questionSchema).max(100),
+  questions: z.array(questionSchema).max(500),
 }).strict().superRefine((course, context) => {
   if (new Set(course.materials.map((material) => material.id)).size !== course.materials.length) {
     context.addIssue({ code: "custom", message: "Lernmaterialien brauchen eindeutige IDs." });
@@ -94,7 +99,7 @@ const examSubmissionSchema = z.object({
   answers: z.array(z.object({
     questionId: idText,
     selectedOptionIds: z.array(idText).max(10),
-  }).strict()).max(100),
+  }).strict()).max(500),
 }).strict().superRefine(({ answers }, context) => {
   if (new Set(answers.map((answer) => answer.questionId)).size !== answers.length) {
     context.addIssue({ code: "custom", message: "Jede Prüfungsfrage darf nur einmal beantwortet werden." });
@@ -118,7 +123,7 @@ function createSlug(title: string, id: string): string {
 
 function toCourseSummary(course: Course): CourseSummary {
   const { questions, ...summary } = course;
-  return { ...summary, questionCount: questions.length };
+  return { ...summary, questionCount: questions.filter((question) => question.usage !== "exam").length };
 }
 
 function toExamCourse(course: Course): ExamCourse {
@@ -130,11 +135,12 @@ function toExamCourse(course: Course): ExamCourse {
     description: course.description,
     ...(course.isDemo !== undefined ? { isDemo: course.isDemo } : {}),
     ...(course.demoNotice !== undefined ? { demoNotice: course.demoNotice } : {}),
-    questions: course.questions.map(({ id, question, type, options }) => ({
+    questions: course.questions.filter((question) => question.usage !== "practice").map(({ id, question, type, options, image }) => ({
       id,
       question,
       type,
       options,
+      ...(image ? { image } : {}),
     })),
   };
 }
@@ -357,22 +363,23 @@ export function createCoursesRouter(
         response.status(404).json({ error: "Kurs wurde nicht gefunden." });
         return;
       }
-      if (course.questions.length === 0) {
+      const examQuestions = course.questions.filter((question) => question.usage !== "practice");
+      if (examQuestions.length === 0) {
         response.status(400).json({ error: "Für diesen Kurs sind keine Prüfungsfragen vorhanden." });
         return;
       }
 
       const answers = new Map(submission.data.answers.map((answer) => [answer.questionId, answer.selectedOptionIds]));
-      if (submission.data.answers.some((answer) => !course.questions.some((question) => question.id === answer.questionId)) ||
+      if (submission.data.answers.some((answer) => !examQuestions.some((question) => question.id === answer.questionId)) ||
           submission.data.answers.some((answer) => {
-            const question = course.questions.find((entry) => entry.id === answer.questionId);
+            const question = examQuestions.find((entry) => entry.id === answer.questionId);
             return question && answer.selectedOptionIds.some((id) => !question.options.some((option) => option.id === id));
           })) {
         response.status(400).json({ error: "Eine Prüfungsantwort gehört nicht zu diesem Fragenkatalog." });
         return;
       }
 
-      const results: ExamQuestionResult[] = course.questions.map((question) => {
+      const results: ExamQuestionResult[] = examQuestions.map((question) => {
         const selectedOptionIds = answers.get(question.id) ?? [];
         const correctOptionIds = question.correctOptionIds;
         return {
@@ -381,6 +388,7 @@ export function createCoursesRouter(
             question: question.question,
             type: question.type,
             options: question.options,
+            ...(question.image ? { image: question.image } : {}),
           },
           selectedOptionIds,
           correctOptionIds,
@@ -418,7 +426,8 @@ export function createCoursesRouter(
         response.status(404).json({ error: "Kurs wurde nicht gefunden." });
         return;
       }
-      response.json({ progress: await practiceProgress.list(request.session.userId!, course.id, course.questions) });
+      response.json({ progress: await practiceProgress.list(request.session.userId!, course.id,
+        course.questions.filter((question) => question.usage !== "exam")) });
     } catch (error) {
       next(error);
     }
@@ -441,7 +450,7 @@ export function createCoursesRouter(
       }
       const question = course.questions.find((item) => item.id === answer.data.questionId);
       const ids = answer.data.selectedOptionIds;
-      if (!question || new Set(ids).size !== ids.length ||
+      if (!question || question.usage === "exam" || new Set(ids).size !== ids.length ||
           ids.some((id) => !question.options.some((option) => option.id === id)) ||
           (question.type === "single" && ids.length !== 1)) {
         response.status(400).json({ error: "Die Antwort gehört nicht zu dieser Übungsfrage." });
@@ -469,7 +478,7 @@ export function createCoursesRouter(
         response.status(404).json({ error: "Kurs wurde nicht gefunden." });
         return;
       }
-      response.json({ course });
+      response.json({ course: { ...course, questions: course.questions.filter((question) => question.usage !== "exam") } });
     } catch (error) {
       next(error);
     }

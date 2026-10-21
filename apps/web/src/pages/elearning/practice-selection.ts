@@ -1,9 +1,9 @@
-import type { PracticeProgress, PracticeQuestion } from "@portal/shared";
+import { CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_QUESTION_COUNT, type PracticeProgress, type PracticeQuestion } from "@portal/shared";
 
 export type PracticeSelection = {
   chapters: number[];
   kLevels: string[];
-  limit: 30 | 60 | "all";
+  limit: 20 | 40 | "all";
   errorsOnly: boolean;
 };
 
@@ -35,6 +35,30 @@ export function createPracticeSession(
     ...eligible.filter((question) => !seen.has(question.id)),
     ...eligible.filter((question) => seen.has(question.id)),
   ];
-  return prioritized.slice(0, selection.limit === "all" ? prioritized.length : selection.limit)
+  let selected = prioritized.slice(0, selection.limit === "all" ? prioritized.length : selection.limit);
+  if (selection.limit !== "all" && selection.chapters.length > 0) {
+    const limit = selection.limit;
+    const chapters = [...new Set(selection.chapters)].sort((left, right) => left - right);
+    const allChapters = CTFL_EXAM_CHAPTER_COUNTS.every((_count, index) => chapters.includes(index + 1));
+    const totalWeight = allChapters ? CTFL_EXAM_QUESTION_COUNT : chapters.length;
+    const quotas = chapters.map((chapter) => ({
+      chapter,
+      weight: allChapters ? CTFL_EXAM_CHAPTER_COUNTS[chapter - 1] ?? 0 : 1,
+    })).map(({ chapter, weight }) => ({
+      chapter,
+      count: Math.floor(weight * limit / totalWeight),
+      remainder: weight * limit % totalWeight,
+    }));
+    const remaining = limit - quotas.reduce((sum, quota) => sum + quota.count, 0);
+    (allChapters ? [...quotas] : shuffled(quotas))
+      .sort((left, right) => right.remainder - left.remainder || (allChapters ? left.chapter - right.chapter : 0))
+      .slice(0, remaining).forEach((quota) => { quota.count += 1; });
+    selected = quotas.flatMap((quota) =>
+      prioritized.filter((question) => question.metadata?.chapter === quota.chapter).slice(0, quota.count));
+    const selectedIds = new Set(selected.map((question) => question.id));
+    selected.push(...prioritized.filter((question) => !selectedIds.has(question.id)).slice(0, limit - selected.length));
+    selected = shuffled(selected);
+  }
+  return selected
     .map((question) => ({ ...question, options: shuffled(question.options) }));
 }

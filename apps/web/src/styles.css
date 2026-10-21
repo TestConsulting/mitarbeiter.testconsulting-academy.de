@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap");
 
+.question-content__line { display: block; }
+.question-content__image { display: block; max-width: 100%; height: auto; margin-block: 16px; }
+
 :root {
   font-family: "Open Sans", "Segoe UI", sans-serif;
   color: #1b2a36;
@@ -449,7 +452,14 @@ a { color: inherit; }
 .board-column__action:hover { background: var(--surface); color: var(--primary); }
 .board-column__action:disabled { opacity: 0.45; cursor: not-allowed; }
 .board-column__action-tooltip { display: inline-flex; }
-.board-column__cards { display: flex; min-height: 0; flex: 1 1 auto; flex-direction: column; gap: 8px; overflow: hidden; }
+.board-column__scroll-area { position: relative; display: flex; min-height: 0; flex: 1 1 auto; padding-right: 10px; }
+.board-column__cards { display: flex; min-width: 0; min-height: 0; flex: 1 1 auto; flex-direction: column; gap: 8px; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.board-column__cards::-webkit-scrollbar { display: none; }
+.board-column__cards > .ticket-card { flex-shrink: 0; }
+.board-column__insertion-marker { flex-shrink: 0; height: 34px; padding-bottom: 8px; margin-bottom: -8px; }
+.board-column__insertion-marker > div { height: 26px; border: 1px dashed color-mix(in srgb, var(--accent) 65%, transparent); border-radius: 8px; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.board-column__scroll-indicator { position: absolute; right: -2px; width: 4px; border-radius: 999px; background: var(--muted); opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
+.board-column__scroll-indicator--visible { opacity: 0.5; }
 .board-column__footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 6px; }
 .board-column__footer .fui-Button { flex: 1 1 auto; }
 .board-column__composer { display: flex; flex-direction: column; gap: 8px; }

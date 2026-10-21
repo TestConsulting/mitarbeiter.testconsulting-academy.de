@@ -25,7 +25,7 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import type { Course, CourseInput, CourseCategory, CourseSummary, ExamAttempt } from "@portal/shared";
-import { canManagePortal } from "@portal/shared";
+import { canManagePortal, EXAM_PASS_THRESHOLD } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { useAuth } from "../../app/auth-context.js";
 import {
@@ -296,6 +296,9 @@ export function ElearningPage() {
                           Letzte Prüfung · {examDateFormatter.format(new Date(attempt.submittedAt))}
                         </span>
                         <strong>Richtigkeit: {attempt.percentage} %</strong>
+                        {course.slug === "istqb-foundation" && (
+                          <span>Bestehensgrenze: {EXAM_PASS_THRESHOLD} %</span>
+                        )}
                       </div>
                       <Badge appearance="tint" color={attempt.passed ? "success" : "danger"}>
                         {attempt.passed ? "Bestanden" : "Nicht bestanden"}

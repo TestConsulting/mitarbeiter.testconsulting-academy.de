@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import type { AbortedExamSession, ExamAttempt } from "@portal/shared";
 import { api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
+import { QuestionContent } from "./question-content.js";
 
 type CoursePerformance = {
   courseId: string;
@@ -267,6 +268,7 @@ export function ExamResultsPage() {
                           </span>
                         </summary>
                         <div className="exam-history-review__answer-card exam-history-review__answer-card--history">
+                          {item.question.image && <QuestionContent question={{ question: "", image: item.question.image }} />}
                           <ul className="exam-history-review__options exam-history-review__options--standalone">
                             {item.question.options.map((option) => (
                               <li key={option.id} className="practice-review-option">

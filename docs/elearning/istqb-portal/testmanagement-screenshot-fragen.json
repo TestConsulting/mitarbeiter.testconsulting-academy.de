@@ -1,0 +1,1857 @@
+{
+  "version": 1,
+  "sourceQuestionCount": 72,
+  "missingSourceNumbers": [],
+  "duplicates": [],
+  "confirmedAnswers": {
+    "14": {
+      "answer": "A, B, D und E",
+      "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+    },
+    "46": {
+      "answer": "Der Testmanager plant, organisiert und steuert die Testaktivitäten, während der Tester Testfälle spezifiziert, automatisiert und ausführt.",
+      "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+    }
+  },
+  "questions": [
+    {
+      "id": "ctfl-testmanagement-001",
+      "question": "1. Definition:\nRisikoorientierter Test ist eine Vorgehensweise beim Testen, um Projektrisiken zu reduzieren\nund die Stakeholder hinsichtlich der Projektrisiken zu informieren, beginnend in den frühen\nPhasen des Projekts. Risikoorientiertes Testen beinhaltet die Identifizierung der Projektrisiken\nund die Verwendung von Risikostufen zur Steuerung des Testprozesses.\n2. Definition:\nStrukturbasierter Test ist ein dokumentiertes Verfahren zur Herleitung und Auswahl von\nTestfällen, basierend auf der internen Struktur einer Komponente oder eines Systems.\nWelche dieser Definitionen sind korrekt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-001-a",
+          "text": "nur die zweite Definition"
+        },
+        {
+          "id": "ctfl-testmanagement-001-b",
+          "text": "keine von beiden"
+        },
+        {
+          "id": "ctfl-testmanagement-001-c",
+          "text": "nur die erste Definition"
+        },
+        {
+          "id": "ctfl-testmanagement-001-d",
+          "text": "beide"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-001-a"
+      ],
+      "explanation": "Die zweite Definition beschreibt strukturbasiertes Testen zutreffend. Die erste verwechselt Projekt- und Produktrisiken: Risikoorientiertes Testen richtet die Tests insbesondere an Produktrisiken aus. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-003",
+      "question": "Die untenstehende Liste enthält Risiken, die für ein zu entwickelndes Softwareprodukt\nidentifiziert wurden.\nWelches dieser Risiken ist ein typisches Beispiel für ein Produktrisiko?\nBitte wählen Sie genau eine zutreffende Antwort (1-4) aus:",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-003-a",
+          "text": "Die Software wird später als geplant ausgeliefert."
+        },
+        {
+          "id": "ctfl-testmanagement-003-b",
+          "text": "Mangel an qualifizierten Testern um geplante Tests zu vollenden."
+        },
+        {
+          "id": "ctfl-testmanagement-003-c",
+          "text": "Ein externer Lieferant liefert nicht vertragsgemäß."
+        },
+        {
+          "id": "ctfl-testmanagement-003-d",
+          "text": "Bedrohung des Lebens eines Patienten"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-003-d"
+      ],
+      "explanation": "Eine Gefährdung durch den Einsatz des Produkts ist ein Produktrisiko. Verspätete Lieferung, fehlendes Personal und Lieferantenprobleme gefährden dagegen das Projekt. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-004",
+      "question": "Durch welche Kriterien bestimmt der Testmanager den Aufwand und Zeitbedarf der\nTestarbeiten und legt fest welche Testfälle, von welchem Tester, in welcher Reihenfolge, zu\nwelchen Zeitpunkt auszuführen sind?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-004-a",
+          "text": "Entwicklungszustand, Testergebnisse (aus vorangegangenen Tests) und Ressourcen"
+        },
+        {
+          "id": "ctfl-testmanagement-004-b",
+          "text": "Geld, geschätzte Fehlerquote und Umfang"
+        },
+        {
+          "id": "ctfl-testmanagement-004-c",
+          "text": "Entwicklung, Zeitdruck und Geld"
+        },
+        {
+          "id": "ctfl-testmanagement-004-d",
+          "text": "Zeit, Geld und Umfang"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-004-a"
+      ],
+      "explanation": "Der Testzyklus wird aus Entwicklungsstand, bisherigen Testergebnissen und tatsächlich verfügbaren Ressourcen geplant. Geld oder Zeit allein beschreiben die notwendigen Planungsinformationen nicht vollständig. Quelle: Basiswissen Softwaretest, Abschnitt 6.5.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-007",
+      "question": "Folgende Aussagen über Ausgangskriterien bei der Testplanung treffen zu:\nA) Sie werden durch den Tester bei der Realisierung festgelegt.\nB) Sie definieren wann mit dem Testen aufgehört wird.\nC) Kosten und verbleibende Risiken sind typische Ausgangskriterien.\nD) Verfügbarkeit der Testumgebung ist ein typisches Ausgangskriterium.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-007-a",
+          "text": "C und D"
+        },
+        {
+          "id": "ctfl-testmanagement-007-b",
+          "text": "B und C"
+        },
+        {
+          "id": "ctfl-testmanagement-007-c",
+          "text": "nur B"
+        },
+        {
+          "id": "ctfl-testmanagement-007-d",
+          "text": "A und B"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-007-b"
+      ],
+      "explanation": "Endekriterien legen fest, wann Tests beendet werden können. Dazu gehören Kosten und akzeptierte Restrisiken. Eine verfügbare Testumgebung ist hingegen eine Startvoraussetzung. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-008",
+      "question": "Folgende Aussagen über Eingangskriterien bei der Testplanung treffen zu:\nA) Zeitpläne sind ein typisches Kriterium.\nB) Die Einsatzbereitschaft ist ein typisches Kriterium.\nC) Eingangskriterien bestimmen, wann mit dem Testen begonnen wird.\nD) Die Verfügbarkeit des testbaren Codes ist ein typisches Kriterium.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-008-a",
+          "text": "B, C und D"
+        },
+        {
+          "id": "ctfl-testmanagement-008-b",
+          "text": "Alle Antworten"
+        },
+        {
+          "id": "ctfl-testmanagement-008-c",
+          "text": "A, B und D"
+        },
+        {
+          "id": "ctfl-testmanagement-008-d",
+          "text": "B und C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-008-a"
+      ],
+      "explanation": "Einsatzbereitschaft und verfügbarer testbarer Code sind Eingangskriterien; diese bestimmen den Beginn der Testdurchführung. Ein Terminplan allein belegt keine Testbereitschaft. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-013",
+      "question": "Testfall ST004 ist fehlgeschlagen. Die folgenden Informationen wurde im Fehlerbericht\naufgenommen:\nTestobjekt: ERP II\nErfassung: 27. Mai 2005\nPlattform: AIX V-5.35\n...\nTestfall: ST004\nProblem: 1. Problem Änderungen von Datenbankeinträgen sind nicht im Audit Trail\naufgenommen (s. System Log im Anhang [hier nicht angezeigt]).\n...\nWelche Informationen fehlen im Fehlerbericht um eine effiziente Analyse des Vorfalls zu\nermöglichen?\nA Dauer der Testdurchführung\nB Versionsnummer des Testobjekts\nC Ursache des Fehlers\nD Versionsnummer des Testfalls\nE Auswirkung des Fehlers (Fehlerschwere)",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-013-a",
+          "text": "B, D und E sind richtig, A und C sind falsch."
+        },
+        {
+          "id": "ctfl-testmanagement-013-b",
+          "text": "C und E sind richtig, A, B und D sind falsch"
+        },
+        {
+          "id": "ctfl-testmanagement-013-c",
+          "text": "B, C und E sind richtig, A und D sind falsch."
+        },
+        {
+          "id": "ctfl-testmanagement-013-d",
+          "text": "A und D sind richtig, B, C und E sind falsch"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-013-a"
+      ],
+      "explanation": "Versionsstände von Testobjekt und Testfall sowie die Fehlerschwere erleichtern Reproduktion und Priorisierung. Die tatsächliche Ursache muss beim Erfassen des Vorfalls noch nicht bekannt sein. Quelle: Basiswissen Softwaretest, Abschnitt 6.6.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-014",
+      "question": "Testplanungsaktivitäten können sein:\nA: Festlegen des Umfangs und der Risiken sowie Identifizierung der Testziele\nB: Entscheiden, was zu testen ist, welche Rollen welche Testaktivitäten ausführen werden\nC: Festlegen der Verfügbarkeit von Testdaten\nD: Bestimmen des Detaillierungsgrads für Testablaufspezifikationen\nE: Testimplementierung, -ausführung und -bewertung planen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-014-a",
+          "text": "nur A und B"
+        },
+        {
+          "id": "ctfl-testmanagement-014-b",
+          "text": "nur D und E"
+        },
+        {
+          "id": "ctfl-testmanagement-014-c",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testmanagement-014-d",
+          "text": "A, B, D und E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-014-d"
+      ],
+      "explanation": "Vom Benutzer anhand der gelben Originalauflösungsbox bestätigt. Der Originalkatalog ordnet Umfang/Risiken/Ziele, Rollen und Testinhalt, Detaillierungsgrad sowie die Planung von Implementierung, Ausführung und Bewertung der Testplanung zu. Die konkrete Festlegung verfügbarer Testdaten wird in dieser Frage nicht mit ausgewählt. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.1 und 6.2.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-015",
+      "question": "Unerwünschte zukünftige Ereignisse in der Software oder im System werden als\nProduktrisiken bezeichnet. Dazu gehören:\nI: Eine fehleranfällige Software\nII: schlechte Datenintegrität\nIII: Software, die nicht die geforderten Funktionen erfüllt\nIV: fehlende Qualifikation der TesterInnen\nV: geringe Qualität des Designs, des Codes",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-015-a",
+          "text": "nur I und III"
+        },
+        {
+          "id": "ctfl-testmanagement-015-b",
+          "text": "nur I, II, III"
+        },
+        {
+          "id": "ctfl-testmanagement-015-c",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testmanagement-015-d",
+          "text": "nur I, III, V"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-015-b"
+      ],
+      "explanation": "Fehleranfälligkeit, mangelhafte Datenintegrität und fehlende Funktionen betreffen die Produktqualität. Fehlende Testerqualifikation und mangelhafte Entwicklungszwischenergebnisse können dagegen das Projekt gefährden. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3; CTFL-Lehrplan 4.0.2, Abschnitt 5.2.2. Wegen der Frageform nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-016",
+      "question": "Von welchen Faktoren kann die Testvorgehensweise beeinflusst werden?\n1. Risiken\n2. verfügbare Ressourcen und Fähigkeiten\n3. Technologie\n4. Art des Systems (z.B. maßgeschneidert oder kommerzielle COTS Software)\n5. Testzielen und Vorschriften",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-016-a",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-testmanagement-016-b",
+          "text": "2. 3. 4."
+        },
+        {
+          "id": "ctfl-testmanagement-016-c",
+          "text": "nur 3."
+        },
+        {
+          "id": "ctfl-testmanagement-016-d",
+          "text": "2. 3. 5."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-016-a"
+      ],
+      "explanation": "Risiken, Ressourcen, Fähigkeiten, Technologie, Systemart, Ziele und Vorschriften beeinflussen die Wahl der Testvorgehensweise. Keiner dieser Kontextfaktoren kann generell ausgeschlossen werden. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-018",
+      "question": "Wann ist genug getestet?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-018-a",
+          "text": "Wenn alle Testfälle, Testdaten und Ergebnisse geprüft wurden."
+        },
+        {
+          "id": "ctfl-testmanagement-018-b",
+          "text": "Wenn abhängig vom Risiko das Notwendige getestet wurde."
+        },
+        {
+          "id": "ctfl-testmanagement-018-c",
+          "text": "Wenn der Nutzer und der Projektleiter zufrieden sind."
+        },
+        {
+          "id": "ctfl-testmanagement-018-d",
+          "text": "Wenn die geplanten Tests durchgeführt worden sind."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-018-b"
+      ],
+      "explanation": "Der angemessene Testumfang richtet sich nach dem Risiko und den vereinbarten Endekriterien. Alle geplanten Tests ausgeführt zu haben, reicht bei neuen Erkenntnissen oder unvertretbaren Restrisiken nicht automatisch aus. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4 und 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-019",
+      "question": "Wann kann problemlos mit dem Testen aufgehört werden und man kann sagen, dass man\ngenug getestet hat?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-019-a",
+          "text": "wenn das Vertrauen in das System gemäß den gesetzten Kriterien ausreichend ist"
+        },
+        {
+          "id": "ctfl-testmanagement-019-b",
+          "text": "wenn die Tester keine schwerwiegenden Fehler mehr finden"
+        },
+        {
+          "id": "ctfl-testmanagement-019-c",
+          "text": "wenn die Zeit abgelaufen ist"
+        },
+        {
+          "id": "ctfl-testmanagement-019-d",
+          "text": "wenn keine Fehler mehr gefunden werden"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-019-a"
+      ],
+      "explanation": "Ausreichendes Vertrauen gemessen an vereinbarten Kriterien begründet einen Testabschluss. Weder abgelaufene Zeit noch das Ausbleiben weiterer Funde beweisen die Fehlerfreiheit. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-020",
+      "question": "Wann sollte man mit dem Testen aufhören?\nWelche der folgenden Antworten passt am besten?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-020-a",
+          "text": "wenn die Zeit abgelaufen ist"
+        },
+        {
+          "id": "ctfl-testmanagement-020-b",
+          "text": "es kommt auf die Risiken des getesteten Systems an"
+        },
+        {
+          "id": "ctfl-testmanagement-020-c",
+          "text": "wenn alle Faults korrekt behoben worden sind"
+        },
+        {
+          "id": "ctfl-testmanagement-020-d",
+          "text": "wenn alle geplanten Tests durchgeführt worden sind"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-020-b"
+      ],
+      "explanation": "Die Entscheidung über das Testende berücksichtigt insbesondere Risiken und vereinbarte Endekriterien. Eine pauschale Forderung nach Beseitigung aller Defekte ist weder ein realistischer noch ein allgemeingültiger Abschlussmaßstab. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4 und 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-021",
+      "question": "Was ist das Hauptziel des Testkonzeptes?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-021-a",
+          "text": "Kommunikation wie getestet werden soll"
+        },
+        {
+          "id": "ctfl-testmanagement-021-b",
+          "text": "Festlegung der personellen Arbeitsaufteilung"
+        },
+        {
+          "id": "ctfl-testmanagement-021-c",
+          "text": "Erstellung des zeitlichen Testablaufes"
+        },
+        {
+          "id": "ctfl-testmanagement-021-d",
+          "text": "Kommunikation wie Fehler behandelt werden sollen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-021-a"
+      ],
+      "explanation": "Ein Testkonzept kommuniziert, wie getestet werden soll: Ziele, Umfang, Vorgehen, Ressourcen und Kriterien. Personalaufteilung und Zeitplan sind nur Teilaspekte. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.2. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-022",
+      "question": "Was ist der Zweck von Testendekriterien?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-022-a",
+          "text": "garantieren Fehlerfreiheit"
+        },
+        {
+          "id": "ctfl-testmanagement-022-b",
+          "text": "stellen sicher, dass das Produkt die Erwartungen des Kunden erfüllt"
+        },
+        {
+          "id": "ctfl-testmanagement-022-c",
+          "text": "dienen dazu, festzustellen, ob das Produkt gut oder schlecht ist"
+        },
+        {
+          "id": "ctfl-testmanagement-022-d",
+          "text": "legen fest, wann die Testaufgabe erledigt ist."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-022-d"
+      ],
+      "explanation": "Endekriterien definieren die Bedingungen, unter denen die Testaufgabe als abgeschlossen gilt. Sie garantieren weder Fehlerfreiheit noch die Erfüllung aller Kundenerwartungen. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-024",
+      "question": "Was ist kein Bestandteil des Configuration-Managements?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-024-a",
+          "text": "Dokumentation der Testelemente"
+        },
+        {
+          "id": "ctfl-testmanagement-024-b",
+          "text": "Bewertung der Gesamtheit der festgestellten Abweichungen"
+        },
+        {
+          "id": "ctfl-testmanagement-024-c",
+          "text": "Identifikation der Testversionen"
+        },
+        {
+          "id": "ctfl-testmanagement-024-d",
+          "text": "Aufzeichnung der Änderungen der Dokumentation"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-024-b"
+      ],
+      "explanation": "Konfigurationsmanagement identifiziert und versioniert Testmittel und verfolgt Änderungen. Die zusammenfassende Bewertung aller Abweichungen gehört zur Auswertung bzw. zum Fehlermanagement. Quelle: Basiswissen Softwaretest, Abschnitt 6.7. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-025",
+      "question": "Was ist typisch für Test-Driven-Development?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-025-a",
+          "text": "Testfallerstellung als Teil der Anforderungsspezifizierung"
+        },
+        {
+          "id": "ctfl-testmanagement-025-b",
+          "text": "Testfallerstellung und ggf. Automatisierung parallel zur Implementierung"
+        },
+        {
+          "id": "ctfl-testmanagement-025-c",
+          "text": "Testfallerstellung und ggf. Automatisierung nach der Implementierung"
+        },
+        {
+          "id": "ctfl-testmanagement-025-d",
+          "text": "Testfallerstellung und ggf. Automatisierung vor der Implementierung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-025-d"
+      ],
+      "explanation": "Beim testgetriebenen Entwickeln werden die Tests vor dem zugehörigen Produktionscode erstellt und gegebenenfalls automatisiert; sie leiten die Implementierung. Quelle: Basiswissen Softwaretest, Abschnitt 3.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-2.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-026",
+      "question": "Was ist üblicherweise kein Projektrisiko?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-026-a",
+          "text": "unangemessene Einstellung gegenüber oder Erwartung an das Testen"
+        },
+        {
+          "id": "ctfl-testmanagement-026-b",
+          "text": "Nicht rechtzeitig verfügbare Testumgebung"
+        },
+        {
+          "id": "ctfl-testmanagement-026-c",
+          "text": "Die Software erfüllt den geforderten Einsatzzweck nicht und ist unbrauchbar."
+        },
+        {
+          "id": "ctfl-testmanagement-026-d",
+          "text": "Probleme bei der Definition richtiger Anforderungen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-026-c"
+      ],
+      "explanation": "Ein unbrauchbares Produkt ist ein Produktrisiko. Mangelnde Kooperation, eine verspätete Testumgebung und Schwierigkeiten bei der Anforderungsdefinition gefährden die Durchführung des Projekts. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-027",
+      "question": "Was sind Faktoren für den Testaufwand?\nI: Charakteristik des Produktes z.B. Größe des Produktes\nII: Charakteristik des Entwicklungsprozesses z. B. Testprozess\nIII: Testergebnisse z. B. Umfang der erforderlichen Nacharbeiten",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-027-a",
+          "text": "nur I und III"
+        },
+        {
+          "id": "ctfl-testmanagement-027-b",
+          "text": "nur II"
+        },
+        {
+          "id": "ctfl-testmanagement-027-c",
+          "text": "I, II, III"
+        },
+        {
+          "id": "ctfl-testmanagement-027-d",
+          "text": "nur I"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-027-c"
+      ],
+      "explanation": "Produktmerkmale, Entwicklungsprozess und bisherige Testergebnisse beeinflussen gemeinsam den Testaufwand. Beispielsweise verändern Größe, Prozessreife und notwendige Nacharbeiten die Schätzung. Quelle: Basiswissen Softwaretest, Abschnitt 6.3.2 und 6.3.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-029",
+      "question": "Was sind mögliche Produktrisiken?\nI: gelieferte fehleranfällige Software\nII: schlechte Softwareeigenschaften\nIII: Bedienfehler im Betrieb\nIV: Fehlerhafte Anforderungsdefinition\nV: Schadenspotential, welches das Produkt einem Individuum oder einer Firma zufügen\nkönnte",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-029-a",
+          "text": "alle Antworten"
+        },
+        {
+          "id": "ctfl-testmanagement-029-b",
+          "text": "I, II, V"
+        },
+        {
+          "id": "ctfl-testmanagement-029-c",
+          "text": "I, II, IV, V"
+        },
+        {
+          "id": "ctfl-testmanagement-029-d",
+          "text": "I, II, III, IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-029-b"
+      ],
+      "explanation": "Fehleranfällige Software, unzureichende Produkteigenschaften und potenzielle Schäden kennzeichnen Produktrisiken. Eine mangelhafte Anforderungsdefinition kann als unzureichendes Entwicklungsarbeitsergebnis das Projekt gefährden; Bedienfehler sind ohne weitere Produktursache nicht automatisch ein Produktrisiko. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3; CTFL-Lehrplan 4.0.2, Abschnitt 5.2.2. Wegen der Frageform nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-030",
+      "question": "Was sind Testeingangskriterien?\n1. Kosten\n2. Verfügbarkeit des testbaren Codes\n3. Schätzungen über Fehlerdichte oder Zuverlässigkeitsmaße\n4. Verfügbarkeit der Testdaten\n5. Bereitschaft der Testwerkzeuge in der Testumgebung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-030-a",
+          "text": "2. 4. 5."
+        },
+        {
+          "id": "ctfl-testmanagement-030-b",
+          "text": "Keine"
+        },
+        {
+          "id": "ctfl-testmanagement-030-c",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-testmanagement-030-d",
+          "text": "2. und 4."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-030-a"
+      ],
+      "explanation": "Testbarer Code, Testdaten und einsatzbereite Werkzeuge sind Startvoraussetzungen. Kosten und erreichte Zuverlässigkeit sind in dieser Gegenüberstellung typische Endekriterien. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-031",
+      "question": "Was sind typische Aufgaben eines Testers?\n1. Entscheiden über die Implementierung der Testumgebung\n2. Vorbereiten oder Anfordern von Testdaten\n3. Erstellen von Testspezifikationen\n4. Entscheiden was zu welchem Grad und wie automatisiert werden sollte\n5. Mitarbeit und Prüfung von Testkonzepten",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-031-a",
+          "text": "1. 2. 3. 4."
+        },
+        {
+          "id": "ctfl-testmanagement-031-b",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-testmanagement-031-c",
+          "text": "2. 3. 5."
+        },
+        {
+          "id": "ctfl-testmanagement-031-d",
+          "text": "Nur 2."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-031-c"
+      ],
+      "explanation": "Tester bereiten Testdaten vor, erstellen Testspezifikationen und wirken an Testkonzepten mit. Grundsatzentscheidungen über Testumgebung und Automatisierungsgrad werden in der beschriebenen Rollenverteilung vom Testmanagement koordiniert. Die konkrete Aufgabenverteilung hängt vom Projekt und der Organisation ab; eine Person kann beide Rollen übernehmen. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2; CTFL-Lehrplan 4.0.2, Abschnitt 1.4.5. Wegen der Frageform nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-032",
+      "question": "Was sind typische Aufgaben eines Testmanagers?\nI: Koordination der Teststrategie\nII: Planen der Tests\nIII: Auswahl der Testwerkzeuge\nIV: Einsetzen von Testadministrations- oder Testmanagement- und\nTestüberwachungswerkzeugen\nV: Erstellen der Testspezifikation",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-032-a",
+          "text": "alle Antworten"
+        },
+        {
+          "id": "ctfl-testmanagement-032-b",
+          "text": "I, II"
+        },
+        {
+          "id": "ctfl-testmanagement-032-c",
+          "text": "I, II, III"
+        },
+        {
+          "id": "ctfl-testmanagement-032-d",
+          "text": "I, II, III, IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-032-d"
+      ],
+      "explanation": "Testmanagement koordiniert Strategie und Planung, wählt Werkzeuge und nutzt Management- bzw. Überwachungswerkzeuge. Die detaillierte Testspezifikation ist in der dargestellten Rollenteilung eine Testeraufgabe. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-034",
+      "question": "Was sind typische Testeingangs- bzw. was sind typische Endekriterien von Tests?\nA. Verfügbarkeit und Einsatzbereitschaft der Testumgebung\nB. Kosten\nC. Intensitätsmaße, z.B. Risiko, Codeüberdeckung oder Funktionalität\nD. Zeitpläne, z.B. basierend auf dem Termin der Markteinführung\nE. Verfügbarkeit der Testdateien\nF. Verbleibende Risiken, z.B. nicht behobene Fehlerzustände oder fehlende Testüberdeckung\nin bestimmten Bereichen\nG. Bereitschaft der Testwerkzeuge in der Testumgebung\nH. Verfügbarkeit des testbaren Codes\nI. Schätzungen über Fehlerdichte oder Zuverlässigkeitsmaße",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-034-a",
+          "text": "A bis E sind Testeingangskriterien, F bis I sind Endekriterien."
+        },
+        {
+          "id": "ctfl-testmanagement-034-b",
+          "text": "A, E, G, H sind Testeingangskriterien, B, C, D, F, I sind Endekriterien."
+        },
+        {
+          "id": "ctfl-testmanagement-034-c",
+          "text": "A, E, G, I sind Testeingangskriterien, B, C, D, F, H sind Endekriterien."
+        },
+        {
+          "id": "ctfl-testmanagement-034-d",
+          "text": "A, B, D, H sind Testeingangskriterien, C, E, F, G, I sind Endekriterien."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-034-b"
+      ],
+      "explanation": "Verfügbare Umgebung, Testdateien, Werkzeuge und Code ermöglichen den Teststart. Kosten, Überdeckungsziele, Termine, Restrisiken und Qualitätskennzahlen dienen der Entscheidung über das Testende. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-035",
+      "question": "Was sind typische Testendekriterien und zugehörige Metriken?\nA: Erreichter Testumfang: Testüberdeckung, abgedeckte Anforderungen, Codeabdeckung\nB: Erreichte Produktqualität: Fehlerdichte, Fehlerschwere, Zuverlässigkeit des Testobjekts usw.\nC: Verbleibendes Risiko: nicht gelaufene Tests, nicht behobene Defekte, unvollständige\nAnforderungs- oder Codeabdeckung usw.\nD: Wirtschaftliche Rahmenbedingungen: Kostenrahmen, Projektrisiken, Liefertermine und\nMarktchancen usw.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-035-a",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testmanagement-035-b",
+          "text": "nur D"
+        },
+        {
+          "id": "ctfl-testmanagement-035-c",
+          "text": "nur B"
+        },
+        {
+          "id": "ctfl-testmanagement-035-d",
+          "text": "nur A und C"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-035-a"
+      ],
+      "explanation": "Erreichter Umfang, Produktqualität, Restrisiko und wirtschaftliche Rahmenbedingungen sind sämtlich mögliche Dimensionen von Testendekriterien. Die konkreten Grenzwerte werden projektspezifisch vereinbart. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-036",
+      "question": "Was sind Vorteile unabhängiger Tester?\nI: Sehen andere und unterschiedliche Fehler durch ihre Unabhängigkeit\nII: Sie können vom Entwicklungsteam isoliert arbeiten.\nIII: Können Annahmen verifizieren, die während der Spezifikation und Implementierung des\nSystems gemacht wurden.\nIV: Steigern das Verantwortungsgefühl für Qualität bei den Entwicklern.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-036-a",
+          "text": "I, III, IV"
+        },
+        {
+          "id": "ctfl-testmanagement-036-b",
+          "text": "alle Antworten"
+        },
+        {
+          "id": "ctfl-testmanagement-036-c",
+          "text": "I, III"
+        },
+        {
+          "id": "ctfl-testmanagement-036-d",
+          "text": "II, IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-036-c"
+      ],
+      "explanation": "Unabhängige Tester entdecken durch andere Perspektiven andere Defekte und hinterfragen Entwicklungsannahmen. Isolation ist ein Nachteil; die Qualitätsverantwortung der Entwickler darf nicht auf Tester abgeschoben werden. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.5.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-037",
+      "question": "Was soll in einem Testbericht enthalten sein?\nA: Testobjekt\nB: Fehlerstatus\nC: Risiken\nD: Name mit Geburtsdatum",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-037-a",
+          "text": "nur B, C"
+        },
+        {
+          "id": "ctfl-testmanagement-037-b",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-testmanagement-037-c",
+          "text": "A, B, C"
+        },
+        {
+          "id": "ctfl-testmanagement-037-d",
+          "text": "nur A, B"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-037-c"
+      ],
+      "explanation": "Ein Testbericht beschreibt das Testobjekt, den Fehlerstatus und Risiken. Das Geburtsdatum des Berichterstellers ist für diesen Zweck weder erforderlich noch angemessen. Quelle: Basiswissen Softwaretest, Abschnitt 6.5.2. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.3.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-039",
+      "question": "Was wäre die beste Grundlage für das Testen mit Fehlerangriffen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-039-a",
+          "text": "Von Fachexperten abgeleitete anwendungsfallbasierte Tests"
+        },
+        {
+          "id": "ctfl-testmanagement-039-b",
+          "text": "Zu Beginn des Projekts durchgeführte Risikoidentifikation."
+        },
+        {
+          "id": "ctfl-testmanagement-039-c",
+          "text": "Erwartete Ergebnisse im Vergleich mit einem bestehenden System."
+        },
+        {
+          "id": "ctfl-testmanagement-039-d",
+          "text": "Erfahrung, Informationen über Fehlerwirkungen und -ursachen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-039-d"
+      ],
+      "explanation": "Fehlerangriffe nutzen Erfahrung mit typischen Fehlern sowie bekannte Fehlerwirkungen und Ursachen, um gezielt weitere Defekte aufzudecken. Quelle: Basiswissen Softwaretest, Abschnitt 5.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-4.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-041",
+      "question": "Welche Aufgabe wird nicht vom Testmanager wahrgenommen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-041-a",
+          "text": "Erstellen der Testberichte"
+        },
+        {
+          "id": "ctfl-testmanagement-041-b",
+          "text": "Planung der Teststrategie"
+        },
+        {
+          "id": "ctfl-testmanagement-041-c",
+          "text": "Ausarbeitung der Testdaten"
+        },
+        {
+          "id": "ctfl-testmanagement-041-d",
+          "text": "Planung der Tests"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-041-c"
+      ],
+      "explanation": "Testdaten werden typischerweise durch Tester ausgearbeitet. Berichte, Teststrategie und übergreifende Planung liegen in der hier verwendeten Rollenteilung beim Testmanager. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-042",
+      "question": "Welche Aussage ist falsch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-042-a",
+          "text": "Ein Ansatz für die Schätzung des Testaufwands ist der metrikenbasierte Ansatz."
+        },
+        {
+          "id": "ctfl-testmanagement-042-b",
+          "text": "Ein Ansatz für die Schätzung des Testaufwands ist der kostenbasierte Ansatz."
+        },
+        {
+          "id": "ctfl-testmanagement-042-c",
+          "text": "Ein Ansatz für die Schätzung des Testaufwands ist der expertenbasierte Ansatz."
+        },
+        {
+          "id": "ctfl-testmanagement-042-d",
+          "text": "Die Schätzung des Aufwands für die einzelnen Aufgaben erfolgt durch die Verantwortlichen für diese Aufgaben."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-042-b"
+      ],
+      "explanation": "Der aktuelle Lehrplan behandelt metrikbasierte Verfahren wie Verhältniszahlen und Extrapolation sowie expertenbasierte Verfahren wie Breitband-Delphi und Drei-Punkt-Schätzung. Ein eigenständiges kostenbasiertes Verfahren gehört nicht zu diesen beschriebenen Schätzverfahren. Quelle: Basiswissen Softwaretest, Abschnitt 6.3.3; CTFL-Lehrplan 4.0.2, Abschnitt 5.1.4. Wegen der Frageform nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-043",
+      "question": "Welche Aussage zur Testabdeckung (bzw. Testüberdeckung) stimmt nicht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-043-a",
+          "text": "Die Testüberdeckung wird häufig als Ausgangskriterium für einen Test genutzt."
+        },
+        {
+          "id": "ctfl-testmanagement-043-b",
+          "text": "Testüberdeckung kann über den Prozentsatz der durch Prüffälle abgedeckten Anwenderforderungen ermittelt werden."
+        },
+        {
+          "id": "ctfl-testmanagement-043-c",
+          "text": "Testüberdeckung kann über den Prozentsatz der gefundenen Fehlerwirkungen ermittelt werden."
+        },
+        {
+          "id": "ctfl-testmanagement-043-d",
+          "text": "Testüberdeckung kann über die Anzahl der Softwarekomponenten, die durch eine Testsequenz geprüft werden, ermittelt werden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-043-c"
+      ],
+      "explanation": "Überdeckung bezieht sich auf identifizierte Überdeckungselemente wie Anforderungen oder Komponenten. Der Prozentsatz gefundener Fehlerwirkungen misst deren Überdeckung nicht; die Gesamtzahl unbekannter Fehler ist zudem nicht bekannt. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4 und 6.5.2. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.3.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-046",
+      "question": "Welche der folgenden Aussagen beschreibt am besten die Aufgabenteilung zwischen\nTestmanager und Tester?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-046-a",
+          "text": "Der Testmanager plant, organisiert und steuert die Testaktivitäten, während der Tester Testfälle spezifiziert, automatisiert und ausführt."
+        },
+        {
+          "id": "ctfl-testmanagement-046-b",
+          "text": "Der Testmanager plant Testaktivitäten und wählt die Normen aus, die befolgt werden müssen, während der Tester die Werkzeuge und Steuerelemente auswählt, die verwendet werden."
+        },
+        {
+          "id": "ctfl-testmanagement-046-c",
+          "text": "Der Testmanager plant und organisiert die Testdurchführung und spezifiziert die Testfälle, während die Tester die Tests priorisieren und durchführen."
+        },
+        {
+          "id": "ctfl-testmanagement-046-d",
+          "text": "Der Testmanager plant, überwacht und steuert die Testaktivitäten, während der Tester die Tests entwirft."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-046-a"
+      ],
+      "explanation": "Vom Benutzer anhand der gelben Originalauflösungsbox bestätigt. Die erste Antwort beschreibt die Aufgabenteilung am vollständigsten: Management plant, organisiert und steuert; Tester spezifizieren, automatisieren und führen Tests aus. Die vierte Antwort beschreibt zwar einen Teil davon, ist aber im Originalkatalog nicht die gesuchte beste Antwort. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-047",
+      "question": "Welche der folgenden Aussagen beschreibt am zutreffendsten ein Ziel für ein Testteam?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-047-a",
+          "text": "Aufzeigen, dass alle möglichen Fehlerursachen identifiziert wurden."
+        },
+        {
+          "id": "ctfl-testmanagement-047-b",
+          "text": "Es soll ermittelt werden, ob genügend Komponententests im Systemtest ausgeführt wurden."
+        },
+        {
+          "id": "ctfl-testmanagement-047-c",
+          "text": "Es sollen so viele Fehlerwirkungen wie möglich herbeigeführt werden, sodass die Fehlerursachen identifiziert und korrigiert werden können"
+        },
+        {
+          "id": "ctfl-testmanagement-047-d",
+          "text": "Aufzeigen, dass alle verbleibenden Fehlerursachen keine Ausfälle verursachen werden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-047-c"
+      ],
+      "explanation": "Das Team soll Fehlerwirkungen gezielt sichtbar machen, damit Defekte analysiert und korrigiert werden können. Eine vollständige Identifikation aller Ursachen oder ein Beweis ausbleibender Ausfälle ist nicht erreichbar. Quelle: Basiswissen Softwaretest, Abschnitt 2.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-048",
+      "question": "Welche der folgenden Aussagen ist ein Projektrisiko?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-048-a",
+          "text": "Fehleranfällige Software wurde geliefert."
+        },
+        {
+          "id": "ctfl-testmanagement-048-b",
+          "text": "Möglicher Zuverlässigkeitsdefekt (Bug)."
+        },
+        {
+          "id": "ctfl-testmanagement-048-c",
+          "text": "Schlechte Softwareeigenschaften."
+        },
+        {
+          "id": "ctfl-testmanagement-048-d",
+          "text": "Mangel an sachkundigem Personal"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-048-d"
+      ],
+      "explanation": "Fehlendes qualifiziertes Personal bedroht die erfolgreiche Projektdurchführung. Fehleranfälligkeit, mangelnde Zuverlässigkeit und schlechte Produkteigenschaften betreffen dagegen Produktrisiken. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-049",
+      "question": "Welche der folgenden Aussagen stimmt nicht!",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-049-a",
+          "text": "Wenn Zwischenergebnisse, wie z.B. Designdokumente, Programmcode oder Testfälle von schlechter Qualität sind, die nicht erkannt oder beseitigt werden, ist das ein Projektrisiko."
+        },
+        {
+          "id": "ctfl-testmanagement-049-b",
+          "text": "Technische Probleme bergen ein Projektrisiko."
+        },
+        {
+          "id": "ctfl-testmanagement-049-c",
+          "text": "Ein Produktrisiko besteht, wenn das Produkt nicht den geforderten Einsatzzweck erfüllt oder unbrauchbar ist."
+        },
+        {
+          "id": "ctfl-testmanagement-049-d",
+          "text": "Bei beschränkten Testressourcen reicht es aus, alle Testobjekte (kritische und nicht-kritische) gleich verteilt zu testen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-049-d"
+      ],
+      "explanation": "Knappes Testbudget verlangt eine risikoorientierte Priorisierung, nicht gleiche Verteilung auf kritische und unkritische Teile. Schlechte Zwischenergebnisse und technische Schwierigkeiten können Projekte gefährden. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-051",
+      "question": "Welche der folgenden ist keine Metrik zur Testfortschrittsüberwachung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-051-a",
+          "text": "Subjektives Vertrauen der Tester in das Produkt"
+        },
+        {
+          "id": "ctfl-testmanagement-051-b",
+          "text": "Prozentsatz der durchgeführten Arbeiten in der Vorbereitung der Testumgebung"
+        },
+        {
+          "id": "ctfl-testmanagement-051-c",
+          "text": "Testkosten, inklusive Kosten im Vergleich zum Nutzen durch das Auffinden des nächsten Fehlerzustands oder für den nächsten Testdurchlauf"
+        },
+        {
+          "id": "ctfl-testmanagement-051-d",
+          "text": "Erreichen der Testendekriterien"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-051-a"
+      ],
+      "explanation": "Subjektives Vertrauen ist ohne operationalisierte Messvorschrift keine objektive Fortschrittsmetrik. Vorbereitungsfortschritt, Kosten und der Erfüllungsgrad vereinbarter Endekriterien können erfasst und berichtet werden. Quelle: Basiswissen Softwaretest, Abschnitt 6.5.2. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.3.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-052",
+      "question": "Welche der folgenden Listen enthält typische Ausgangskriterien?\nWählen Sie eine Option.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-052-a",
+          "text": "Kennzahlen zu Zuverlässigkeit und Testüberdeckung, Testkosten, Zeit bis Markteinführung, Grad der Produktvollständigkeit, Verfügbarkeit von testbarem Code."
+        },
+        {
+          "id": "ctfl-testmanagement-052-b",
+          "text": "Kennzahlen zu Zuverlässigkeit und Testüberdeckung, Grad der Unabhängigkeit der Tester und Grad der Produktvollständigkeit."
+        },
+        {
+          "id": "ctfl-testmanagement-052-c",
+          "text": "Zeit bis Markteinführung, Restfehler, Qualifikation der Tester, Grad der Unabhängigkeit der Tester, Testüberdeckung und Testkosten."
+        },
+        {
+          "id": "ctfl-testmanagement-052-d",
+          "text": "Kennzahlen zu Zuverlässigkeit und Testüberdeckung; Testkosten, Zeitplan, Status über Fehlerbehebung und Restrisiken."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-052-d"
+      ],
+      "explanation": "Zuverlässigkeit/Überdeckung, Kosten, Zeitplan, Fehlerbehebungsstatus und Restrisiken können das Testende bestimmen. Verfügbarer Code ist ein Eingangskriterium; Testerqualifikation und organisatorische Unabhängigkeit sind keine typischen Endekriterien. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-053",
+      "question": "Welche der folgenden Möglichkeiten zählt nicht zum Produktrisiko?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-053-a",
+          "text": "Die Software reagiert bei selten benötigten Eingabereihenfolgen nicht wie erwartet."
+        },
+        {
+          "id": "ctfl-testmanagement-053-b",
+          "text": "Die Testumgebung bricht bei hoher Zugriffszahl zusammen."
+        },
+        {
+          "id": "ctfl-testmanagement-053-c",
+          "text": "Am Montagmorgen kommt es trotz ausreichender Serverleistung regelmäßig zur Verlangsamung der Abarbeitung von neu erfassten Aufträgen."
+        },
+        {
+          "id": "ctfl-testmanagement-053-d",
+          "text": "Durch eine Fehlbedienung bei der Eingabe bleibt das Fließband stehen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-053-b"
+      ],
+      "explanation": "Der Zusammenbruch der Testumgebung gefährdet die Test- und Projektdurchführung und ist damit ein Projektrisiko. Die übrigen Beispiele beschreiben unerwünschtes Verhalten des eingesetzten Produkts. Quelle: Basiswissen Softwaretest, Abschnitt 6.4.3. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-054",
+      "question": "Welche der folgenden Ziele sind für die Erstellung von Problemberichten zutreffend?\nA. Die Entwickler und andere Beteiligte mit Rückmeldungen über das Problem zu versorgen,\num die Identifikation, Isolation und Behebung des Problems zu ermöglichen.\nB. Um Ideen für die Verbesserung des Testprozesses zu entwickeln.\nC. Um die Kompetenz der Tester zu beurteilen.\nD. Um den Testern ein Mittel zur Verfolgung der Qualität des getesteten Systems zur\nVerfügung zu stellen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-054-a",
+          "text": "A, B und C sind zutreffend, D ist nichtzutreffend."
+        },
+        {
+          "id": "ctfl-testmanagement-054-b",
+          "text": "A, C und D sind zutreffend, B ist nichtzutreffend."
+        },
+        {
+          "id": "ctfl-testmanagement-054-c",
+          "text": "A, B und D sind zutreffend, C ist nichtzutreffend."
+        },
+        {
+          "id": "ctfl-testmanagement-054-d",
+          "text": "B, C und D sind zutreffend, A ist nichtzutreffend."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-054-c"
+      ],
+      "explanation": "Problemberichte unterstützen Analyse und Korrektur, die Verfolgung der Produktqualität und Verbesserungen am Prozess. Sie sind kein geeignetes Instrument zur Bewertung persönlicher Testerkompetenz. Quelle: Basiswissen Softwaretest, Abschnitt 6.6.1 und 6.6.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-055",
+      "question": "Welche der genannten Aufgaben wird in der Regel NICHT vom Testmanager übernommen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-055-a",
+          "text": "Testspezifikationen erstellen."
+        },
+        {
+          "id": "ctfl-testmanagement-055-b",
+          "text": "Planen der Tests"
+        },
+        {
+          "id": "ctfl-testmanagement-055-c",
+          "text": "Eingangs- und Ausgangskriterien der Testphasen festlegen."
+        },
+        {
+          "id": "ctfl-testmanagement-055-d",
+          "text": "Über den Umfang und die Art der Testautomatisierung entscheiden."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-055-a"
+      ],
+      "explanation": "Die detaillierte Testspezifikation ist in dieser Rollenteilung eine Testeraufgabe. Testplanung, Kriterien und Grundsatzentscheidungen zur Automatisierung gehören zum Testmanagement. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-056",
+      "question": "Welche der untenstehenden Aussagen beschreiben (aus Sicht des Testens) die Aufgaben des\nKonfigurationsmanagements am besten:\nA. Alle Konfigurationsobjekte der Testmittel werden identifiziert und versioniert\nB. Alle Konfigurationsobjekte der Testmittel werden im abschließenden Akzeptanztest\nverwendet\nC. Alle Konfigurationsobjekte der Testmittel werden in einem gemeinsamen Repository\ngespeichert\nD. Alle Konfigurationsobjekte der Testmittel werden hinsichtlich Änderungen verfolgt\nE. Alle Konfigurationsobjekte der Testmittel werden einem Verantwortlichen zugeordnet\nF. Alle Konfigurationsobjekte der Testmittel stehen untereinander und zu den\nEntwicklungskomponenten in Beziehung",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-056-a",
+          "text": "D, E und F sind richtig, A, B und C sind nicht korrekt"
+        },
+        {
+          "id": "ctfl-testmanagement-056-b",
+          "text": "B, C und E sind richtig, A, D und F sind nicht korrekt"
+        },
+        {
+          "id": "ctfl-testmanagement-056-c",
+          "text": "A, C und D sind richtig, B, E und F sind nicht korrekt"
+        },
+        {
+          "id": "ctfl-testmanagement-056-d",
+          "text": "A, D und F sind richtig, B, C und E sind nicht korrekt"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-056-d"
+      ],
+      "explanation": "Identifikation/Versionierung, Änderungsverfolgung und Beziehungen zwischen Testmitteln und Entwicklungsständen sichern Nachvollziehbarkeit und Reproduzierbarkeit. Ein einziges gemeinsames Repository oder die Verwendung aller Testmittel im Abnahmetest ist dafür nicht zwingend. Quelle: Basiswissen Softwaretest, Abschnitt 6.7. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.4.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-060",
+      "question": "Welche Punkte sind bei der Testzyklusplanung zu berücksichtigen?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-060-a",
+          "text": "Die Qualifikation und Urteilsvermögen der Tester"
+        },
+        {
+          "id": "ctfl-testmanagement-060-b",
+          "text": "Die Vorteile des unabhängigen Testens"
+        },
+        {
+          "id": "ctfl-testmanagement-060-c",
+          "text": "Entwicklungsstand, Testergebnisse und Ressourcen"
+        },
+        {
+          "id": "ctfl-testmanagement-060-d",
+          "text": "Das Ziel des vollständigen Testens und der Grundsatz der Unabhängigkeit vom Umfeld"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-060-c"
+      ],
+      "explanation": "Die Planung des nächsten Testzyklus berücksichtigt Entwicklungsstand, Ergebnisse der vorangegangenen Tests und verfügbare Ressourcen. Vollständiges Testen ist kein erreichbares Ziel. Quelle: Basiswissen Softwaretest, Abschnitt 6.5.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-065",
+      "question": "Welcher der folgenden 4 Punkte gehört nicht zur Metrik \"Ausfallrate\"?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-065-a",
+          "text": "Anzahl der Fehlerwirkungen pro Zeitintervall"
+        },
+        {
+          "id": "ctfl-testmanagement-065-b",
+          "text": "Fehlerwirkungen pro Anzahl von Transaktionen"
+        },
+        {
+          "id": "ctfl-testmanagement-065-c",
+          "text": "Fehlerwirkungen pro Anzahl von Rechnerläufen"
+        },
+        {
+          "id": "ctfl-testmanagement-065-d",
+          "text": "Anzahl der Fehlerwirkungen pro Entwickler"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-065-d"
+      ],
+      "explanation": "Ausfallraten beziehen Fehlerwirkungen auf Zeit oder Nutzungseinheiten wie Transaktionen oder Rechnerläufe. Eine Anzahl pro Entwickler ist keine Ausfallrate des Produkts. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.4 und 6.5.2. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.3.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-066",
+      "question": "Welcher der folgenden Punkte ist NICHT im Testkonzept Dokument eingeschlossen, wenn\nman nach dem Standard zur Testdokumentation vorgeht?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-066-a",
+          "text": "Was nicht getestet wird"
+        },
+        {
+          "id": "ctfl-testmanagement-066-b",
+          "text": "Testobjekte"
+        },
+        {
+          "id": "ctfl-testmanagement-066-c",
+          "text": "Testumgebungen"
+        },
+        {
+          "id": "ctfl-testmanagement-066-d",
+          "text": "Qualitätspläne"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-066-d"
+      ],
+      "explanation": "Ein Testkonzept benennt Testobjekte, Testumgebungen und ausgeschlossene Merkmale. Ein übergreifender Qualitätsplan ist ein anderes Dokument und kein notwendiger eigener Gliederungspunkt des Testkonzepts. Quelle: Basiswissen Softwaretest, Abschnitt 6.2.2 und Anhang A. Zusätzlich: CTFL-Lehrplan 4.0.2, Abschnitt 5.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-067",
+      "question": "Welcher dieser Sätze gehört zu den Grundsätzen des Testens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-067-a",
+          "text": "Dass die Wiederholung gleicher Testabläufe mit verschiedenen Testdaten keine neuen Erkenntnisse bringen."
+        },
+        {
+          "id": "ctfl-testmanagement-067-b",
+          "text": "Dass die Wiederholung gleicher Tests auf verschiedenen Versionen eines Programms keine neuen Erkenntnisse bringen."
+        },
+        {
+          "id": "ctfl-testmanagement-067-c",
+          "text": "Dass die Wiederholung immer gleicher Tests auf der immer gleichen Version eines Programms und Testumgebung keine neuen Erkenntnisse bringen."
+        },
+        {
+          "id": "ctfl-testmanagement-067-d",
+          "text": "Dass die Wiederholung von Tests prinzipiell keine neuen Erkenntnisse bringt."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-067-c"
+      ],
+      "explanation": "Die dritte Antwort entspricht dem gemeinten Effekt abnehmender Wirksamkeit unverändert wiederholter Tests. Neue Daten oder neue Softwarestände können dagegen sehr wohl neue Erkenntnisse liefern. Wiederholungen bleiben beispielsweise für Regressionstests sinnvoll. Quelle: Basiswissen Softwaretest, Abschnitt 2.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.3.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-068",
+      "question": "Welches ist ein Vorteil unabhängigen Testens?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-068-a",
+          "text": "Unabhängige Tester brauchen keine zusätzliche Ausbildung oder Schulung."
+        },
+        {
+          "id": "ctfl-testmanagement-068-b",
+          "text": "Die Arbeit ist effizienter, da die Tester die Entwickler nicht ständig stören."
+        },
+        {
+          "id": "ctfl-testmanagement-068-c",
+          "text": "Unabhängige Tester sind tendenziell unvoreingenommen und finden andere Fehlerzustände als die Entwickler."
+        },
+        {
+          "id": "ctfl-testmanagement-068-d",
+          "text": "Unabhängige Tester reduzieren den Ressourcen-Engpass im Fehler- und Abweichungsmanagement Prozess."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-068-c"
+      ],
+      "explanation": "Unabhängige Tester hinterfragen andere Annahmen und entdecken dadurch andere Defekte. Unabhängigkeit ersetzt keine Ausbildung und macht Kommunikation mit Entwicklern nicht überflüssig. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.1. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.5.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-069",
+      "question": "Welches ist kein Ziel eines Abweichungsberichtes?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-069-a",
+          "text": "Liefern Hinweise zur Testprozessverbesserung."
+        },
+        {
+          "id": "ctfl-testmanagement-069-b",
+          "text": "Ein Hilfsmittel für Testmanager zur Verfolgung der Systemqualität und des Testfortschritts."
+        },
+        {
+          "id": "ctfl-testmanagement-069-c",
+          "text": "Liefern Hinweise für Entwickler und andere Parteien, um nach Bedarf die Identifikation, Isolation und Korrektur ermöglichen."
+        },
+        {
+          "id": "ctfl-testmanagement-069-d",
+          "text": "Können die Fehlerrate im System nachhaltig verringern."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-069-d"
+      ],
+      "explanation": "Ein Abweichungsbericht liefert Informationen für Korrektur, Fortschrittsbewertung und Prozessverbesserung. Er selbst beseitigt keine Defekte und senkt die Fehlerrate nicht automatisch nachhaltig. Quelle: Basiswissen Softwaretest, Abschnitt 6.6.1 und 6.6.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-5.5.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-070",
+      "question": "Welches sind die typischen Aufgaben eines Testers?\nI: Implementierung von Tests\nII: Anfordern und Vorbereiten von Testdaten\nIII: Aufbau eines angemessenen Konfigurationsmanagements\nIV: Testautomatisierung\nV: Festlegen des Automatisierungsgrades",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-testmanagement-070-a",
+          "text": "I, II, IV, V"
+        },
+        {
+          "id": "ctfl-testmanagement-070-b",
+          "text": "alle Antworten"
+        },
+        {
+          "id": "ctfl-testmanagement-070-c",
+          "text": "I, IV"
+        },
+        {
+          "id": "ctfl-testmanagement-070-d",
+          "text": "I, II, IV"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-testmanagement-070-d"
+      ],
+      "explanation": "Tester implementieren Tests, fordern Testdaten an bzw. bereiten sie vor und automatisieren Tests. Aufbau des übergreifenden Konfigurationsmanagements und Festlegen des Automatisierungsgrades sind hier nicht ihre typischen Einzelaufgaben. Quelle: Basiswissen Softwaretest, Abschnitt 6.1.2. Mit CTFL-Lehrplan 4.0.2 abgeglichen; wegen der Frageform oder Kapitelzuordnung nur im Übungsbereich.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 5,
+        "chapterTitle": "Testmanagement",
+        "learningObjective": "FL-1.4.5",
+        "kLevel": "K2"
+      }
+    }
+  ],
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "excludedQuestions": [
+    {
+      "id": "ctfl-testmanagement-002",
+      "sourceNumber": 2,
+      "reason": "Abfrage historischer IEEE-829-/IEEE-730-Vorgaben statt der aktuellen Lehrplaninhalte und Testdokumentationsreferenzen.",
+      "syllabusSections": [
+        "5.1.1",
+        "5.3.2",
+        "5.5",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-005",
+      "sourceNumber": 5,
+      "reason": "Abfrage historischer IEEE-829-/IEEE-730-Vorgaben statt der aktuellen Lehrplaninhalte und Testdokumentationsreferenzen.",
+      "syllabusSections": [
+        "5.1.1",
+        "5.3.2",
+        "5.5",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-006",
+      "sourceNumber": 6,
+      "reason": "Historische Fehlerkosten-Taxonomie, starre Kosten-/Aufwandsfaustregel oder pauschale Kostenbeeinflussung; kein Inhalt der aktuellen Schätzverfahren.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-009",
+      "sourceNumber": 9,
+      "reason": "Altes fundamentales Testprozessmodell mit zusammengefassten Aktivitäten und separater Testauswertung.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-010",
+      "sourceNumber": 10,
+      "reason": "Altes fundamentales Testprozessmodell mit zusammengefassten Aktivitäten und separater Testauswertung.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-011",
+      "sourceNumber": 11,
+      "reason": "Altes fundamentales Testprozessmodell mit zusammengefassten Aktivitäten und separater Testauswertung.",
+      "syllabusSections": [
+        "1.4.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-012",
+      "sourceNumber": 12,
+      "reason": "Abfrage historischer IEEE-829-/IEEE-730-Vorgaben statt der aktuellen Lehrplaninhalte und Testdokumentationsreferenzen.",
+      "syllabusSections": [
+        "5.1.1",
+        "5.3.2",
+        "5.5",
+        "7.1"
+      ],
+      "originalConfirmation": {
+        "answer": "Beschreibung der Auswirkung, Problembeschreibung, Datum und Uhrzeit, Ihren Namen, Version des Testobjekts (Konfigurationselement).",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-017",
+      "sourceNumber": 17,
+      "reason": "Alte Teststrategie-/Testvorgehensweisen-Typologie; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-023",
+      "sourceNumber": 23,
+      "reason": "Historische Fehlerkosten-Taxonomie, starre Kosten-/Aufwandsfaustregel oder pauschale Kostenbeeinflussung; kein Inhalt der aktuellen Schätzverfahren.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-028",
+      "sourceNumber": 28,
+      "reason": "Historischer Originalschlüssel behandelt subjektives Vertrauen als gebräuchliche Testmetrik; nicht mit den aktuellen messbaren Testmetriken vereinbar.",
+      "syllabusSections": [
+        "5.3.1"
+      ],
+      "originalConfirmation": {
+        "answer": "nur A, C, D, E",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-033",
+      "sourceNumber": 33,
+      "reason": "Alte Teststrategie-/Testvorgehensweisen-Typologie; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-038",
+      "sourceNumber": 38,
+      "reason": "Historische feste Pflichtfeldkombination im Abweichungsbericht; bildet die aktuellen Angaben einschließlich reproduktionsrelevanter Testdaten nicht verlässlich ab.",
+      "syllabusSections": [
+        "5.5"
+      ],
+      "originalConfirmation": {
+        "answer": "I, II, IV",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-040",
+      "sourceNumber": 40,
+      "reason": "Alte Teststrategie-/Testvorgehensweisen-Typologie; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-044",
+      "sourceNumber": 44,
+      "reason": "Alte Teststrategie-/Testvorgehensweisen-Typologie; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-045",
+      "sourceNumber": 45,
+      "reason": "Pauschale vertragliche Zuordnung von Produkt-/Projektrisiken vor der Abnahme; nicht Inhalt der aktuellen Risikoklassifikation.",
+      "syllabusSections": [
+        "5.2.2"
+      ],
+      "originalConfirmation": {
+        "answer": "B und C",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-050",
+      "sourceNumber": 50,
+      "reason": "Historische Fehlerkosten-Taxonomie, starre Kosten-/Aufwandsfaustregel oder pauschale Kostenbeeinflussung; kein Inhalt der aktuellen Schätzverfahren.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-057",
+      "sourceNumber": 57,
+      "reason": "Historische Fehlerkosten-Taxonomie, starre Kosten-/Aufwandsfaustregel oder pauschale Kostenbeeinflussung; kein Inhalt der aktuellen Schätzverfahren.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-058",
+      "sourceNumber": 58,
+      "reason": "Historische Metrik-Taxonomie mit pauschalem Ausschluss testbasierter Metriken; nicht die aktuelle Metrikklassifikation.",
+      "syllabusSections": [
+        "5.3.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-059",
+      "sourceNumber": 59,
+      "reason": "Abfrage historischer IEEE-829-/IEEE-730-Vorgaben statt der aktuellen Lehrplaninhalte und Testdokumentationsreferenzen.",
+      "syllabusSections": [
+        "5.1.1",
+        "5.3.2",
+        "5.5",
+        "7.1"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-061",
+      "sourceNumber": 61,
+      "reason": "Historische pauschale Bevorzugung metrikbasierter gegenüber expertenbasierten Schätzungen; der aktuelle Lehrplan behandelt beide kontextabhängig.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-062",
+      "sourceNumber": 62,
+      "reason": "Alte Teststrategie-/Testvorgehensweisen-Typologie; der entsprechende Abschnitt wurde aus CTFL 4 entfernt.",
+      "syllabusSections": [
+        "10: Änderungen in Kapitel 5"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-063",
+      "sourceNumber": 63,
+      "reason": "Historische enge Werkzeugklassifikation mit exklusivem Schnittstellen-Schlüssel; aktuelle Werkzeugkategorien erlauben mehrere der genannten Schnittstellen.",
+      "syllabusSections": [
+        "6.1"
+      ],
+      "originalConfirmation": {
+        "answer": "Testmanagementwerkzeuge für die Datenaufbereitung.",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-064",
+      "sourceNumber": 64,
+      "reason": "Historischer Originalschlüssel schließt Imageverlust als Priorisierungskriterium aus; widerspricht der aktuellen risikobasierten Priorisierung.",
+      "syllabusSections": [
+        "5.1.5",
+        "5.2.2"
+      ],
+      "originalConfirmation": {
+        "answer": "II, V",
+        "source": "Vom Benutzer bereitgestellte Originalauflösung (gelbe Lösungsbox)"
+      }
+    },
+    {
+      "id": "ctfl-testmanagement-071",
+      "sourceNumber": 71,
+      "reason": "Historische Fehlerkosten-Taxonomie, starre Kosten-/Aufwandsfaustregel oder pauschale Kostenbeeinflussung; kein Inhalt der aktuellen Schätzverfahren.",
+      "syllabusSections": [
+        "5.1.4"
+      ]
+    },
+    {
+      "id": "ctfl-testmanagement-072",
+      "sourceNumber": 72,
+      "reason": "Historische starre Zuständigkeitsregel für das Schließen von Fehlerberichten; der aktuelle Lehrplan fordert einen vereinbarten kontextabhängigen Fehlerworkflow.",
+      "syllabusSections": [
+        "1.4.5",
+        "5.5"
+      ]
+    }
+  ]
+}

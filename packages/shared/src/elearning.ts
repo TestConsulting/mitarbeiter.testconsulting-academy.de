@@ -20,6 +20,11 @@ export type PracticeQuestion = {
   options: QuestionOption[];
   correctOptionIds: string[];
   explanation: string;
+  usage?: "practice" | "exam" | "both";
+  image?: {
+    url: string;
+    alt: string;
+  };
   metadata?: {
     chapter: number;
     chapterTitle: string;

@@ -17,6 +17,7 @@ import {
 import { Add20Regular, Delete20Regular } from "@fluentui/react-icons";
 import type { Course, CourseInput, CourseCategory, LearningMaterial, PracticeQuestion } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
+import { QuestionContent } from "./question-content.js";
 
 type DraftMaterial = LearningMaterial & { file?: File };
 type CourseEditorDialogProps = {
@@ -247,6 +248,7 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
                     />
                     <Field label="Fragetext" required>
                       <Textarea value={question.question} onChange={(_event, data) => updateQuestion(question.id, (item) => ({ ...item, question: data.value }))} maxLength={2000} required />
+                      {question.image && <QuestionContent question={{ question: "", image: question.image }} />}
                     </Field>
                     <Field label="Antworttyp">
                       <Select

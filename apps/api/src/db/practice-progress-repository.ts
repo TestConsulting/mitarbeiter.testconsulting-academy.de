@@ -10,6 +10,7 @@ export type PracticeProgressRepository = {
 function fingerprint(question: PracticeQuestion) {
   return createHash("sha256").update(JSON.stringify([
     question.question, question.type, question.options, question.correctOptionIds, question.explanation,
+    ...(question.image ? [question.image] : []),
   ])).digest("hex");
 }
 

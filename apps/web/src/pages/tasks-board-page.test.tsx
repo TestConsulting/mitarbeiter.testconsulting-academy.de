@@ -197,6 +197,19 @@ describe("tasks board page", () => {
     expect(screen.queryByText("Angebot schreiben")).not.toBeInTheDocument();
   });
 
+  it("keeps matching tickets draggable while searching", async () => {
+    const user = userEvent.setup();
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+
+    await user.type(screen.getByPlaceholderText("Tickets durchsuchen"), "Angebot");
+
+    const ticket = screen.getByText("Angebot schreiben").closest("article");
+    expect(ticket).toHaveAttribute("aria-disabled", "false");
+    expect(screen.getByRole("button", { name: "Spalte Zu erledigen verschieben" }))
+      .toHaveAttribute("aria-disabled", "false");
+  });
+
   it("shows the column rename/delete actions for admins", async () => {
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");

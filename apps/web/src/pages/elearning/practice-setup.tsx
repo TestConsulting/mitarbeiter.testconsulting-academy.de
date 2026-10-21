@@ -14,7 +14,7 @@ export function PracticeSetup({ course, progress, onStart }: Props) {
     ? [[question.metadata.chapter, question.metadata.chapterTitle] as const] : [])).entries()]
     .sort(([left], [right]) => left - right);
   const [selection, setSelection] = useState<PracticeSelection>({
-    chapters: chapters.map(([id]) => id), kLevels: [], limit: 30, errorsOnly: false,
+    chapters: chapters.map(([id]) => id), kLevels: [], limit: 20, errorsOnly: false,
   });
   const metadataComplete = course.questions.every((question) => question.metadata);
   const available = filterPracticeQuestions(course.questions, progress, selection).length;
@@ -54,12 +54,12 @@ export function PracticeSetup({ course, progress, onStart }: Props) {
         <legend>Sitzungsumfang</legend>
         <RadioGroup aria-label="Sitzungsumfang" value={String(selection.limit)}
           onChange={(_event, data) => {
-            const limit = data.value === "all" ? "all" : data.value === "30" ? 30
-              : data.value === "60" ? 60 : null;
+            const limit = data.value === "all" ? "all" : data.value === "20" ? 20
+              : data.value === "40" ? 40 : null;
             if (limit !== null) setSelection({ ...selection, limit });
           }}>
-          <Radio value="30" label="30 Fragen" />
-          <Radio value="60" label="60 Fragen" />
+          <Radio value="20" label="20 Fragen" />
+          <Radio value="40" label="40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)" />
           <Radio value="all" label="Alle verfügbaren Fragen" />
         </RadioGroup>
         <p>Bei weniger verfügbaren Fragen wird die tatsächliche Anzahl nach dem Start angezeigt.

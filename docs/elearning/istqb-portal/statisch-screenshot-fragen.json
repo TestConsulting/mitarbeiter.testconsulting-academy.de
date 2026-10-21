@@ -1,0 +1,1680 @@
+{
+  "version": 1,
+  "chapter": 3,
+  "chapterTitle": "Statischer Test",
+  "reviewedSyllabus": "CTFL 4.0.2 DE (01.03.2025)",
+  "sourceScreenshotCount": 56,
+  "sourceQuestionCount": 56,
+  "source": "Vom Benutzer bereitgestellter Screenshotkatalog Statischer Test und gelbe Originalauflösungen zu 5, 32, 43, 54 und 56.",
+  "sourceRecords": [
+    {
+      "file": "{A2D8276F-0AEC-4FEB-9BA7-22985F1A5E61}.png",
+      "printedNumber": 1,
+      "id": "ctfl-statisch-001",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{20B2305B-1BC1-469D-B1C3-DE754577D2FD}.png",
+      "printedNumber": 2,
+      "id": "ctfl-statisch-002",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{6739D4DF-2889-405B-B07E-0A566E19FC64}.png",
+      "printedNumber": 3,
+      "id": "ctfl-statisch-003",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{F5D5D88D-CC56-4762-B58B-F0E3D08ACF46}.png",
+      "printedNumber": 4,
+      "id": "ctfl-statisch-004",
+      "disposition": "active"
+    },
+    {
+      "file": "{43283E93-4E7E-4E71-AC98-F95704B67AE3}.png",
+      "printedNumber": 5,
+      "id": "ctfl-statisch-005",
+      "disposition": "active"
+    },
+    {
+      "file": "{5C975F9A-0543-466B-B8C1-AD4F272CE12E}.png",
+      "printedNumber": 6,
+      "id": "ctfl-statisch-006",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{0FEE3114-614D-4CF2-895D-3F02571B1EA3}.png",
+      "printedNumber": 7,
+      "id": "ctfl-statisch-007",
+      "disposition": "active"
+    },
+    {
+      "file": "{B30FC7C0-68C0-422B-BE61-5869E14477A6}.png",
+      "printedNumber": 8,
+      "id": "ctfl-statisch-008",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{7DBD5396-4715-4A7F-8E54-829C555DAB18}.png",
+      "printedNumber": 9,
+      "id": "ctfl-statisch-009",
+      "disposition": "active"
+    },
+    {
+      "file": "{3B2175CA-23AE-4C20-A900-BA7AEDAD0AAB}.png",
+      "printedNumber": 10,
+      "id": "ctfl-statisch-010",
+      "disposition": "active"
+    },
+    {
+      "file": "{2D90D3FA-EE2E-4DC7-85B4-723301AF8174}.png",
+      "printedNumber": 11,
+      "id": "ctfl-statisch-011",
+      "disposition": "active"
+    },
+    {
+      "file": "{A33015A4-0301-4AB7-8D6E-E9E044338EC4}.png",
+      "printedNumber": 12,
+      "id": "ctfl-statisch-012",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{4905B149-433F-4F31-B84C-CFA147CD9FE3}.png",
+      "printedNumber": 13,
+      "id": "ctfl-statisch-013",
+      "disposition": "active"
+    },
+    {
+      "file": "{453ACBE1-C087-452B-BD8F-AA9EF71C8FC1}.png",
+      "printedNumber": 14,
+      "id": "ctfl-statisch-014",
+      "disposition": "active"
+    },
+    {
+      "file": "{2BF983BF-C146-4118-A89B-52E148091E01}.png",
+      "printedNumber": 15,
+      "id": "ctfl-statisch-015",
+      "disposition": "active"
+    },
+    {
+      "file": "{F978652B-E99F-434B-B73B-0577ACDF98F1}.png",
+      "printedNumber": 16,
+      "id": "ctfl-statisch-016",
+      "disposition": "active"
+    },
+    {
+      "file": "{4DD3AFCB-2B80-4CB8-BBEF-1421606CD686}.png",
+      "printedNumber": 17,
+      "id": "ctfl-statisch-017",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{9F68AC8D-DD65-422F-A34B-6DE9C128CC70}.png",
+      "printedNumber": 18,
+      "id": "ctfl-statisch-018",
+      "disposition": "active"
+    },
+    {
+      "file": "{A0ECBB11-0E14-4CD3-9D46-5E369E0512F7}.png",
+      "printedNumber": 19,
+      "id": "ctfl-statisch-019",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{4DA009AC-045E-4FD8-994B-5D29FC04AEF3}.png",
+      "printedNumber": 20,
+      "id": "ctfl-statisch-020",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{65E45D6D-9E22-4DD7-8869-C1847A30B983}.png",
+      "printedNumber": 21,
+      "id": "ctfl-statisch-021",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{DCDF09E8-29CF-4B6F-8186-E14A760DDDE9}.png",
+      "printedNumber": 22,
+      "id": "ctfl-statisch-022",
+      "disposition": "active"
+    },
+    {
+      "file": "{9EF93658-78C4-4BD9-A7B3-AD15ABB3F28B}.png",
+      "printedNumber": 23,
+      "id": "ctfl-statisch-023",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{B5BF07F6-4098-4061-B7DD-09021E554929}.png",
+      "printedNumber": 24,
+      "id": "ctfl-statisch-024",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{A8076FC6-616D-43D6-97F4-3DE7EDF1AF68}.png",
+      "printedNumber": 25,
+      "id": "ctfl-statisch-025",
+      "disposition": "active"
+    },
+    {
+      "file": "{3EB2A4D6-4BFA-4FB6-ADAC-F43199FFFFC0}.png",
+      "printedNumber": 26,
+      "id": "ctfl-statisch-026",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{E4A9B430-D552-42FB-AD7E-B32DF75998A5}.png",
+      "printedNumber": 27,
+      "id": "ctfl-statisch-027",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{0E0939E5-FF3B-4B22-A363-9D9CE788898F}.png",
+      "printedNumber": 28,
+      "id": "ctfl-statisch-028",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{FFB5AB41-B1F1-4599-B46E-F9CE3BBB132B}.png",
+      "printedNumber": 29,
+      "id": "ctfl-statisch-029",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{DF285218-B279-4629-9856-DA8F848F6008}.png",
+      "printedNumber": 30,
+      "id": "ctfl-statisch-030",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{ED29D47B-2BED-4F38-8C82-531148F3DB97}.png",
+      "printedNumber": 31,
+      "id": "ctfl-statisch-031",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{2F7BBB5B-7FFA-4570-9B48-6F23C33E78EA}.png",
+      "printedNumber": null,
+      "confirmedPrintedNumber": 32,
+      "id": "ctfl-statisch-032",
+      "disposition": "active"
+    },
+    {
+      "file": "{A81D5415-901C-4216-96D7-D826912AAD44}.png",
+      "printedNumber": 33,
+      "id": "ctfl-statisch-033",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{A2FFF61D-C84C-423C-AB47-2FD90681C88B}.png",
+      "printedNumber": 34,
+      "id": "ctfl-statisch-034",
+      "disposition": "active"
+    },
+    {
+      "file": "{F4B9A82F-561D-4410-99E6-B821E198DC4F}.png",
+      "printedNumber": 35,
+      "id": "ctfl-statisch-035",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{707E302A-C52A-45B8-9363-510ED5A502AF}.png",
+      "printedNumber": 36,
+      "id": "ctfl-statisch-036",
+      "disposition": "active"
+    },
+    {
+      "file": "{C6213110-66EA-4288-B1C9-9B6100B21B1D}.png",
+      "printedNumber": 37,
+      "id": "ctfl-statisch-037",
+      "disposition": "active"
+    },
+    {
+      "file": "{CC5293CB-A529-4A75-875E-D4FC31437AF9}.png",
+      "printedNumber": 38,
+      "id": "ctfl-statisch-038",
+      "disposition": "active"
+    },
+    {
+      "file": "{F6199D36-FD55-47E5-8F92-889FFA209C3D}.png",
+      "printedNumber": 39,
+      "id": "ctfl-statisch-039",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{61852FF4-89C8-41DB-872B-3CC0466FDF3E}.png",
+      "printedNumber": 40,
+      "id": "ctfl-statisch-040",
+      "disposition": "active"
+    },
+    {
+      "file": "{3DD59253-84C6-48BB-A2EE-9F6AEB47BB21}.png",
+      "printedNumber": 41,
+      "id": "ctfl-statisch-041",
+      "disposition": "active"
+    },
+    {
+      "file": "{163993A8-90C7-4CC4-9616-89B86CC3C569}.png",
+      "printedNumber": 42,
+      "id": "ctfl-statisch-042",
+      "disposition": "active"
+    },
+    {
+      "file": "{1D2D5CA3-5079-4498-B698-D44F52E43FD4}.png",
+      "printedNumber": 43,
+      "id": "ctfl-statisch-043",
+      "disposition": "active"
+    },
+    {
+      "file": "{DB5FB5E5-1D08-42EB-B91C-B419D6E8184D}.png",
+      "printedNumber": 44,
+      "id": "ctfl-statisch-044",
+      "disposition": "active"
+    },
+    {
+      "file": "{822BC1A4-E3B7-4960-8C1B-5981806754DF}.png",
+      "printedNumber": 45,
+      "id": "ctfl-statisch-045",
+      "disposition": "active"
+    },
+    {
+      "file": "{25976E4F-6C2E-4DA6-9265-CF7E3D37C7B0}.png",
+      "printedNumber": 46,
+      "id": "ctfl-statisch-046",
+      "disposition": "active"
+    },
+    {
+      "file": "{0A3BD8BA-7CD5-4E9C-9094-93B09809234D}.png",
+      "printedNumber": 47,
+      "id": "ctfl-statisch-047",
+      "disposition": "active"
+    },
+    {
+      "file": "{396C39BB-38FF-4E32-B647-4CE193969F36}.png",
+      "printedNumber": 48,
+      "id": "ctfl-statisch-048",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{3CAB1A39-FC50-4B57-93BC-A06E88150233}.png",
+      "printedNumber": 49,
+      "id": "ctfl-statisch-049",
+      "disposition": "active"
+    },
+    {
+      "file": "{CC2A9967-B2CD-42B8-B365-B6B3BF99A9E6}.png",
+      "printedNumber": 50,
+      "id": "ctfl-statisch-050",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{D7C8BFE3-F11C-4E3F-B9A7-463BACFB34BA}.png",
+      "printedNumber": 51,
+      "id": "ctfl-statisch-051",
+      "disposition": "active"
+    },
+    {
+      "file": "{87947E30-3980-426D-8A5E-3F138C666156}.png",
+      "printedNumber": 52,
+      "id": "ctfl-statisch-052",
+      "disposition": "active"
+    },
+    {
+      "file": "{D81F39CC-B570-48C4-85A7-7BF11AED19A2}.png",
+      "printedNumber": 53,
+      "id": "ctfl-statisch-053",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{84D3C696-3D29-4293-9C64-A222C74EC0E1}.png",
+      "printedNumber": 54,
+      "id": "ctfl-statisch-054",
+      "disposition": "active"
+    },
+    {
+      "file": "{ED173417-B61B-479A-AC7A-9EC85AE7947E}.png",
+      "printedNumber": 55,
+      "id": "ctfl-statisch-055",
+      "disposition": "excluded"
+    },
+    {
+      "file": "{D573A32E-F6B3-4759-99EB-A371CDD9E0E2}.png",
+      "printedNumber": 56,
+      "id": "ctfl-statisch-056",
+      "disposition": "active"
+    }
+  ],
+  "sourceNumberingNotes": {
+    "32": "Quellaufnahme links abgeschnitten; Nummer 32 durch nachgereichten vollständigen Lösungsscreenshot bestätigt."
+  },
+  "duplicates": [],
+  "excludedQuestions": [
+    {
+      "id": "ctfl-statisch-001",
+      "sourceNumber": 1,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Zyklomatische Komplexitaet und Ableitung einer Testzahl daraus sind keine aktuellen Foundation-Lernziele.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-002",
+      "sourceNumber": 2,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Pruefen der Reviewbereitschaft/Eingangskriterien und Verteilen von Unterlagen gehoeren im aktuellen Prozess zum Reviewbeginn; die angebotene Einzelauswahl ist dadurch nicht eindeutig.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-003",
+      "sourceNumber": 3,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Ein informelles Review kann ohne Sitzung stattfinden, muss es aber nicht. Auch andere Reviews koennen asynchron kommunizieren; absolute Aussage nicht uebernehmen.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-006",
+      "sourceNumber": 6,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Testzahl aus zyklomatischer Komplexitaet; nicht aktueller Foundation-Stoff.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-008",
+      "sourceNumber": 8,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische sechsteilige Reviewphasenfolge mit Freigabeempfehlung; aktueller Prozess umfasst Planung, Reviewbeginn, individuelles Review, Kommunikation und Analyse sowie Behebung und Berichterstattung.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-012",
+      "sourceNumber": 12,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Keine geeignete aktuelle Definition: statische Analyse ist kein automatisiertes manuelles Review, keine reine Metrikvorschrift und nicht die Menge der White-Box-Verfahren.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-017",
+      "sourceNumber": 17,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Interpretation der zyklomatischen Komplexitaet ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-019",
+      "sourceNumber": 19,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Detaillierte Kontrollflussanalyse-Klassifikation ist nicht Bestandteil der aktuellen Foundation-Lernziele.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-020",
+      "sourceNumber": 20,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "dd-Datenflussanomalie ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-021",
+      "sourceNumber": 21,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "du-Datenflussanomalie ist kein aktuelles Foundation-Lernziel; zudem zwei aequivalente undefinierte-Lese-Distraktoren.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-023",
+      "sourceNumber": 23,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "ur-Datenflussanomalie ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-024",
+      "sourceNumber": 24,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Zyklomatische Komplexitaet ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-026",
+      "sourceNumber": 26,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Form, Vorbereitung, Formalitaet und Checklisten sind kontextabhaengig; keine eindeutig falsche Aussage nach aktuellem Lehrplan.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-027",
+      "sourceNumber": 27,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Historische Planungszuordnung der Eingangskriterien ist kontextabhaengig; im aktuellen Prozess ist die Sicherstellung der Bereitschaft Teil des Reviewbeginns. Numerische Antwortkombinationen der Quellaufnahme ausserdem nicht vollstaendig lesbar; keine Kombination erfinden.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-028",
+      "sourceNumber": 28,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Aktuelle Kommunikation und Analyse umfasst Diskussion und Entscheidung ueber Massnahmen. Entwicklung und Diskussion von Loesungen ist nicht generell falsch; historische Aufgabenzuordnung passt nicht unveraendert.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-029",
+      "sourceNumber": 29,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Management-Review als eigene Reviewart und dessen historische Detailregeln sind kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-030",
+      "sourceNumber": 30,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Pauschale Pflicht zur Signatur aller Teilnehmer und absolute Abbruch-/Zeitregeln sind nicht allgemeingueltig; keine eindeutig aktuelle richtige Antwortkombination.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-031",
+      "sourceNumber": 31,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Auswendiglernen des historischen IEEE-1028-Normenbezugs ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-033",
+      "sourceNumber": 33,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Richtig sind A, C und E; weder immer noch nie erforderliche Manageranwesenheit ist allgemeingueltig. Die passende Kombination wird nicht angeboten.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-035",
+      "sourceNumber": 35,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Ohne Einschraenkung auf Quellcode ist der Ausschluss fehlerhafter Anforderungen zu absolut: statische Analyse kann auch strukturierte Texte/Modelle und formale Anforderungsfehler pruefen.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-039",
+      "sourceNumber": 39,
+      "category": "ambiguousOrIncorrect",
+      "reason": "Buddy Testing und Pair Programming koennen dynamische Taetigkeiten einschliessen; ohne statischen Kontext ist die Kombination nicht eindeutig eine Reviewdefinition.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-048",
+      "sourceNumber": 48,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische Benennung und Gruppierung formaler Review-Hauptaktivitaeten; nicht als aktuelle Fuenfergliederung ausgeben.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-050",
+      "sourceNumber": 50,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Berechnung der zyklomatischen Zahl aus einem Graphen ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-053",
+      "sourceNumber": 53,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Historische sechsteilige Reviewprozessklassifikation; keine der Optionen benennt den aktuellen Prozess.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "id": "ctfl-statisch-055",
+      "sourceNumber": 55,
+      "category": "historicalOrOutOfCurrentScope",
+      "reason": "Formel der zyklomatischen Zahl ist kein aktuelles Foundation-Lernziel.",
+      "syllabusSections": [
+        "3.1",
+        "3.2"
+      ]
+    }
+  ],
+  "confirmedAnswers": {
+    "5": {
+      "answer": "Zwei Testfälle für vollständige Anweisungsüberdeckung, zwei Testfälle für vollständige Entscheidungsüberdeckung.",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "b8713dc4-7577-4fd9-90ee-91de22fdcb8c\\Pasted Image.png",
+      "examEligible": false
+    },
+    "32": {
+      "answer": "I, II, III",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "7975c27d-9300-49cd-9e18-99fbafa642a4\\Pasted Image 2.png",
+      "examEligible": false
+    },
+    "43": {
+      "answer": "Technisches Review",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "1b15e197-bd04-4bc6-b70d-4a11032c7553\\Pasted Image 3.png",
+      "examEligible": false
+    },
+    "54": {
+      "answer": "B und i, iii",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "3e73edf4-86b1-4fdf-82a1-0f7da6aece29\\Pasted Image 4.png",
+      "examEligible": false
+    },
+    "56": {
+      "answer": "Der Autor des Quellcodes zusammen mit einem gleichgestellten Kollegen. Ziel ist es, dem Kollegen Wissen zu vermitteln, Verständnis über die Softwarestruktur zu erzielen und Fehlerzustände zu finden.",
+      "source": "Vom Benutzer bereitgestellte gelbe Originalauflösungsbox",
+      "attachment": "ae224401-b656-4b82-a257-517fcd128e5d\\Pasted Image 5.png",
+      "examEligible": false
+    }
+  },
+  "questions": [
+    {
+      "id": "ctfl-statisch-004",
+      "question": "Bei welchem Test oder welchen Tests wird der Code NICHT ausgeführt?\nA: Kontroll- und Datenflussanalyse\nB: Exploratives Testen\nC: Strukturorientierter Test\nD: Test der Codierungsrichtlinien",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-004-a",
+          "text": "Nur D"
+        },
+        {
+          "id": "ctfl-statisch-004-b",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-statisch-004-c",
+          "text": "A, B und C"
+        },
+        {
+          "id": "ctfl-statisch-004-d",
+          "text": "A und D"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-004-d"
+      ],
+      "explanation": "Statische Analyse und die statische Prüfung von Codierungsrichtlinien benötigen keine Codeausführung. Explorative Tests und strukturorientierte dynamische Tests führen das Testobjekt aus. Die detaillierte Kontroll-/Datenflussanalyse wird hier nicht als eigenes aktuelles Lernziel geprüft. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-005",
+      "question": "Der beigefügte Kontrollflussgraph verzweigt an zwei Entscheidungen E1 und E2 mit jeweils voneinander unabhängigen Variablen. Wie viele Testfälle benötigt man jeweils separat, wenn man a) alle Anweisungen oder b) alle Entscheidungen abdecken möchte?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-005-a",
+          "text": "Ein Testfall für vollständige Anweisungsüberdeckung, ein Testfall für vollständige Entscheidungsüberdeckung."
+        },
+        {
+          "id": "ctfl-statisch-005-b",
+          "text": "Zwei Testfälle für vollständige Anweisungsüberdeckung, ein Testfall für vollständige Entscheidungsüberdeckung."
+        },
+        {
+          "id": "ctfl-statisch-005-c",
+          "text": "Ein Testfall für vollständige Anweisungsüberdeckung, zwei Testfälle für vollständige Entscheidungsüberdeckung."
+        },
+        {
+          "id": "ctfl-statisch-005-d",
+          "text": "Zwei Testfälle für vollständige Anweisungsüberdeckung, zwei Testfälle für vollständige Entscheidungsüberdeckung."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-005-d"
+      ],
+      "explanation": "Die beiden alternativen Anweisungen nach E2 können nicht im selben Durchlauf ausgeführt werden; deshalb sind mindestens zwei Tests erforderlich. Zwei geeignete Kombinationen decken zugleich beide Ausgänge von E1 und E2 ab, etwa E1 mit Anweisung/E2 links und E1 ohne Anweisung/E2 rechts. Damit reichen zwei Tests jeweils separat. Der aktuelle Zweigbegriff umfasst zusätzlich unbedingte Kontrollübergänge; auch diese sind hier abgedeckt. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht der falsch markierten Auswahl. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.3.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-4.3.1",
+        "kLevel": "K2"
+      },
+      "image": {
+        "url": "/questions/istqb-foundation/statisch-005.png",
+        "alt": "Kontrollflussgraph: Start, Entscheidung E1 mit optionaler Anweisung und Zusammenführung; danach Entscheidung E2 mit je einer Anweisung auf beiden alternativen Wegen, Zusammenführung und Ende."
+      }
+    },
+    {
+      "id": "ctfl-statisch-007",
+      "question": "Es ist sinnvoll, Tester als Gutachter in Reviews einzusetzen. Welche Antworten liefern eine valide Begründung hierfür?\nA: Die geprüften Dokumente werden in der Regel als Testbasis zur Erstellung von Testfällen genutzt.\nB: Tester sind mit den Dokumenten frühzeitig vertraut.\nC: Testfälle können zeitnah erstellt werden.\nD: Die Intensität und damit die Dauer und Kosten der anstehenden Tests können trotz Vorgaben im Testkonzept deutlich reduziert werden, da die Tester die Testobjekte bereits kennen und in die Qualität vertrauen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-007-a",
+          "text": "A und B sind richtig"
+        },
+        {
+          "id": "ctfl-statisch-007-b",
+          "text": "A, B und C sind richtig"
+        },
+        {
+          "id": "ctfl-statisch-007-c",
+          "text": "A, B und D sind richtig"
+        },
+        {
+          "id": "ctfl-statisch-007-d",
+          "text": "Alle Antworten sind zutreffend"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-007-b"
+      ],
+      "explanation": "Tester können die Testbasis früh prüfen, Verständnis aufbauen und Tests vorbereiten. Aus ihrer Vertrautheit folgt aber keine pauschale Erlaubnis, entgegen dem Testkonzept Testintensität zu reduzieren. Statische und dynamische Tests ergänzen einander. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-009",
+      "question": "In welcher Reviewphase arbeiten die Gutachter das zu prüfende Dokument durch?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-009-a",
+          "text": "Vorbereitung"
+        },
+        {
+          "id": "ctfl-statisch-009-b",
+          "text": "Sitzung"
+        },
+        {
+          "id": "ctfl-statisch-009-c",
+          "text": "Überarbeitung"
+        },
+        {
+          "id": "ctfl-statisch-009-d",
+          "text": "Planung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-009-a"
+      ],
+      "explanation": "Die Gutachter untersuchen das Arbeitsergebnis eigenständig beim individuellen Review. Die Antwort Vorbereitung bezeichnet hier diese individuelle Prüfung; sie ist nicht mit dem heutigen Reviewbeginn zur organisatorischen Vorbereitung gleichzusetzen. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-010",
+      "question": "Innerhalb welchen Arbeitsschrittes des Reviews werden Fehler korrigiert?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-010-a",
+          "text": "Reviewsitzung"
+        },
+        {
+          "id": "ctfl-statisch-010-b",
+          "text": "Überarbeitung"
+        },
+        {
+          "id": "ctfl-statisch-010-c",
+          "text": "Vorbereitung"
+        },
+        {
+          "id": "ctfl-statisch-010-d",
+          "text": "Nachbereitung"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-010-b"
+      ],
+      "explanation": "Der Autor korrigiert das Arbeitsergebnis. Die hier so genannte Überarbeitung ist heute dem Korrekturanteil der Aktivität Behebung und Berichterstattung zuzuordnen. In Kommunikation und Analyse werden Anomalien bewertet und Maßnahmen vereinbart. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.2.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.2",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-011",
+      "question": "Ordnen Sie die Reviewarten.\n1. informelles Review\n2. Inspektion\n3. technisches Review\n4. Walkthrough\na) Eine Diskussion in einer Gruppe gleichgestellter qualifizierter Mitarbeiter, die sich darauf\nkonzentriert, eine Übereinstimmung über technische Vorgehensweisen zu erreichen.\nb) Review ohne festgelegten formalen (dokumentierten) Ablauf.\nc) Eine schrittweise Präsentation eines Dokuments durch den Autor, um Informationen zu\nsammeln und ein gemeinsames Verständnis des Inhalts aufzubauen.\nd) Eine Reviewart, die Mängel durch die Sichtprüfung von Dokumenten finden soll. Solche\nMängel können sein: Nicht-Einhaltung von Entwicklungsstandards, Nicht-Konformität\ngegenüber zugrundeliegenden Dokumenten. Es ist die formalste Reviewtechnik und sie folgt\ndeshalb einem dokumentierten Vorgehen.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-011-a",
+          "text": "1c, 2d, 3a, 4b"
+        },
+        {
+          "id": "ctfl-statisch-011-b",
+          "text": "1b, 2d, 3a, 4c"
+        },
+        {
+          "id": "ctfl-statisch-011-c",
+          "text": "1b, 2a, 3d, 4c"
+        },
+        {
+          "id": "ctfl-statisch-011-d",
+          "text": "1c, 2a, 3d, 4b"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-011-b"
+      ],
+      "explanation": "Informelle Reviews haben keinen definierten Prozess; Inspektionen sind die formalste Art. Technische Reviews unterstützen technischen Konsens, Walkthroughs werden vom Autor geführt und fördern gemeinsames Verständnis. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-013",
+      "question": "Statische Prüfungstechniken werden eingesetzt",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-013-a",
+          "text": "innerhalb eines Debuggers."
+        },
+        {
+          "id": "ctfl-statisch-013-b",
+          "text": "innerhalb eines Black-Box-Tests."
+        },
+        {
+          "id": "ctfl-statisch-013-c",
+          "text": "da diese immer Fehlerwirkungen aufdecken."
+        },
+        {
+          "id": "ctfl-statisch-013-d",
+          "text": "um primär Ursachen für Fehlerwirkungen (Fehlerzustände) aufzudecken."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-013-d"
+      ],
+      "explanation": "Statische Tests finden Fehlerzustände direkt ohne Ausführung. Dynamische Tests erzeugen gegebenenfalls Fehlerwirkungen, aus deren Analyse auf Fehlerzustände geschlossen wird. Nicht jeder Fehlerzustand führt unter allen Bedingungen zu einer Fehlerwirkung. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-014",
+      "question": "Stimmt die Aussage?\nDer Hauptzweck einer Inspektion ist Fehlerzustände zu finden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-014-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-statisch-014-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-014-b"
+      ],
+      "explanation": "Die Aussage trifft im Kern zu. Präziser nennt der aktuelle Lehrplan als Hauptziel einer Inspektion, die maximale Anzahl von Anomalien zu finden. Diese werden analysiert und können sich als Fehlerzustände erweisen; Qualität und Vertrauen sind weitere Ziele. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-015",
+      "question": "Stimmt die Aussage?\nDer Hauptzweck eines Walkthrough ist zu lernen, Verständnis zu erzielen und Fehlerzustände\nzu finden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-015-a",
+          "text": "Nein"
+        },
+        {
+          "id": "ctfl-statisch-015-b",
+          "text": "Ja"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-015-b"
+      ],
+      "explanation": "Ein Walkthrough wird vom Autor geleitet und kann Lernen, gemeinsames Verständnis, Konsens und das Finden von Anomalien fördern. Die Aussage nennt typische Ziele und ist keine abschließende oder ausschließliche Zweckdefinition. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-016",
+      "question": "Warum werden innerhalb der verschiedenen Teststufen statische und dynamische Tests durchgeführt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-016-a",
+          "text": "Sie verfolgen die gleichen übergeordneten Ziele und finden jedoch dieselben Typen von Fehlern."
+        },
+        {
+          "id": "ctfl-statisch-016-b",
+          "text": "Sie verfolgen unterschiedliche übergeordnete Ziele und finden daher unterschiedliche Typen von Fehlern."
+        },
+        {
+          "id": "ctfl-statisch-016-c",
+          "text": "Sie verfolgen die gleichen übergeordneten Ziele, finden jedoch unterschiedliche Typen von Fehlern."
+        },
+        {
+          "id": "ctfl-statisch-016-d",
+          "text": "Sie verfolgen unterschiedliche übergeordnete Ziele, finden jedoch dieselben Typen von Fehlern."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-016-c"
+      ],
+      "explanation": "Beide Ansätze unterstützen Qualität und Fehlerentdeckung, ergänzen sich aber: etwa Fehler in nicht ausführbaren Anforderungen und unerreichbarem Code einerseits sowie laufzeitabhängiges Fehlverhalten andererseits. Die entdeckbaren Fehlertypen können sich auch überschneiden; sie sind nicht vollständig disjunkt. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-018",
+      "question": "Was gehört nicht zu den organisatorischen Erfolgsfaktoren für Reviews?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-018-a",
+          "text": "Alle Checklisten, die genutzt werden, gehen auf Hauptrisiken ein und sind aktuell."
+        },
+        {
+          "id": "ctfl-statisch-018-b",
+          "text": "Die Teilnehmer vermeiden Körpersprache und Verhaltensweisen, die Langeweile, Frust oder Feindseligkeit gegenüber anderen Teilnehmern ausdrücken."
+        },
+        {
+          "id": "ctfl-statisch-018-c",
+          "text": "Teilnehmer haben ausreichend Zeit für die Vorbereitung."
+        },
+        {
+          "id": "ctfl-statisch-018-d",
+          "text": "Reviews werden mit angemessener Vorankündigung geplant."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-018-b"
+      ],
+      "explanation": "Die zweite Antwort betrifft das persönliche Verhalten und passt daher am wenigsten zur engeren Kategorie organisatorisch. Respektvoller Umgang und eine geschützte Reviewumgebung sind dennoch echte Erfolgsfaktoren. Die historische Unterteilung organisatorisch/persönlich wird nicht als neue aktuelle Lehrplanklassifikation gelehrt. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.5.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.5",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-022",
+      "question": "Was ist eine Metrik?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-022-a",
+          "text": "Die Mess-Skala und das genutzte Verfahren einer Messung."
+        },
+        {
+          "id": "ctfl-statisch-022-b",
+          "text": "Die Mess-Skala."
+        },
+        {
+          "id": "ctfl-statisch-022-c",
+          "text": "Eine Methodik, um schneller Prüfspezifikationen zu erstellen."
+        },
+        {
+          "id": "ctfl-statisch-022-d",
+          "text": "Das genutzte Verfahren einer Messung."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-022-a"
+      ],
+      "explanation": "Eine Metrik beschreibt Skala und Verfahren einer Messung. Sie ermöglicht vergleichbare Messwerte; die bloße Skala oder nur das Verfahren beschreiben den Begriff nicht vollständig. Die allgemeine Begriffsfrage bleibt im vom Benutzer gewählten Kapitel, nicht als Kapitel-3-Simulationsfrage. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-5.3.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-5.3.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-025",
+      "question": "Was sind typische Fehlerzustände, die von einer werkzeuggestützten, statischen Analyse\ngefunden werden können?\n1. unerreichbarer, toter Code\n2. Verletzung von Programmierkonventionen\n3. ungültige Eingabewerte\n4. fehlende oder falsche Logik (mögliche Endlosschleifen)\n5. ungetestete Codeabschnitte",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-025-a",
+          "text": "1, 2, 4, 5"
+        },
+        {
+          "id": "ctfl-statisch-025-b",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-statisch-025-c",
+          "text": "1, 2, 4"
+        },
+        {
+          "id": "ctfl-statisch-025-d",
+          "text": "1, 2, 3, 5"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-025-c"
+      ],
+      "explanation": "Werkzeuge können unerreichbaren Code, Konventionsverstöße und bestimmte logische Probleme statisch erkennen. Ob eine Stelle von Tests tatsächlich ausgeführt wurde, benötigt dynamische Überdeckungsinformationen; konkrete ungültige Laufzeiteingaben werden damit nicht allgemein nachgewiesen. Keine Garantie, jeden Logikfehler oder jede Endlosschleife zu erkennen. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-032",
+      "question": "Welche Aussagen über am Reviewprozess beteiligte Gutachter treffen zu?\nI: Sie sind Personen mit einem spezifischen technischen oder fachlichen Hintergrund.\nII: Sie sollten so gewählt werden, dass sie verschiedene Rollen und Sichten vertreten.\nIII: Sie sollten an allen Sitzungen teilnehmen können.\nIV: Sie sind Hauptverantwortliche für das untersuchte Dokument.",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-032-a",
+          "text": "II, III"
+        },
+        {
+          "id": "ctfl-statisch-032-b",
+          "text": "I, II, III, IV"
+        },
+        {
+          "id": "ctfl-statisch-032-c",
+          "text": "I, II"
+        },
+        {
+          "id": "ctfl-statisch-032-d",
+          "text": "I, II, III"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-032-d"
+      ],
+      "explanation": "Geeignete Gutachter bringen Fachwissen und unterschiedliche Perspektiven ein und sollten für die vorgesehenen Sitzungen verfügbar sein. Hauptverantwortlicher für Erstellung und Korrektur bleibt der Autor. III bezieht sich auf die organisierten Sitzungen dieses Reviews, nicht auf eine Pflicht zu Sitzungen bei jedem Reviewtyp; deshalb nur Übung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht der falsch markierten Auswahl. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-034",
+      "question": "Welche der folgenden Aussagen über die statische Analyse ist FALSCH?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-034-a",
+          "text": "Die statische Analyse ist ein guter Ansatz, um Fehlerwirkungen in der Software zu erzwingen."
+        },
+        {
+          "id": "ctfl-statisch-034-b",
+          "text": "Die statische Analyse kann als vorbeugende Maßnahme genutzt werden, wenn es durch einen entsprechend angemessenen Prozess unterstützt wird."
+        },
+        {
+          "id": "ctfl-statisch-034-c",
+          "text": "Mit der statischen Analyse können Fehlerzustände aufgedeckt werden, die nicht so leicht durch dynamische Tests gefunden werden."
+        },
+        {
+          "id": "ctfl-statisch-034-d",
+          "text": "Die statische Analyse kann durch frühe Fehlererkennung helfen, Kosten einzusparen."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-034-a"
+      ],
+      "explanation": "Statische Analyse führt das Testobjekt nicht aus und erzwingt deshalb keine Laufzeitfehlerwirkungen. Sie findet bestimmte Fehlerzustände direkt und unterstützt frühe Qualitätssicherung. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-036",
+      "question": "Welche der folgenden Techniken sind statische Techniken?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-036-a",
+          "text": "Inspektion"
+        },
+        {
+          "id": "ctfl-statisch-036-b",
+          "text": "Use-Case-basiertes Testen"
+        },
+        {
+          "id": "ctfl-statisch-036-c",
+          "text": "Exploratives Testen"
+        },
+        {
+          "id": "ctfl-statisch-036-d",
+          "text": "Äquivalenzklassentest"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-036-a"
+      ],
+      "explanation": "Die Inspektion ist ein manuelles Review und damit statischer Test. Die anderen Antworten sind keine statischen Reviewarten. Der historische Distraktor Use-Case-basiertes Testen wird nicht als aktuelles Foundation-Verfahren unterrichtet. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-037",
+      "question": "Welche der nachfolgend genannten Reviewverfahren benötigen im Vorfeld eine intensive Vorbereitung?\nI: Walkthrough\nII: Inspektion\nIII: Informelles Review\nIV: Technisches Review",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-037-a",
+          "text": "I, II, IV"
+        },
+        {
+          "id": "ctfl-statisch-037-b",
+          "text": "II, IV"
+        },
+        {
+          "id": "ctfl-statisch-037-c",
+          "text": "III, IV"
+        },
+        {
+          "id": "ctfl-statisch-037-d",
+          "text": "I, III"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-037-b"
+      ],
+      "explanation": "Inspektionen folgen dem vollständigen Reviewprozess, technische Reviews nutzen vorbereitete fachlich qualifizierte Gutachter. Beim Walkthrough ist individuelles Review ausdrücklich optional. Der konkrete Vorbereitungsaufwand ist kontextabhängig; intensiv ist keine feste allgemeine Schwelle. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-038",
+      "question": "Welche der Review-Aktivitäten liegt beim Autor?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-038-a",
+          "text": "Entscheidung, welche Teile des Dokuments einem Review unterzogen werden."
+        },
+        {
+          "id": "ctfl-statisch-038-b",
+          "text": "Auswahl der Teilnehmer."
+        },
+        {
+          "id": "ctfl-statisch-038-c",
+          "text": "Durchführung von Korrekturen am Dokument."
+        },
+        {
+          "id": "ctfl-statisch-038-d",
+          "text": "Individuelle Prüfung des Dokuments."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-038-c"
+      ],
+      "explanation": "Der Autor erstellt und korrigiert das Arbeitsergebnis. Der Manager entscheidet, was geprüft wird; der Reviewleiter organisiert das Review und seine Teilnehmer. Gutachter führen die individuelle Prüfung durch. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-040",
+      "question": "Welche der unten aufgeführten Reviewarten gehört zu den geeignetsten zur Überprüfung sicherheitsrelevanter Komponenten in einem Softwareprojekt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-040-a",
+          "text": "Inspektion"
+        },
+        {
+          "id": "ctfl-statisch-040-b",
+          "text": "Schreibtischprüfung"
+        },
+        {
+          "id": "ctfl-statisch-040-c",
+          "text": "Informelles Review"
+        },
+        {
+          "id": "ctfl-statisch-040-d",
+          "text": "Walkthrough"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-040-a"
+      ],
+      "explanation": "Die Inspektion ist unter den angebotenen Möglichkeiten die formalste Art und bei hohen Anforderungen an Nachweisbarkeit und Fehlerentdeckung besonders geeignet. Kritikalität ist nur ein Auswahlfaktor, kein universeller Zwang zu dieser Reviewart. Die Originalfrage nennt eine ältere Advanced-Level-Beispielprüfung als Quelle; sie bleibt nur kontextbezogene Übung. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-041",
+      "question": "Welche der unten aufgeführten Reviewarten sind die geeignetsten zur Überprüfung sicherheitsrelevanter Komponenten in einem Softwareprojekt?\nA: Management-Review\nB: Inspektion\nC: Technisches Review\nD: Informelles Review\nE: Walkthrough",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-041-a",
+          "text": "B, C"
+        },
+        {
+          "id": "ctfl-statisch-041-b",
+          "text": "A, B, C"
+        },
+        {
+          "id": "ctfl-statisch-041-c",
+          "text": "D, E"
+        },
+        {
+          "id": "ctfl-statisch-041-d",
+          "text": "alle"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-041-a"
+      ],
+      "explanation": "Inspektionen bieten hohe Formalität und Nachweisbarkeit; technische Reviews bringen technische Fachkompetenz und moderierte Entscheidungsfindung ein. Im beschriebenen Kontext ist B und C die beste Kombination. Der passende Reviewtyp hängt zusätzlich von Zielen, Risiken, Ressourcen und Vorgaben ab. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-042",
+      "question": "Welche Fehler können nicht mit einem Whiteboxtest aufgedeckt werden?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-042-a",
+          "text": "Dead Code"
+        },
+        {
+          "id": "ctfl-statisch-042-b",
+          "text": "fachlich falsche Anwenderforderungen"
+        },
+        {
+          "id": "ctfl-statisch-042-c",
+          "text": "Benutzung von falschen Parametertypen"
+        },
+        {
+          "id": "ctfl-statisch-042-d",
+          "text": "nicht initialisierte Variablen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-042-b"
+      ],
+      "explanation": "Eine allein aus Code und Struktur abgeleitete Prüfung kann nicht entscheiden, ob die Anwender fachlich das Richtige gefordert haben. Dafür sind fachlicher Kontext und Validierung nötig. Unerreichbarer Code wird etwa durch nicht erreichbare Überdeckungsziele sichtbar; Parametertypen und Initialisierung lassen sich ergänzend statisch untersuchen. White-Box und statische Analyse sind keine Synonyme. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.3.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-4.3.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-043",
+      "question": "Welche Reviewart sollte bei kritischen Produkten gewählt werden, wenn Fachwissen aus\nmehreren Gebieten erforderlich ist?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-043-a",
+          "text": "Technisches Review"
+        },
+        {
+          "id": "ctfl-statisch-043-b",
+          "text": "Walkthrough"
+        },
+        {
+          "id": "ctfl-statisch-043-c",
+          "text": "Inspektion oder Technisches Review"
+        },
+        {
+          "id": "ctfl-statisch-043-d",
+          "text": "Inspektion"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-043-a"
+      ],
+      "explanation": "Der Originalschlüssel betont das technische Review mit qualifizierten Experten verschiedener Fachgebiete und moderierter technischer Bewertung. Eine Inspektion kann bei kritischen Produkten ebenfalls geeignet sein; die überlappende dritte Option macht den Schlüssel kontextabhängig. Deshalb nur Übung, keine Simulationsfreigabe. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht der falsch markierten Auswahl. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-044",
+      "question": "Welche Reviewart sollte gewählt, wenn eine ausführliche formalisierte Dokumentation\ngefordert ist?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-044-a",
+          "text": "Walkthrough"
+        },
+        {
+          "id": "ctfl-statisch-044-b",
+          "text": "Inspektion oder Technisches Review"
+        },
+        {
+          "id": "ctfl-statisch-044-c",
+          "text": "Technisches Review"
+        },
+        {
+          "id": "ctfl-statisch-044-d",
+          "text": "Inspektion"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-044-d"
+      ],
+      "explanation": "Die Inspektion ist die formalste Reviewart und folgt dem vollständigen generischen Prozess einschließlich dokumentierter Ergebnisse und Metriken. Damit passt sie am besten zum hervorgehobenen hohen Formalitäts- und Dokumentationsbedarf. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-045",
+      "question": "Welche Rolle innerhalb eines Reviews ist erheblich an dessen Erfolg beteiligt, beispielsweise\nweil sie das Review vorzeitig beenden darf?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-045-a",
+          "text": "Protokollant"
+        },
+        {
+          "id": "ctfl-statisch-045-b",
+          "text": "Gutachter"
+        },
+        {
+          "id": "ctfl-statisch-045-c",
+          "text": "Moderator"
+        },
+        {
+          "id": "ctfl-statisch-045-d",
+          "text": "Manager"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-045-c"
+      ],
+      "explanation": "Der Moderator sorgt für einen effektiven und geschützten Ablauf der Reviewsitzung. Dazu kann im vereinbarten Prozess auch das vorzeitige Beenden einer nicht zielführenden Sitzung gehören. Die konkrete Entscheidungsbefugnis ist organisatorisch zu regeln, nicht allein aus dem Rollennamen zwingend abzuleiten. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-046",
+      "question": "Welche Rolle übernimmt die Notizen während der Reviewsitzung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-046-a",
+          "text": "Gutachter"
+        },
+        {
+          "id": "ctfl-statisch-046-b",
+          "text": "Inspektor"
+        },
+        {
+          "id": "ctfl-statisch-046-c",
+          "text": "Moderator"
+        },
+        {
+          "id": "ctfl-statisch-046-d",
+          "text": "Protokollant"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-046-d"
+      ],
+      "explanation": "Der Protokollant sammelt Anomalien und zeichnet Reviewinformationen wie Entscheidungen und neu gefundene Anomalien während der Sitzung auf. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-047",
+      "question": "Welche Rollen sollten in einer Reviewsitzung vertreten sein?\nA: Manager\nB: Moderator\nC: Protokollant\nD: Gutachter\nE: Autor",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-047-a",
+          "text": "A, C, D, E"
+        },
+        {
+          "id": "ctfl-statisch-047-b",
+          "text": "alle"
+        },
+        {
+          "id": "ctfl-statisch-047-c",
+          "text": "B, C, D und E"
+        },
+        {
+          "id": "ctfl-statisch-047-d",
+          "text": "C, D, E"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-047-c"
+      ],
+      "explanation": "Im Kontext einer organisierten formalen Reviewsitzung sind Moderator, Protokollant, Gutachter und Autor die passende Kombination. Der Manager muss nicht an jeder Sitzung teilnehmen. Rollen können kombiniert werden; nicht jeder informelle Review benötigt eine solche vollständige Rollenbesetzung. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-049",
+      "question": "Welche Testverfahren werden auch \"Strukturbasierte Testentwurfsverfahren\" genannt?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-049-a",
+          "text": "Syntaxtest"
+        },
+        {
+          "id": "ctfl-statisch-049-b",
+          "text": "White-Box-Verfahren"
+        },
+        {
+          "id": "ctfl-statisch-049-c",
+          "text": "Smoke-Test"
+        },
+        {
+          "id": "ctfl-statisch-049-d",
+          "text": "Black-Box-Verfahren"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-049-b"
+      ],
+      "explanation": "White-Box-Testverfahren leiten Tests aus der internen Struktur ab und werden deshalb strukturbasierte Testverfahren genannt. Sie sind nicht mit statischer Analyse gleichzusetzen. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-4.1.1.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-4.1.1",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-051",
+      "question": "Welche(s) Arbeitsergebnis(se) der Softwareentwicklung kann einem Review unterzogen\nwerden?\n1. Testkonzepte\n2. Anforderungsspezifikationen\n3. Web-Seiten\n4. Quellcode\n5. Anwenderhandbücher\n6. Designspezifikationen",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-051-a",
+          "text": "2, 4, 5, 6"
+        },
+        {
+          "id": "ctfl-statisch-051-b",
+          "text": "Alle"
+        },
+        {
+          "id": "ctfl-statisch-051-c",
+          "text": "nur 4"
+        },
+        {
+          "id": "ctfl-statisch-051-d",
+          "text": "1, 2, 4, 6"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-051-b"
+      ],
+      "explanation": "Jedes lesbare und verständliche Arbeitsergebnis kann Gegenstand eines Reviews sein. Dazu gehören alle sechs genannten Beispiele einschließlich der Inhalte und Gestaltung von Webseiten. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.1.",
+      "usage": "both",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.1",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-052",
+      "question": "Welcher der folgenden Tests ist kein Review?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-052-a",
+          "text": "Kontrollflussanalyse"
+        },
+        {
+          "id": "ctfl-statisch-052-b",
+          "text": "Technisches Review"
+        },
+        {
+          "id": "ctfl-statisch-052-c",
+          "text": "Walkthrough"
+        },
+        {
+          "id": "ctfl-statisch-052-d",
+          "text": "Inspektionen"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-052-a"
+      ],
+      "explanation": "Kontrollflussanalyse ist eine Form statischer Analyse, kein manuelles Review. Technisches Review, Walkthrough und Inspektion sind Reviewarten. Die Frage unterscheidet die Ansätze, ohne historische Analyseverfahren im Detail zu prüfen. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.1.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.1.3",
+        "kLevel": "K2"
+      }
+    },
+    {
+      "id": "ctfl-statisch-054",
+      "question": "Wer kann eine Reviewsitzung absagen (Rolle) und was können mögliche Gründe in Bezug auf\nbeteiligte(r) Experte(n) sein (Grund)?\nRolle:\nA) Manager\nB) Moderator\nC) Protokollant\nD) Autor(en)\nGrund:\ni) nicht erscheinen\nii) fehlende Unterlagen\niii) ungenügende Vorbereitung\niv) keine gefundenen Ergebnisse",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-054-a",
+          "text": "B und i, iii"
+        },
+        {
+          "id": "ctfl-statisch-054-b",
+          "text": "B und iii, iv"
+        },
+        {
+          "id": "ctfl-statisch-054-c",
+          "text": "D oder C und i, iii"
+        },
+        {
+          "id": "ctfl-statisch-054-d",
+          "text": "A oder B und i"
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-054-a"
+      ],
+      "explanation": "Im Originalkontext kann der Moderator wegen fehlender Experten oder ungenügender Vorbereitung absagen. Keine gefundenen Anomalien sind allein kein Misserfolg und kein pauschaler Absagegrund. Zuständigkeiten können organisationsabhängig auch den Reviewleiter oder Manager einbeziehen; die überlappenden Optionen bleiben deshalb nur kontextbezogene Übung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht der falsch markierten Auswahl. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.3.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.3",
+        "kLevel": "K1"
+      }
+    },
+    {
+      "id": "ctfl-statisch-056",
+      "question": "Zwei Personen führen einen Source-Code Walktrough eines programmierten Moduls in einer\nPeer-Review-Sitzung durch. Welche beiden Personen sind sinnvollerweise Teilnehmer an\ndieser Sitzung?",
+      "type": "single",
+      "options": [
+        {
+          "id": "ctfl-statisch-056-a",
+          "text": "Der Autor des Quellcodes zusammen mit einem Tester, der vor der Aufgabe steht, Testfälle zu definieren. Ziel ist es, dem Tester Anreize zu liefern für zu testende Objekte sowie Bedingungen und Testendekriterien auszuloten."
+        },
+        {
+          "id": "ctfl-statisch-056-b",
+          "text": "Ein geschulter Moderator, der nicht Autor des Quellcodes ist, zusammen mit einem Entwickler, der ebenfalls nicht der Autor ist, wohl aber als gleichgestellter Mitarbeiter des Autors angesehen werden kann. Ziel ist es, Fehlerzustände zu finden und die Einhaltung von Programmierrichtlinien zu prüfen."
+        },
+        {
+          "id": "ctfl-statisch-056-c",
+          "text": "Der Autor des Quellcodes zusammen mit einem gleichgestellten Kollegen. Ziel ist es, dem Kollegen Wissen zu vermitteln, Verständnis über die Softwarestruktur zu erzielen und Fehlerzustände zu finden."
+        },
+        {
+          "id": "ctfl-statisch-056-d",
+          "text": "Der Autor des Quellcodes zusammen mit dem Testmanager, damit der Entwickler dem Manager einen Eindruck seiner Programmierqualitäten vermitteln kann und der Testmanager besser weitere Testaktivitäten planen kann."
+        }
+      ],
+      "correctOptionIds": [
+        "ctfl-statisch-056-c"
+      ],
+      "explanation": "Der Originalschlüssel betont den vom Autor geführten Walkthrough mit Wissensvermittlung, gemeinsamem Strukturverständnis und Anomalieerkennung. Ein Tester kann ebenfalls sinnvoll teilnehmen; Antwort A ist deshalb nicht allgemein unzulässig. Bewertung der persönlichen Programmierleistung ist kein Reviewziel. Wegen des kontextabhängigen einzelnen Bestschlüssels nur Übung. Der Schlüssel folgt der richtigen Antwort in der gelben Originalauflösungsbox, nicht der falsch markierten Auswahl. Prüfgrundlage: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Lernziel FL-3.2.4.",
+      "usage": "practice",
+      "metadata": {
+        "chapter": 3,
+        "chapterTitle": "Statischer Test",
+        "learningObjective": "FL-3.2.4",
+        "kLevel": "K2"
+      }
+    }
+  ]
+}
