@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Badge, Button, ProgressBar } from "@fluentui/react-components";
+import { Badge, Button, Dropdown, Option, ProgressBar } from "@fluentui/react-components";
 import {
   ArrowLeft20Regular,
   CheckmarkCircle24Regular,
@@ -54,6 +54,7 @@ export function ExamResultsPage() {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [showAll, setShowAll] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState("");
   const [reviewFilters, setReviewFilters] = useState<Record<string, ExamReviewFilterValue>>({});
 
   useEffect(() => {
@@ -78,7 +79,10 @@ export function ExamResultsPage() {
   const averagePercentage = attempts.length > 0
     ? Math.round(attempts.reduce((total, attempt) => total + attempt.percentage, 0) / attempts.length)
     : 0;
-  const visibleAttempts = showAll ? attempts : attempts.slice(0, 5);
+  const filteredAttempts = selectedCourseId
+    ? attempts.filter((attempt) => attempt.courseId === selectedCourseId)
+    : attempts;
+  const visibleAttempts = showAll ? filteredAttempts : filteredAttempts.slice(0, 5);
 
   return (
     <div className="page-stack elearning-page exam-results-page">
@@ -139,11 +143,29 @@ export function ExamResultsPage() {
             <section className="exam-history-card" aria-labelledby="exam-history-heading">
               <div className="exam-dashboard-heading">
                 <h2 id="exam-history-heading">Bisherige Ergebnisse</h2>
-                {attempts.length > 5 && (
+                {filteredAttempts.length > 5 && (
                   <Button appearance="subtle" onClick={() => setShowAll((visible) => !visible)}>
                     {showAll ? "Weniger anzeigen" : "Alle anzeigen"}
                   </Button>
                 )}
+              </div>
+              <div className="exam-review__filter">
+                <span id="exam-history-course-label">Kurs auswählen</span>
+                <Dropdown
+                  aria-labelledby="exam-history-course-label"
+                  className="exam-history-course-filter"
+                  value={performances.find((course) => course.courseId === selectedCourseId)?.courseTitle ?? "Alle Kurse"}
+                  selectedOptions={[selectedCourseId]}
+                  onOptionSelect={(_event, data) => {
+                    setSelectedCourseId(data.optionValue ?? "");
+                    setShowAll(false);
+                  }}
+                >
+                  <Option className="exam-history-course-option" value="">Alle Kurse</Option>
+                  {performances.map((course) => (
+                    <Option className="exam-history-course-option" key={course.courseId} value={course.courseId}>{course.courseTitle}</Option>
+                  ))}
+                </Dropdown>
               </div>
               <ol className="exam-history-list">
                 {visibleAttempts.map((attempt) => (
@@ -224,7 +246,15 @@ export function ExamResultsPage() {
           </div>
 
           {visibleAttempts.map((attempt) => (
-            <details key={`review-${attempt.id}`} className="exam-history-review exam-history-review--attempt">
+            <details
+              key={`review-${attempt.id}`}
+              className="exam-history-review exam-history-review--attempt"
+              onToggle={(event) => {
+                if (event.target === event.currentTarget && event.currentTarget.open) {
+                  event.currentTarget.scrollIntoView({ block: "start", behavior: "instant" });
+                }
+              }}
+            >
               <summary>
                 <span>Prüfung ansehen: {attempt.courseTitle}</span>
                 <span>{dateFormatter.format(new Date(attempt.submittedAt))} · {attempt.percentage}%</span>

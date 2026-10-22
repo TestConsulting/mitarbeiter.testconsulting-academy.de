@@ -5,6 +5,7 @@ import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { coursesData, type ExamAttempt } from "@portal/shared";
 import { ElearningPage } from "./elearning-page.js";
+import { CourseEditorDialog } from "./course-editor-dialog.js";
 import { CourseDetailPage } from "./course-detail-page.js";
 import { CoursePracticePage } from "./course-practice-page.js";
 import { CourseExamPage } from "./course-exam-page.js";
@@ -79,6 +80,18 @@ function renderWithRouter(ui: React.ReactElement, initialEntries = ["/"]) {
 }
 
 describe("ElearningPage - Kursübersicht", () => {
+  it("starts editing without highlighting the course title and moves focus between fields", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<CourseEditorDialog course={coursesData[0]} onSave={vi.fn()} onClose={vi.fn()} />);
+    const dialog = within(await screen.findByRole("dialog"));
+    expect(dialog.getByRole("heading", { name: "Kurs bearbeiten" })).toHaveFocus();
+    const title = dialog.getByRole("textbox", { name: "Kurstitel" });
+    await user.click(title);
+    expect(title).toHaveFocus();
+    await user.click(dialog.getByRole("textbox", { name: "Beschreibung" }));
+    expect(title).not.toHaveFocus();
+  });
+
   it("renders heading and limits employee listings to the first two courses", async () => {
     renderWithRouter(<ElearningPage />);
 
@@ -545,6 +558,48 @@ describe("CourseExamPage - Prüfungsmodus", () => {
 });
 
 describe("ExamResultsPage - Prüfungsauswertung", () => {
+  it("filters the history by course before limiting results and resets show all on selection", async () => {
+    const user = userEvent.setup();
+    const attempts = Array.from({ length: 8 }, (_, index) => ({
+      id: `attempt-${index}`,
+      courseId: index < 6 ? "course-a" : "course-b",
+      courseSlug: index < 6 ? "kurs-a" : "kurs-b",
+      courseTitle: index < 6 ? "Kurs A" : "Kurs B",
+      percentage: 50,
+      passed: false,
+      correctCount: 2,
+      totalQuestions: 4,
+      results: [],
+      submittedAt: "2026-10-16T08:00:00.000Z",
+    }));
+    mocks.api.courses.examResults.mockResolvedValue(attempts);
+    renderWithRouter(<ExamResultsPage />, ["/areas/elearning/results"]);
+    const history = within(await screen.findByRole("region", { name: "Bisherige Ergebnisse" }));
+    const filter = history.getByRole("combobox", { name: "Kurs auswählen" });
+    expect(history.getAllByRole("listitem")).toHaveLength(5);
+    await user.click(filter);
+    expect(within(screen.getByRole("listbox")).getAllByRole("option")).toHaveLength(3);
+    await user.click(screen.getByRole("option", { name: "Alle Kurse" }));
+    fireEvent.click(history.getByRole("button", { name: "Alle anzeigen" }));
+    expect(history.getAllByRole("listitem")).toHaveLength(8);
+
+    await user.click(filter);
+    await user.click(screen.getByRole("option", { name: "Kurs B" }));
+    expect(history.getAllByRole("listitem")).toHaveLength(2);
+    expect(history.queryByRole("link", { name: "Kurs A" })).not.toBeInTheDocument();
+    expect(history.queryByRole("button", { name: "Alle anzeigen" })).not.toBeInTheDocument();
+    expect(screen.getByText("8", { selector: ".exam-summary-card strong" })).toBeInTheDocument();
+
+    await user.click(filter);
+    await user.click(screen.getByRole("option", { name: "Kurs A" }));
+    expect(history.getAllByRole("listitem")).toHaveLength(5);
+    fireEvent.click(history.getByRole("button", { name: "Alle anzeigen" }));
+    expect(history.getAllByRole("listitem")).toHaveLength(6);
+    await user.click(filter);
+    await user.click(screen.getByRole("option", { name: "Alle Kurse" }));
+    expect(history.getAllByRole("listitem")).toHaveLength(5);
+  });
+
   it("shows a user's history, best result, average per course and saved answer review", async () => {
     const course = coursesData[0];
     const question = course.questions[0];
@@ -614,8 +669,12 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
     expect(screen.getByText("75% · 2 Versuche")).toBeInTheDocument();
 
     const review = screen.getAllByText(/Prüfung ansehen: Fragenkatalog Essentials/i)[0];
-    fireEvent.click(review);
     const attempts = document.querySelectorAll<HTMLElement>(".exam-history-review");
+    const scrollToStart = vi.fn();
+    attempts.forEach((attempt) => { attempt.scrollIntoView = scrollToStart; });
+    fireEvent.click(review);
+    await waitFor(() => expect(scrollToStart).toHaveBeenCalledWith({ block: "start", behavior: "instant" }));
+    scrollToStart.mockClear();
     fireEvent.change(within(attempts[0]).getByRole("combobox", { name: "Antworten anzeigen" }), {
       target: { value: "correct" },
     });
@@ -628,6 +687,7 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
       target: { value: "all" },
     });
     fireEvent.click(attempts[1].querySelector<HTMLElement>("summary")!);
+    await waitFor(() => expect(scrollToStart).toHaveBeenCalledTimes(1));
     const questionReviews = document.querySelectorAll<HTMLDetailsElement>(".exam-history-review__question-review");
     expect(questionReviews).toHaveLength(2);
     expect([...questionReviews].every((questionReview) => !questionReview.open)).toBe(true);
@@ -646,6 +706,7 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
     fireEvent.click(questionReviews[1].querySelector<HTMLElement>("summary")!);
     expect(await screen.findAllByText(question.explanation)).toHaveLength(2);
     expect(within(questionReviews[0]).getByText(question.explanation)).toBeVisible();
+    expect(scrollToStart).toHaveBeenCalledTimes(1);
     expect(screen.getAllByText("Erklärung zur Lösung:")).toHaveLength(2);
     expect(document.querySelectorAll(".exam-history-review__list > li")).toHaveLength(2);
     expect(document.querySelectorAll(".exam-history-review__options")).toHaveLength(2);

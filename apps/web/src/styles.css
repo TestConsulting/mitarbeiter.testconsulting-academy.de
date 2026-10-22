@@ -562,7 +562,18 @@ a { color: inherit; }
   border-radius: 10px;
   overflow: visible;
 }
-.course-editor-form,
+.fui-DialogTitle[tabindex="-1"]:focus {
+  outline: none;
+}
+.course-editor-form {
+ --dialog-focus-color: var(--primary);
+}
+:root[data-theme="dark"] .course-editor-form {
+ --dialog-focus-color: var(--accent);
+}
+.course-editor-form :is(.fui-Input, .fui-Textarea, .fui-Select, .fui-Dropdown):hover:not(:has(:disabled)) {
+  border-color: var(--dialog-focus-color);
+}
 .board-column-dialog-content {
   --dialog-focus-color: var(--accent);
 }
@@ -848,6 +859,14 @@ a { color: inherit; }
   width: 100%;
 }
 
+:root:not([data-theme="dark"]) .elearning-search.fui-Input:hover {
+  border-color: var(--primary);
+}
+
+:root[data-theme="dark"] .elearning-search.fui-Input:hover {
+  border-color: var(--accent);
+}
+
 .elearning-categories {
   display: flex;
   flex-wrap: wrap;
@@ -871,6 +890,10 @@ a { color: inherit; }
 .elearning-filter-btn:hover {
   background: var(--surface-strong);
   border-color: var(--primary);
+}
+
+:root[data-theme="dark"] .elearning-filter-btn:hover {
+  border-color: var(--accent);
 }
 
 .elearning-filter-btn:focus-visible {
@@ -911,6 +934,10 @@ a { color: inherit; }
 .elearning-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px var(--shadow-strong);
+  border-color: var(--primary);
+}
+
+:root[data-theme="dark"] .elearning-card:hover {
   border-color: var(--accent);
 }
 
@@ -927,7 +954,7 @@ a { color: inherit; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--accent-strong);
+  color: var(--primary);
   background: var(--surface-strong);
   padding: 4px 10px;
   border-radius: 12px;
@@ -962,7 +989,11 @@ a { color: inherit; }
   border-radius: 8px;
   padding: 12px 14px;
   margin-bottom: 20px;
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--primary);
+}
+
+:root[data-theme="dark"] .elearning-card__contents {
+  border-left-color: var(--accent);
 }
 
 .elearning-card__last-exam {
@@ -1029,8 +1060,8 @@ a { color: inherit; }
   width: 100%;
   padding: 10px 18px;
   border-radius: 8px;
-  background: var(--accent);
-  color: #0f1722;
+  background: var(--primary);
+  color: #fff;
   font-weight: 600;
   font-size: 0.92rem;
   text-decoration: none;
@@ -2493,6 +2524,38 @@ a { color: inherit; }
   margin-inline: 18px;
 }
 
+.exam-history-course-filter.fui-Dropdown:hover,
+.exam-history-course-filter.fui-Dropdown:focus-within {
+  border-color: var(--primary);
+}
+
+.exam-history-course-filter.fui-Dropdown::after {
+  border-bottom-color: var(--primary);
+}
+
+:root[data-theme="dark"] .exam-history-course-filter:hover,
+:root[data-theme="dark"] .exam-history-course-filter:focus-within {
+  border-color: var(--accent);
+}
+
+:root[data-theme="dark"] .exam-history-course-filter::after {
+  border-bottom-color: var(--accent);
+}
+
+.exam-history-course-option:hover,
+.exam-history-course-option:focus,
+.exam-history-course-option[aria-selected="true"] {
+  background: var(--primary);
+  color: #fff;
+}
+
+:root[data-theme="dark"] .exam-history-course-option:hover,
+:root[data-theme="dark"] .exam-history-course-option:focus,
+:root[data-theme="dark"] .exam-history-course-option[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--surface);
+}
+
 .exam-review__filter select {
   min-height: 36px;
   padding: 6px 10px;
@@ -2501,6 +2564,14 @@ a { color: inherit; }
   background: var(--surface);
   color: var(--text);
   font: inherit;
+}
+
+.exam-review__filter select:hover {
+  border-color: var(--primary);
+}
+
+:root[data-theme="dark"] .exam-review__filter select:hover {
+  border-color: var(--accent);
 }
 
 .exam-review__empty {
@@ -2861,6 +2932,10 @@ a { color: inherit; }
 
 .exam-history-review__open-icon {
   color: #fff;
+}
+
+.exam-history-review--attempt {
+  scroll-margin-top: 80px;
 }
 
 .exam-history-review--attempt > summary > span:last-child {

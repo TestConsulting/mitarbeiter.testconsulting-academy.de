@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   Button,
   Dialog,
@@ -60,6 +60,10 @@ const materialMimeTypes: Record<string, string> = {
 };
 
 export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDialogProps) {
+  const editorRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    editorRef.current?.focus();
+  }, []);
   const [title, setTitle] = useState(course?.title ?? "");
   const [category, setCategory] = useState<CourseCategory>(course?.category ?? "Sonstiges");
   const [description, setDescription] = useState(course?.description ?? "");
@@ -160,7 +164,7 @@ export function CourseEditorDialog({ course, onSave, onClose }: CourseEditorDial
       <DialogSurface className="course-editor-dialog">
         <form onSubmit={submit}>
           <DialogBody>
-            <DialogTitle>{course ? "Kurs bearbeiten" : "Kurs anlegen"}</DialogTitle>
+            <DialogTitle ref={editorRef} tabIndex={-1}>{course ? "Kurs bearbeiten" : "Kurs anlegen"}</DialogTitle>
             <DialogContent className="course-editor-form">
               {error && <MessageBar intent="error"><MessageBarBody>{error}</MessageBarBody></MessageBar>}
               <div className="course-editor-fields">
