@@ -2931,6 +2931,10 @@ a { color: inherit; }
 }
 
 .exam-history-review__open-icon {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .exam-history-review__open-icon {
   color: #fff;
 }
 
