@@ -50,7 +50,7 @@
     },
     {
       "id": "ctfl-testmanagement-003",
-      "question": "Die untenstehende Liste enthält Risiken, die für ein zu entwickelndes Softwareprodukt\nidentifiziert wurden.\nWelches dieser Risiken ist ein typisches Beispiel für ein Produktrisiko?\nBitte wählen Sie genau eine zutreffende Antwort (1-4) aus:",
+      "question": "Welches der folgenden Risiken ist ein typisches Beispiel für ein Produktrisiko?\nBitte wählen Sie genau eine zutreffende Antwort (1-4) aus:",
       "type": "single",
       "options": [
         {

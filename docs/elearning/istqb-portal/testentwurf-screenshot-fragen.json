@@ -1545,6 +1545,10 @@
       "correctOptionIds": [
         "ctfl-testentwurf-017-a"
       ],
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-017.png",
+        "alt": "Bisherige Entscheidungstabelle: Regeln 1 bis 4 kombinieren Einkauf ab 20 Uhr (Ja, Ja, Nein, Nein) mit Kundenkarte (Ja, Nein, Ja, Nein). Abendrabatt 5 % gewähren: Ja, Ja, Nein, Nein. Kundenkartenrabatt 5 % gewähren: Ja, Nein, Ja, Nein."
+      },
       "explanation": "Die vier bisherigen Kombinationen gelten weiter für Kunden ohne die neue Karte. Mit neuer Karte sind die anderen Rabatte irrelevant; die zusammengefasste neue Regel benötigt einen weiteren Test. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
       "usage": "both",
       "metadata": {
@@ -2407,7 +2411,11 @@
       "correctOptionIds": [
         "ctfl-testentwurf-046-b"
       ],
-      "explanation": "Die vier bisherigen Kombinationen gelten für einen normalen Besuch weiter. Ein zusätzlicher zusammengefasster Fall für den kostenlosen elften Besuch macht die anderen Rabattbedingungen irrelevant. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
+      "image": {
+        "url": "/questions/istqb-foundation/testentwurf-046.png",
+        "alt": "Bisherige Entscheidungstabelle: Regeln 1 bis 4 kombinieren Vormittagsrabatt gilt (Ja, Ja, Nein, Nein) mit Stammkunde (Ja, Nein, Ja, Nein). Vormittagsrabatt gewähren: Ja, Ja, Nein, Nein. Stammkundenrabatt 5 % gewähren: Ja, Nein, Ja, Nein."
+      },
+      "explanation": "Die vier bestehenden Testfälle decken weiterhin die Kombinationen für normale Besuche ab. Für die neue Gratisregel kommt ein eigener Testfall für den elften Besuch hinzu; Uhrzeit und Stammkundenstatus ändern dabei das Ergebnis nicht. Daher ist genau ein zusätzlicher Testfall erforderlich. Quelle: CTFL-Lehrplan 4.0.2 DE (01.03.2025), Abschnitt 4.2.3.",
       "usage": "both",
       "metadata": {
         "chapter": 4,

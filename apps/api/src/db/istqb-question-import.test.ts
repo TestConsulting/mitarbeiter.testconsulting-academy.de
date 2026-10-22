@@ -412,9 +412,19 @@ describe("ISTQB question import", () => {
     }
   });
 
-  it("ships all fourteen diagrams and tables as real PNGs without allowing arbitrary asset paths", async () => {
+  it("includes the existing decision tables for the backshop and hairdresser without revealing the new rule", () => {
+    for (const number of ["017", "046"]) {
+      const question = designQuestions.find((q) => q.id === `ctfl-testentwurf-${number}`)!;
+      expect(question.image?.url).toBe(`/questions/istqb-foundation/testentwurf-${number}.png`);
+      expect(question.image?.alt).toContain("Bisherige Entscheidungstabelle: Regeln 1 bis 4");
+      expect(question.image?.alt).not.toMatch(/Legende|Regel 5|Back-Genuss|elften/);
+      expect(question.options.find((option) => option.id === question.correctOptionIds[0])?.text).toBe("1");
+    }
+  });
+
+  it("ships all sixteen diagrams and tables as real PNGs without allowing arbitrary asset paths", async () => {
     const illustrated = designQuestions.filter((question) => question.image);
-    expect(illustrated).toHaveLength(14);
+    expect(illustrated).toHaveLength(16);
     for (const question of illustrated) {
       const image = question.image!;
       expect(image.url).toBe(`/questions/istqb-foundation/testentwurf-${question.id.slice(-3)}.png`);

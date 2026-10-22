@@ -33,7 +33,10 @@ oder nicht mit CTFL 4.0.2 vereinbare Fragen ausgeschlossen. Die jeweiligen
 sie werden nicht importiert. Bestehende IDs werden nicht neu nummeriert.
 Kapitel 4 ersetzt die bisherigen 26 Übungsfragen. Aus 123 Ordner-Screenshots und
 einer nachgereichten Entscheidungstabelle wurden 87 aktive Fragen mit 14
-Abbildungen übernommen. Zwei Wiederholungen derselben Frage und eine zusätzliche
+Abbildungen übernommen. Zwei ergänzte Entscheidungstabellen für die Backshopfrage
+(ID 017) und die Friseurfrage (ID 046) zeigen jeweils nur die vier bisherigen
+Regeln, ohne Legende. Damit enthält Kapitel 4 insgesamt 16 Abbildungen.
+Zwei Wiederholungen derselben Frage und eine zusätzliche
 Testmanagement-Aufnahme sind separat erfasst; 34 historische, fehlerhafte oder
 mehrdeutige Fragen sind mit Grund ausgeschlossen.
 Die bestätigten Originalschlüssel 69 und 121 bleiben nur im Ausschlussvermerk.
