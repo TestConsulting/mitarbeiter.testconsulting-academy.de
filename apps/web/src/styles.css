@@ -122,7 +122,10 @@
 }
 
 :root[data-theme="dark"] .ticket-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-top-color: #64748b;
+  border-right-color: #64748b;
+  border-bottom-color: #64748b;
+  background-image: linear-gradient(rgb(255 255 255 / 4%), rgb(255 255 255 / 4%));
 }
 
 * { box-sizing: border-box; }
@@ -328,7 +331,8 @@ a { color: inherit; }
 :is(.application-link-card--sortable, .benefit-card--sortable):active { cursor: grabbing; }
 :is(.application-link-card--sortable, .benefit-card--sortable):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .application-links-grid .application-link-card__actions { flex: 0 0 auto; justify-content: center; padding: 2px 12px; }
-:is(.application-link-card, .benefit-card):hover { border-color: var(--muted); border-left-color: var(--tile-left-accent); box-shadow: 0 8px 26px var(--shadow-strong); }
+:is(.application-link-card, .benefit-card):hover { border-color: var(--primary); box-shadow: 0 8px 26px var(--shadow-strong); }
+:root[data-theme="dark"] :is(.application-link-card, .benefit-card):hover { border-color: var(--accent); }
 :is(.application-link-card__content, .benefit-card__content) { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 16px; padding: 26px 24px 22px; }
 :is(.application-link-card__icon, .benefit-card__icon) { display: grid; min-width: 68px; max-width: 100%; min-height: 58px; place-items: center; padding: 8px 12px; border: 1px solid color-mix(in srgb, var(--tile-accent) 12%, transparent); border-radius: 17px; background: var(--tile-tint); color: var(--tile-accent); font-size: 15px; font-weight: 700; letter-spacing: .3px; }
 :is(.application-link-card, .benefit-card) h2 { margin: 0; color: var(--text); font-size: 21px; font-weight: 600; letter-spacing: -.4px; }
@@ -469,7 +473,12 @@ a { color: inherit; }
 .ticket-card--doing { border-left-color: var(--primary); background: rgb(0 76 126 / 8%); }
 .ticket-card--review { border-left-color: var(--accent-strong); background: rgb(91 155 60 / 10%); }
 .ticket-card--done { border-left-color: #7d8ba1; background: rgb(125 139 161 / 10%); }
-.ticket-card:hover { border-color: #9eb5c5; }
+:root:not([data-theme="dark"]) .ticket-card:hover {
+  border-top-color: #b6c0cc;
+  border-right-color: #b6c0cc;
+  border-bottom-color: #b6c0cc;
+  box-shadow: 0 5px 14px rgb(15 23 42 / 16%);
+}
 .ticket-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .ticket-card__title { font-size: 12px; font-weight: 700; line-height: 1.35; word-break: break-word; }
 .ticket-card__actions { display: flex; align-items: center; gap: 4px; }
@@ -493,10 +502,10 @@ a { color: inherit; }
   flex-direction: column;
   gap: 14px;
   min-width: min(520px, 82vw);
-  --dialog-focus-color: var(--primary);
+   --dialog-focus-color: var(--primary);
 }
 :root[data-theme="dark"] :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form, .course-editor-form, .board-column-dialog-content) {
-  --dialog-focus-color: var(--accent);
+   --dialog-focus-color: var(--accent);
 }
 :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form, .course-editor-form, .board-column-dialog-content) .fui-Input,
 :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form, .course-editor-form, .board-column-dialog-content) .fui-Dropdown,
@@ -571,7 +580,8 @@ a { color: inherit; }
 :root[data-theme="dark"] .course-editor-form {
  --dialog-focus-color: var(--accent);
 }
-.course-editor-form :is(.fui-Input, .fui-Textarea, .fui-Select, .fui-Dropdown):hover:not(:has(:disabled)) {
+:is(.ticket-dialog-content, .application-link-form, .benefit-form, .course-editor-form) :is(.fui-Input, .fui-Textarea, .fui-Select, .fui-Dropdown):hover:not(:has(:disabled)),
+.ticket-dialog-content .ticket-dialog__textarea:hover:not(:disabled) {
   border-color: var(--dialog-focus-color);
 }
 .board-column-dialog-content {

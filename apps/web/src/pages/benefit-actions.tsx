@@ -3,7 +3,7 @@ import {
   Field, Input, MessageBar, MessageBarBody, Textarea,
 } from "@fluentui/react-components";
 import { Add20Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { Benefit, BenefitInput } from "@portal/shared";
 import { canManagePortal, isValidAppLinkUrl, normalizeAppLinkUrl } from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
@@ -21,6 +21,11 @@ const emptyDraft: BenefitInput = { title: "", description: "", details: "", url:
 export function BenefitActions({ benefit, onSaved, onDeleted, disabled = false, onInteractionChange }: Props) {
   const { user } = useAuth();
   const [draft, setDraft] = useState<BenefitInput | null>(null);
+  const editorRef = useRef<HTMLHeadingElement>(null);
+  const editorOpen = draft !== null;
+  useEffect(() => {
+    if (editorOpen) editorRef.current?.focus();
+  }, [editorOpen]);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -96,7 +101,7 @@ export function BenefitActions({ benefit, onSaved, onDeleted, disabled = false, 
         <DialogSurface>
           <form onSubmit={save}>
             <DialogBody>
-              <DialogTitle>{benefit ? "Benefit bearbeiten" : "Benefit hinzufügen"}</DialogTitle>
+              <DialogTitle ref={editorRef} tabIndex={-1}>{benefit ? "Benefit bearbeiten" : "Benefit hinzufügen"}</DialogTitle>
               <DialogContent className="benefit-form">
                 {error && <MessageBar intent="error"><MessageBarBody>{error}</MessageBarBody></MessageBar>}
                 <Field label="Titel" required>

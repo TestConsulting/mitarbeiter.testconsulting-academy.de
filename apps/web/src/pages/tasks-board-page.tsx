@@ -842,6 +842,11 @@ function EditTicketDialog({
   const [description, setDescription] = useState(ticket.description ?? "");
   const [assigneeId, setAssigneeId] = useState(ticket.assigneeId ?? "");
   const [columnId, setColumnId] = useState(ticket.columnId);
+  const editorRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    editorRef.current?.focus();
+  }, []);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -861,10 +866,10 @@ function EditTicketDialog({
       <DialogSurface>
         <form onSubmit={handleSubmit}>
           <DialogBody>
-            <DialogTitle>Ticket bearbeiten</DialogTitle>
+            <DialogTitle ref={editorRef} tabIndex={-1}>Ticket bearbeiten</DialogTitle>
             <DialogContent className="ticket-dialog-content">
               <Field label="Titel">
-                <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} autoFocus />
+                <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} />
               </Field>
               <Field label="Beschreibung">
                 <textarea

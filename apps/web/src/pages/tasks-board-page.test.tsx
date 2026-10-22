@@ -133,6 +133,23 @@ describe("tasks board page", () => {
     expect(await screen.findByText("Neue Aufgabe")).toBeInTheDocument();
   });
 
+  it("starts editing without highlighting the title and moves focus between fields", async () => {
+    const user = userEvent.setup();
+    renderBoard(adminUser);
+    const ticket = await screen.findByText("Angebot schreiben");
+    await user.click(ticket);
+
+    const dialog = within(await screen.findByRole("dialog"));
+    expect(dialog.getByRole("heading", { name: "Ticket bearbeiten" })).toHaveFocus();
+    const title = dialog.getByRole("textbox", { name: "Titel" });
+    expect(title).not.toHaveFocus();
+    await user.click(title);
+    expect(title).toHaveFocus();
+    await user.click(dialog.getByPlaceholderText("Beschreibung eingeben"));
+    expect(title).not.toHaveFocus();
+    expect(dialog.getByPlaceholderText("Beschreibung eingeben")).toHaveFocus();
+  });
+
   it("opens the edit dialog and saves changes", async () => {
     const user = userEvent.setup();
     boardApi.updateTicket.mockResolvedValue([{ ...buildBoard().tickets[0], title: "Angebot überarbeiten" }]);

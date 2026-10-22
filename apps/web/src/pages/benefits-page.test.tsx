@@ -46,6 +46,20 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 describe("Benefits pages", () => {
+  it("starts editing without highlighting the title and moves focus between fields", async () => {
+    mocks.role = "admin";
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
+    const dialog = within(await screen.findByRole("dialog"));
+    expect(dialog.getByRole("heading", { name: "Benefit bearbeiten" })).toHaveFocus();
+    const title = dialog.getByRole("textbox", { name: "Titel" });
+    await user.click(title);
+    expect(title).toHaveFocus();
+    await user.click(dialog.getByRole("textbox", { name: "Kurzbeschreibung" }));
+    expect(title).not.toHaveFocus();
+  });
+
   it.each(["Sachbezug - Sachbezugskarte", "Sachbezugskarte"])("shows a payment card icon for %s on the card and detail page", async (title) => {
     const card = { ...benefit, title };
     mocks.list.mockResolvedValue([card]);

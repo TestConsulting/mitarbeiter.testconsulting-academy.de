@@ -42,6 +42,11 @@ export function ApplicationLinksPage() {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [draft, setDraft] = useState<LinkDraft | null>(null);
+  const editorRef = useRef<HTMLHeadingElement>(null);
+  const editorOpen = draft !== null;
+  useEffect(() => {
+    if (editorOpen) editorRef.current?.focus();
+  }, [editorOpen]);
   const [deleteTarget, setDeleteTarget] = useState<AppLink | null>(null);
   const [detailTarget, setDetailTarget] = useState<AppLink | null>(null);
   const detailIsEmail = /^mailto:/i.test(detailTarget?.url ?? "");
@@ -266,7 +271,7 @@ export function ApplicationLinksPage() {
         <DialogSurface>
           <form onSubmit={saveLink}>
             <DialogBody>
-              <DialogTitle>{draft?.id ? "Link bearbeiten" : "Link hinzufügen"}</DialogTitle>
+              <DialogTitle ref={editorRef} tabIndex={-1}>{draft?.id ? "Link bearbeiten" : "Link hinzufügen"}</DialogTitle>
               <DialogContent className="application-link-form">
                 {actionError && <MessageBar intent="error"><MessageBarBody>{actionError}</MessageBarBody></MessageBar>}
                 <Field label="Name" required>

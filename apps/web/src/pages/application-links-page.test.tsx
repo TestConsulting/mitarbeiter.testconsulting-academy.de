@@ -42,6 +42,20 @@ afterEach(() => {
 });
 
 describe("application links page", () => {
+  it("starts editing without highlighting the name and moves focus between fields", async () => {
+    mocks.role = "admin";
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: `${link.name} bearbeiten` }));
+    const dialog = within(await screen.findByRole("dialog"));
+    expect(dialog.getByRole("heading", { name: "Link bearbeiten" })).toHaveFocus();
+    const name = dialog.getByRole("textbox", { name: "Name" });
+    await user.click(name);
+    expect(name).toHaveFocus();
+    await user.click(dialog.getByRole("textbox", { name: "Kurzbeschreibung" }));
+    expect(name).not.toHaveFocus();
+  });
+
   it("renders email links with an envelope and no new tab", async () => {
     mocks.list.mockResolvedValue([{ ...link, name: "Backoffice", url: "mailto:backoffice@testconsulting.de" }]);
     renderPage();
