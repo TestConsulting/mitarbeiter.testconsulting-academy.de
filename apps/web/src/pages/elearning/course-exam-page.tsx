@@ -6,7 +6,7 @@ import {
   Clock20Regular,
   DismissCircle24Regular,
 } from "@fluentui/react-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   EXAM_PASS_THRESHOLD,
   type ExamCourse,
@@ -31,6 +31,7 @@ export function CourseExamPage() {
 }
 
 function LegacyCourseExamPage() {
+  const navigate = useNavigate();
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<ExamCourse | null>(null);
   const [result, setResult] = useState<ExamSubmissionResult | null>(null);
@@ -219,8 +220,8 @@ function LegacyCourseExamPage() {
           </details>
 
           <div className="exam-results__actions">
-            <Link to="/areas/elearning" className="fui-Button fui-Button--secondary">Zur Kursübersicht</Link>
-            <Link to="/areas/elearning/results" className="fui-Button fui-Button--secondary">Auswertung ansehen</Link>
+            <Button appearance="secondary" onClick={() => navigate("/areas/elearning")}>Zur Kursübersicht</Button>
+            <Button appearance="secondary" onClick={() => navigate("/areas/elearning/results")}>Auswertung ansehen</Button>
             <Button
               appearance="primary"
               onClick={() => {

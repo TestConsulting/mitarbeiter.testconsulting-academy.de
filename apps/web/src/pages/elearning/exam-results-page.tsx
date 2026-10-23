@@ -7,7 +7,7 @@ import {
   SubtractCircleRegular,
   Trophy24Regular,
 } from "@fluentui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { AbortedExamSession, ExamAttempt } from "@portal/shared";
 import { api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
@@ -49,6 +49,7 @@ function coursePerformances(attempts: ExamAttempt[]): CoursePerformance[] {
 }
 
 export function ExamResultsPage() {
+  const navigate = useNavigate();
   const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
   const [abortedAttempts, setAbortedAttempts] = useState<AbortedExamSession[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -89,9 +90,9 @@ export function ExamResultsPage() {
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung</h1>
         <span>Deine bisherigen Prüfungen und Ergebnisse</span>
-        <Link to="/areas/elearning" className="fui-Button fui-Button--secondary">
+        <Button appearance="secondary" onClick={() => navigate("/areas/elearning")}>
           <ArrowLeft20Regular aria-hidden="true" /> Zur Kursübersicht
-        </Link>
+        </Button>
       </div>
 
       {status === "loading" && <p role="status">Prüfungsergebnisse werden geladen …</p>}
@@ -118,7 +119,7 @@ export function ExamResultsPage() {
           <Trophy24Regular aria-hidden="true" />
           <h2>Noch keine Prüfungen abgelegt</h2>
           <p>Starte eine Probeprüfung aus einem Kurs. Deine Ergebnisse erscheinen anschließend hier.</p>
-          <Link to="/areas/elearning" className="fui-Button fui-Button--primary">Kurse ansehen</Link>
+          <Button appearance="primary" onClick={() => navigate("/areas/elearning")}>Kurse ansehen</Button>
         </section>
       )}
 

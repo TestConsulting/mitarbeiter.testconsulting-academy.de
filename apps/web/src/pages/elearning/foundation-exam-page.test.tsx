@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ExamSession } from "@portal/shared";
 import { FoundationExamPage } from "./foundation-exam-page.js";
@@ -52,6 +52,22 @@ async function start() {
   await screen.findByRole("timer");
 }
 describe("Foundation examination", () => {
+  it.each([
+    ["Prüfungsverlauf", "/areas/elearning/results"],
+    ["Zurück zum Kurs", "/areas/elearning/istqb-foundation"],
+  ])("renders %s as a button and navigates to %s", async (name, destination) => {
+    render(<MemoryRouter><FluentProvider theme={webLightTheme}>
+      <Routes>
+        <Route path="/" element={<FoundationExamPage />} />
+        <Route path={destination} element={<h1>Navigationsziel</h1>} />
+      </Routes>
+    </FluentProvider></MemoryRouter>);
+    fireEvent.click(await screen.findByRole("button", { name: "Prüfung starten" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Prüfung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig abgeben" }));
+    fireEvent.click(await screen.findByRole("button", { name }));
+    expect(await screen.findByRole("heading", { name: "Navigationsziel" })).toBeInTheDocument();
+  });
   it("shows preparation without starting the clock, explains the blueprint and starts the selected 75 minutes explicitly", async () => {
     show();
     expect(await screen.findByRole("heading", { name: "ISTQB Foundation Level - Prüfungsmodus" }))

@@ -5,7 +5,7 @@ import {
 import {
   ArrowLeft20Regular, CheckmarkCircle24Regular, Clock20Regular, DismissCircle24Regular, SubtractCircleRegular,
 } from "@fluentui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CTFL_EXAM_CHAPTER_COUNTS, type ExamSession } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
@@ -22,6 +22,7 @@ function errorMessage(error: unknown) {
 }
 
 export function FoundationExamPage() {
+  const navigate = useNavigate();
   const [session, setSession] = useState<ExamSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadAttempt, setLoadAttempt] = useState(0);
@@ -386,8 +387,8 @@ export function FoundationExamPage() {
       </>}
       <div className="course-practice-actions">
         <Button appearance="primary" onClick={() => { setSession(null); setError(""); setMarked([]); }}>Neue Prüfung vorbereiten</Button>
-        <Link to="/areas/elearning/results" className="fui-Button fui-Button--secondary">Prüfungsverlauf</Link>
-        <Link to={courseUrl} className="fui-Button fui-Button--secondary">Zurück zum Kurs</Link>
+        <Button appearance="secondary" onClick={() => navigate("/areas/elearning/results")}>Prüfungsverlauf</Button>
+        <Button appearance="secondary" onClick={() => navigate(courseUrl)}>Zurück zum Kurs</Button>
       </div>
     </section>
     {confirmationDialog}

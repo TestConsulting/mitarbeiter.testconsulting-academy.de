@@ -477,7 +477,10 @@ describe("CoursePracticePage - Interaktiver Übungsablauf", () => {
 });
 
 describe("CourseExamPage - Prüfungsmodus", () => {
-  it("keeps solutions hidden during the exam and shows the server evaluation only after submission", async () => {
+  it.each([
+    ["Zur Kursübersicht", "/areas/elearning"],
+    ["Auswertung ansehen", "/areas/elearning/results"],
+  ])("keeps solutions hidden until submission and navigates via the %s button", async (name, destination) => {
     const user = userEvent.setup();
     const sourceQuestion = coursesData[0].questions[0];
     const examQuestion = {
@@ -512,6 +515,7 @@ describe("CourseExamPage - Prüfungsmodus", () => {
         <FluentProvider theme={webLightTheme}>
           <Routes>
             <Route path="/areas/elearning/:courseId/exam" element={<CourseExamPage />} />
+            <Route path={destination} element={<h1>Navigationsziel</h1>} />
           </Routes>
         </FluentProvider>
       </MemoryRouter>,
@@ -554,6 +558,8 @@ describe("CourseExamPage - Prüfungsmodus", () => {
       questionId: sourceQuestion.id,
       selectedOptionIds: [sourceQuestion.options[0].id],
     }]);
+    await user.click(screen.getByRole("button", { name }));
+    expect(await screen.findByRole("heading", { name: "Navigationsziel" })).toBeInTheDocument();
   });
 });
 
@@ -718,9 +724,13 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
     expect(mocks.api.courses.examResults).toHaveBeenCalledOnce();
   });
 
-  it("shows a clear empty state before the first exam", async () => {
-    renderWithRouter(<ExamResultsPage />, ["/areas/elearning/results"]);
+  it.each(["Zur Kursübersicht", "Kurse ansehen"])("shows a clear empty state and navigates via the %s button", async (name) => {
+    renderWithRouter(<Routes>
+      <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
+      <Route path="/areas/elearning" element={<h1>Kursübersicht</h1>} />
+    </Routes>, ["/areas/elearning/results"]);
     expect(await screen.findByRole("heading", { name: "Noch keine Prüfungen abgelegt" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Kurse ansehen" })).toHaveAttribute("href", "/areas/elearning");
+    fireEvent.click(screen.getByRole("button", { name }));
+    expect(await screen.findByRole("heading", { name: "Kursübersicht" })).toBeInTheDocument();
   });
 });
