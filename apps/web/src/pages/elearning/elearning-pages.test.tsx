@@ -122,6 +122,25 @@ describe("ElearningPage - Kursübersicht", () => {
     expect(screen.getByRole("button", { name: /Fragenkatalog Essentials löschen/i })).toBeInTheDocument();
   });
 
+  it("opens the course editor immediately while the full course data loads", async () => {
+    mocks.role = "admin";
+    const user = userEvent.setup();
+    let resolveCourse!: (course: typeof coursesData[number]) => void;
+    mocks.api.courses.getAdmin.mockReturnValue(new Promise((resolve) => {
+      resolveCourse = resolve;
+    }));
+    renderWithRouter(<ElearningPage />);
+
+    await user.click(await screen.findByRole("button", { name: /Fragenkatalog Essentials bearbeiten/i }));
+
+    expect(screen.getByRole("heading", { name: "Kurs bearbeiten" })).toBeInTheDocument();
+    expect(screen.getByText("Kursdaten werden geladen …")).toBeInTheDocument();
+    expect(mocks.api.courses.getAdmin).toHaveBeenCalledWith(coursesData[0].slug);
+
+    resolveCourse(coursesData[0]);
+    expect(await screen.findByRole("textbox", { name: "Kurstitel" })).toHaveValue(coursesData[0].title);
+  });
+
   it("lets admins create courses with PDF and image uploads and authored practice questions", async () => {
     mocks.role = "admin";
     const user = userEvent.setup();

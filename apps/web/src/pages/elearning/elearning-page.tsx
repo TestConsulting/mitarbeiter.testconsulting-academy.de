@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Badge,
   Button,
@@ -11,6 +11,7 @@ import {
   Input,
   MessageBar,
   MessageBarBody,
+  Spinner,
 } from "@fluentui/react-components";
 import {
   ArrowRight20Regular,
@@ -49,6 +50,8 @@ export function ElearningPage() {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [editingCourseSlug, setEditingCourseSlug] = useState<string | null>(null);
+  const editingCourseRequest = useRef(0);
   const [creatingCourse, setCreatingCourse] = useState(false);
   const [deletingCourse, setDeletingCourse] = useState<CourseSummary | null>(null);
   const [busy, setBusy] = useState(false);
@@ -141,12 +144,26 @@ export function ElearningPage() {
   }
 
   async function beginEditing(course: CourseSummary) {
+    const requestId = ++editingCourseRequest.current;
     setError("");
+    setEditingCourseSlug(course.slug);
     try {
-      setEditingCourse(await api.courses.getAdmin(course.slug));
+      const fullCourse = await api.courses.getAdmin(course.slug);
+      if (editingCourseRequest.current !== requestId) return;
+      setEditingCourse(fullCourse);
+      setEditingCourseSlug(null);
     } catch (failure) {
+      if (editingCourseRequest.current !== requestId) return;
+      setEditingCourseSlug(null);
       setError(failure instanceof ApiError ? failure.message : "Der Kurs konnte nicht geladen werden.");
     }
+  }
+
+  function closeCourseEditor() {
+    editingCourseRequest.current += 1;
+    setCreatingCourse(false);
+    setEditingCourse(null);
+    setEditingCourseSlug(null);
   }
 
   async function deleteCourse() {
@@ -326,8 +343,20 @@ export function ElearningPage() {
         <CourseEditorDialog
           course={editingCourse ?? undefined}
           onSave={saveCourse}
-          onClose={() => { setCreatingCourse(false); setEditingCourse(null); }}
+          onClose={closeCourseEditor}
         />
+      )}
+      {editingCourseSlug !== null && (
+        <Dialog open onOpenChange={(_event, data) => { if (!data.open) closeCourseEditor(); }}>
+          <DialogSurface>
+            <DialogBody>
+              <DialogTitle>Kurs bearbeiten</DialogTitle>
+              <DialogContent>
+                <Spinner label="Kursdaten werden geladen …" />
+              </DialogContent>
+            </DialogBody>
+          </DialogSurface>
+        </Dialog>
       )}
       <Dialog open={deletingCourse !== null} onOpenChange={(_event, data) => { if (!data.open && !busy) setDeletingCourse(null); }}>
         <DialogSurface>
