@@ -14,10 +14,12 @@ export function PracticeSetup({ course, progress, onStart }: Props) {
     ? [[question.metadata.chapter, question.metadata.chapterTitle] as const] : [])).entries()]
     .sort(([left], [right]) => left - right);
   const [selection, setSelection] = useState<PracticeSelection>({
-    chapters: chapters.map(([id]) => id), kLevels: [], limit: 20, errorsOnly: false,
+    chapters: chapters.map(([id]) => id), kLevels: [], limit: 20, errorsOnly: false, examChapterWeighting: false,
   });
   const metadataComplete = course.questions.every((question) => question.metadata);
   const available = filterPracticeQuestions(course.questions, progress, selection).length;
+  const canUseExamWeighting = [1, 2, 3, 4, 5, 6].every((chapter) => selection.chapters.includes(chapter))
+    && selection.limit !== "all";
 
   return (
     <section className="course-detail-card practice-setup" aria-labelledby="practice-setup-title">
@@ -41,6 +43,19 @@ export function PracticeSetup({ course, progress, onStart }: Props) {
           checked={selection.chapters.includes(id)}
           onChange={(_event, data) => setSelection({ ...selection, chapters: data.checked
             ? [...selection.chapters, id] : selection.chapters.filter((chapter) => chapter !== id) })} />)}
+        <div className="practice-setup__chapter-weighting">
+          <Checkbox label="Kapitel nach Prüfungsrichtlinie gewichten"
+            checked={canUseExamWeighting && selection.examChapterWeighting}
+            disabled={!canUseExamWeighting}
+            onChange={(_event, data) => setSelection({ ...selection, examChapterWeighting: data.checked === true })} />
+          <p>
+            {selection.limit === "all" ? "Bei allen verfügbaren Fragen wird der gesamte passende Fragenbestand verwendet."
+              : !canUseExamWeighting ? "Die Prüfungsgewichtung ist bei Auswahl aller sechs Kapitel verfügbar."
+              : selection.examChapterWeighting
+                ? "Die Fragen werden gemäß der Kapitelverteilung der CTFL-Prüfung zusammengestellt."
+                : "Standard: Die Fragen werden anteilig nach dem verfügbaren Fragenbestand der ausgewählten Kapitel verteilt."}
+          </p>
+        </div>
       </fieldset>
       <fieldset className="course-editor-question">
         <legend>Wissensstufen (optional)</legend>

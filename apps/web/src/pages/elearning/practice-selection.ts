@@ -5,6 +5,7 @@ export type PracticeSelection = {
   kLevels: string[];
   limit: 20 | 40 | "all";
   errorsOnly: boolean;
+  examChapterWeighting: boolean;
 };
 
 export function filterPracticeQuestions(
@@ -40,10 +41,13 @@ export function createPracticeSession(
     const limit = selection.limit;
     const chapters = [...new Set(selection.chapters)].sort((left, right) => left - right);
     const allChapters = CTFL_EXAM_CHAPTER_COUNTS.every((_count, index) => chapters.includes(index + 1));
-    const totalWeight = allChapters ? CTFL_EXAM_QUESTION_COUNT : chapters.length;
+    const examWeighting = allChapters && selection.examChapterWeighting;
+    const totalWeight = examWeighting ? CTFL_EXAM_QUESTION_COUNT : allChapters ? eligible.length : chapters.length;
+    if (totalWeight === 0) return [];
     const quotas = chapters.map((chapter) => ({
       chapter,
-      weight: allChapters ? CTFL_EXAM_CHAPTER_COUNTS[chapter - 1] ?? 0 : 1,
+      weight: examWeighting ? CTFL_EXAM_CHAPTER_COUNTS[chapter - 1] ?? 0
+        : allChapters ? eligible.filter((question) => question.metadata?.chapter === chapter).length : 1,
     })).map(({ chapter, weight }) => ({
       chapter,
       count: Math.floor(weight * limit / totalWeight),

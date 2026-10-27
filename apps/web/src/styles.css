@@ -2,6 +2,8 @@
 
 .question-content__line { display: block; }
 .question-content__image { display: block; max-width: 100%; height: auto; margin-block: 16px; }
+.practice-setup__chapter-weighting { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.practice-setup__chapter-weighting p { margin: 6px 12px 0 34px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
 :root {
   font-family: "Open Sans", "Segoe UI", sans-serif;
