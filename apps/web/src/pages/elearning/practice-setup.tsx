@@ -53,7 +53,7 @@ export function PracticeSetup({ course, progress, onStart }: Props) {
               : !canUseExamWeighting ? "Die Prüfungsgewichtung ist bei Auswahl aller sechs Kapitel verfügbar."
               : selection.examChapterWeighting
                 ? "Die Fragen werden gemäß der Kapitelverteilung der CTFL-Prüfung zusammengestellt."
-                : "Standard: Die Fragen werden anteilig nach dem verfügbaren Fragenbestand der ausgewählten Kapitel verteilt."}
+                : "Standard: Die Fragen werden gleichmäßig auf die ausgewählten Kapitel verteilt."}
           </p>
         </div>
       </fieldset>

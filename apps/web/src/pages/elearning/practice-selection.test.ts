@@ -23,37 +23,33 @@ const chapterCounts = (session: PracticeQuestion[]) => allChapters.map((chapter)
   session.filter((question) => question.metadata?.chapter === chapter).length);
 
 describe("practice selection", () => {
-  it.each([
-    [20, [5, 3, 2, 5, 3, 2]],
-    [40, [11, 7, 3, 10, 6, 3]],
-  ] as const)("rounds question-pool proportions to exactly %i places", (limit, counts) => {
+  it.each([20, 40] as const)("distributes %i questions equally across all chapters regardless of pool size", (limit) => {
     const pool = [101, 63, 33, 93, 61, 28].flatMap((size, index) =>
       Array.from({ length: size }, (_, questionIndex) => ({
-        ...questions[0], id: `rounded-${index}-${questionIndex}`,
+        ...questions[0], id: `equal-${index}-${questionIndex}`,
         metadata: { ...questions[0].metadata!, chapter: index + 1 },
       })));
     const original = structuredClone(pool);
-    const session = createPracticeSession(pool, [], { ...selection, chapters: allChapters, limit });
-    expect(chapterCounts(session)).toEqual(counts);
-    expect(new Set(session.map((question) => question.id)).size).toBe(limit);
+    for (let run = 0; run < 20; run++) {
+      const session = createPracticeSession(pool, [], { ...selection, chapters: allChapters, limit });
+      const counts = chapterCounts(session);
+      expect(counts.reduce((sum, count) => sum + count, 0)).toBe(limit);
+      expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+      expect(new Set(session.map((question) => question.id)).size).toBe(limit);
+    }
     expect(pool).toEqual(original);
   });
 
-  it.each([20, 40] as const)("uses filtered question-pool proportions by default for %i questions", (limit) => {
-    const sizes = [10, 20, 30, 40, 50, 50];
+  it("fills chapter shortages from other chapters when equal quotas cannot be met", () => {
+    const sizes = [2, 30, 30, 30, 30, 30];
     const pool = sizes.flatMap((size, index) => Array.from({ length: size }, (_, questionIndex) => ({
-      ...questions[0], id: `pool-${index}-${questionIndex}`,
+      ...questions[0], id: `short-${index}-${questionIndex}`,
       metadata: { ...questions[0].metadata!, chapter: index + 1 },
     })));
-    const progress = pool.map((question) => ({ questionId: question.id, lastCorrect: false }));
-    for (let run = 0; run < 20; run++) {
-      const session = createPracticeSession([...pool, ...fullPool], progress, {
-        ...selection, chapters: allChapters, limit, errorsOnly: true, kLevels: ["K1"],
-      });
-      expect(chapterCounts(session)).toEqual(sizes.map((size) => size * limit / 200));
-      expect(new Set(session.map((question) => question.id)).size).toBe(limit);
-      expect(session.every((question) => question.id.startsWith("pool-"))).toBe(true);
-    }
+    const session = createPracticeSession(pool, [], { ...selection, chapters: allChapters, limit: 20 });
+    expect(session).toHaveLength(20);
+    expect(chapterCounts(session)[0]).toBe(2);
+    expect(new Set(session.map((question) => question.id)).size).toBe(20);
   });
 
   it.each([

@@ -42,20 +42,18 @@ export function createPracticeSession(
     const chapters = [...new Set(selection.chapters)].sort((left, right) => left - right);
     const allChapters = CTFL_EXAM_CHAPTER_COUNTS.every((_count, index) => chapters.includes(index + 1));
     const examWeighting = allChapters && selection.examChapterWeighting;
-    const totalWeight = examWeighting ? CTFL_EXAM_QUESTION_COUNT : allChapters ? eligible.length : chapters.length;
-    if (totalWeight === 0) return [];
+    const totalWeight = examWeighting ? CTFL_EXAM_QUESTION_COUNT : chapters.length;
     const quotas = chapters.map((chapter) => ({
       chapter,
-      weight: examWeighting ? CTFL_EXAM_CHAPTER_COUNTS[chapter - 1] ?? 0
-        : allChapters ? eligible.filter((question) => question.metadata?.chapter === chapter).length : 1,
+      weight: examWeighting ? CTFL_EXAM_CHAPTER_COUNTS[chapter - 1] ?? 0 : 1,
     })).map(({ chapter, weight }) => ({
       chapter,
       count: Math.floor(weight * limit / totalWeight),
       remainder: weight * limit % totalWeight,
     }));
     const remaining = limit - quotas.reduce((sum, quota) => sum + quota.count, 0);
-    (allChapters ? [...quotas] : shuffled(quotas))
-      .sort((left, right) => right.remainder - left.remainder || (allChapters ? left.chapter - right.chapter : 0))
+    (examWeighting ? [...quotas] : shuffled(quotas))
+      .sort((left, right) => right.remainder - left.remainder || (examWeighting ? left.chapter - right.chapter : 0))
       .slice(0, remaining).forEach((quota) => { quota.count += 1; });
     selected = quotas.flatMap((quota) =>
       prioritized.filter((question) => question.metadata?.chapter === quota.chapter).slice(0, quota.count));

@@ -48,8 +48,8 @@ function renderPractice(withCourseNavigation = false) {
 }
 
 describe("ISTQB practice setup", () => {
-  it("uses question-pool proportions by default when all chapters are selected", async () => {
-    const sizes = [2, 4, 6, 8, 10, 10];
+  it("distributes questions equally across chapters by default when all chapters are selected", async () => {
+    const sizes = [30, 5, 10, 40, 8, 20];
     mocks.getPractice.mockResolvedValue({
       ...course,
       questions: sizes.flatMap((size, index) => Array.from({ length: size }, (_, questionIndex) => ({
@@ -80,7 +80,8 @@ describe("ISTQB practice setup", () => {
       const title = screen.getByRole("heading", { name: /^Kapitel \d Frage \d+$/ }).textContent!;
       actual[Number(title.split(" ")[1]) - 1] += 1;
     }
-    expect(actual).toEqual([1, 2, 3, 4, 5, 5]);
+    expect(actual.reduce((sum, count) => sum + count, 0)).toBe(20);
+    actual.forEach((count) => expect([3, 4]).toContain(count));
   });
 
   it.each([

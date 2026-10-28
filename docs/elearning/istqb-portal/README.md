@@ -1,4 +1,4 @@
-# ISTQB Foundation Level: Fragenpool und Copilot-Auftrag
+-# ISTQB Foundation Level: Fragenpool und Copilot-Auftrag
 
 Das Paket enthält:
 
@@ -76,14 +76,15 @@ Damit sind die Übungsfragen aller sechs Kapitel ersetzt.
 Der Sitzungsumfang im Übungsmodus ist 20 Fragen (Standard), 40 Fragen oder alle
 verfügbaren Fragen der gewählten Filter. Kleinere Bestände werden ohne Wiederholung
 vollständig verwendet.
-Bei Auswahl aller sechs Kapitel werden Fragen standardmäßig proportional zum
-verfügbaren Fragenbestand nach Anwendung der Wissensstufen- und Fehlerfilter verteilt.
+Bei Auswahl aller sechs Kapitel werden Fragen standardmäßig gleichmäßig auf die
+Kapitel verteilt (20 Fragen: je 3 oder 4 pro Kapitel).
 Die standardmäßig deaktivierte Checkbox „Kapitel nach Prüfungsrichtlinie gewichten“
 unter Kapitel 6 aktiviert stattdessen die CTFL-Kapitelverteilung:
 8/6/4/11/9/2 bei 40 Fragen und 4/3/2/6/4/1 bei 20 Fragen.
 Die Checkbox ist nur mit allen sechs Kapiteln und einem Umfang von 20 oder 40 Fragen
-verfügbar. Beide Verteilungen werden nach größten Resten gerundet; bei Gleichstand
-wird zuerst das niedrigere Kapitel berücksichtigt.
+verfügbar. Die Prüfungsverteilung wird nach größten Resten gerundet; bei Gleichstand
+wird zuerst das niedrigere Kapitel berücksichtigt. Unteilbare Restplätze der
+gleichmäßigen Verteilung werden zufällig vergeben.
 Fehlende Plätze durch Wissensstufen- oder Fehlerfilter werden mit passenden Fragen
 anderer gewählter Kapitel aufgefüllt, ohne Wiederholungen. Unbeantwortete Fragen
 bleiben innerhalb jeder Kapitelquote und beim Auffüllen bevorzugt.
