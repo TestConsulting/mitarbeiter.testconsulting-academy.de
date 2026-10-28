@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { BoardState, PortalUser } from "@portal/shared";
+import type { BoardState, PortalUser, TicketPriority } from "@portal/shared";
 import { AuthProvider } from "../app/auth-context.js";
 import { TasksBoardPage } from "./tasks-board-page.js";
 
@@ -47,6 +47,7 @@ function buildBoard(): BoardState {
         title: "Angebot schreiben",
         description: null,
         assigneeId: employeeUser.id,
+        priority: "normal",
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
@@ -90,6 +91,23 @@ afterEach(() => {
 });
 
 describe("tasks board page", () => {
+  it.each<{ priority: TicketPriority; label: string }>([
+    { priority: "low", label: "Niedrig" },
+    { priority: "normal", label: "Normal" },
+    { priority: "high", label: "Hoch" },
+    { priority: "urgent", label: "Dringend" },
+  ])("renders the $label priority with a vector icon, also without an assignee", async ({ priority, label }) => {
+    const board = buildBoard();
+    board.tickets[0] = { ...board.tickets[0], priority, assigneeId: null };
+    boardApi.get.mockResolvedValue(board);
+    renderBoard(employeeUser);
+
+    const badge = await screen.findByLabelText(`Priorität: ${label}`);
+    expect(badge).toHaveTextContent(label);
+    expect(badge.querySelector("svg")).toBeInTheDocument();
+    expect(badge.closest(".ticket-card__footer")).toBeInTheDocument();
+  });
+
   it("renders columns and tickets from the server", async () => {
     renderBoard(employeeUser);
     expect(await screen.findByText("Angebot schreiben")).toBeInTheDocument();
@@ -99,7 +117,7 @@ describe("tasks board page", () => {
     expect(screen.getByText("In Review")).toBeInTheDocument();
   });
 
-  it("creates a ticket in a column via the column action", async () => {
+  it.each([adminUser, employeeUser])("creates a ticket in a column via the column action as $role", async (currentUser) => {
     const user = userEvent.setup();
     boardApi.createTicket.mockResolvedValue([
       ...buildBoard().tickets,
@@ -109,19 +127,23 @@ describe("tasks board page", () => {
         title: "Neue Aufgabe",
         description: null,
         assigneeId: null,
+        priority: "normal",
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
     ]);
-    renderBoard(adminUser);
+    renderBoard(currentUser);
     await screen.findByText("Angebot schreiben");
+    expect(screen.getByLabelText("Priorität: Normal")).toBeInTheDocument();
 
     const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
     fireEvent.click(within(todoColumn).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     const titleInput = within(dialog).getByLabelText("Titel");
+    await user.click(within(dialog).getByText("Beschreibung", { selector: "label" }));
+    expect(within(dialog).getByRole("textbox", { name: "Beschreibung" })).toHaveFocus();
     await user.type(titleInput, "Neue Aufgabe");
     await user.click(within(dialog).getByRole("button", { name: "Anlegen" }));
 
@@ -129,6 +151,7 @@ describe("tasks board page", () => {
       columnId: "col-todo",
       title: "Neue Aufgabe",
       description: null,
+      priority: "normal",
     }));
     expect(await screen.findByText("Neue Aufgabe")).toBeInTheDocument();
   });
@@ -145,9 +168,17 @@ describe("tasks board page", () => {
     expect(title).not.toHaveFocus();
     await user.click(title);
     expect(title).toHaveFocus();
-    await user.click(dialog.getByPlaceholderText("Beschreibung eingeben"));
+    await user.click(dialog.getByText("Beschreibung", { selector: "label" }));
     expect(title).not.toHaveFocus();
-    expect(dialog.getByPlaceholderText("Beschreibung eingeben")).toHaveFocus();
+    const description = dialog.getByRole("textbox", { name: "Beschreibung" });
+    expect(description).toHaveFocus();
+    await user.type(description, "Zusatz");
+    expect(description).toHaveFocus();
+    await user.click(dialog.getByText("Titel", { selector: "label" }));
+    expect(title).toHaveFocus();
+    expect(description).not.toHaveFocus();
+    await user.click(description);
+    expect(description).toHaveFocus();
   });
 
   it("opens the edit dialog and saves changes", async () => {
@@ -168,6 +199,23 @@ describe("tasks board page", () => {
     await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith("ticket-1", expect.objectContaining({
       title: "Angebot überarbeiten",
     })));
+  });
+
+  it("updates a ticket priority from the edit dialog", async () => {
+    const user = userEvent.setup();
+    boardApi.updateTicket.mockResolvedValue([{ ...buildBoard().tickets[0], priority: "urgent" }]);
+    renderBoard(adminUser);
+    await user.click(await screen.findByText("Angebot schreiben"));
+
+    const dialog = within(await screen.findByRole("dialog"));
+    await user.click(dialog.getByRole("combobox", { name: "Priorität" }));
+    await user.click(screen.getByRole("option", { name: "Dringend" }));
+    await user.click(dialog.getByRole("button", { name: "Speichern" }));
+
+    await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith(
+      "ticket-1",
+      expect.objectContaining({ priority: "urgent" }),
+    ));
   });
 
   it("deletes a ticket after confirmation", async () => {
@@ -195,13 +243,13 @@ describe("tasks board page", () => {
     expect(screen.getByRole("button", { name: /Archiv anzeigen \(0\)/ })).toBeInTheDocument();
   });
 
-  it("hides mutation actions for employees", async () => {
+  it("allows employees to add tickets but hides column management actions", async () => {
     renderBoard(employeeUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.queryByRole("button", { name: "Spalte hinzufügen" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Ticket hinzufügen" })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Ticket hinzufügen" })).toHaveLength(buildBoard().columns.length);
     expect(screen.queryByRole("button", { name: "Spalte umbenennen" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Ticket löschen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Spalte löschen" })).not.toBeInTheDocument();
   });
 
   it("filters tickets via the search field", async () => {
@@ -294,6 +342,7 @@ describe("tasks board page", () => {
       title: "Abgeschlossen",
       description: null,
       assigneeId: null,
+      priority: "normal",
       position: 0,
       createdBy: employeeUser.id,
       createdAt: new Date().toISOString(),

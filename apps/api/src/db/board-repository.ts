@@ -1,4 +1,4 @@
-import type { ArchivedTicket, BoardColumn, Ticket } from "@portal/shared";
+import type { ArchivedTicket, BoardColumn, Ticket, TicketPriority } from "@portal/shared";
 import type { Pool, PoolClient } from "pg";
 
 type ColumnRow = { id: string; title: string; position: number };
@@ -8,6 +8,7 @@ type TicketRow = {
   title: string;
   description: string | null;
   assignee_id: string | null;
+  priority: TicketPriority;
   position: number;
   created_by: string;
   created_at: Date;
@@ -28,6 +29,7 @@ function mapTicket(row: TicketRow): Ticket {
     title: row.title,
     description: row.description,
     assigneeId: row.assignee_id,
+    priority: row.priority,
     position: row.position,
     createdBy: row.created_by,
     createdAt: row.created_at.toISOString(),
@@ -40,6 +42,7 @@ export type NewTicketInput = {
   title: string;
   description?: string | null;
   assigneeId?: string | null;
+  priority?: TicketPriority;
   createdBy: string;
 };
 
@@ -47,6 +50,7 @@ export type TicketPatch = {
   title?: string;
   description?: string | null;
   assigneeId?: string | null;
+  priority?: TicketPriority;
   columnId?: string;
   position?: number;
 };
@@ -111,6 +115,7 @@ async function listArchivedTickets(client: Pick<PoolClient, "query">): Promise<A
 async function ensureTicketArchivingSchema(client: Pick<PoolClient, "query">): Promise<void> {
   if (ticketArchivingSchemaReady) return;
   await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS archived_at timestamptz`);
+  await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS priority text NOT NULL DEFAULT 'normal'`);
   await client.query(
     `CREATE INDEX IF NOT EXISTS tickets_active_column_position_idx
      ON tickets (column_id, position)
@@ -288,9 +293,9 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         );
         const position = (max.rows[0]?.max ?? -1) + 1;
         await client.query(
-          `INSERT INTO tickets (column_id, title, description, assignee_id, position, created_by)
-           VALUES ($1, $2, $3, $4, $5, $6)`,
-          [input.columnId, input.title, input.description ?? null, input.assigneeId ?? null, position, input.createdBy],
+          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, position, created_by)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [input.columnId, input.title, input.description ?? null, input.assigneeId ?? null, input.priority ?? "normal", position, input.createdBy],
         );
         const tickets = await listAllTickets(client);
         await client.query("COMMIT");
@@ -473,9 +478,10 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         const title = patch.title ?? existing.title;
         const description = patch.description === undefined ? existing.description : patch.description;
         const assigneeId = patch.assigneeId === undefined ? existing.assignee_id : patch.assigneeId;
+        const priority = patch.priority ?? existing.priority;
         await client.query(
-          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, updated_at = now() WHERE id = $4`,
-          [title, description, assigneeId, id],
+          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, updated_at = now() WHERE id = $5`,
+          [title, description, assigneeId, priority, id],
         );
 
         if (patch.columnId !== undefined || patch.position !== undefined) {

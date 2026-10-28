@@ -198,12 +198,13 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage(path);
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
+    const dialog = within(await screen.findByRole("dialog"));
     for (const [label, value] of [["Titel", updated.title], ["Kurzbeschreibung", updated.description], ["Details", updated.details]]) {
-      const field = await screen.findByLabelText(label, { exact: false });
+      const field = dialog.getByRole("textbox", { name: label });
       await user.clear(field);
       await user.type(field, value);
     }
-    await user.click(await screen.findByRole("button", { name: "Speichern" }));
+    await user.click(dialog.getByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Benefit wurde gespeichert.")).toBeInTheDocument();
     expect(mocks.update).toHaveBeenCalledWith(benefit.id, {
       title: updated.title, description: updated.description, details: updated.details, url: null,

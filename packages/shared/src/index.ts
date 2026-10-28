@@ -85,12 +85,16 @@ export type BoardColumn = {
   position: number;
 };
 
+export const ticketPriorities = ["low", "normal", "high", "urgent"] as const;
+export type TicketPriority = (typeof ticketPriorities)[number];
+
 export type Ticket = {
   id: string;
   columnId: string;
   title: string;
   description: string | null;
   assigneeId: string | null;
+  priority: TicketPriority;
   position: number;
   createdBy: string;
   createdAt: string;

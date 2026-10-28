@@ -17,6 +17,7 @@ import type {
   PortalUser,
   PracticeProgress,
   Ticket,
+  TicketPriority,
 } from "@portal/shared";
 
 export class ApiError extends Error {
@@ -283,7 +284,13 @@ export const api = {
       const result = await request<{ columns: BoardColumn[] }>(`/api/board/columns/${id}`, { method: "DELETE" });
       return result.columns;
     },
-    async createTicket(input: { columnId: string; title: string; description?: string | null; assigneeId?: string | null }) {
+    async createTicket(input: {
+      columnId: string;
+      title: string;
+      description?: string | null;
+      assigneeId?: string | null;
+      priority?: TicketPriority;
+    }) {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
         method: "POST",
         body: JSON.stringify(input),
@@ -318,6 +325,7 @@ export const api = {
       title?: string;
       description?: string | null;
       assigneeId?: string | null;
+      priority?: TicketPriority;
       columnId?: string;
       position?: number;
     }) {

@@ -30,9 +30,26 @@ import {
   Input,
   Option,
 } from "@fluentui/react-components";
-import { Add20Regular, Archive16Regular, CheckmarkCircle24Regular, Delete16Regular, Edit16Regular } from "@fluentui/react-icons";
+import {
+  Add20Regular,
+  Archive16Regular,
+  CheckmarkCircle24Regular,
+  ChevronDoubleUp16Regular,
+  ChevronDown16Regular,
+  Delete16Regular,
+  Edit16Regular,
+  ErrorCircle16Regular,
+} from "@fluentui/react-icons";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type UIEvent } from "react";
-import { canManagePortal, type BoardColumn, type BoardState, type PortalUser, type Ticket } from "@portal/shared";
+import {
+  canManagePortal,
+  ticketPriorities,
+  type BoardColumn,
+  type BoardState,
+  type PortalUser,
+  type Ticket,
+  type TicketPriority,
+} from "@portal/shared";
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
@@ -49,6 +66,7 @@ export function TasksBoardPage() {
   const [newTicketColumnId, setNewTicketColumnId] = useState<string | null>(null);
   const [newTicketTitle, setNewTicketTitle] = useState("");
   const [newTicketDescription, setNewTicketDescription] = useState("");
+  const [newTicketPriority, setNewTicketPriority] = useState<TicketPriority>("normal");
   const [filterQuery, setFilterQuery] = useState("");
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
@@ -153,12 +171,14 @@ export function TasksBoardPage() {
       columnId: newTicketColumnId,
       title,
       description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
+      priority: newTicketPriority,
     });
     setBoard((current) => (current ? { ...current, tickets } : current));
     setAddTicketOpen(false);
     setNewTicketColumnId(null);
     setNewTicketTitle("");
     setNewTicketDescription("");
+    setNewTicketPriority("normal");
   }
 
   async function handleArchiveTickets(columnId: string) {
@@ -205,6 +225,7 @@ export function TasksBoardPage() {
     title?: string;
     description?: string | null;
     assigneeId?: string | null;
+    priority?: TicketPriority;
     columnId?: string;
     position?: number;
   }) {
@@ -385,6 +406,7 @@ export function TasksBoardPage() {
           setNewTicketColumnId(null);
           setNewTicketTitle("");
           setNewTicketDescription("");
+          setNewTicketPriority("normal");
         }
       }}>
         <DialogSurface>
@@ -396,13 +418,17 @@ export function TasksBoardPage() {
                   <Input value={newTicketTitle} onChange={(_event, data) => setNewTicketTitle(data.value)} autoFocus />
                 </Field>
                 <Field label="Beschreibung">
-                  <textarea
+                  {(controlProps) => <textarea
+                    {...controlProps}
                     className="ticket-dialog__textarea"
                     value={newTicketDescription}
                     onChange={(event) => setNewTicketDescription(event.target.value)}
                     rows={7}
                     placeholder="Beschreibung eingeben"
-                  />
+                  />}
+                </Field>
+                <Field label="Priorität">
+                  <PriorityDropdown priority={newTicketPriority} onChange={setNewTicketPriority} />
                 </Field>
               </DialogContent>
               <DialogActions>
@@ -783,7 +809,10 @@ function TicketCard({
             </button>
           </div>
       </div>
-      {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+      <div className="ticket-card__footer">
+        {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+        <TicketPriorityBadge priority={ticket.priority} />
+      </div>
     </article>
   );
 }
@@ -818,7 +847,10 @@ function TicketCardPreview({
           <Delete16Regular />
         </div>
       </div>
-      {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+      <div className="ticket-card__footer">
+        {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+        <TicketPriorityBadge priority={ticket.priority} />
+      </div>
     </article>
   );
 }
@@ -835,12 +867,19 @@ function EditTicketDialog({
   columns: BoardColumn[];
   users: PortalUser[];
   onClose: () => void;
-  onSave: (patch: { title: string; description: string | null; assigneeId: string | null; columnId: string }) => void;
+  onSave: (patch: {
+    title: string;
+    description: string | null;
+    assigneeId: string | null;
+    priority: TicketPriority;
+    columnId: string;
+  }) => void;
   onRequestDelete: () => void;
 }) {
   const [title, setTitle] = useState(ticket.title);
   const [description, setDescription] = useState(ticket.description ?? "");
   const [assigneeId, setAssigneeId] = useState(ticket.assigneeId ?? "");
+  const [priority, setPriority] = useState<TicketPriority>(ticket.priority);
   const [columnId, setColumnId] = useState(ticket.columnId);
   const editorRef = useRef<HTMLHeadingElement>(null);
 
@@ -854,6 +893,7 @@ function EditTicketDialog({
       title: title.trim(),
       description: description.trim() ? description.trim() : null,
       assigneeId: assigneeId || null,
+      priority,
       columnId,
     });
   }
@@ -872,13 +912,14 @@ function EditTicketDialog({
                 <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} />
               </Field>
               <Field label="Beschreibung">
-                <textarea
+                {(controlProps) => <textarea
+                  {...controlProps}
                   className="ticket-dialog__textarea"
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
                   rows={10}
                   placeholder="Beschreibung eingeben"
-                />
+                />}
               </Field>
               <Field label="Zuweisung">
                 <Dropdown
@@ -892,6 +933,9 @@ function EditTicketDialog({
                     <Option key={entry.id} value={entry.id}>{entry.name}</Option>
                   ))}
                 </Dropdown>
+              </Field>
+              <Field label="Priorität">
+                <PriorityDropdown priority={priority} onChange={setPriority} />
               </Field>
               <Field label="Spalte">
                 <Dropdown
@@ -919,5 +963,58 @@ function EditTicketDialog({
         </form>
       </DialogSurface>
     </Dialog>
+  );
+}
+
+const priorityLabels: Record<TicketPriority, string> = {
+  low: "Niedrig",
+  normal: "Normal",
+  high: "Hoch",
+  urgent: "Dringend",
+};
+
+const priorityIcons = {
+  low: <ChevronDown16Regular />,
+  normal: (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3.5 6h9M3.5 10h9" stroke="currentColor" strokeLinecap="round" />
+    </svg>
+  ),
+  high: <ChevronDoubleUp16Regular />,
+  urgent: <ErrorCircle16Regular />,
+};
+
+function PriorityDropdown({
+  priority,
+  onChange,
+}: {
+  priority: TicketPriority;
+  onChange: (priority: TicketPriority) => void;
+}) {
+  return (
+    <Dropdown
+      className="ticket-dialog__dropdown"
+      value={priorityLabels[priority]}
+      selectedOptions={[priority]}
+      onOptionSelect={(_event, data) => {
+        const selectedPriority = ticketPriorities.find((option) => option === data.optionValue);
+        if (selectedPriority) onChange(selectedPriority);
+      }}
+    >
+      {ticketPriorities.map((option) => (
+        <Option key={option} value={option} text={priorityLabels[option]} aria-label={priorityLabels[option]}>
+          <TicketPriorityBadge priority={option} />
+        </Option>
+      ))}
+    </Dropdown>
+  );
+}
+
+function TicketPriorityBadge({ priority }: { priority: TicketPriority }) {
+  return (
+    <span className={`ticket-priority ticket-priority--${priority}`} aria-label={`Priorität: ${priorityLabels[priority]}`}>
+      <span className="ticket-priority__symbol" aria-hidden="true">{priorityIcons[priority]}</span>
+      {priorityLabels[priority]}
+    </span>
   );
 }

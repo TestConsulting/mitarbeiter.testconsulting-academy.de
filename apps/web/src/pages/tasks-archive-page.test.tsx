@@ -75,6 +75,7 @@ beforeEach(() => {
       title: "Legacy Ticket",
       description: null,
       assigneeId: null,
+      priority: "normal",
       position: 0,
       createdBy: employeeUser.id,
       createdAt: new Date().toISOString(),

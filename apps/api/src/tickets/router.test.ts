@@ -44,7 +44,31 @@ describe("tickets router", () => {
       columnId,
       title: "Angebot prüfen",
       assigneeId: fixture.employeeUser.id,
+      priority: "normal",
     });
+  });
+
+  it("creates and updates tickets with the selected priority", async () => {
+    const agent = await loginAs(fixture.employeeUser.email);
+    const columnId = fixture.columns[0].id;
+    const created = await agent
+      .post("/api/tickets")
+      .send({ columnId, title: "Dringende Aufgabe", priority: "urgent" })
+      .expect(201);
+    const ticketId = created.body.tickets[0].id as string;
+    expect(created.body.tickets[0].priority).toBe("urgent");
+
+    const updated = await agent
+      .patch(`/api/tickets/${ticketId}`)
+      .send({ priority: "low" })
+      .expect(200);
+    expect(updated.body.tickets.find((ticket: { id: string }) => ticket.id === ticketId).priority).toBe("low");
+  });
+
+  it("rejects an unsupported priority", async () => {
+    const agent = await loginAs(fixture.employeeUser.email);
+    const columnId = fixture.columns[0].id;
+    await agent.post("/api/tickets").send({ columnId, title: "Test", priority: "critical" }).expect(400);
   });
 
   it("rejects a ticket for an unknown column", async () => {
@@ -85,6 +109,7 @@ describe("tickets router", () => {
       title: "Aktualisiert",
       description: "Details",
       assigneeId: fixture.adminUser.id,
+      priority: "normal",
     });
   });
 
