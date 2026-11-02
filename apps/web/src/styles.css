@@ -18,6 +18,8 @@
   --surface: #fff;
   --surface-alt: #f3f6f9;
   --surface-strong: #eaf1f5;
+  --ticket-background: #e0e9ef;
+  --ticket-border: #004c7e;
   --canvas: #f3f6f9;
   --text: #1b2a36;
   --muted: #55636f;
@@ -34,6 +36,8 @@
   --surface: #1c2330;
   --surface-alt: #111827;
   --surface-strong: #263446;
+  --ticket-background: #273a43;
+  --ticket-border: #7ec76c;
   --canvas: #0f1722;
   --text: #edf3ff;
   --muted: #adc0d8;
@@ -101,26 +105,8 @@
 
 :root[data-theme="dark"] .ticket-card {
   border-color: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--ticket-border);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-}
-
-:root[data-theme="dark"] .ticket-card--todo {
-  background: rgba(126, 199, 108, 0.08);
-}
-
-:root[data-theme="dark"] .ticket-card--doing {
-  border-left-color: #4d93da;
-  background: rgba(77, 147, 218, 0.08);
-}
-
-:root[data-theme="dark"] .ticket-card--review {
-  border-left-color: #7ec76c;
-  background: rgba(126, 199, 108, 0.08);
-}
-
-:root[data-theme="dark"] .ticket-card--done {
-  border-left-color: #75839a;
-  background: rgba(117, 131, 154, 0.08);
 }
 
 :root[data-theme="dark"] .ticket-card:hover {
@@ -468,10 +454,7 @@ a { color: inherit; }
 .board-column__composer { display: flex; flex-direction: column; gap: 8px; }
 .board-column__composer input { background: var(--surface); }
 .board-column__composer .fui-Dropdown { width: 100%; }
-.ticket-card { display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; background: rgb(117 184 67 / 8%); box-shadow: 0 1px 2px rgb(15 42 61 / 6%); cursor: grab; min-height: 110px; }
-.ticket-card--doing { border-left-color: var(--primary); background: rgb(0 76 126 / 8%); }
-.ticket-card--review { border-left-color: var(--accent-strong); background: rgb(91 155 60 / 10%); }
-.ticket-card--done { border-left-color: #7d8ba1; background: rgb(125 139 161 / 10%); }
+.ticket-card { display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--border); border-left: 4px solid var(--ticket-border); border-radius: 10px; background: var(--ticket-background); box-shadow: 0 1px 2px rgb(15 42 61 / 6%); cursor: grab; min-height: 110px; }
 :root:not([data-theme="dark"]) .ticket-card:hover {
   border-top-color: #b6c0cc;
   border-right-color: #b6c0cc;
