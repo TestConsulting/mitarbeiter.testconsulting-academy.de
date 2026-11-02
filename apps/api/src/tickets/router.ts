@@ -5,12 +5,15 @@ import type { BoardRepository } from "../db/board-repository.js";
 import type { UserRepository } from "../db/user-repository.js";
 import { requireAuth } from "../auth/middleware.js";
 
+const dueDateSchema = z.iso.date().refine((value) => value >= "0001-01-01").nullable().optional();
+
 const createTicketSchema = z.object({
   columnId: z.string().uuid(),
   title: z.string().trim().min(1).max(200),
   description: z.string().trim().max(4000).nullable().optional(),
   assigneeId: z.string().uuid().nullable().optional(),
   priority: z.enum(ticketPriorities).default("normal"),
+  dueDate: dueDateSchema,
 }).strict();
 
 const updateTicketSchema = z.object({
@@ -18,6 +21,7 @@ const updateTicketSchema = z.object({
   description: z.string().trim().max(4000).nullable().optional(),
   assigneeId: z.string().uuid().nullable().optional(),
   priority: z.enum(ticketPriorities).optional(),
+  dueDate: dueDateSchema,
   columnId: z.string().uuid().optional(),
   position: z.number().int().min(0).optional(),
 }).strict();
@@ -57,6 +61,7 @@ export function createTicketsRouter(board: BoardRepository, users: UserRepositor
         description: payload.data.description ?? null,
         assigneeId: payload.data.assigneeId ?? null,
         priority: payload.data.priority,
+        dueDate: payload.data.dueDate ?? null,
         createdBy: request.session.userId!,
       });
       if (result === "column-not-found") {

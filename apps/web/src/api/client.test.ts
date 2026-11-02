@@ -1,7 +1,14 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ApiError, api } from "./client.js";
 
-const input = { name: "Wiki", description: "Teamwissen", icon: "W", url: "https://wiki.example.test/", sortOrder: 1 };
+const input = {
+  name: "Wiki",
+  description: "Teamwissen",
+  contactEmail: "backoffice@testconsulting.de",
+  icon: "W",
+  url: "https://wiki.example.test/",
+  sortOrder: 1,
+};
 const link = { ...input, id: "link-1" };
 
 afterEach(() => vi.restoreAllMocks());

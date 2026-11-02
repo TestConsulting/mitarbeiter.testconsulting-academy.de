@@ -48,8 +48,8 @@ function renderPractice(withCourseNavigation = false) {
 }
 
 describe("ISTQB practice setup", () => {
-  it("distributes questions equally across chapters by default when all chapters are selected", async () => {
-    const sizes = [30, 5, 10, 40, 8, 20];
+  it("distributes questions 50/50 across two selected chapters", async () => {
+    const sizes = [30, 15, 10, 40, 8, 20];
     mocks.getPractice.mockResolvedValue({
       ...course,
       questions: sizes.flatMap((size, index) => Array.from({ length: size }, (_, questionIndex) => ({
@@ -60,18 +60,11 @@ describe("ISTQB practice setup", () => {
     });
     renderPractice();
     await screen.findByRole("heading", { name: "Übungsfragen" });
-    const weighting = screen.getByRole("checkbox", { name: "Kapitel nach Prüfungsrichtlinie gewichten" });
-    expect(weighting).not.toBeChecked();
-    expect(weighting).toBeEnabled();
-    expect(within(screen.getByRole("group", { name: "Kapitel" })).getAllByRole("checkbox").at(-1))
-      .toBe(weighting);
-    fireEvent.click(screen.getByRole("checkbox", { name: "6. Thema 6" }));
-    expect(weighting).toBeDisabled();
-    fireEvent.click(screen.getByRole("checkbox", { name: "6. Thema 6" }));
-    fireEvent.click(screen.getByRole("radio", { name: "Alle verfügbaren Fragen" }));
-    expect(weighting).toBeDisabled();
-    fireEvent.click(screen.getByRole("radio", { name: "20 Fragen" }));
-    expect(weighting).toBeEnabled();
+    for (const chapter of [3, 4, 5, 6]) {
+      fireEvent.click(screen.getByRole("checkbox", { name: `${chapter}. Thema ${chapter}` }));
+    }
+    expect(screen.getByText("Bei einer Auswahl einzelner Kapitel werden die Fragen gleichmäßig auf die ausgewählten Kapitel verteilt."))
+      .toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     const actual = [0, 0, 0, 0, 0, 0];
     const navigation = screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" });
@@ -80,8 +73,7 @@ describe("ISTQB practice setup", () => {
       const title = screen.getByRole("heading", { name: /^Kapitel \d Frage \d+$/ }).textContent!;
       actual[Number(title.split(" ")[1]) - 1] += 1;
     }
-    expect(actual.reduce((sum, count) => sum + count, 0)).toBe(20);
-    actual.forEach((count) => expect([3, 4]).toContain(count));
+    expect(actual).toEqual([10, 10, 0, 0, 0, 0]);
   });
 
   it.each([
@@ -98,10 +90,8 @@ describe("ISTQB practice setup", () => {
     });
     renderPractice();
     await screen.findByRole("heading", { name: "Übungsfragen" });
-    expect(screen.queryByText(/CTFL-Kapitelverteilung/)).not.toBeInTheDocument();
-    const weighting = screen.getByRole("checkbox", { name: "Kapitel nach Prüfungsrichtlinie gewichten" });
-    expect(weighting).not.toBeChecked();
-    fireEvent.click(weighting);
+    expect(screen.getByText(/CTFL-Prüfungsverteilung: Kapitel 1: 20 %, Kapitel 2: 15 %, Kapitel 3: 10 %, Kapitel 4: 27,5 %, Kapitel 5: 22,5 %, Kapitel 6: 5 %/))
+      .toBeInTheDocument();
     fireEvent.click(screen.getByRole("radio", { name: label }));
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     const navigation = screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" });

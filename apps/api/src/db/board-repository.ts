@@ -9,6 +9,7 @@ type TicketRow = {
   description: string | null;
   assignee_id: string | null;
   priority: TicketPriority;
+  due_date: string | null;
   position: number;
   created_by: string;
   created_at: Date;
@@ -17,6 +18,9 @@ type TicketRow = {
 };
 
 let ticketArchivingSchemaReady = false;
+
+const ticketFields = `id, column_id, title, description, assignee_id, priority,
+  due_date::text AS due_date, position, created_by, created_at, updated_at, archived_at`;
 
 function mapColumn(row: ColumnRow): BoardColumn {
   return { id: row.id, title: row.title, position: row.position };
@@ -30,6 +34,7 @@ function mapTicket(row: TicketRow): Ticket {
     description: row.description,
     assigneeId: row.assignee_id,
     priority: row.priority,
+    dueDate: row.due_date,
     position: row.position,
     createdBy: row.created_by,
     createdAt: row.created_at.toISOString(),
@@ -43,6 +48,7 @@ export type NewTicketInput = {
   description?: string | null;
   assigneeId?: string | null;
   priority?: TicketPriority;
+  dueDate?: string | null;
   createdBy: string;
 };
 
@@ -51,6 +57,7 @@ export type TicketPatch = {
   description?: string | null;
   assigneeId?: string | null;
   priority?: TicketPriority;
+  dueDate?: string | null;
   columnId?: string;
   position?: number;
 };
@@ -100,14 +107,14 @@ async function listAllColumns(client: Pick<PoolClient, "query">): Promise<BoardC
 
 async function listAllTickets(client: Pick<PoolClient, "query">): Promise<Ticket[]> {
   const result = await client.query<TicketRow>(
-    `SELECT * FROM tickets WHERE archived_at IS NULL ORDER BY column_id ASC, position ASC`,
+    `SELECT ${ticketFields} FROM tickets WHERE archived_at IS NULL ORDER BY column_id ASC, position ASC`,
   );
   return result.rows.map(mapTicket);
 }
 
 async function listArchivedTickets(client: Pick<PoolClient, "query">): Promise<ArchivedTicket[]> {
   const result = await client.query<TicketRow>(
-    `SELECT * FROM tickets WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
+    `SELECT ${ticketFields} FROM tickets WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
   );
   return result.rows.map(mapArchivedTicket);
 }
@@ -293,9 +300,9 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         );
         const position = (max.rows[0]?.max ?? -1) + 1;
         await client.query(
-          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, position, created_by)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [input.columnId, input.title, input.description ?? null, input.assigneeId ?? null, input.priority ?? "normal", position, input.createdBy],
+          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, position, created_by, due_date)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          [input.columnId, input.title, input.description ?? null, input.assigneeId ?? null, input.priority ?? "normal", position, input.createdBy, input.dueDate ?? null],
         );
         const tickets = await listAllTickets(client);
         await client.query("COMMIT");
@@ -348,7 +355,7 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         await ensureTicketArchivingSchema(client);
 
         const ticketResult = await client.query<TicketRow>(
-          `SELECT * FROM tickets WHERE id = $1 AND archived_at IS NULL`,
+          `SELECT ${ticketFields} FROM tickets WHERE id = $1 AND archived_at IS NULL`,
           [id],
         );
         const ticket = ticketResult.rows[0];
@@ -390,7 +397,7 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         await client.query("BEGIN");
         await ensureTicketArchivingSchema(client);
         const existingResult = await client.query<TicketRow>(
-          `SELECT * FROM tickets WHERE id = $1 AND archived_at IS NOT NULL`,
+          `SELECT ${ticketFields} FROM tickets WHERE id = $1 AND archived_at IS NOT NULL`,
           [id],
         );
         const existing = existingResult.rows[0];
@@ -459,7 +466,7 @@ export function createBoardRepository(pool: Pool): BoardRepository {
       try {
         await client.query("BEGIN");
         await ensureTicketArchivingSchema(client);
-        const existingResult = await client.query<TicketRow>(`SELECT * FROM tickets WHERE id = $1`, [id]);
+        const existingResult = await client.query<TicketRow>(`SELECT ${ticketFields} FROM tickets WHERE id = $1`, [id]);
         const existing = existingResult.rows[0];
         if (!existing) {
           await client.query("ROLLBACK");
@@ -479,12 +486,13 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         const description = patch.description === undefined ? existing.description : patch.description;
         const assigneeId = patch.assigneeId === undefined ? existing.assignee_id : patch.assigneeId;
         const priority = patch.priority ?? existing.priority;
+        const dueDate = patch.dueDate === undefined ? existing.due_date : patch.dueDate;
         await client.query(
-          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, updated_at = now() WHERE id = $5`,
-          [title, description, assigneeId, priority, id],
+          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, due_date = $5, updated_at = now() WHERE id = $6`,
+          [title, description, assigneeId, priority, dueDate, id],
         );
 
-        if (patch.columnId !== undefined || patch.position !== undefined) {
+        if (targetColumnId !== existing.column_id || patch.position !== undefined) {
           const sourceColumnId = existing.column_id;
           const sourceSiblings = await client.query<{ id: string }>(
             `SELECT id FROM tickets WHERE column_id = $1 AND id <> $2 ORDER BY position ASC`,

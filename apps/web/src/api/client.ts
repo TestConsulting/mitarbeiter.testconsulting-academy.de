@@ -290,6 +290,7 @@ export const api = {
       description?: string | null;
       assigneeId?: string | null;
       priority?: TicketPriority;
+      dueDate?: string | null;
     }) {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
         method: "POST",
@@ -326,6 +327,7 @@ export const api = {
       description?: string | null;
       assigneeId?: string | null;
       priority?: TicketPriority;
+      dueDate?: string | null;
       columnId?: string;
       position?: number;
     }) {

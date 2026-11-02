@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { coursesData } from "@portal/shared";
+import { ApiError } from "../api/client.js";
 import { App } from "./App.js";
 import { AuthProvider } from "./auth-context.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
@@ -26,6 +27,7 @@ vi.mock("../api/client.js", () => ({
 }));
 
 beforeEach(() => {
+  window.localStorage.clear();
   window.history.replaceState({}, "", "/");
   authApi.me.mockResolvedValue(testUser);
   authApi.login.mockResolvedValue(testUser);
@@ -49,6 +51,77 @@ beforeEach(() => {
 });
 
 describe("portal shell", () => {
+  it("keeps the login page light and applies the signed-in user's saved theme", async () => {
+    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
+    window.history.replaceState({}, "", "/login");
+    window.localStorage.setItem("portal-theme:u1", "dark");
+
+    render(<App />);
+    await screen.findByRole("heading", { name: "Anmelden" });
+    expect(document.documentElement.dataset.theme).toBe("light");
+
+    await userEvent.type(screen.getByPlaceholderText("name@unternehmen.de"), testUser.email);
+    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
+    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
+
+    expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
+  });
+
+  it("keeps the last saved theme while entering a different user's email", async () => {
+    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
+    window.history.replaceState({}, "", "/login");
+    window.localStorage.setItem("portal-last-user-email", testUser.email);
+    window.localStorage.setItem("portal-theme:email:alex%40example.test", "dark");
+    const otherUser = { id: "u2", email: "other@example.test", name: "Other User", role: "employee" as const };
+    window.localStorage.setItem("portal-theme:email:other%40example.test", "light");
+    authApi.login.mockResolvedValue(otherUser);
+
+    render(<App />);
+    await screen.findByRole("heading", { name: "Anmelden" });
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
+
+    const emailInput = screen.getByPlaceholderText("name@unternehmen.de");
+    await userEvent.type(emailInput, "other@");
+    expect(document.documentElement.dataset.theme).toBe("dark");
+    await userEvent.type(emailInput, "example.test");
+    expect(document.documentElement.dataset.theme).toBe("dark");
+
+    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
+    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
+    expect(await screen.findByRole("heading", { name: "Willkommen, Other" })).toBeInTheDocument();
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("light"));
+  });
+
+  it("keeps the user's selected theme on the login page after signing out", async () => {
+    render(<App />);
+    await screen.findByRole("heading", { name: "Willkommen, Alex" });
+    await userEvent.click(screen.getByRole("button", { name: /dark mode/i }));
+    await userEvent.click(screen.getAllByRole("button", { name: "Abmelden" })[0]);
+
+    await screen.findByRole("heading", { name: "Anmelden" });
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
+  });
+
+  it("migrates the previous browser theme to the signed-in user's preference", async () => {
+    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
+    window.history.replaceState({}, "", "/login");
+    window.localStorage.setItem("portal-theme", "dark");
+
+    render(<App />);
+    await screen.findByRole("heading", { name: "Anmelden" });
+    expect(document.documentElement.dataset.theme).toBe("light");
+
+    await userEvent.type(screen.getByPlaceholderText("name@unternehmen.de"), testUser.email);
+    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
+    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
+
+    expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
+    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
+    expect(window.localStorage.getItem("portal-theme:u1")).toBe("dark");
+    expect(window.localStorage.getItem("portal-theme")).toBeNull();
+  });
+
   it("shows the signed-in employee and all six phase-one destinations", async () => {
     render(<App />);
     expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
@@ -65,6 +138,7 @@ describe("portal shell", () => {
     await userEvent.click(switcher);
 
     expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(window.localStorage.getItem("portal-theme:u1")).toBe("dark");
     expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
   });
 

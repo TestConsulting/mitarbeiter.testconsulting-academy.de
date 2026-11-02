@@ -143,9 +143,6 @@ a { color: inherit; }
   outline-color: var(--primary);
 }
 .theme-toggle { min-width: 88px; }
-.theme-switcher { display: flex; justify-content: flex-end; }
-.theme-switcher--login { position: absolute; top: 18px; right: 18px; z-index: 2; }
-
 .signin-layout { min-height: 100vh; display: grid; grid-template-columns: minmax(300px, .9fr) minmax(380px, 1.1fr); background: var(--surface); }
 :root {
   --signin-panel-bg: #0f5d97;
@@ -296,11 +293,11 @@ a { color: inherit; }
 .application-links-grid { grid-template-columns: repeat(auto-fill, min(100%, 180px)); gap: 16px; }
 .application-link-card { height: auto; min-height: 180px; aspect-ratio: 1; cursor: pointer; }
 .application-link-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-.application-links-grid .application-link-card__content { min-height: 0; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; text-align: center; }
-.application-links-grid .application-link-card__icon { width: 40px; min-width: 40px; height: 40px; min-height: 40px; flex-shrink: 0; padding: 0; border-radius: 10px; }
+.application-links-grid .application-link-card__content { min-height: 0; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; text-align: center; }
+.application-links-grid .application-link-card__icon { width: 36px; min-width: 36px; height: 36px; min-height: 36px; flex-shrink: 0; padding: 0; border-radius: 10px; }
 .application-link-card__icon svg { width: 24px; height: 24px; }
 .application-link-card h2 { display: -webkit-box; width: 100%; height: 38px; flex-shrink: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.application-links-grid .application-link-card h2 { font-size: 16px; line-height: 19px; text-align: center; }
+.application-links-grid .application-link-card h2 { height: 34px; font-size: 15px; line-height: 17px; text-align: center; }
 .application-link-detail.application-link-detail { --detail-accent: var(--primary); --detail-tint: var(--surface-strong); width: 580px; max-width: calc(100vw - 32px); padding: 0; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); color: var(--text); box-shadow: 0 24px 80px var(--shadow-strong); overflow-wrap: anywhere; }
 .application-link-detail.application-link-detail { max-height: calc(100dvh - 32px); }
 .application-link-detail .application-link-detail__body { position: relative; display: flex; flex-direction: column; gap: 0; min-height: 0; overflow: hidden; }
@@ -340,8 +337,8 @@ a { color: inherit; }
 :is(.application-link-card, .benefit-card) h2 { margin: 0; color: var(--text); font-size: 21px; font-weight: 600; letter-spacing: -.4px; }
 :is(.application-link-card, .benefit-card) p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 :is(.application-link-card__open, .benefit-card__open) { display: flex; align-items: center; gap: 6px; margin-top: auto; padding: 9px 13px; border: 1px solid transparent; border-radius: 10px; background: var(--action-btn-bg); color: var(--action-btn-text); box-shadow: 0 2px 4px var(--shadow); font-size: 12px; font-weight: 600; text-decoration: none; }
-.application-links-grid .application-link-card__open { flex: 0 0 auto; justify-content: center; margin-top: 0; padding: 5px 10px; border-radius: 8px; line-height: 16px; }
-.application-links-grid .application-link-card__open svg { width: 16px; height: 16px; flex-shrink: 0; }
+.application-links-grid .application-link-card__open { max-width: 100%; flex: 0 0 auto; justify-content: center; margin-top: 0; padding: 3px 7px; border-radius: 7px; font-size: 10px; line-height: 12px; white-space: nowrap; }
+.application-links-grid .application-link-card__open svg { width: 13px; height: 13px; flex-shrink: 0; }
 :is(.application-link-card__open, .benefit-card__open):hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button { background: var(--action-btn-bg); color: var(--action-btn-text); border: 0; }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button:hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }
@@ -430,7 +427,7 @@ a { color: inherit; }
 }
 
 .board { display: flex; align-items: stretch; gap: 14px; height: calc(100% - 8px); min-height: 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
-.board-column { display: flex; width: 280px; flex: 1 1 0; max-width: 280px; flex-direction: column; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); min-height: 0; transition: border-color 120ms ease, background 120ms ease; }
+.board-column { display: flex; width: 300px; flex: 1 0 280px; max-width: 300px; flex-direction: column; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); min-height: 0; transition: border-color 120ms ease, background 120ms ease; }
 .board-column--over { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--surface-alt)); }
 .board-column__header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 4px; }
 .board-column__header-main { display: flex; align-items: center; gap: 6px; min-width: 0; }
@@ -471,7 +468,7 @@ a { color: inherit; }
 .board-column__composer { display: flex; flex-direction: column; gap: 8px; }
 .board-column__composer input { background: var(--surface); }
 .board-column__composer .fui-Dropdown { width: 100%; }
-.ticket-card { display: flex; flex-direction: column; gap: 8px; padding: 10px 10px 4px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; background: rgb(117 184 67 / 8%); box-shadow: 0 1px 2px rgb(15 42 61 / 6%); cursor: grab; min-height: 76px; }
+.ticket-card { display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; background: rgb(117 184 67 / 8%); box-shadow: 0 1px 2px rgb(15 42 61 / 6%); cursor: grab; min-height: 110px; }
 .ticket-card--doing { border-left-color: var(--primary); background: rgb(0 76 126 / 8%); }
 .ticket-card--review { border-left-color: var(--accent-strong); background: rgb(91 155 60 / 10%); }
 .ticket-card--done { border-left-color: #7d8ba1; background: rgb(125 139 161 / 10%); }
@@ -482,9 +479,22 @@ a { color: inherit; }
   box-shadow: 0 5px 14px rgb(15 23 42 / 16%);
 }
 .ticket-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.ticket-card__title { min-width: 0; flex: 1; padding-top: 3px; font-size: 12px; font-weight: 700; line-height: 1.35; word-break: break-word; }
+.ticket-card__title { min-width: 0; flex: 1; padding-top: 3px; font-size: 14px; font-weight: 700; line-height: 1.4; word-break: break-word; }
 .ticket-card__actions { display: flex; flex-shrink: 0; align-items: center; gap: 4px; }
 .ticket-card__footer { display: flex; align-items: center; gap: 12px; min-height: 24px; margin-top: auto; }
+.ticket-due-date { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; line-height: 20px; }
+.ticket-due-date svg { width: 16px; height: 16px; flex-shrink: 0; }
+.ticket-date-field { display: flex; align-items: center; gap: 6px; }
+.ticket-date-field__picker { position: relative; flex: 1; min-width: 0; }
+.ticket-date-field__picker > .fui-Input { width: 100%; }
+.ticket-date-field__native { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.ticket-date-field__picker:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
+.ticket-due-date--tomorrow { color: #96600d; }
+.ticket-due-date--today { color: #a64b00; }
+.ticket-due-date--overdue { color: #b42318; }
+:root[data-theme="dark"] .ticket-due-date--tomorrow { color: #e6b66e; }
+:root[data-theme="dark"] .ticket-due-date--today { color: #ffc078; }
+:root[data-theme="dark"] .ticket-due-date--overdue { color: #ff8b95; }
 .ticket-priority { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; line-height: 20px; white-space: nowrap; }
 .ticket-card__footer .ticket-priority { min-width: 76px; align-self: flex-end; justify-content: flex-end; margin-left: auto; }
 .ticket-priority__symbol { display: inline-flex; width: 16px; height: 16px; flex: 0 0 16px; align-items: center; justify-content: center; }
@@ -500,7 +510,7 @@ a { color: inherit; }
 .ticket-card__action, .ticket-card__delete { display: grid; width: 24px; height: 24px; flex: 0 0 auto; place-items: center; border: 0; border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; }
 .ticket-card__action:hover { background: var(--surface-alt); color: var(--primary); }
 .ticket-card__delete:hover { background: var(--surface-alt); color: #b3261e; }
-.ticket-card--drag-overlay { width: 280px; max-width: 280px; box-shadow: 0 12px 28px var(--shadow-strong); cursor: grabbing; }
+.ticket-card--drag-overlay { width: 300px; max-width: 300px; box-shadow: 0 12px 28px var(--shadow-strong); cursor: grabbing; }
 .archive-panel { display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
 .archive-panel__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .archive-panel__header h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -511,7 +521,7 @@ a { color: inherit; }
 .archive-list__item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-alt); }
 .archive-list__meta { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
 .archive-list__meta strong { font-size: 13px; }
-.archive-list__meta span { color: var(--muted); font-size: 12px; }
+.archive-list__meta > span:not(.ticket-due-date) { color: var(--muted); font-size: 12px; }
 :is(.ticket-dialog-content, .application-link-form, .benefit-form, .password-dialog-content, .admin-users-form, .course-editor-form, .board-column-dialog-content) {
   display: flex;
   flex-direction: column;
@@ -672,7 +682,7 @@ a { color: inherit; }
 
 @media (max-width: 480px) {
   .board-search { min-width: 0; width: 100%; }
-  .board-column { width: 240px; flex: 0 0 240px; }
+  .board-column { width: 260px; flex: 0 0 260px; }
 }
 
 /* ==========================================================================

@@ -1,5 +1,5 @@
-import { Badge, Button } from "@fluentui/react-components";
-import { ArrowRight20Regular, Grid24Regular } from "@fluentui/react-icons";
+import { Badge } from "@fluentui/react-components";
+import { Grid24Regular } from "@fluentui/react-icons";
 import { Link } from "react-router-dom";
 import { portalAreas } from "@portal/shared";
 import { useAuth } from "../app/auth-context.js";
@@ -19,9 +19,6 @@ export function OverviewPage() {
         <span className="welcome-panel__eyebrow">TestConsulting · Arbeitsbereich</span>
         <h2>Willkommen, {firstName}</h2>
         <p>Deine Lernangebote, Werkzeuge und internen Bereiche an einem Ort.</p>
-        <Button as="a" href="#bereiche" appearance="secondary" icon={<ArrowRight20Regular />}>
-          Bereiche ansehen
-        </Button>
       </section>
       <section aria-labelledby="areas-title" id="bereiche" className="areas-section">
         <div className="section-heading">

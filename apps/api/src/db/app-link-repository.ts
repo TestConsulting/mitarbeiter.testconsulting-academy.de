@@ -9,7 +9,7 @@ export type AppLinkRepository = {
   reorder(ids: string[]): Promise<AppLink[] | null>;
 };
 
-const fields = `id, name, description, url, icon, sort_order AS "sortOrder"`;
+const fields = `id, name, description, contact_email AS "contactEmail", url, icon, sort_order AS "sortOrder"`;
 
 async function persistOrder(client: PoolClient, ids: string[]) {
   await client.query(
@@ -38,9 +38,9 @@ export function createAppLinkRepository(database: Pick<Pool, "query" | "connect"
         );
         const position = Math.min(input.sortOrder, current.rows.length);
         const result = await client.query<AppLink>(
-          `INSERT INTO app_links (name, description, url, icon, sort_order)
-           VALUES ($1, $2, $3, $4, $5) RETURNING ${fields}`,
-          [input.name, input.description, input.url, input.icon, position],
+          `INSERT INTO app_links (name, description, contact_email, url, icon, sort_order)
+           VALUES ($1, $2, $3, $4, $5, $6) RETURNING ${fields}`,
+          [input.name, input.description, input.contactEmail, input.url, input.icon, position],
         );
         const saved = result.rows[0];
         const ids = current.rows.map((link) => link.id);
@@ -71,9 +71,9 @@ export function createAppLinkRepository(database: Pick<Pool, "query" | "connect"
         const position = Math.min(input.sortOrder, ids.length);
         ids.splice(position, 0, id);
         const result = await client.query<AppLink>(
-          `UPDATE app_links SET name = $2, description = $3, url = $4, icon = $5, sort_order = $6
+          `UPDATE app_links SET name = $2, description = $3, contact_email = $4, url = $5, icon = $6, sort_order = $7
            WHERE id = $1 RETURNING ${fields}`,
-          [id, input.name, input.description, input.url, input.icon, position],
+          [id, input.name, input.description, input.contactEmail, input.url, input.icon, position],
         );
         await persistOrder(client, ids);
         await client.query("COMMIT");

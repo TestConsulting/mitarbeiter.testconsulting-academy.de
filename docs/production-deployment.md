@@ -13,6 +13,8 @@ Der Host-Nginx muss beim Proxy an `http://127.0.0.1:8090` mindestens `Host`, `X-
 Jenkins baut die Images, startet PostgreSQL und führt die vorhandenen, wiederholbar ausführbaren SQL-Dateien in `apps/api/migrations` in Dateinamenreihenfolge aus. Jeder SQL-Fehler bricht den Job ab. Danach importiert Jenkins fehlende Links und Benefits aus `deploy/portal-content.json`, initialisiert einmalig die Standardkurse, startet die Anwendung und prüft Startseite und API-Healthcheck. Gleichzeitige Deployments desselben Jobs sind gesperrt.
 
 `001_create_users.sql` legt die Benutzertabelle an; `002_create_board.sql` legt Board- und Ticket-Tabellen an und erstellt die Standardspalten, falls noch keine vorhanden sind. `003_create_app_links.sql` und `004_create_benefits.sql` legen die Tabellen für Links und Benefits an. Die API selbst führt diese Schema-Migrationen nicht aus. Ihre PostgreSQL-Sitzungstabelle `portal_sessions` wird beim Start durch `connect-pg-simple` angelegt. Zukünftige nicht wiederholbare Migrationen benötigen vor Aufnahme in diesen Ablauf eine Migrationshistorie.
+`013_add_app_link_contact_email.sql` ergänzt je Application Link einen Ansprechpartner. Bestehende Links erhalten `backoffice@testconsulting.de` als Standard; Admins können die Adresse pro Kachel bearbeiten.
+`014_add_ticket_due_date.sql` ergänzt das optionale Ticket-Fälligkeitsdatum als reines Kalenderdatum (`date`). Die Migration muss vor dem Start der neuen API ausgeführt werden. Bestehende und neue Tickets bleiben ohne Termin, bis ein Datum ausgewählt wird.
 
 Für das erste Konto setze `SEED_USER_EMAIL`, `SEED_USER_NAME` und ein starkes `SEED_USER_PASSWORD` in der geschützten `.env`, dann führe im Repository-Verzeichnis aus:
 

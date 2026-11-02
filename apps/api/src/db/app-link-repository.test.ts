@@ -13,7 +13,8 @@ function fixture() {
 
 describe("application link order persistence", () => {
   const input: AppLinkInput = {
-    name: "Wiki", description: "Teamwissen", icon: "W", url: "https://wiki.example.test/", sortOrder: 0,
+    name: "Wiki", description: "Teamwissen", contactEmail: "backoffice@testconsulting.de",
+    icon: "W", url: "https://wiki.example.test/", sortOrder: 0,
   };
 
   it.each([
@@ -34,7 +35,7 @@ describe("application link order persistence", () => {
     expect(await repository.update(id, { ...input, sortOrder: position })).toEqual(saved);
     expect(client.query).toHaveBeenNthCalledWith(2, "LOCK TABLE app_links IN SHARE ROW EXCLUSIVE MODE");
     expect(client.query).toHaveBeenNthCalledWith(4, expect.stringContaining("UPDATE app_links SET"), [
-      id, input.name, input.description, input.url, input.icon, Math.min(position, 1),
+      id, input.name, input.description, input.contactEmail, input.url, input.icon, Math.min(position, 1),
     ]);
     expect(client.query).toHaveBeenNthCalledWith(5, expect.stringContaining("WITH ORDINALITY"), [ids]);
     expect(client.query).toHaveBeenLastCalledWith("COMMIT");

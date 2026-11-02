@@ -41,12 +41,14 @@ export function canManagePortal(user: PortalUser | null | undefined): boolean {
 export type AppLinkInput = {
   name: string;
   description: string;
+  contactEmail: string;
   url: string;
   icon: string;
   sortOrder: number;
 };
 
 export type AppLink = AppLinkInput & { id: string };
+export const DEFAULT_APP_LINK_CONTACT_EMAIL = "backoffice@testconsulting.de";
 
 export type BenefitInput = {
   title: string;
@@ -95,6 +97,7 @@ export type Ticket = {
   description: string | null;
   assigneeId: string | null;
   priority: TicketPriority;
+  dueDate: string | null;
   position: number;
   createdBy: string;
   createdAt: string;

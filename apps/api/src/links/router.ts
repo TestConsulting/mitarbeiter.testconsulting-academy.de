@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { isValidAppLinkUrl, normalizeAppLinkUrl } from "@portal/shared";
+import { DEFAULT_APP_LINK_CONTACT_EMAIL, isValidAppLinkUrl, normalizeAppLinkUrl } from "@portal/shared";
 import { requireAdmin, requireAuth } from "../auth/middleware.js";
 import type { AppLinkRepository } from "../db/app-link-repository.js";
 import type { UserRepository } from "../db/user-repository.js";
@@ -8,6 +8,7 @@ import type { UserRepository } from "../db/user-repository.js";
 const linkSchema = z.object({
   name: z.string().trim().min(1).max(120),
   description: z.string().trim().min(1).max(500),
+  contactEmail: z.string().trim().email().max(320).default(DEFAULT_APP_LINK_CONTACT_EMAIL),
   icon: z.string().trim().min(1).max(12),
   url: z.string().transform(normalizeAppLinkUrl).pipe(z.string().max(2048).refine(isValidAppLinkUrl)),
   sortOrder: z.number().int().min(0).max(2147483647),

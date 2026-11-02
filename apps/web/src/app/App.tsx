@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FluentProvider, webDarkTheme, webLightTheme } from "@fluentui/react-components";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./auth-context.js";
+import { AuthProvider, useAuth } from "./auth-context.js";
 import { PortalLayout } from "./portal-layout.js";
 import { ProtectedRoute } from "./protected-route.js";
 import { AreaPage } from "../pages/area-page.js";
@@ -22,60 +22,114 @@ import { ProfilePage } from "../pages/profile-page.js";
 
 type ThemeMode = "light" | "dark";
 
-function getPreferredTheme(): ThemeMode {
-  if (typeof window === "undefined") {
-    return "light";
+function getEmailThemeKey(email: string): string {
+  return `portal-theme:email:${encodeURIComponent(email.trim().toLowerCase())}`;
+}
+
+function isThemeMode(value: string | null): value is ThemeMode {
+  return value === "light" || value === "dark";
+}
+
+function getLoginTheme(): ThemeMode {
+  const lastUserEmail = window.localStorage.getItem("portal-last-user-email");
+  if (lastUserEmail) {
+    const savedEmailTheme = window.localStorage.getItem(getEmailThemeKey(lastUserEmail));
+    if (isThemeMode(savedEmailTheme)) return savedEmailTheme;
+  }
+
+  const lastUserId = window.localStorage.getItem("portal-last-user-id");
+  const savedLastUserTheme = lastUserId ? window.localStorage.getItem(`portal-theme:${lastUserId}`) : null;
+  return isThemeMode(savedLastUserTheme) ? savedLastUserTheme : "light";
+}
+
+function getPreferredTheme(userId: string, email: string): ThemeMode {
+  const emailThemeKey = getEmailThemeKey(email);
+  const savedEmailTheme = window.localStorage.getItem(emailThemeKey);
+  if (isThemeMode(savedEmailTheme)) {
+    window.localStorage.setItem(`portal-theme:${userId}`, savedEmailTheme);
+    return savedEmailTheme;
+  }
+
+  const userThemeKey = `portal-theme:${userId}`;
+  const savedUserTheme = window.localStorage.getItem(userThemeKey);
+  if (isThemeMode(savedUserTheme)) {
+    window.localStorage.setItem(emailThemeKey, savedUserTheme);
+    return savedUserTheme;
   }
 
   const savedTheme = window.localStorage.getItem("portal-theme");
-  if (savedTheme === "light" || savedTheme === "dark") {
+  if (isThemeMode(savedTheme)) {
+    window.localStorage.setItem(userThemeKey, savedTheme);
+    window.localStorage.setItem(emailThemeKey, savedTheme);
+    window.localStorage.removeItem("portal-theme");
     return savedTheme;
   }
 
-  const mediaQuery = typeof window.matchMedia === "function"
-    ? window.matchMedia("(prefers-color-scheme: dark)")
-    : null;
-
-  return mediaQuery?.matches ? "dark" : "light";
+  return "light";
 }
 
-export function App() {
-  const [theme, setTheme] = useState<ThemeMode>(getPreferredTheme);
+function PortalApp() {
+  const { user, status } = useAuth();
+  const [theme, setTheme] = useState<ThemeMode>(() => getLoginTheme());
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-    window.localStorage.setItem("portal-theme", theme);
-  }, [theme]);
+    if (status === "authenticated" && user) {
+      window.localStorage.setItem("portal-last-user-id", user.id);
+      window.localStorage.setItem("portal-last-user-email", user.email.trim().toLowerCase());
+      setTheme(getPreferredTheme(user.id, user.email));
+    } else {
+      setTheme(getLoginTheme());
+    }
+  }, [status, user?.id, user?.email]);
+
+  const isAuthenticated = status === "authenticated" && user !== null;
+  const activeTheme = theme;
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = activeTheme;
+    document.documentElement.style.colorScheme = activeTheme;
+  }, [activeTheme]);
+
+  function updateTheme(nextTheme: ThemeMode) {
+    setTheme(nextTheme);
+    if (isAuthenticated && user) {
+      window.localStorage.setItem(`portal-theme:${user.id}`, nextTheme);
+      window.localStorage.setItem(getEmailThemeKey(user.email), nextTheme);
+      window.localStorage.setItem("portal-last-user-id", user.id);
+      window.localStorage.setItem("portal-last-user-email", user.email.trim().toLowerCase());
+    }
+  }
 
   return (
-    <FluentProvider theme={theme === "dark" ? webDarkTheme : webLightTheme}>
+    <FluentProvider theme={activeTheme === "dark" ? webDarkTheme : webLightTheme}>
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<LoginPage theme={theme} setTheme={setTheme} />} />
-            <Route element={<ProtectedRoute />}>
-              <Route element={<PortalLayout theme={theme} setTheme={setTheme} />}>
-                <Route path="/" element={<OverviewPage />} />
-                <Route path="/areas/tasks" element={<TasksBoardPage />} />
-                <Route path="/areas/tasks/archive" element={<TasksArchivePage />} />
-                <Route path="/areas/applications" element={<ApplicationLinksPage />} />
-                <Route path="/areas/benefits" element={<BenefitsPage />} />
-                <Route path="/areas/benefits/:id" element={<BenefitDetailPage />} />
-                <Route path="/areas/elearning" element={<ElearningPage />} />
-                <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
-                <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
-                <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
-                <Route path="/areas/elearning/:courseId/exam" element={<CourseExamPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/admin/users" element={<AdminUsersPage />} />
-                <Route path="/areas/:area" element={<AreaPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Route>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<PortalLayout theme={activeTheme} setTheme={updateTheme} />}>
+              <Route path="/" element={<OverviewPage />} />
+              <Route path="/areas/tasks" element={<TasksBoardPage />} />
+              <Route path="/areas/tasks/archive" element={<TasksArchivePage />} />
+              <Route path="/areas/applications" element={<ApplicationLinksPage />} />
+              <Route path="/areas/benefits" element={<BenefitsPage />} />
+              <Route path="/areas/benefits/:id" element={<BenefitDetailPage />} />
+              <Route path="/areas/elearning" element={<ElearningPage />} />
+              <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
+              <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
+              <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
+              <Route path="/areas/elearning/:courseId/exam" element={<CourseExamPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/admin/users" element={<AdminUsersPage />} />
+              <Route path="/areas/:area" element={<AreaPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
-          </Routes>
-        </AuthProvider>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </FluentProvider>
   );
+}
+
+export function App() {
+  return <AuthProvider><PortalApp /></AuthProvider>;
 }

@@ -76,6 +76,7 @@ beforeEach(() => {
       description: null,
       assigneeId: null,
       priority: "normal",
+      dueDate: "2030-11-05",
       position: 0,
       createdBy: employeeUser.id,
       createdAt: new Date().toISOString(),
@@ -94,6 +95,7 @@ describe("tasks archive page", () => {
   it("shows archived tickets", async () => {
     renderArchive();
     expect(await screen.findByText("Legacy Ticket")).toBeInTheDocument();
+    expect(screen.getByText("05.11.")).toBeInTheDocument();
   });
 
   it("filters archived tickets", async () => {

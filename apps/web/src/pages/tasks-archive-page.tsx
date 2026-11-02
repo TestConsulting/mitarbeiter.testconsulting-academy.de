@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { canManagePortal, type ArchivedTicket, type BoardColumn } from "@portal/shared";
 import { api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
+import { TicketDueDate } from "./ticket-due-date.js";
 
 export function TasksArchivePage() {
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ export function TasksArchivePage() {
               <li key={ticket.id} className="archive-list__item">
                 <div className="archive-list__meta">
                   <strong>{ticket.title}</strong>
+                  <TicketDueDate dueDate={ticket.dueDate} />
                   <span>
                     {columnsById.get(ticket.columnId)?.title ?? "Unbekannte Spalte"} • {new Date(ticket.archivedAt).toLocaleDateString("de-DE")}
                   </span>

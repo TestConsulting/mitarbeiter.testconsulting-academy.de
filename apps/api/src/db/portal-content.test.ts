@@ -3,7 +3,14 @@ import { exportPortalContent, importPortalContent, type PortalContent } from "./
 
 const content: PortalContent = {
   version: 1,
-  links: [{ name: "Portal", description: "Company tool", url: "https://example.test/", icon: "TC", sortOrder: 0 }],
+  links: [{
+    name: "Portal",
+    description: "Company tool",
+    contactEmail: "backoffice@testconsulting.de",
+    url: "https://example.test/",
+    icon: "TC",
+    sortOrder: 0,
+  }],
   benefits: [{ title: "Training", description: "Learning", details: "Annual training budget", url: null }],
 };
 
@@ -32,7 +39,7 @@ describe("portal content transfer", () => {
     const updates = database.query.mock.calls.filter(([sql]) => sql.startsWith("UPDATE"));
     expect(updates).toEqual([[
       expect.stringContaining("UPDATE app_links SET name = $1, description = $2, icon = $4"),
-      ["Portal", "Company tool", "https://example.test/", "TC"],
+      ["Portal", "Company tool", "https://example.test/", "TC", "backoffice@testconsulting.de"],
     ]]);
     expect(updates[0][0]).not.toContain("sort_order");
     expect(database.query.mock.calls.some(([sql]) => sql.includes("INSERT INTO benefits"))).toBe(false);
@@ -43,7 +50,30 @@ describe("portal content transfer", () => {
     const mailLink = { ...content.links[0], url: "mailto:backoffice@testconsulting.de" };
     await importPortalContent(database, { ...content, links: [mailLink], benefits: [] });
     expect(database.query).toHaveBeenCalledWith(expect.stringContaining("INSERT INTO app_links"), [
-      mailLink.name, mailLink.description, mailLink.url, mailLink.icon,
+      mailLink.name, mailLink.description, mailLink.contactEmail, mailLink.url, mailLink.icon,
+    ]);
+  });
+
+  it("defaults contacts on imported legacy links and leaves existing contacts unchanged", async () => {
+    const database = databaseWith();
+    const { contactEmail: _contactEmail, ...legacyLink } = content.links[0];
+    await importPortalContent(database, {
+      ...content,
+      links: [legacyLink],
+      benefits: [],
+      updateExistingLinks: true,
+    });
+
+    expect(database.query).toHaveBeenCalledWith(
+      expect.stringContaining("contact_email = COALESCE($5, contact_email)"),
+      [legacyLink.name, legacyLink.description, legacyLink.url, legacyLink.icon, null],
+    );
+    expect(database.query).toHaveBeenCalledWith(expect.stringContaining("INSERT INTO app_links"), [
+      legacyLink.name,
+      legacyLink.description,
+      "backoffice@testconsulting.de",
+      legacyLink.url,
+      legacyLink.icon,
     ]);
   });
 
@@ -96,7 +126,7 @@ describe("portal content transfer", () => {
     expect(database.query).toHaveBeenNthCalledWith(2, "LOCK TABLE app_links, benefits IN SHARE ROW EXCLUSIVE MODE");
     expect(database.query).toHaveBeenCalledWith(
       expect.stringContaining("WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $3)"),
-      ["Portal", "Company tool", "https://example.test/", "TC"],
+      ["Portal", "Company tool", "backoffice@testconsulting.de", "https://example.test/", "TC"],
     );
     expect(database.query).toHaveBeenCalledWith(
       expect.stringContaining("WHERE NOT EXISTS (SELECT 1 FROM benefits WHERE btrim(title) = $1)"),

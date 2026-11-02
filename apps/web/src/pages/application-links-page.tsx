@@ -7,14 +7,26 @@ import {
 import { Add20Regular, AppsListDetail24Regular, ArrowUpRight20Regular, Delete16Regular, Dismiss20Regular, Edit16Regular, Mail24Regular } from "@fluentui/react-icons";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import type { AppLink, AppLinkInput } from "@portal/shared";
-import { canManagePortal, isValidAppLinkUrl, normalizeAppLinkUrl } from "@portal/shared";
+import {
+  canManagePortal,
+  DEFAULT_APP_LINK_CONTACT_EMAIL,
+  isValidAppLinkUrl,
+  normalizeAppLinkUrl,
+} from "@portal/shared";
 import { ApiError, api } from "../api/client.js";
 import { AreaIcon } from "../app/area-icon.js";
 import { useAuth } from "../app/auth-context.js";
 import { SortablePortalCard } from "./sortable-portal-card.js";
 
 type LinkDraft = Omit<AppLinkInput, "sortOrder"> & { id?: string; sortOrder: string };
-const emptyDraft: LinkDraft = { name: "", description: "", icon: "App", url: "", sortOrder: "0" };
+const emptyDraft: LinkDraft = {
+  name: "",
+  description: "",
+  contactEmail: DEFAULT_APP_LINK_CONTACT_EMAIL,
+  icon: "App",
+  url: "",
+  sortOrder: "0",
+};
 
 function ApplicationLinkIcon({ link, className }: { link: AppLink | null; className: string }) {
   const name = link?.name.trim().toLowerCase();
@@ -81,7 +93,11 @@ export function ApplicationLinksPage() {
   function openEditor(link?: AppLink) {
     setActionError("");
     setNotice("");
-    setDraft(link ? { ...link, sortOrder: String(sortedLinks.findIndex((current) => current.id === link.id)) } : { ...emptyDraft });
+    setDraft(link ? {
+      ...link,
+      contactEmail: link.contactEmail || DEFAULT_APP_LINK_CONTACT_EMAIL,
+      sortOrder: String(sortedLinks.findIndex((current) => current.id === link.id)),
+    } : { ...emptyDraft });
   }
 
   async function reorderLinks({ active, over }: DragEndEvent) {
@@ -136,13 +152,15 @@ export function ApplicationLinksPage() {
       setActionError("Bitte gib eine gültige HTTP-/HTTPS-URL oder mailto: mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter an.");
       return;
     }
-    if (!draft.name.trim() || !draft.description.trim() || !draft.icon.trim() || !draft.sortOrder.trim() ||
+    if (!draft.name.trim() || !draft.description.trim() || !draft.contactEmail.trim() ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.contactEmail.trim()) ||
+        !draft.icon.trim() || !draft.sortOrder.trim() ||
         !Number.isInteger(sortOrder) || sortOrder < 0 || sortOrder > 2147483647) {
-      setActionError("Bitte fülle alle Felder aus und gib eine nicht negative ganzzahlige Reihenfolge an.");
+      setActionError("Bitte fülle alle Felder mit gültigen Werten aus und gib eine nicht negative ganzzahlige Reihenfolge an.");
       return;
     }
     const input: AppLinkInput = {
-      name: draft.name.trim(), description: draft.description.trim(), icon: draft.icon.trim(),
+      name: draft.name.trim(), description: draft.description.trim(), contactEmail: draft.contactEmail.trim(), icon: draft.icon.trim(),
       url: normalizedUrl, sortOrder,
     };
     setBusy(true);
@@ -209,16 +227,30 @@ export function ApplicationLinksPage() {
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={reorderLinks}>
         <SortableContext items={sortedLinks.map((link) => link.id)} strategy={rectSortingStrategy}>
         <div className="application-links-grid" aria-busy={busy}>
-          {sortedLinks.map((link) => (
+          {sortedLinks.map((link) => {
+            const linkIsEmail = /^mailto:/i.test(link.url);
+            const contactEmail = link.contactEmail || DEFAULT_APP_LINK_CONTACT_EMAIL;
+            const showSeparateContactAction = !linkIsEmail || link.url.toLowerCase() !== `mailto:${contactEmail}`.toLowerCase();
+            return (
             <SortablePortalCard id={link.id} label={link.name} className="application-link-card" isAdmin={isAdmin} disabled={!isAdmin || busy || draft !== null || deleteTarget !== null || detailTarget !== null}
               onOpen={!busy && draft === null && deleteTarget === null && detailTarget === null ? () => setDetailTarget(link) : undefined} key={link.id}>
               <div className="application-link-card__content">
                 <ApplicationLinkIcon link={link} className="application-link-card__icon" />
                 <h2 title={link.name}>{link.name}</h2>
-                <a className="application-link-card__open" href={link.url} target={/^mailto:/i.test(link.url) ? undefined : "_blank"} rel="noopener noreferrer"
-                  draggable={false} aria-label={/^mailto:/i.test(link.url) ? `${link.name}: E-Mail schreiben` : `${link.name} öffnen (neuer Tab)`}>
-                  {/^mailto:/i.test(link.url) ? <>E-Mail schreiben <Mail24Regular aria-hidden="true" /></> : <>Öffnen <ArrowUpRight20Regular aria-hidden="true" /><span className="application-link-card__sr"> (neuer Tab)</span></>}
+                <a className="application-link-card__open" href={link.url} target={linkIsEmail ? undefined : "_blank"} rel="noopener noreferrer"
+                  draggable={false} aria-label={linkIsEmail ? `${link.name}: E-Mail schreiben` : `${link.name} öffnen (neuer Tab)`}>
+                  {linkIsEmail ? <>E-Mail schreiben <Mail24Regular aria-hidden="true" /></> : <>Öffnen <ArrowUpRight20Regular aria-hidden="true" /><span className="application-link-card__sr"> (neuer Tab)</span></>}
                 </a>
+                {showSeparateContactAction && (
+                  <a
+                    className="application-link-card__open"
+                    href={`mailto:${contactEmail}`}
+                    draggable={false}
+                    aria-label={`${link.name}: E-Mail schreiben`}
+                  >
+                    E-Mail schreiben <Mail24Regular aria-hidden="true" />
+                  </a>
+                )}
               </div>
               {isAdmin && (
                 <div className="application-link-card__actions">
@@ -231,7 +263,8 @@ export function ApplicationLinksPage() {
                 </div>
               )}
             </SortablePortalCard>
-          ))}
+            );
+          })}
         </div>
         </SortableContext>
         </DndContext>
@@ -254,6 +287,12 @@ export function ApplicationLinksPage() {
                 <span className="application-link-detail__label">Zieladresse</span>
                 <a className="application-link-detail__url" href={detailTarget?.url} target={detailIsEmail ? undefined : "_blank"} rel="noopener noreferrer">
                   {detailTarget?.url}
+                </a>
+              </div>
+              <div className="application-link-detail__destination">
+                <span className="application-link-detail__label">Ansprechpartner</span>
+                <a className="application-link-detail__url" href={`mailto:${detailTarget?.contactEmail ?? DEFAULT_APP_LINK_CONTACT_EMAIL}`}>
+                  {detailTarget?.contactEmail ?? DEFAULT_APP_LINK_CONTACT_EMAIL}
                 </a>
               </div>
             </DialogContent>
@@ -282,6 +321,11 @@ export function ApplicationLinksPage() {
                   hint={`${draft?.description.length ?? 0}/500 Zeichen. Zum Ersetzen den vorhandenen Text markieren; bei 500 Zeichen zuerst Text entfernen.`}>
                   <Textarea value={draft?.description ?? ""} required maxLength={500} disabled={busy}
                     onChange={(_event, data) => setDraft((current) => current && { ...current, description: data.value })} />
+                </Field>
+                <Field label="Ansprechpartner" hint="Standardmäßig backoffice@testconsulting.de" required>
+                  <Input type="email" value={draft?.contactEmail ?? DEFAULT_APP_LINK_CONTACT_EMAIL}
+                    required maxLength={320} disabled={busy}
+                    onChange={(_event, data) => setDraft((current) => current && { ...current, contactEmail: data.value })} />
                 </Field>
                 <Field label="Ziel-URL" hint="HTTP, HTTPS, www. oder mailto:name@firma.de. Bei www. wird https:// ergänzt. Ohne Zugangsdaten; E-Mail-Adressen ohne Zusatzparameter." required>
                   <Input type="text" inputMode="url" value={draft?.url ?? ""} required maxLength={2048} disabled={busy}

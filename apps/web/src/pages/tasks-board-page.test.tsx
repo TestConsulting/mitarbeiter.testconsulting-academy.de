@@ -48,6 +48,7 @@ function buildBoard(): BoardState {
         description: null,
         assigneeId: employeeUser.id,
         priority: "normal",
+        dueDate: null,
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
@@ -128,6 +129,7 @@ describe("tasks board page", () => {
         description: null,
         assigneeId: null,
         priority: "normal",
+        dueDate: null,
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
@@ -142,6 +144,7 @@ describe("tasks board page", () => {
     fireEvent.click(within(todoColumn).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     const titleInput = within(dialog).getByLabelText("Titel");
+    expect(within(dialog).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
     await user.click(within(dialog).getByText("Beschreibung", { selector: "label" }));
     expect(within(dialog).getByRole("textbox", { name: "Beschreibung" })).toHaveFocus();
     await user.type(titleInput, "Neue Aufgabe");
@@ -152,8 +155,83 @@ describe("tasks board page", () => {
       title: "Neue Aufgabe",
       description: null,
       priority: "normal",
+      dueDate: null,
     }));
     expect(await screen.findByText("Neue Aufgabe")).toBeInTheDocument();
+  });
+
+  it("opens the mini calendar and creates a ticket with the selected date", async () => {
+    const user = userEvent.setup();
+    const datedTicket = { ...buildBoard().tickets[0], title: "Mit Termin", dueDate: "2030-11-05" };
+    boardApi.createTicket.mockResolvedValue([datedTicket]);
+    renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
+    const dialog = within(await screen.findByRole("dialog"));
+    const dateInput = dialog.getByLabelText("Fälligkeitsdatum");
+    const showPicker = vi.fn();
+    Object.defineProperty(dateInput, "showPicker", { configurable: true, value: showPicker });
+    expect(dateInput).toHaveAttribute("type", "date");
+    expect(dateInput).toHaveValue("");
+    await user.click(dateInput);
+    expect(showPicker).toHaveBeenCalledOnce();
+    fireEvent.change(dateInput, { target: { value: "2030-11-05" } });
+    await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
+    await user.click(dialog.getByRole("button", { name: "Anlegen" }));
+    await waitFor(() => expect(boardApi.createTicket).toHaveBeenCalledWith(
+      expect.objectContaining({ dueDate: "2030-11-05" }),
+    ));
+    expect(await screen.findByText("05.11.")).toBeInTheDocument();
+    await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
+    fireEvent.click((await screen.findAllByRole("button", { name: "Ticket hinzufügen" }))[0]);
+    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
+  });
+
+  it("resets the selected due date after cancelling creation", async () => {
+    const user = userEvent.setup();
+    renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
+    const dialog = within(await screen.findByRole("dialog"));
+    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value: "2030-11-05" } });
+    await user.click(dialog.getByRole("button", { name: "Abbrechen" }));
+    await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
+    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
+    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
+  });
+
+  it.each(["2031-02-28", ""])("updates or clears a due date with %s", async (value) => {
+    const user = userEvent.setup();
+    const board = buildBoard();
+    board.tickets[0].dueDate = "2030-11-05";
+    boardApi.get.mockResolvedValue(board);
+    boardApi.updateTicket.mockResolvedValue([{ ...board.tickets[0], dueDate: value || null }]);
+    renderBoard(employeeUser);
+    await user.click(await screen.findByText("Angebot schreiben"));
+    const dialog = within(await screen.findByRole("dialog"));
+    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveValue("2030-11-05");
+    expect(dialog.getByText("Fällig am 05/11/2030")).toBeInTheDocument();
+    expect(dialog.getByDisplayValue("05/11/2030")).toBeInTheDocument();
+    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value } });
+    await user.click(dialog.getByRole("button", { name: "Speichern" }));
+    await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith("ticket-1",
+      expect.objectContaining({ dueDate: value || null }),
+    ));
+    if (!value) await waitFor(() => expect(document.querySelector("time[datetime]")).not.toBeInTheDocument());
+  });
+
+  it("keeps the selected due date and displays an error if creation fails", async () => {
+    const user = userEvent.setup();
+    boardApi.createTicket.mockRejectedValue(new Error("network"));
+    renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
+    const dialog = within(await screen.findByRole("dialog"));
+    await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
+    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value: "2030-11-05" } });
+    await user.click(dialog.getByRole("button", { name: "Anlegen" }));
+    expect(await screen.findByText("Ticket konnte nicht angelegt werden.")).toBeInTheDocument();
+    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveValue("2030-11-05");
   });
 
   it("starts editing without highlighting the title and moves focus between fields", async () => {
@@ -343,6 +421,7 @@ describe("tasks board page", () => {
       description: null,
       assigneeId: null,
       priority: "normal",
+      dueDate: null,
       position: 0,
       createdBy: employeeUser.id,
       createdAt: new Date().toISOString(),

@@ -7,7 +7,14 @@ import { createApp } from "../app.js";
 import type { AppLinkRepository } from "../db/app-link-repository.js";
 import { BOARD_FIXTURE_PASSWORD, createBoardFixture, type BoardFixture } from "../test-support/board-fixture.js";
 
-const input = { name: "Microsoft 365", description: "Outlook, Teams, OneDrive", icon: "M365", url: "https://www.microsoft365.com/", sortOrder: 0 };
+const input = {
+  name: "Microsoft 365",
+  description: "Outlook, Teams, OneDrive",
+  contactEmail: "backoffice@testconsulting.de",
+  icon: "M365",
+  url: "https://www.microsoft365.com/",
+  sortOrder: 0,
+};
 let fixture: BoardFixture;
 let app: ReturnType<typeof createApp>;
 let links: AppLink[];
@@ -66,6 +73,13 @@ describe("application links API", () => {
     expect(created.body.link.url).toBe(url);
     const updated = await agent.put(`/api/links/${created.body.link.id}`).send({ ...input, url }).expect(200);
     expect(updated.body.link.url).toBe(url);
+  });
+
+  it("uses the Backoffice address when a link has no contact email", async () => {
+    const agent = await loginAs("admin");
+    const { contactEmail: _contactEmail, ...inputWithoutContact } = input;
+    const created = await agent.post("/api/links").send(inputWithoutContact).expect(201);
+    expect(created.body.link.contactEmail).toBe("backoffice@testconsulting.de");
   });
 
   it.each(["mailto:", "mailto:invalid", "mailto:a@example.de,b@example.de", "mailto:a@example.de?body=test", "mailto:a@example.de%0Abcc:b@example.de"])("rejects invalid email links: %s", async (url) => {
@@ -156,6 +170,7 @@ describe("application links API", () => {
   it.each([
     { ...input, name: " " },
     { ...input, description: " " },
+    { ...input, contactEmail: "not-an-email" },
     { ...input, icon: "" },
     { ...input, url: "javascript:alert(1)" },
     { ...input, url: "data:text/html,test" },

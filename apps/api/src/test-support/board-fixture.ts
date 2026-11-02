@@ -129,6 +129,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
         description: input.description ?? null,
         assigneeId: input.assigneeId ?? null,
         priority: input.priority ?? "normal",
+        dueDate: input.dueDate ?? null,
         position: tickets.filter((ticket) => ticket.columnId === input.columnId).length,
         createdBy: input.createdBy,
         createdAt: now,
@@ -176,6 +177,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
         description: archived.description,
         assigneeId: archived.assigneeId,
         priority: archived.priority,
+        dueDate: archived.dueDate,
         position: tickets.filter((ticket) => ticket.columnId === targetColumnId).length,
         createdBy: archived.createdBy,
         createdAt: archived.createdAt,
@@ -193,6 +195,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
       if (patch.description !== undefined) ticket.description = patch.description;
       if (patch.assigneeId !== undefined) ticket.assigneeId = patch.assigneeId;
       if (patch.priority !== undefined) ticket.priority = patch.priority;
+      if (patch.dueDate !== undefined) ticket.dueDate = patch.dueDate;
       if (patch.columnId !== undefined) ticket.columnId = patch.columnId;
       if (patch.position !== undefined) ticket.position = patch.position;
       ticket.updatedAt = new Date().toISOString();

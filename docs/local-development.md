@@ -34,12 +34,20 @@
    Get-Content -Raw apps/api/migrations/009_create_exam_attempts.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/010_create_practice_progress.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/011_create_exam_sessions.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/013_add_app_link_contact_email.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps\api\migrations\014_add_ticket_due_date.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
 
    `002_create_board.sql` legt das Tasks-Board-Schema an (`board_columns`, `tickets`) und seedet die drei Standardspalten ("Zu erledigen", "In Arbeit", "Erledigt"), falls das Board noch leer ist.
 
    `003_create_app_links.sql` legt die Tabelle `app_links` an. Es werden keine fiktiven Unternehmenslinks automatisch eingetragen; Admins pflegen die tatsächlichen Zieladressen.
+   `013_add_app_link_contact_email.sql` ergänzt je Application Link einen Ansprechpartner und setzt bei vorhandenen Links `backoffice@testconsulting.de` als Standard.
+   `014_add_ticket_due_date.sql` ergänzt ein optionales Fälligkeitsdatum für Tickets. Neue und vorhandene Tickets haben standardmäßig keinen Termin. Beim Anlegen und Bearbeiten öffnet das Datumsfeld den kleinen Kalender des Browsers; Leeren entfernt den Termin. Unter dem Tickettitel stehen Termine in mehr als sieben Tagen als `DD.MM.`, in zwei bis sieben Tagen als „In N Tagen“ (grau), morgen als „Morgen“ (dezentes Orange), heute als „Heute fällig“ (Orange) und vergangene Termine als „N Tag/Tage überfällig“ mit Uhrsymbol (Rot). Hover und Tastaturfokus zeigen das genaue Datum und gegebenenfalls die Überfälligkeit; diese Information steht auch im Bearbeitungsdialog. Der Tageswechsel erfolgt nach lokaler Kalenderzeit, ohne Zeitumstellungsfehler. Verschieben, Archivieren und Wiederherstellen erhalten das Datum ohne Zeitzonenverschiebung.
+
+   Ticket-Datumsfelder, Tooltips und Detailangaben zeigen vollständige Daten unabhängig von der Browser-Sprache im Format `TT/MM/JJJJ`, zum Beispiel `29/10/2026`. Die Kalenderauswahl bleibt erhalten; der Entfernen-Button leert das Datum. API und Datenbank verwenden weiterhin `YYYY-MM-DD`.
+
+   Beim Bearbeiten eines Tickets bleibt seine Position innerhalb derselben Spalte erhalten. Nur ein tatsächlicher Spaltenwechsel oder eine ausdrücklich geänderte Position verändert die Reihenfolge; beim Spaltenwechsel ohne Positionsangabe wird das Ticket am Ende der Zielspalte eingefügt.
 
    Application Links unterstützen HTTP-/HTTPS-Adressen (auch mit `www.`) sowie `mailto:` mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter. E-Mail-Kacheln zeigen einen Briefumschlag und „E-Mail schreiben“; sie öffnen das lokale E-Mail-Programm statt eines neuen Browser-Tabs.
 

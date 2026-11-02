@@ -1,6 +1,6 @@
 import type { Pool } from "pg";
 import { z } from "zod";
-import { isValidAppLinkUrl } from "@portal/shared";
+import { DEFAULT_APP_LINK_CONTACT_EMAIL, isValidAppLinkUrl } from "@portal/shared";
 import { optionalPortalUrlSchema } from "../validation/portal-url.js";
 
 export const portalContentSchema = z.object({
@@ -10,6 +10,7 @@ export const portalContentSchema = z.object({
   links: z.array(z.object({
     name: z.string().trim().min(1).max(120),
     description: z.string().trim().min(1).max(500),
+    contactEmail: z.string().trim().email().max(320).optional(),
     url: z.string().trim().max(2048).refine(isValidAppLinkUrl),
     icon: z.string().min(1).max(12),
     sortOrder: z.number().int().min(0).max(2147483647),
@@ -29,7 +30,7 @@ export async function exportPortalContent(database: Pick<Pool, "connect">): Prom
   try {
     await client.query("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY");
     const links = await client.query<PortalContent["links"][number]>(
-      'SELECT name, description, url, icon, sort_order AS "sortOrder" FROM app_links ORDER BY sort_order, name, id',
+      'SELECT name, description, contact_email AS "contactEmail", url, icon, sort_order AS "sortOrder" FROM app_links ORDER BY sort_order, name, id',
     );
     const benefits = await client.query<PortalContent["benefits"][number]>(
       "SELECT title, description, details, url FROM benefits ORDER BY sort_order, title, id",
@@ -59,16 +60,17 @@ export async function importPortalContent(database: Pick<Pool, "connect">, input
     for (const link of content.links) {
       if (content.updateExistingLinks) {
         await client.query(
-          `UPDATE app_links SET name = $1, description = $2, icon = $4
+          `UPDATE app_links SET name = $1, description = $2, icon = $4,
+             contact_email = COALESCE($5, contact_email)
            WHERE btrim(url) = $3`,
-          [link.name, link.description, link.url, link.icon],
+          [link.name, link.description, link.url, link.icon, link.contactEmail ?? null],
         );
       }
       const result = await client.query(
-        `INSERT INTO app_links (name, description, url, icon, sort_order)
-         SELECT $1, $2, $3, $4, COALESCE((SELECT MAX(sort_order) + 1 FROM app_links), 0)
+        `INSERT INTO app_links (name, description, contact_email, url, icon, sort_order)
+         SELECT $1, $2, $3, $4, $5, COALESCE((SELECT MAX(sort_order) + 1 FROM app_links), 0)
          WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $3)`,
-        [link.name, link.description, link.url, link.icon],
+        [link.name, link.description, link.contactEmail ?? DEFAULT_APP_LINK_CONTACT_EMAIL, link.url, link.icon],
       );
       added.links += result.rowCount ?? 0;
     }

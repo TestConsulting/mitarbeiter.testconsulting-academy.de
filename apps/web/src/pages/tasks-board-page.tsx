@@ -28,6 +28,8 @@ import {
   Dropdown,
   Field,
   Input,
+  MessageBar,
+  MessageBarBody,
   Option,
 } from "@fluentui/react-components";
 import {
@@ -53,6 +55,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
+import { TicketDueDate } from "./ticket-due-date.js";
+import { TicketDateField } from "./ticket-date-field.js";
 
 export function TasksBoardPage() {
   const navigate = useNavigate();
@@ -67,6 +71,9 @@ export function TasksBoardPage() {
   const [newTicketTitle, setNewTicketTitle] = useState("");
   const [newTicketDescription, setNewTicketDescription] = useState("");
   const [newTicketPriority, setNewTicketPriority] = useState<TicketPriority>("normal");
+  const [newTicketDueDate, setNewTicketDueDate] = useState("");
+  const [newTicketError, setNewTicketError] = useState<string | null>(null);
+  const [isCreatingTicket, setCreatingTicket] = useState(false);
   const [filterQuery, setFilterQuery] = useState("");
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
@@ -167,18 +174,29 @@ export function TasksBoardPage() {
     if (!newTicketColumnId) return;
     const title = newTicketTitle.trim();
     if (!title) return;
-    const tickets = await api.board.createTicket({
-      columnId: newTicketColumnId,
-      title,
-      description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
-      priority: newTicketPriority,
-    });
-    setBoard((current) => (current ? { ...current, tickets } : current));
-    setAddTicketOpen(false);
-    setNewTicketColumnId(null);
-    setNewTicketTitle("");
-    setNewTicketDescription("");
-    setNewTicketPriority("normal");
+    if (isCreatingTicket) return;
+    setNewTicketError(null);
+    setCreatingTicket(true);
+    try {
+      const tickets = await api.board.createTicket({
+        columnId: newTicketColumnId,
+        title,
+        description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
+        priority: newTicketPriority,
+        dueDate: newTicketDueDate || null,
+      });
+      setBoard((current) => (current ? { ...current, tickets } : current));
+      setAddTicketOpen(false);
+      setNewTicketColumnId(null);
+      setNewTicketTitle("");
+      setNewTicketDescription("");
+      setNewTicketPriority("normal");
+      setNewTicketDueDate("");
+    } catch (error) {
+      setNewTicketError(error instanceof ApiError ? error.message : "Ticket konnte nicht angelegt werden.");
+    } finally {
+      setCreatingTicket(false);
+    }
   }
 
   async function handleArchiveTickets(columnId: string) {
@@ -196,6 +214,7 @@ export function TasksBoardPage() {
   }
 
   function openAddTicket(columnId: string) {
+    setNewTicketError(null);
     setNewTicketColumnId(columnId);
     setAddTicketOpen(true);
   }
@@ -226,6 +245,7 @@ export function TasksBoardPage() {
     description?: string | null;
     assigneeId?: string | null;
     priority?: TicketPriority;
+    dueDate?: string | null;
     columnId?: string;
     position?: number;
   }) {
@@ -407,6 +427,8 @@ export function TasksBoardPage() {
           setNewTicketTitle("");
           setNewTicketDescription("");
           setNewTicketPriority("normal");
+          setNewTicketDueDate("");
+          setNewTicketError(null);
         }
       }}>
         <DialogSurface>
@@ -414,6 +436,7 @@ export function TasksBoardPage() {
             <DialogBody>
               <DialogTitle>Ticket in {newTicketColumnTitle} anlegen</DialogTitle>
               <DialogContent className="ticket-dialog-content">
+                {newTicketError && <MessageBar intent="error"><MessageBarBody>{newTicketError}</MessageBarBody></MessageBar>}
                 <Field label="Titel">
                   <Input value={newTicketTitle} onChange={(_event, data) => setNewTicketTitle(data.value)} autoFocus />
                 </Field>
@@ -430,12 +453,13 @@ export function TasksBoardPage() {
                 <Field label="Priorität">
                   <PriorityDropdown priority={newTicketPriority} onChange={setNewTicketPriority} />
                 </Field>
+                <TicketDateField value={newTicketDueDate} onChange={setNewTicketDueDate} />
               </DialogContent>
               <DialogActions>
                 <DialogTrigger disableButtonEnhancement>
                   <Button appearance="secondary" type="button">Abbrechen</Button>
                 </DialogTrigger>
-                <Button appearance="primary" type="submit">Anlegen</Button>
+                <Button appearance="primary" type="submit" disabled={isCreatingTicket}>Anlegen</Button>
               </DialogActions>
             </DialogBody>
           </form>
@@ -809,6 +833,7 @@ function TicketCard({
             </button>
           </div>
       </div>
+      <TicketDueDate dueDate={ticket.dueDate} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
         <TicketPriorityBadge priority={ticket.priority} />
@@ -847,6 +872,7 @@ function TicketCardPreview({
           <Delete16Regular />
         </div>
       </div>
+      <TicketDueDate dueDate={ticket.dueDate} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
         <TicketPriorityBadge priority={ticket.priority} />
@@ -872,14 +898,18 @@ function EditTicketDialog({
     description: string | null;
     assigneeId: string | null;
     priority: TicketPriority;
+    dueDate: string | null;
     columnId: string;
-  }) => void;
+  }) => Promise<void>;
   onRequestDelete: () => void;
 }) {
   const [title, setTitle] = useState(ticket.title);
   const [description, setDescription] = useState(ticket.description ?? "");
   const [assigneeId, setAssigneeId] = useState(ticket.assigneeId ?? "");
   const [priority, setPriority] = useState<TicketPriority>(ticket.priority);
+  const [dueDate, setDueDate] = useState(ticket.dueDate ?? "");
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [isSaving, setSaving] = useState(false);
   const [columnId, setColumnId] = useState(ticket.columnId);
   const editorRef = useRef<HTMLHeadingElement>(null);
 
@@ -887,15 +917,25 @@ function EditTicketDialog({
     editorRef.current?.focus();
   }, []);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    onSave({
-      title: title.trim(),
-      description: description.trim() ? description.trim() : null,
-      assigneeId: assigneeId || null,
-      priority,
-      columnId,
-    });
+    if (isSaving) return;
+    setSaveError(null);
+    setSaving(true);
+    try {
+      await onSave({
+        title: title.trim(),
+        description: description.trim() ? description.trim() : null,
+        assigneeId: assigneeId || null,
+        priority,
+        dueDate: dueDate || null,
+        columnId,
+      });
+    } catch (error) {
+      setSaveError(error instanceof ApiError ? error.message : "Ticket konnte nicht gespeichert werden.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   const assigneeName = users.find((entry) => entry.id === assigneeId)?.name ?? "Niemand zugewiesen";
@@ -908,6 +948,7 @@ function EditTicketDialog({
           <DialogBody>
             <DialogTitle ref={editorRef} tabIndex={-1}>Ticket bearbeiten</DialogTitle>
             <DialogContent className="ticket-dialog-content">
+              {saveError && <MessageBar intent="error"><MessageBarBody>{saveError}</MessageBarBody></MessageBar>}
               <Field label="Titel">
                 <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} />
               </Field>
@@ -937,6 +978,8 @@ function EditTicketDialog({
               <Field label="Priorität">
                 <PriorityDropdown priority={priority} onChange={setPriority} />
               </Field>
+              <TicketDateField value={dueDate} onChange={setDueDate} />
+              <TicketDueDate dueDate={dueDate || null} showExactDate />
               <Field label="Spalte">
                 <Dropdown
                   className="ticket-dialog__dropdown"
@@ -957,7 +1000,7 @@ function EditTicketDialog({
               <DialogTrigger disableButtonEnhancement>
                 <Button appearance="secondary" type="button">Abbrechen</Button>
               </DialogTrigger>
-              <Button appearance="primary" type="submit">Speichern</Button>
+              <Button appearance="primary" type="submit" disabled={isSaving}>Speichern</Button>
             </DialogActions>
           </DialogBody>
         </form>
