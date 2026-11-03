@@ -125,7 +125,7 @@ describe("portal content transfer", () => {
     expect(await importPortalContent(database, content)).toEqual({ links: rowCount, benefits: rowCount });
     expect(database.query).toHaveBeenNthCalledWith(2, "LOCK TABLE app_links, benefits IN SHARE ROW EXCLUSIVE MODE");
     expect(database.query).toHaveBeenCalledWith(
-      expect.stringContaining("WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $3)"),
+      expect.stringContaining("WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $4)"),
       ["Portal", "Company tool", "backoffice@testconsulting.de", "https://example.test/", "TC"],
     );
     expect(database.query).toHaveBeenCalledWith(

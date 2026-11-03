@@ -69,7 +69,7 @@ export async function importPortalContent(database: Pick<Pool, "connect">, input
       const result = await client.query(
         `INSERT INTO app_links (name, description, contact_email, url, icon, sort_order)
          SELECT $1, $2, $3, $4, $5, COALESCE((SELECT MAX(sort_order) + 1 FROM app_links), 0)
-         WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $3)`,
+         WHERE NOT EXISTS (SELECT 1 FROM app_links WHERE btrim(url) = $4)`,
         [link.name, link.description, link.contactEmail ?? DEFAULT_APP_LINK_CONTACT_EMAIL, link.url, link.icon],
       );
       added.links += result.rowCount ?? 0;
