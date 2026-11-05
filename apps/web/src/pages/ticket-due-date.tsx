@@ -2,7 +2,7 @@ import { Tooltip } from "@fluentui/react-components";
 import { CalendarLtr16Regular, Clock16Regular } from "@fluentui/react-icons";
 import { useEffect, useState } from "react";
 
-function localDateKey(date: Date): string {
+export function localDateKey(date: Date): string {
   return `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 }
 

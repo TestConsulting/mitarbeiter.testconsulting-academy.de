@@ -512,10 +512,91 @@ a { color: inherit; }
 .ticket-due-date { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; line-height: 20px; }
 .ticket-due-date svg { width: 16px; height: 16px; flex-shrink: 0; }
 .ticket-date-field { display: flex; align-items: center; gap: 6px; }
-.ticket-date-field__picker { position: relative; flex: 1; min-width: 0; }
-.ticket-date-field__picker > .fui-Input { width: 100%; }
-.ticket-date-field__native { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-.ticket-date-field__picker:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
+.ticket-date-field__trigger {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 400;
+}
+.ticket-date-field__trigger:hover,
+.ticket-date-field__trigger:active {
+  border-color: var(--dialog-focus-color, var(--primary));
+  background: var(--surface);
+  color: var(--text);
+}
+.ticket-date-field__trigger:focus-visible,
+.ticket-date-field__trigger[aria-expanded="true"] {
+  border-color: var(--dialog-focus-color, var(--primary));
+  box-shadow: 0 0 0 1px var(--dialog-focus-color, var(--primary));
+  outline: none;
+}
+.ticket-date-field__placeholder { color: var(--muted); }
+.ticket-calendar {
+  --calendar-accent: var(--primary);
+  --calendar-selected-text: #fff;
+  --calendar-today: #d6eafa;
+  width: min(340px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 12px 40px var(--shadow-strong);
+}
+:root[data-theme="dark"] .ticket-calendar {
+  --calendar-accent: var(--accent);
+  --calendar-selected-text: #0f1722;
+  --calendar-today: #c5edb9;
+}
+.ticket-calendar__navigation {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 80px auto;
+  align-items: end;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ticket-calendar__navigation :is(.fui-Input, .fui-Select) { min-width: 0; width: 100%; }
+.ticket-calendar__grid { width: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
+.ticket-calendar__grid th { padding: 6px 0; color: var(--muted); font-size: 11px; font-weight: 400; }
+.ticket-calendar__grid td { padding: 0; text-align: center; }
+.ticket-calendar__day {
+  width: 100%;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+}
+.ticket-calendar__day--outside { color: var(--muted); }
+.ticket-calendar__day--today {
+  background: var(--calendar-accent);
+  color: var(--calendar-selected-text);
+  font-weight: 700;
+}
+.ticket-calendar__day:hover {
+  background: var(--calendar-today);
+  color: #0f1722;
+}
+.ticket-calendar__day:disabled { visibility: hidden; }
+.ticket-calendar__day:focus-visible { outline: 2px solid var(--calendar-accent); outline-offset: 1px; }
+.ticket-calendar__footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.ticket-calendar__footer > button:first-child { color: var(--calendar-accent); }
 .ticket-due-date--tomorrow { color: #96600d; }
 .ticket-due-date--today { color: #a64b00; }
 .ticket-due-date--overdue { color: #b42318; }

@@ -47,6 +47,10 @@
 
    Ticket-Datumsfelder, Tooltips und Detailangaben zeigen vollständige Daten unabhängig von der Browser-Sprache im Format `TT/MM/JJJJ`, zum Beispiel `29/10/2026`. Die Kalenderauswahl bleibt erhalten; der Entfernen-Button leert das Datum. API und Datenbank verwenden weiterhin `YYYY-MM-DD`.
 
+   Das Fälligkeitsdatumsfeld verwendet bei Maus- und Tastaturfokus denselben abgerundeten Fokusrahmen wie die übrigen Ticketfelder: blau im hellen und grün im dunklen Design, ohne zusätzlichen äußeren Rahmen. Auch beim Hover wird der Rand passend zum Design hervorgehoben.
+
+   Der Kalender verwendet das Portaldesign statt des nativen Browser-Popups. Nur Heute ist kräftig blau im hellen beziehungsweise kräftig grün im dunklen Design. Das ausgewählte Zieldatum erhält keine eigene Hintergrundfarbe; seine Auswahl bleibt für assistive Technologien gekennzeichnet und im Datumsfeld sichtbar. Beim Hover erhält jeder Tag die hellere blaue beziehungsweise grüne Farbe; beim Verlassen kehrt die ursprüngliche Darstellung zurück. Monat und Jahr lassen sich direkt ändern; Pfeiltasten bewegen den Tagesfokus, Pos1/Ende zum Wochenanfang/-ende, Bild auf/ab zum vorherigen/nächsten Monat. Enter oder Leertaste wählt den Tag, Escape schließt ohne Änderung. „Heute“ wählt das aktuelle lokale Datum; der Entfernen-Button leert den Termin. Der zulässige Jahresbereich bleibt 1 bis 9999.
+
    Beim Bearbeiten eines Tickets bleibt seine Position innerhalb derselben Spalte erhalten. Nur ein tatsächlicher Spaltenwechsel oder eine ausdrücklich geänderte Position verändert die Reihenfolge; beim Spaltenwechsel ohne Positionsangabe wird das Ticket am Ende der Zielspalte eingefügt.
 
    Application Links unterstützen HTTP-/HTTPS-Adressen (auch mit `www.`) sowie `mailto:` mit einer einzelnen E-Mail-Adresse ohne Zusatzparameter. E-Mail-Kacheln zeigen einen Briefumschlag und „E-Mail schreiben“; sie öffnen das lokale E-Mail-Programm statt eines neuen Browser-Tabs.

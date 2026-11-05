@@ -70,6 +70,20 @@ function renderBoard(currentUser: PortalUser) {
   );
 }
 
+function chooseDueDate(value: string) {
+  if (!value) {
+    fireEvent.click(screen.getByRole("button", { name: "Fälligkeitsdatum entfernen" }));
+    return;
+  }
+  fireEvent.click(screen.getByRole("button", { name: "Fälligkeitsdatum" }));
+  const calendar = within(screen.getByRole("dialog", { name: "Fälligkeitsdatum auswählen" }));
+  const [year, month] = value.split("-");
+  fireEvent.change(calendar.getByRole("spinbutton", { name: "Jahr" }), { target: { value: year } });
+  fireEvent.change(calendar.getByRole("combobox", { name: "Monat" }), { target: { value: String(Number(month) - 1) } });
+  const label = new Intl.DateTimeFormat("de-DE", { dateStyle: "full" }).format(new Date(`${value}T12:00:00`));
+  fireEvent.click(calendar.getByRole("button", { name: label }));
+}
+
 beforeEach(() => {
   boardApi.get.mockReset();
   boardApi.createColumn.mockReset();
@@ -144,7 +158,7 @@ describe("tasks board page", () => {
     fireEvent.click(within(todoColumn).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     const titleInput = within(dialog).getByLabelText("Titel");
-    expect(within(dialog).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
+    expect(within(dialog).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
     await user.click(within(dialog).getByText("Beschreibung", { selector: "label" }));
     expect(within(dialog).getByRole("textbox", { name: "Beschreibung" })).toHaveFocus();
     await user.type(titleInput, "Neue Aufgabe");
@@ -168,14 +182,9 @@ describe("tasks board page", () => {
     await screen.findByText("Angebot schreiben");
     fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
     const dialog = within(await screen.findByRole("dialog"));
-    const dateInput = dialog.getByLabelText("Fälligkeitsdatum");
-    const showPicker = vi.fn();
-    Object.defineProperty(dateInput, "showPicker", { configurable: true, value: showPicker });
-    expect(dateInput).toHaveAttribute("type", "date");
-    expect(dateInput).toHaveValue("");
-    await user.click(dateInput);
-    expect(showPicker).toHaveBeenCalledOnce();
-    fireEvent.change(dateInput, { target: { value: "2030-11-05" } });
+    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
+    chooseDueDate("2030-11-05");
+    expect(screen.queryByRole("dialog", { name: "Fälligkeitsdatum auswählen" })).not.toBeInTheDocument();
     await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
     await user.click(dialog.getByRole("button", { name: "Anlegen" }));
     await waitFor(() => expect(boardApi.createTicket).toHaveBeenCalledWith(
@@ -184,7 +193,7 @@ describe("tasks board page", () => {
     expect(await screen.findByText("05.11.")).toBeInTheDocument();
     await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
     fireEvent.click((await screen.findAllByRole("button", { name: "Ticket hinzufügen" }))[0]);
-    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
+    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
   });
 
   it("resets the selected due date after cancelling creation", async () => {
@@ -193,11 +202,11 @@ describe("tasks board page", () => {
     await screen.findByText("Angebot schreiben");
     fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
     const dialog = within(await screen.findByRole("dialog"));
-    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value: "2030-11-05" } });
+    chooseDueDate("2030-11-05");
     await user.click(dialog.getByRole("button", { name: "Abbrechen" }));
     await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
-    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
-    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveValue("");
+    fireEvent.click((await screen.findAllByRole("button", { name: "Ticket hinzufügen" }))[0]);
+    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
   });
 
   it.each(["2031-02-28", ""])("updates or clears a due date with %s", async (value) => {
@@ -209,10 +218,9 @@ describe("tasks board page", () => {
     renderBoard(employeeUser);
     await user.click(await screen.findByText("Angebot schreiben"));
     const dialog = within(await screen.findByRole("dialog"));
-    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveValue("2030-11-05");
+    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("05/11/2030");
     expect(dialog.getByText("Fällig am 05/11/2030")).toBeInTheDocument();
-    expect(dialog.getByDisplayValue("05/11/2030")).toBeInTheDocument();
-    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value } });
+    chooseDueDate(value);
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith("ticket-1",
       expect.objectContaining({ dueDate: value || null }),
@@ -228,10 +236,10 @@ describe("tasks board page", () => {
     fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
     const dialog = within(await screen.findByRole("dialog"));
     await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
-    fireEvent.change(dialog.getByLabelText("Fälligkeitsdatum"), { target: { value: "2030-11-05" } });
+    chooseDueDate("2030-11-05");
     await user.click(dialog.getByRole("button", { name: "Anlegen" }));
     expect(await screen.findByText("Ticket konnte nicht angelegt werden.")).toBeInTheDocument();
-    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveValue("2030-11-05");
+    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("05/11/2030");
   });
 
   it("starts editing without highlighting the title and moves focus between fields", async () => {
