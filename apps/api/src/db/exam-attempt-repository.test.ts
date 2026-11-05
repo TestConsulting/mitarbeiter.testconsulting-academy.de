@@ -69,9 +69,24 @@ describe("Exam attempt repository", () => {
         result.passed,
         result.correctCount,
         result.totalQuestions,
-        { results: result.results },
+        { results: result.results, passed: result.passed },
         null,
       ],
     );
+  });
+
+  it("preserves the ungraded result in JSON while keeping the legacy boolean column compatible", async () => {
+    const database = createDatabase();
+    database.query.mockResolvedValue({ rows: [{ ...attempt, passed: null }] });
+    const repository = createExamAttemptRepository(database);
+    const saved = await repository.create({
+      userId: "user-id", courseId: attempt.courseId, courseSlug: attempt.courseSlug,
+      courseTitle: attempt.courseTitle,
+      result: { percentage: 75, passed: null, correctCount: 3, totalQuestions: 4, results: [] },
+    });
+    expect(saved.passed).toBeNull();
+    expect(database.query.mock.calls[0][1][5]).toBe(false);
+    expect(database.query.mock.calls[0][1][8]).toEqual({ results: [], passed: null });
+    expect(database.query.mock.calls[0][0]).toContain("CASE WHEN result_data ? 'passed'");
   });
 });

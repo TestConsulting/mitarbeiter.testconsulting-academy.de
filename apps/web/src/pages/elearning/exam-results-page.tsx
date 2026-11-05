@@ -136,7 +136,8 @@ export function ExamResultsPage() {
             </div>
             <div className="exam-summary-card">
               <span className="exam-summary-card__label">Bestanden</span>
-              <strong>{attempts.filter((attempt) => attempt.passed).length} / {attempts.length}</strong>
+              <strong>{attempts.filter((attempt) => attempt.passed).length} / {attempts.filter((attempt) => attempt.passed !== null).length}</strong>
+              {attempts.some((attempt) => attempt.passed === null) && <span>Nur bewertete Prüfungen</span>}
             </div>
           </section>
 
@@ -175,8 +176,8 @@ export function ExamResultsPage() {
                     <div className="exam-history-item__details">
                       <div className="exam-history-item__title">
                         <Link to={`/areas/elearning/${attempt.courseSlug}`}>{attempt.courseTitle}</Link>
-                        <Badge appearance="tint" color={attempt.passed ? "success" : "danger"}>
-                          {attempt.passed ? "Bestanden" : "Nicht bestanden"}
+                        <Badge appearance="tint" color={attempt.passed === null ? "informative" : attempt.passed ? "success" : "danger"}>
+                          {attempt.passed === null ? "Ohne Bestehensbewertung" : attempt.passed ? "Bestanden" : "Nicht bestanden"}
                         </Badge>
                       </div>
                       <span className="exam-history-item__meta">
@@ -318,10 +319,12 @@ export function ExamResultsPage() {
                               </li>
                             ))}
                           </ul>
-                          <div className="exam-history-review__explanation exam-history-review__explanation--standalone">
-                            <strong>Erklärung zur Lösung:</strong>
-                            <p>{item.explanation}</p>
-                          </div>
+                          {item.explanation && (
+                            <div className="exam-history-review__explanation exam-history-review__explanation--standalone">
+                              <strong>Erklärung zur Lösung:</strong>
+                              <p>{item.explanation}</p>
+                            </div>
+                          )}
                         </div>
                       </details>
                     </li>

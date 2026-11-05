@@ -5,9 +5,11 @@ import {
   CheckmarkCircle24Regular,
   Clock20Regular,
   DismissCircle24Regular,
+  SubtractCircleRegular,
 } from "@fluentui/react-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  COURSE_EXAM_DURATION_MINUTES,
   EXAM_PASS_THRESHOLD,
   type ExamCourse,
   type ExamSubmissionResult,
@@ -16,8 +18,6 @@ import { ApiError, api } from "../../api/client.js";
 import { FoundationExamPage } from "./foundation-exam-page.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
 import { QuestionContent } from "./question-content.js";
-
-const examDurationSeconds = 10 * 60;
 
 function formatTime(seconds: number) {
   const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
@@ -40,7 +40,7 @@ function LegacyCourseExamPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [confirmedQuestionIds, setConfirmedQuestionIds] = useState<string[]>([]);
-  const [secondsLeft, setSecondsLeft] = useState(examDurationSeconds);
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [confirmSubmission, setConfirmSubmission] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"ready" | "submitting">("ready");
@@ -60,6 +60,8 @@ function LegacyCourseExamPage() {
     api.courses.getExam(courseId).then((loadedCourse) => {
       if (!active) return;
       setCourse(loadedCourse);
+      setSecondsLeft(loadedCourse.durationMinutes === null ? null
+        : (loadedCourse.durationMinutes ?? COURSE_EXAM_DURATION_MINUTES) * 60);
       setLoadStatus("ready");
     }).catch((error: unknown) => {
       if (!active) return;
@@ -87,9 +89,10 @@ function LegacyCourseExamPage() {
   }
 
   useEffect(() => {
-    if (loadStatus !== "ready" || !course || result || isPaused || submitStatus === "submitting" || secondsLeft === 0) return;
+    if (loadStatus !== "ready" || !course || result || isPaused || submitStatus === "submitting" ||
+        secondsLeft === null || secondsLeft === 0) return;
     const timer = window.setTimeout(() => {
-      setSecondsLeft((remaining) => Math.max(0, remaining - 1));
+      setSecondsLeft((remaining) => remaining === null ? null : Math.max(0, remaining - 1));
     }, 1000);
     return () => window.clearTimeout(timer);
   }, [course, isPaused, loadStatus, result, secondsLeft, submitStatus]);
@@ -149,22 +152,23 @@ function LegacyCourseExamPage() {
     return (
       <div className="page-stack elearning-page">
         <section className="exam-results" aria-labelledby="exam-results-title">
-          <div className={`exam-results__icon${result.passed ? " exam-results__icon--passed" : ""}`}>
+          {result.passed !== null && <div className={`exam-results__icon${result.passed ? " exam-results__icon--passed" : ""}`}>
             {result.passed ? <CheckmarkCircle24Regular aria-hidden="true" /> : <DismissCircle24Regular aria-hidden="true" />}
-          </div>
+          </div>}
           <h1 id="exam-results-title">Prüfung abgeschlossen!</h1>
           <p className="exam-results__course">{course.title} — Probeprüfung</p>
 
           <div className="exam-score-box">
-            <div className={`exam-score-ring${result.passed ? " exam-score-ring--passed" : ""}`}>
+            <div className={`exam-score-ring${result.passed === null ? " exam-score-ring--ungraded"
+              : result.passed ? " exam-score-ring--passed" : ""}`}>
               <strong>{result.percentage}%</strong>
               <span>Ergebnis</span>
             </div>
             <div className="exam-score-details">
-              <Badge appearance="tint" color={result.passed ? "success" : "danger"}>
-                {result.passed ? "Bestanden" : "Nicht bestanden"}
+              <Badge appearance="tint" color={result.passed === null ? "informative" : result.passed ? "success" : "danger"}>
+                {result.passed === null ? "Ohne Bestehensbewertung" : result.passed ? "Bestanden" : "Nicht bestanden"}
               </Badge>
-              <p>Bestehensgrenze: {EXAM_PASS_THRESHOLD}%</p>
+              {course.passThreshold !== null && <p>Bestehensgrenze: {course.passThreshold ?? EXAM_PASS_THRESHOLD}%</p>}
             </div>
             <div className="exam-score-counts">
               <strong className="exam-score-counts__correct">{result.correctCount}</strong>
@@ -179,36 +183,62 @@ function LegacyCourseExamPage() {
               <h2 id="exam-review-title">Alle Fragen im Rückblick</h2>
             </summary>
             <ExamReviewFilter value={reviewFilter} onChange={setReviewFilter} />
-            <ol className="exam-review-list">
+            <ol className="exam-history-review__list">
               {result.results.map((item, index) => {
                 const status = item.isCorrect ? "correct" : item.selectedOptionIds.length > 0 ? "incorrect" : "open";
                 if (!matchesExamReviewFilter(reviewFilter, status)) return null;
-                const selectedTexts = item.question.options
-                  .filter((option) => item.selectedOptionIds.includes(option.id))
-                  .map((option) => option.text);
-                const correctTexts = item.question.options
-                  .filter((option) => item.correctOptionIds.includes(option.id))
-                  .map((option) => option.text);
+                const summaryText = status === "correct"
+                  ? "1 Punkt (richtig)"
+                  : status === "incorrect" ? "0 Punkte (falsch)" : "0 Punkte (übersprungen/nicht geprüft)";
                 return (
-                  <li
-                    key={item.question.id}
-                    className={`exam-review-item${item.isCorrect ? " exam-review-item--correct" : " exam-review-item--wrong"}`}
-                  >
-                    <div className="exam-review-item__heading">
-                      {item.isCorrect
-                        ? <CheckmarkCircle24Regular aria-hidden="true" />
-                        : <DismissCircle24Regular aria-hidden="true" />}
-                      <div>
-                        <span>Frage {index + 1}</span>
-                        <h3><QuestionContent question={item.question} /></h3>
+                  <li key={item.question.id}>
+                    <details className="exam-history-review__question-review">
+                      <summary>
+                        <span className="exam-history-review__question">
+                          {item.isCorrect
+                            ? <CheckmarkCircle24Regular
+                              className="practice-review-option--correct exam-history-review__status-icon"
+                              aria-label="Richtig beantwortet"
+                            />
+                            : item.selectedOptionIds.length > 0
+                              ? <DismissCircle24Regular
+                                className="practice-review-option--wrong exam-history-review__status-icon"
+                                aria-label="Falsch beantwortet"
+                              />
+                              : <SubtractCircleRegular
+                                className="exam-history-review__open-icon exam-history-review__status-icon"
+                                aria-label="Nicht beantwortet"
+                              />}
+                          <span>Frage {index + 1}: {item.question.question}</span>
+                        </span>
+                        <span className={`exam-history-review__summary-status${status === "correct"
+                          ? " practice-review-option--correct"
+                          : status === "incorrect" ? " practice-review-option--wrong" : ""}`}>
+                          {summaryText}
+                        </span>
+                      </summary>
+                      <div className="exam-history-review__answer-card exam-history-review__answer-card--history">
+                        {item.question.image && <QuestionContent question={{ question: "", image: item.question.image }} />}
+                        <ul className="exam-history-review__options exam-history-review__options--standalone">
+                          {item.question.options.map((option) => (
+                            <li key={option.id} className="practice-review-option">
+                              {item.selectedOptionIds.includes(option.id) ? "◉ " : "○ "}{option.text}
+                              {item.correctOptionIds.includes(option.id)
+                                ? <CheckmarkCircle24Regular className="practice-review-option--correct" aria-label="Richtige Antwort" />
+                                : item.selectedOptionIds.includes(option.id)
+                                  ? <DismissCircle24Regular className="practice-review-option--wrong" aria-label="Falsche Antwort" />
+                                  : null}
+                            </li>
+                          ))}
+                        </ul>
+                        {item.explanation && (
+                          <div className="exam-history-review__explanation exam-history-review__explanation--standalone">
+                            <strong>Erklärung zur Lösung:</strong>
+                            <p>{item.explanation}</p>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    <p><strong>Deine Antwort:</strong> {selectedTexts.length > 0 ? selectedTexts.join(", ") : "Keine Antwort abgegeben"}</p>
-                    {!item.isCorrect && <p><strong>Richtige Antwort:</strong> {correctTexts.join(", ")}</p>}
-                    <div className="exam-review-item__explanation">
-                      <strong>Erklärung zur Lösung:</strong>
-                      <p>{item.explanation}</p>
-                    </div>
+                    </details>
                   </li>
                 );
               })}
@@ -229,7 +259,8 @@ function LegacyCourseExamPage() {
                 setAnswers({});
                 setConfirmedQuestionIds([]);
                 setCurrentIndex(0);
-                setSecondsLeft(examDurationSeconds);
+                setSecondsLeft(course.durationMinutes === null ? null
+                  : (course.durationMinutes ?? COURSE_EXAM_DURATION_MINUTES) * 60);
                 setSubmitError("");
                 setSubmitStatus("ready");
                 submissionStarted.current = false;
@@ -285,9 +316,9 @@ function LegacyCourseExamPage() {
           <strong>{course.title}</strong>
           <span>Probeprüfung</span>
         </div>
-        <div className={`exam-timer${secondsLeft < 60 ? " exam-timer--urgent" : ""}`} aria-live="polite">
+        <div className={`exam-timer${secondsLeft !== null && secondsLeft < 60 ? " exam-timer--urgent" : ""}`} aria-live="polite">
           <Clock20Regular aria-hidden="true" />
-          <strong>{formatTime(secondsLeft)}</strong>
+          <strong>{secondsLeft === null ? "Ohne Zeitlimit" : formatTime(secondsLeft)}</strong>
         </div>
         <span className="exam-header__step">Frage <strong>{currentIndex + 1}</strong> / {course.questions.length}</span>
         <Button appearance="secondary" onClick={() => setIsPaused(true)} disabled={isPaused}>

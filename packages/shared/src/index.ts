@@ -3,6 +3,8 @@ export {
   coursesData,
   getCourseBySlug,
   getCourses,
+  getUploadedQuestionImageId,
+  getCourseUploadedFileIds,
 } from "./elearning.js";
 export type {
   Course,
@@ -23,7 +25,7 @@ export type {
   QuestionOption,
 } from "./elearning.js";
 export {
-  EXAM_PASS_THRESHOLD, CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_K_LEVEL_COUNTS,
+  EXAM_PASS_THRESHOLD, COURSE_EXAM_DURATION_MINUTES, CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_K_LEVEL_COUNTS,
   CTFL_EXAM_DURATION_MINUTES, CTFL_EXAM_EXTENDED_MINUTES, CTFL_EXAM_QUESTION_COUNT,
 } from "./elearning.js";
 

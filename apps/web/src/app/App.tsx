@@ -14,6 +14,8 @@ import { BenefitsPage } from "../pages/benefits-page.js";
 import { BenefitDetailPage } from "../pages/benefit-detail-page.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
 import { ElearningPage } from "../pages/elearning/elearning-page.js";
+import { CourseCreatePage } from "../pages/elearning/course-create-page.js";
+import { CourseEditPage } from "../pages/elearning/course-edit-page.js";
 import { CourseDetailPage } from "../pages/elearning/course-detail-page.js";
 import { CoursePracticePage } from "../pages/elearning/course-practice-page.js";
 import { CourseExamPage } from "../pages/elearning/course-exam-page.js";
@@ -114,6 +116,8 @@ function PortalApp() {
               <Route path="/areas/benefits" element={<BenefitsPage />} />
               <Route path="/areas/benefits/:id" element={<BenefitDetailPage />} />
               <Route path="/areas/elearning" element={<ElearningPage />} />
+              <Route path="/areas/elearning/new" element={<CourseCreatePage />} />
+              <Route path="/areas/elearning/:courseId/edit" element={<CourseEditPage />} />
               <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
               <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
               <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />

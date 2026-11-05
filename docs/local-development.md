@@ -79,7 +79,21 @@ Bei bereits laufender API nach einem Pull diese neu starten oder im Repository-S
 
 ### eLearning-Kurse verwalten
 
+Die Kurssuche zeigt im dunklen Design bei Maus- und Tastaturfokus einen durchgehenden grünen Rahmen in der globalen Akzentfarbe, ohne zusätzliche blaue Fokuslinie. Das helle Design bleibt unverändert.
+
+Die Seiten zum Anlegen und Bearbeiten von Kursen nutzen die gesamte verfügbare Inhaltsbreite mit gleichmäßigen Seitenabständen. Auf kleinen Bildschirmen bleiben die Formularfelder einspaltig.
+
+Kursdaten und Lernmaterialien stehen in einer gemeinsamen Box mit dezenter mittiger Trennlinie; auf schmalen Bildschirmen untereinander. Übungsfragen folgen in einer eigenen Box. Zähler zeigen die Anzahl der Materialien und Fragen. Speichern und Abbrechen bleiben am unteren Bildschirmrand erreichbar.
+
+Im Kurseditor durchsucht der Suchfilter ausschließlich die Fragestellung, nicht Antworten oder Erklärungen. Eine reine Zahl sucht die genaue aktuelle Fragenummer (zum Beispiel `12`, nicht `120`). Buchstaben einschließlich Umlauten, Zahlen und Leerzeichen sind erlaubt; Sonderzeichen werden mit sichtbarem Hinweis entfernt, auch beim Einfügen. Trefferanzahl und Leerzustand werden angezeigt. Filtern verändert weder Fragen noch ihre Nummerierung oder den gespeicherten Umfang. Neue Fragen und Pflichtfeldfehler setzen die Suche zurück, damit die betroffene Frage sichtbar ist.
+
 Alle angemeldeten Mitarbeitenden können Kurse, Lernmaterialien und Übungen lesen. Nur Admins können Kurse samt PDFs und Übungsfragen anlegen, bearbeiten oder löschen. Hochgeladene PDFs werden in PostgreSQL gespeichert; pro Datei gilt ein Limit von 25 MB. Die initialen Standardkurse werden beim ersten lokalen Content-Import einmalig angelegt. Die Kursübersicht für Mitarbeitende zeigt weiterhin die ersten zwei Kurse; Admins sehen alle Kurse zur Verwaltung.
+
+Im Kurseditor kann jede Frage ein Aufgabenbild (PNG, JPEG, GIF oder WebP, maximal 25 MB) erhalten. Das Bild kann den Fragetext ersetzen oder ergänzen; eine Bildbeschreibung ist erforderlich. Vorschau, Ersetzen und Entfernen sind vor dem Speichern möglich. Bilder werden erst beim Speichern hochgeladen und wie Lernmaterialien in PostgreSQL gespeichert. Sie erscheinen auch in Übungen, Prüfungen und Auswertungen. Bereits verwendete Aufgabenbilder sind vor dem Löschen als einzelne Datei geschützt.
+
+Fragen im Kurseditor lassen sich unabhängig auf- und zuklappen. Die Kopfzeile zeigt Nummer, Fragetext (bei reinen Bildfragen die Bildbeschreibung), Antworttyp und Anzahl der Antworten. Beim Bearbeiten sind zunächst alle vorhandenen Fragen eingeklappt, auch die erste; neu hinzugefügte Fragen öffnen sich automatisch und erhalten den Fokus im Fragetext. Eingaben und die bestehende Auswahl richtiger Antworten bleiben beim Zuklappen erhalten und werden auch eingeklappt gespeichert. Pflichtfeldfehler öffnen die betroffene Frage wieder. Dies gilt beim Anlegen und Bearbeiten sowie in der Dialogansicht.
+
+Beim Entfernen einer Frage oder eines Kurses werden nicht mehr benötigte Uploads bereinigt. Bilder in anderen Kursen, gespeicherten Prüfungen oder Prüfungsergebnissen bleiben erhalten; eine blockierte Einzeldatei-Bereinigung wird nach dem Speichern ausdrücklich angezeigt.
 
 Neue lokal angelegte Links und Benefits werden nicht allein durch einen Code-Push übertragen. Für ihre Freigabe im Repository-Stamm `npm run content:export --workspace @portal/api -- deploy/portal-content.json` ausführen, die Exportdatei auf vertrauliche Inhalte prüfen und den freigegebenen Export zusammen mit dem Code committen und pushen. Jenkins importiert denselben Export auf Produktion; dort können `updateExistingLinks` und `updateExistingBenefits` bestehende Inhalte ausdrücklich aktualisieren. Details stehen in [production-deployment.md](production-deployment.md#lokal-gepflegte-links-und-benefits-übernehmen).
 
@@ -107,7 +121,11 @@ Das Bundle enthält die Binärdateien und ein Manifest mit Prüfsummen und Kursz
 
 ### ISTQB-Übungsauswahl und persönlicher Fortschritt
 
-„Übung starten“ öffnet für ISTQB Foundation zunächst die Auswahlseite: sechs Kapitel (anfangs alle), optionale Wissensstufen K1/K2/K3 (keine Auswahl bedeutet alle), 10/20/alle verfügbaren Fragen und „Fehler wiederholen“. Kapitel und Wissensstufen werden kombiniert. Bei leerer Treffermenge ist der Start gesperrt. Fehlende Metadaten werden als Importfehler angezeigt, nicht durch geschätzte Zuordnungen ersetzt.
+Standardmäßig ist bei jeder neuen Übung „40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)“ ausgewählt. Eigene Fragenanzahl und alle verfügbaren Fragen bleiben manuell auswählbar.
+
+Das kompakte Feld für die eigene Fragenanzahl akzeptiert ausschließlich die Ziffern 0–9, auch beim Einfügen. Vorzeichen, Dezimalzeichen, Leerzeichen und Exponentialschreibweise werden nicht übernommen. Auf Mobilgeräten wird die numerische Tastatur angeboten.
+
+„Übung starten“ öffnet für ISTQB Foundation zunächst die Auswahlseite: sechs Kapitel (anfangs alle), optionale Wissensstufen K1/K2/K3 (keine Auswahl bedeutet alle) und „Fehler wiederholen“. Der Sitzungsumfang bietet genau drei Optionen: 40 Fragen wie in der CTFL-Prüfung, eine eigene ganze Fragenanzahl ab 20 (vorbelegt mit 20) oder alle verfügbaren Fragen. Die Obergrenze für eigene Angaben entspricht dynamisch der Gesamtzahl der Fragen im Kurskatalog, unabhängig von Kapitel- und Wissensstufenfiltern. Höhere Zahlen und Eingaben mit mehr Ziffern als diese Obergrenze werden nicht übernommen; ein sichtbarer Hinweis erklärt den erlaubten Bereich. Ungültige eigene Angaben sperren den Start. Bei Katalogen mit weniger als 20 Fragen ist zunächst die 40-Fragen-Option ausgewählt; eine eigene Anzahl ist dann nicht möglich. Bei weniger passenden Fragen werden nur die verfügbaren verwendet, ohne Wiederholungen. Die bestehende Verteilung bleibt auch für eigene Anzahlen erhalten: CTFL-Gewichtung bei allen sechs Kapiteln, gleichmäßige Verteilung bei einer Kapitelauswahl; „alle verfügbaren Fragen“ verwendet keine Quoten. Kapitel und Wissensstufen werden kombiniert. Bei leerer Treffermenge ist der Start gesperrt. Fehlende Metadaten werden als Importfehler angezeigt, nicht durch geschätzte Zuordnungen ersetzt.
 
 Für den dauerhaft nutzerbezogenen Fortschritt einmalig die additive Migration ausführen:
 
@@ -115,9 +133,19 @@ Für den dauerhaft nutzerbezogenen Fortschritt einmalig die additive Migration a
 Get-Content -Raw apps\api\migrations\010_create_practice_progress.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
 ```
 
-Jede Sitzung enthält höchstens die gewählte Anzahl verschiedener Fragen. Noch nicht beantwortete Fragen werden bevorzugt; Fragen und Antwortoptionen werden gemischt. Lösungen erscheinen erst nach „Antwort prüfen“ und erfolgreichem Speichern. Geprüfte Antworten bleiben gesperrt. „Fehler wiederholen“ berücksichtigt ausschließlich die zuletzt falsch beantworteten Fragen des angemeldeten Benutzers; nach einer richtigen Antwort entfällt die Frage aus dieser Auswahl. Änderungen am Frageninhalt machen alten Fortschritt für diese Frage ungültig. Lade- und Speicherfehler werden sichtbar gemeldet und können erneut versucht werden.
+Jede Sitzung enthält höchstens die gewählte Anzahl verschiedener Fragen. Noch nicht beantwortete Fragen werden bevorzugt; Fragen und Antwortoptionen werden gemischt. Lösungen erscheinen nach „Antwort prüfen“ und erfolgreichem Speichern oder im Rückblick nach Übungsende. Beim Beenden werden alle ausgewählten, noch ungeprüften Antworten automatisch bewertet; unvollständige Mehrfachantworten zählen als falsch, nur leere Antworten als übersprungen. Für ISTQB wird der Fortschritt vor Abschluss gespeichert. Bei Speicherfehlern bleibt die Sitzung offen und kann erneut abgegeben werden; bereits erfolgreich gespeicherte Antworten werden nicht erneut geprüft. Geprüfte Antworten bleiben gesperrt. „Fehler wiederholen“ berücksichtigt ausschließlich die zuletzt falsch beantworteten Fragen des angemeldeten Benutzers; nach einer richtigen Antwort entfällt die Frage aus dieser Auswahl. Änderungen am Frageninhalt machen alten Fortschritt für diese Frage ungültig. Lade- und Speicherfehler werden sichtbar gemeldet und können erneut versucht werden.
 
 `GET /api/courses/:slug/practice/progress` liest den eigenen Fortschritt, `POST /api/courses/:slug/practice/answer` bewertet und speichert `{ questionId, selectedOptionIds }` serverseitig. Beide Endpunkte erfordern Anmeldung und übernehmen keine Benutzer-ID aus dem Client. Übungsfortschritt wird nicht in der Prüfungsauswertung gespeichert. Der Prüfungsmodus und Übungen anderer Kurse bleiben unverändert.
+
+## Bestehensgrenze und vorhandene Prüfungsergebnisse
+
+Nach Prüfungs- oder Übungsende bleibt der Fragenrückblick zunächst geschlossen. Wird er geöffnet, sind alle einzelnen Fragen weiterhin eingeklappt. Fragetext und Antwortstatus stehen in der Kopfzeile; Bilder, Antwortmöglichkeiten und Erklärungen erscheinen erst beim individuellen Aufklappen. Die Fragen lassen sich unabhängig voneinander öffnen und schließen. Dies gilt für alle bestehenden und zukünftigen Kurse sowie die ISTQB-Foundation-Prüfung, entsprechend der Prüfungshistorie.
+
+Bestehensgrenze (1–100 %) und Prüfungsdauer (1–600 Minuten) sind unabhängig voneinander optional. Leere Felder speichern explizit `null`: keine Bestehensbewertung beziehungsweise kein Zeitlimit und keine automatische Abgabe. Neue Kurse starten mit leeren Feldern. Bei alten Kursdaten ohne diese Eigenschaften gelten weiterhin 65 % und 10 Minuten. Die standardisierte ISTQB-Foundation-Prüfung bleibt ausgenommen.
+
+Für frei konfigurierbare Kurse wird „Bestanden/Nicht bestanden“ im Prüfungsverlauf und in der Kursübersicht anhand der aktuellen Bestehensgrenze berechnet. Änderungen gelten somit auch für bereits abgelegte Prüfungen, in beide Richtungen. Prozentwerte, Antworten und gespeicherte Originalergebnisse bleiben unverändert. Bei gelöschten Kursen bleibt die gespeicherte Bewertung erhalten; die standardisierte ISTQB-Foundation-Prüfung behält ihre feste Bewertung.
+
+Ohne Bestehensgrenze wird „Ohne Bestehensbewertung“ angezeigt. Diese Versuche zählen zum Durchschnitt, aber nicht zur Anzahl bewerteter Prüfungen in der Bestanden-Statistik. Neue Ergebnisse speichern den nullable Bewertungsstatus zusätzlich in `result_data.passed`; beim Lesen hat dieser Wert Vorrang vor der bisherigen nicht-nullbaren `passed`-Spalte. Damit sind keine Änderungen an bestehenden Datenbanktabellen notwendig.
 
 ## Checks
 

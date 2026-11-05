@@ -157,6 +157,16 @@ export const api = {
     },
   },
   courses: {
+    renameCategory(category: string, name: string) {
+      return request<{ updatedCourses: number }>("/api/courses/categories/rename", {
+        method: "PUT", body: JSON.stringify({ category, name }),
+      });
+    },
+    deleteCategory(category: string, replacement: string) {
+      return request<{ updatedCourses: number }>("/api/courses/categories/delete", {
+        method: "PUT", body: JSON.stringify({ category, replacement }),
+      });
+    },
     async list() {
       const result = await request<{ courses: CourseSummary[] }>("/api/courses");
       return result.courses;

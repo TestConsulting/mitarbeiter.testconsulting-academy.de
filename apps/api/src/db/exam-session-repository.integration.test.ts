@@ -32,7 +32,7 @@ describe.skipIf(process.env.RUN_EXAM_DB_TESTS !== "1")("Persistent exams with re
     )) };
     const courses: CourseRepository = {
       list: vi.fn(), findById: vi.fn(), findBySlug: vi.fn(async () => course),
-      create: vi.fn(), update: vi.fn(), delete: vi.fn(), importDefaults: vi.fn(),
+      create: vi.fn(), update: vi.fn(), updateCategory: vi.fn(), delete: vi.fn(), importDefaults: vi.fn(),
       createMaterialFile: vi.fn(), readMaterialFile: vi.fn(), deleteMaterialFile: vi.fn(),
     };
     app.use(express.json(), session({ secret: "exam-test-session-secret-not-production", resave: false, saveUninitialized: false }));

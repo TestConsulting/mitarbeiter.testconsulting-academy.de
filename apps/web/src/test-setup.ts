@@ -1,5 +1,5 @@
 import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
+import { afterEach, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
 class MockResizeObserver {
@@ -13,6 +13,13 @@ if (!globalThis.ResizeObserver) {
 }
 if (typeof window !== "undefined" && !window.ResizeObserver) {
   window.ResizeObserver = MockResizeObserver;
+}
+if (!HTMLElement.prototype.scrollIntoView) {
+  HTMLElement.prototype.scrollIntoView = vi.fn();
+}
+if (!URL.createObjectURL) {
+  URL.createObjectURL = vi.fn(() => "blob:question-image-preview");
+  URL.revokeObjectURL = vi.fn();
 }
 
 afterEach(() => cleanup());

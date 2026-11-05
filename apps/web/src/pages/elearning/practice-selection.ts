@@ -3,7 +3,7 @@ import { CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_QUESTION_COUNT, type PracticeProgre
 export type PracticeSelection = {
   chapters: number[];
   kLevels: string[];
-  limit: 20 | 40 | "all";
+  limit: number | "all";
   errorsOnly: boolean;
 };
 

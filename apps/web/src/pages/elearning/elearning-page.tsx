@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import {
   Badge,
   Button,
@@ -8,10 +8,11 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
+  Field,
   Input,
   MessageBar,
   MessageBarBody,
-  Spinner,
+  Select,
 } from "@fluentui/react-components";
 import {
   ArrowRight20Regular,
@@ -23,38 +24,37 @@ import {
   Search20Regular,
   Add20Regular,
 } from "@fluentui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import type { Course, CourseInput, CourseCategory, CourseSummary, ExamAttempt } from "@portal/shared";
+import type { CourseSummary, ExamAttempt } from "@portal/shared";
 import { canManagePortal, EXAM_PASS_THRESHOLD } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { useAuth } from "../../app/auth-context.js";
-import {
-  courseCategories,
-} from "./elearning-data.js";
-import { CourseEditorDialog } from "./course-editor-dialog.js";
 
 const examDateFormatter = new Intl.DateTimeFormat("de-DE", {
   dateStyle: "short",
 });
 
 export function ElearningPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const isAdmin = canManagePortal(user);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<"Alle" | CourseCategory>("Alle");
+  const [selectedCategory, setSelectedCategory] = useState("Alle");
   const [courses, setCourses] = useState<CourseSummary[]>([]);
   const [latestExamByCourse, setLatestExamByCourse] = useState<Record<string, ExamAttempt>>({});
   const [examResultsStatus, setExamResultsStatus] = useState<"loading" | "ready" | "error">("loading");
   const [examResultsLoadAttempt, setExamResultsLoadAttempt] = useState(0);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
-  const [editingCourseSlug, setEditingCourseSlug] = useState<string | null>(null);
-  const editingCourseRequest = useRef(0);
-  const [creatingCourse, setCreatingCourse] = useState(false);
   const [deletingCourse, setDeletingCourse] = useState<CourseSummary | null>(null);
   const [busy, setBusy] = useState(false);
+  const [categoryManagementOpen, setCategoryManagementOpen] = useState(false);
+  const [categoryAction, setCategoryAction] = useState<{ mode: "rename" | "delete"; category: string } | null>(null);
+  const [categoryDraft, setCategoryDraft] = useState("");
+  const [categoryReplacement, setCategoryReplacement] = useState("");
+  const [categoryBusy, setCategoryBusy] = useState(false);
+  const [categoryError, setCategoryError] = useState("");
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
@@ -92,78 +92,63 @@ export function ElearningPage() {
   }, [examResultsLoadAttempt]);
 
   const visibleCourses = isAdmin ? courses : courses.slice(0, 2);
+  const availableCategories = useMemo(
+    () => [...new Set(courses.map((course) => course.category))].sort((a, b) => a.localeCompare(b)),
+    [courses],
+  );
 
   const filteredCourses = useMemo(() => {
-    return visibleCourses.filter((course) => {
+    const query = searchTerm.toLowerCase().trim();
+    const matches = visibleCourses.filter((course) => {
       const matchesCategory =
         selectedCategory === "Alle" || course.category === selectedCategory;
       const matchesSearch =
-        searchTerm.trim() === "" ||
-        course.title.toLowerCase().includes(searchTerm.toLowerCase().trim()) ||
-        course.description.toLowerCase().includes(searchTerm.toLowerCase().trim());
+        query === "" ||
+        course.title.toLowerCase().includes(query) ||
+        course.description.toLowerCase().includes(query);
       return matchesCategory && matchesSearch;
     });
+    if (!query) return matches;
+    function titlePriority(course: CourseSummary) {
+      const title = course.title.toLowerCase();
+      return title.startsWith(query) ? 2 : title.includes(query) ? 1 : 0;
+    }
+    return matches.sort((a, b) => titlePriority(b) - titlePriority(a));
   }, [visibleCourses, selectedCategory, searchTerm]);
 
-  async function saveCourse(input: CourseInput): Promise<Course> {
-    setError("");
+  async function saveCategoryChange(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!categoryAction || categoryBusy) return;
+    setCategoryBusy(true);
+    setCategoryError("");
     try {
-      const saved = editingCourse
-        ? await api.courses.update(editingCourse.id, input)
-        : await api.courses.create(input);
-      const summary: CourseSummary = {
-        id: saved.id,
-        slug: saved.slug,
-        title: saved.title,
-        category: saved.category,
-        description: saved.description,
-        ...(saved.isDemo !== undefined ? { isDemo: saved.isDemo } : {}),
-        ...(saved.demoNotice !== undefined ? { demoNotice: saved.demoNotice } : {}),
-        materials: saved.materials,
-        questionCount: saved.questions.length,
-      };
-      setCourses((current) => editingCourse
-        ? current.map((course) => course.id === saved.id ? summary : course)
-        : [...current, summary]);
-      setNotice(`Kurs „${saved.title}“ wurde gespeichert.`);
-
-      if (editingCourse) {
-        const removedFiles = editingCourse.materials
-          .filter((material) => material.url.startsWith("/api/courses/materials/"))
-          .filter((material) => !saved.materials.some((entry) => entry.id === material.id));
-        const cleanup = await Promise.allSettled(removedFiles.map((material) => api.courses.deleteMaterial(material.id)));
-        if (cleanup.some((result) => result.status === "rejected")) {
-          setError("Der Kurs wurde gespeichert, aber mindestens eine entfernte PDF-Datei konnte nicht gelöscht werden.");
-        }
+      if (categoryAction.mode === "rename") {
+        const name = categoryDraft.trim();
+        await api.courses.renameCategory(categoryAction.category, name);
+        setCourses((current) => current.map((course) =>
+          course.category === categoryAction.category ? { ...course, category: name } : course));
+        setSelectedCategory((current) => current === categoryAction.category ? name : current);
+        setNotice(`Kategorie „${categoryAction.category}“ wurde in „${name}“ umbenannt.`);
+      } else {
+        await api.courses.deleteCategory(categoryAction.category, categoryReplacement);
+        setCourses((current) => current.map((course) =>
+          course.category === categoryAction.category ? { ...course, category: categoryReplacement } : course));
+        setSelectedCategory((current) => current === categoryAction.category ? categoryReplacement : current);
+        setNotice(`Kategorie „${categoryAction.category}“ wurde entfernt; betroffene Kurse gehören jetzt zu „${categoryReplacement}“.`);
       }
-      return saved;
+      setCategoryAction(null);
     } catch (failure) {
-      setError(failure instanceof ApiError ? failure.message : "Der Kurs konnte nicht gespeichert werden.");
-      throw failure;
+      setCategoryError(failure instanceof ApiError ? failure.message : "Die Kategorie konnte nicht geändert werden.");
+    } finally {
+      setCategoryBusy(false);
     }
   }
 
-  async function beginEditing(course: CourseSummary) {
-    const requestId = ++editingCourseRequest.current;
-    setError("");
-    setEditingCourseSlug(course.slug);
-    try {
-      const fullCourse = await api.courses.getAdmin(course.slug);
-      if (editingCourseRequest.current !== requestId) return;
-      setEditingCourse(fullCourse);
-      setEditingCourseSlug(null);
-    } catch (failure) {
-      if (editingCourseRequest.current !== requestId) return;
-      setEditingCourseSlug(null);
-      setError(failure instanceof ApiError ? failure.message : "Der Kurs konnte nicht geladen werden.");
-    }
-  }
-
-  function closeCourseEditor() {
-    editingCourseRequest.current += 1;
-    setCreatingCourse(false);
-    setEditingCourse(null);
-    setEditingCourseSlug(null);
+  function closeCategoryManager() {
+    if (categoryBusy) return;
+    setCategoryManagementOpen(false);
+    setCategoryAction(null);
+    setCategoryError("");
   }
 
   async function deleteCourse() {
@@ -190,7 +175,7 @@ export function ElearningPage() {
         </h1>
         <span>Lernen & Weiterbildung</span>
         {isAdmin && (
-          <Button appearance="primary" icon={<Add20Regular />} onClick={() => setCreatingCourse(true)}>
+          <Button appearance="primary" icon={<Add20Regular />} onClick={() => navigate("/areas/elearning/new")}>
             Kurs anlegen
           </Button>
         )}
@@ -225,15 +210,23 @@ export function ElearningPage() {
           <Input
             className="elearning-search"
             contentBefore={<Search20Regular aria-hidden="true" />}
-            placeholder="Kurstitel suchen…"
+            placeholder="Kurstitel oder Beschreibung suchen…"
             value={searchTerm}
             onChange={(_e, data) => setSearchTerm(data.value)}
-            aria-label="Kurse nach Titel durchsuchen"
+            aria-label="Kurse nach Titel oder Beschreibung durchsuchen"
           />
         </div>
 
         <div className="elearning-categories" role="group" aria-label="Kategoriefilter">
-          {courseCategories.map((cat) => {
+          <button
+            type="button"
+            className={`elearning-filter-btn${selectedCategory === "Alle" ? " elearning-filter-btn--active" : ""}`}
+            onClick={() => setSelectedCategory("Alle")}
+            aria-pressed={selectedCategory === "Alle"}
+          >
+            Alle
+          </button>
+          {availableCategories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (
               <button
@@ -247,8 +240,95 @@ export function ElearningPage() {
               </button>
             );
           })}
+          {isAdmin && (
+            <Button appearance="subtle" size="small" onClick={() => {
+              setCategoryAction(null);
+              setCategoryError("");
+              setCategoryManagementOpen(true);
+            }}>
+              Kategorien verwalten
+            </Button>
+          )}
         </div>
       </div>}
+      {categoryManagementOpen && (
+        <Dialog open onOpenChange={(_event, data) => { if (!data.open) closeCategoryManager(); }}>
+          <DialogSurface>
+            <form onSubmit={saveCategoryChange}>
+              <DialogBody>
+                <DialogTitle>
+                  {categoryAction?.mode === "rename" ? "Kategorie umbenennen"
+                    : categoryAction?.mode === "delete" ? "Kategorie löschen" : "Kategorien verwalten"}
+                </DialogTitle>
+                <DialogContent className="course-category-manager">
+                  {categoryError && <MessageBar intent="error"><MessageBarBody>{categoryError}</MessageBarBody></MessageBar>}
+                  {!categoryAction && (
+                    <>
+                      {availableCategories.length === 0 && <p>Es gibt noch keine Kategorien mit zugeordneten Kursen.</p>}
+                      <ul className="course-category-manager__list">
+                        {availableCategories.map((category) => (
+                          <li key={category}>
+                            <span>{category}</span>
+                            <div>
+                              <Button type="button" appearance="subtle" size="small" icon={<Edit20Regular />}
+                                aria-label={`${category} umbenennen`} onClick={() => {
+                                  setCategoryDraft(category);
+                                  setCategoryError("");
+                                  setCategoryAction({ mode: "rename", category });
+                                }} />
+                              <Button type="button" appearance="subtle" size="small" icon={<Delete20Regular />}
+                                aria-label={`${category} löschen`} onClick={() => {
+                                  setCategoryReplacement(availableCategories.find((entry) => entry !== category) ?? "");
+                                  setCategoryError("");
+                                  setCategoryAction({ mode: "delete", category });
+                                }} />
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {categoryAction?.mode === "rename" && (
+                    <Field label={`Neuer Name für „${categoryAction.category}“`} required>
+                      <Input value={categoryDraft} onChange={(_event, data) => setCategoryDraft(data.value)} maxLength={80} required />
+                    </Field>
+                  )}
+                  {categoryAction?.mode === "delete" && (
+                    <>
+                      <p>
+                        Kurse aus „{categoryAction.category}“ werden der Ersatzkategorie zugeordnet.
+                        Die Kurse und ihre Inhalte bleiben erhalten.
+                      </p>
+                      {availableCategories.some((entry) => entry !== categoryAction.category) ? (
+                        <Field label="Ersatzkategorie" required>
+                          <Select value={categoryReplacement} onChange={(_event, data) => setCategoryReplacement(data.value)} required>
+                            {availableCategories.filter((entry) => entry !== categoryAction.category)
+                              .map((entry) => <option value={entry} key={entry}>{entry}</option>)}
+                          </Select>
+                        </Field>
+                      ) : <p>Lege zuerst eine weitere Kategorie an, bevor du diese löschen kannst.</p>}
+                    </>
+                  )}
+                </DialogContent>
+                <DialogActions>
+                  {categoryAction ? (
+                    <>
+                      <Button type="button" appearance="secondary" disabled={categoryBusy} onClick={() => {
+                        setCategoryAction(null);
+                        setCategoryError("");
+                      }}>Zurück</Button>
+                      <Button type="submit" appearance="primary" disabled={categoryBusy ||
+                        (categoryAction.mode === "delete" && !availableCategories.some((entry) => entry !== categoryAction.category))}>
+                        {categoryBusy ? "Wird gespeichert …" : categoryAction.mode === "rename" ? "Umbenennen" : "Kategorie löschen"}
+                      </Button>
+                    </>
+                  ) : <Button type="button" appearance="secondary" onClick={closeCategoryManager}>Schließen</Button>}
+                </DialogActions>
+              </DialogBody>
+            </form>
+          </DialogSurface>
+        </Dialog>
+      )}
 
       {/* Course Cards Grid */}
       {status === "ready" && filteredCourses.length === 0 ? (
@@ -283,7 +363,7 @@ export function ElearningPage() {
                     </Badge>
                   )}
                   {isAdmin && <div className="elearning-card__admin-actions">
-                    <Button appearance="subtle" size="small" icon={<Edit20Regular />} aria-label={`${course.title} bearbeiten`} onClick={() => void beginEditing(course)} />
+                    <Button appearance="subtle" size="small" icon={<Edit20Regular />} aria-label={`${course.title} bearbeiten`} onClick={() => navigate(`/areas/elearning/${course.slug}/edit`)} />
                     <Button appearance="subtle" size="small" icon={<Delete20Regular />} aria-label={`${course.title} löschen`} onClick={() => setDeletingCourse(course)} />
                   </div>}
                 </div>
@@ -313,12 +393,11 @@ export function ElearningPage() {
                           Letzte Prüfung · {examDateFormatter.format(new Date(attempt.submittedAt))}
                         </span>
                         <strong>Richtigkeit: {attempt.percentage} %</strong>
-                        {course.slug === "istqb-foundation" && (
-                          <span>Bestehensgrenze: {EXAM_PASS_THRESHOLD} %</span>
-                        )}
+                        {course.passThreshold !== null &&
+                          <span>Bestehensgrenze: {course.passThreshold ?? EXAM_PASS_THRESHOLD} %</span>}
                       </div>
-                      <Badge appearance="tint" color={attempt.passed ? "success" : "danger"}>
-                        {attempt.passed ? "Bestanden" : "Nicht bestanden"}
+                      <Badge appearance="tint" color={attempt.passed === null ? "informative" : attempt.passed ? "success" : "danger"}>
+                        {attempt.passed === null ? "Ohne Bestehensbewertung" : attempt.passed ? "Bestanden" : "Nicht bestanden"}
                       </Badge>
                     </div>
                   );
@@ -339,25 +418,6 @@ export function ElearningPage() {
         </div>
       )}
 
-      {(creatingCourse || editingCourse) && (
-        <CourseEditorDialog
-          course={editingCourse ?? undefined}
-          onSave={saveCourse}
-          onClose={closeCourseEditor}
-        />
-      )}
-      {editingCourseSlug !== null && (
-        <Dialog open onOpenChange={(_event, data) => { if (!data.open) closeCourseEditor(); }}>
-          <DialogSurface>
-            <DialogBody>
-              <DialogTitle>Kurs bearbeiten</DialogTitle>
-              <DialogContent>
-                <Spinner label="Kursdaten werden geladen …" />
-              </DialogContent>
-            </DialogBody>
-          </DialogSurface>
-        </Dialog>
-      )}
       <Dialog open={deletingCourse !== null} onOpenChange={(_event, data) => { if (!data.open && !busy) setDeletingCourse(null); }}>
         <DialogSurface>
           <DialogBody>

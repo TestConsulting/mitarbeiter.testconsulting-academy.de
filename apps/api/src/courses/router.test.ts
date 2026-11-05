@@ -73,6 +73,11 @@ beforeEach(async () => {
       savedCourses[index] = course;
       return course;
     }),
+    updateCategory: vi.fn(async (category, replacement) => {
+      const matching = savedCourses.filter((course) => course.category === category);
+      for (const course of matching) course.category = replacement;
+      return matching.length;
+    }),
     delete: vi.fn(async (id) => {
       const index = savedCourses.findIndex((course) => course.id === id);
       if (index < 0) return false;
@@ -123,6 +128,119 @@ function asInput(course: Course): CourseInput {
 }
 
 describe("eLearning courses API", () => {
+  it("reassesses existing results against the current course threshold in both directions", async () => {
+    savedCourses[0] = {
+      ...initialCourse,
+      questions: Array.from({ length: 4 }, (_, index) => ({
+        ...initialCourse.questions[0], id: `question-${index}`,
+      })),
+    };
+    const employee = await loginAs("employee");
+    const submission = await employee.post(`/api/courses/${initialCourse.slug}/exam/submit`)
+      .send({ answers: [{ questionId: "question-0", selectedOptionIds: ["option-1"] }] })
+      .expect(200);
+    expect(submission.body.result).toMatchObject({ percentage: 25, passed: false });
+    const admin = await loginAs("admin");
+    for (const [passThreshold, passed] of [[20, true], [25, true], [26, false], [null, null], [20, true]] as const) {
+      await admin.put(`/api/courses/${initialCourse.id}`)
+        .send({ ...asInput(savedCourses[0]), passThreshold }).expect(200);
+      const history = await employee.get("/api/courses/results").expect(200);
+      expect(history.body.attempts).toHaveLength(1);
+      expect(history.body.attempts[0]).toMatchObject({
+        id: submission.body.attemptId, percentage: 25, passed,
+        results: submission.body.result.results,
+      });
+    }
+    expect(examAttempts[0].passed).toBe(false);
+  });
+
+  it.each([
+    { passThreshold: null, durationMinutes: null },
+    { passThreshold: null, durationMinutes: 25 },
+    { passThreshold: 80, durationMinutes: null },
+  ])("persists independent optional exam settings %j", async (settings) => {
+    const admin = await loginAs("admin");
+    const created = await admin.post("/api/courses")
+      .send({ ...asInput(initialCourse), ...settings }).expect(201);
+    const course = created.body.course;
+    expect(course).toMatchObject(settings);
+    const updated = await admin.put(`/api/courses/${course.id}`)
+      .send(asInput({ ...course, title: "Optionaler Kurs" })).expect(200);
+    expect(updated.body.course).toMatchObject(settings);
+    const employee = await loginAs("employee");
+    const exam = await employee.get(`/api/courses/${course.slug}/exam`).expect(200);
+    expect(exam.body.course).toMatchObject(settings);
+    const submission = await employee.post(`/api/courses/${course.slug}/exam/submit`)
+      .send({ answers: [] }).expect(200);
+    expect(submission.body.result.passed).toBe(settings.passThreshold === null ? null : false);
+    const history = await employee.get("/api/courses/results").expect(200);
+    expect(history.body.attempts[0].passed).toBe(settings.passThreshold === null ? null : false);
+  });
+
+  it("preserves historical results for deleted courses and the fixed Foundation exam", async () => {
+    const employee = await loginAs("employee");
+    await employee.post(`/api/courses/${initialCourse.slug}/exam/submit`)
+      .send({ answers: [] }).expect(200);
+    savedCourses[0] = { ...savedCourses[0], slug: "istqb-foundation", passThreshold: 1 };
+    examAttempts[0] = { ...examAttempts[0], percentage: 25 };
+    const foundation = await employee.get("/api/courses/results").expect(200);
+    expect(foundation.body.attempts[0].passed).toBe(false);
+    savedCourses = [];
+    const deleted = await employee.get("/api/courses/results").expect(200);
+    expect(deleted.body.attempts[0]).toEqual(examAttempts[0]);
+  });
+
+  it("uploads question images, supports image-only questions and retains them in practice and exams", async () => {
+    const admin = await loginAs("admin");
+    const png = Buffer.from("89504e470d0a1a0a00000000", "hex");
+    const upload = await admin.post("/api/courses/materials").set("Content-Type", "image/png")
+      .set("x-file-name", "aufgabe.png").send(png).expect(201);
+    const image = { url: `${upload.body.material.url}?preview=1`, alt: "Aufgabendiagramm" };
+    const input = asInput({
+      ...initialCourse, questions: [{ ...initialCourse.questions[0], question: "", image }],
+    });
+    const created = await admin.post("/api/courses").send(input).expect(201);
+    const course = created.body.course;
+    await admin.put(`/api/courses/${course.id}`).send(input).expect(200);
+    const employee = await loginAs("employee");
+    const download = await employee.get(image.url).expect(200).expect("Content-Type", "image/png");
+    expect(download.headers["content-disposition"]).toMatch(/^inline/);
+    expect(download.body).toEqual(png);
+    const practice = await employee.get(`/api/courses/${course.slug}/practice`).expect(200);
+    expect(practice.body.course.questions[0]).toMatchObject({ question: "", image });
+    const exam = await employee.get(`/api/courses/${course.slug}/exam`).expect(200);
+    expect(exam.body.course.questions[0]).toMatchObject({ question: "", image });
+    expect(exam.body.course.questions[0]).not.toHaveProperty("correctOptionIds");
+    const result = await employee.post(`/api/courses/${course.slug}/exam/submit`)
+      .send({ answers: [{ questionId: "question-1", selectedOptionIds: ["option-1"] }] }).expect(200);
+    expect(result.body.result.results[0].question.image).toEqual(image);
+  });
+
+  it("rejects missing question content, invalid image references and non-image uploads", async () => {
+    const admin = await loginAs("admin");
+    const input = asInput({ ...initialCourse, questions: [{ ...initialCourse.questions[0], question: "" }] });
+    await admin.post("/api/courses").send(input).expect(400);
+    const id = randomUUID();
+    for (const url of [
+      `/api/courses/materials/${id}/download?preview=1`,
+      `/api/courses/materials/${id}/download`,
+      "https://example.com/image.png",
+      "data:image/png;base64,test",
+    ]) {
+      input.questions[0].image = { url, alt: "Aufgabe" };
+      await admin.post("/api/courses").send(input).expect(400);
+      await admin.put(`/api/courses/${initialCourse.id}`).send(input).expect(400);
+    }
+    files.set(id, { fileName: "aufgabe.pdf", content: Buffer.from("%PDF-1.7") });
+    input.questions[0].image = { url: `/api/courses/materials/${id}/download?preview=1`, alt: "Aufgabe" };
+    await admin.post("/api/courses").send(input).expect(400);
+    files.set(id, { fileName: "kaputt.png", content: Buffer.from("not an image") });
+    await admin.post("/api/courses").send(input).expect(400);
+    const employee = await loginAs("employee");
+    await employee.post("/api/courses/materials").set("Content-Type", "image/png")
+      .set("x-file-name", "aufgabe.png").send(Buffer.from("89504e470d0a1a0a", "hex")).expect(403);
+  });
+
   it("hides exam-only fallback questions from practice, progress and counts, but retains them for admins", async () => {
     const original = initialCourse.questions[0];
     savedCourses[0] = { ...initialCourse, questions: [
@@ -286,6 +404,8 @@ describe("eLearning courses API", () => {
       title: initialCourse.title,
       category: initialCourse.category,
       description: initialCourse.description,
+      passThreshold: 65,
+      durationMinutes: 10,
       materials: initialCourse.materials,
       questionCount: initialCourse.questions.length,
     };
@@ -295,6 +415,8 @@ describe("eLearning courses API", () => {
     const exam = await employee.get(`/api/courses/${initialCourse.slug}/exam`).expect(200);
     expect(exam.body.course).toMatchObject({
       slug: initialCourse.slug,
+      passThreshold: 65,
+      durationMinutes: 10,
       questions: [{
         id: "question-1",
         question: "Was ist richtig?",
@@ -347,11 +469,19 @@ describe("eLearning courses API", () => {
   it("allows admins to create, edit and delete courses for employee consumption", async () => {
     const admin = await loginAs("admin");
     const input = asInput(initialCourse);
-    const createdResponse = await admin.post("/api/courses").send({ ...input, title: " Neuer Kurs " }).expect(201);
+    const customCategoryInput = {
+      ...input,
+      title: " Neuer Kurs ",
+      category: "Datenschutz",
+      passThreshold: 80,
+      durationMinutes: 35,
+      questions: input.questions.map((question) => ({ ...question, explanation: "" })),
+    };
+    const createdResponse = await admin.post("/api/courses").send(customCategoryInput).expect(201);
     const created = createdResponse.body.course as Course;
-    expect(created).toMatchObject({ id: expect.any(String), slug: /^neuer-kurs-/, title: "Neuer Kurs" });
+    expect(created).toMatchObject({ id: expect.any(String), slug: /^neuer-kurs-/, title: "Neuer Kurs", category: "Datenschutz" });
 
-    const update: CourseInput = { ...input, title: "Überarbeiteter Kurs" };
+    const update: CourseInput = { ...customCategoryInput, title: "Überarbeiteter Kurs" };
     await admin.put(`/api/courses/${created.id}`).send(update).expect(200, {
       course: { ...update, id: created.id, slug: created.slug },
     });
@@ -366,15 +496,80 @@ describe("eLearning courses API", () => {
         title: update.title,
         category: update.category,
         description: update.description,
+        passThreshold: update.passThreshold,
+        durationMinutes: update.durationMinutes,
         materials: update.materials,
         questionCount: update.questions.length,
       },
     });
+
     await employee.get(`/api/courses/${created.slug}/practice`).expect(200, {
       course: { ...update, id: created.id, slug: created.slug },
     });
     await admin.delete(`/api/courses/${created.id}`).expect(200, { success: true });
     await employee.get(`/api/courses/${created.slug}`).expect(404);
+  });
+
+  it("rejects empty or overly long course categories", async () => {
+    const admin = await loginAs("admin");
+    const input = asInput(initialCourse);
+    await admin.post("/api/courses").send({ ...input, category: " " }).expect(400);
+    await admin.post("/api/courses").send({ ...input, category: "x".repeat(81) }).expect(400);
+    expect(repository.create).not.toHaveBeenCalled();
+  });
+
+  it("rejects invalid exam settings", async () => {
+    const admin = await loginAs("admin");
+    const input = asInput(initialCourse);
+    for (const settings of [
+      { passThreshold: 0 },
+      { passThreshold: 101 },
+      { passThreshold: 65.5 },
+      { durationMinutes: 0 },
+      { durationMinutes: 601 },
+      { durationMinutes: 10.5 },
+    ]) {
+      await admin.post("/api/courses").send({ ...input, ...settings }).expect(400);
+    }
+  });
+
+  it("allows admins to rename categories and move courses from deleted categories", async () => {
+    savedCourses.push({ ...initialCourse, id: "course-2", slug: "course-2", title: "Zweiter Kurs" });
+    savedCourses.push({ ...initialCourse, id: "course-3", slug: "course-3", title: "Dritter Kurs", category: "ISTQB" });
+    const admin = await loginAs("admin");
+
+    await admin.put("/api/courses/categories/rename").send({
+      category: "Vorstellung",
+      name: "Onboarding",
+    }).expect(200, { updatedCourses: 2 });
+    expect(savedCourses.filter((course) => course.category === "Onboarding")).toHaveLength(2);
+
+    await admin.put("/api/courses/categories/delete").send({
+      category: "Onboarding",
+      replacement: "ISTQB",
+    }).expect(200, { updatedCourses: 2 });
+    expect(savedCourses.every((course) => course.category === "ISTQB")).toBe(true);
+    expect(repository.updateCategory).toHaveBeenNthCalledWith(1, "Vorstellung", "Onboarding");
+    expect(repository.updateCategory).toHaveBeenNthCalledWith(2, "Onboarding", "ISTQB");
+  });
+
+  it("prevents category name collisions and deleting into a missing category", async () => {
+    savedCourses.push({ ...initialCourse, id: "course-3", slug: "course-3", title: "Dritter Kurs", category: "ISTQB" });
+    const admin = await loginAs("admin");
+
+    await admin.put("/api/courses/categories/rename").send({
+      category: "Vorstellung",
+      name: "istqb",
+    }).expect(409);
+    await admin.put("/api/courses/categories/delete").send({
+      category: "Vorstellung",
+      replacement: "Fehlt",
+    }).expect(400);
+    await admin.put("/api/courses/categories/delete").send({
+      category: "Vorstellung",
+      replacement: "Vorstellung",
+    }).expect(400);
+    expect(repository.updateCategory).not.toHaveBeenCalled();
   });
 
   it("rejects questions with invalid correct answer references", async () => {
@@ -451,6 +646,19 @@ describe("eLearning courses API", () => {
       })
       .expect(200);
     expect(belowThreshold.body.result).toMatchObject({ percentage: 60, passed: false });
+
+    savedCourses[0] = { ...savedCourses[0], passThreshold: 70, durationMinutes: 25 };
+    const configuredThreshold = await employee.post(`/api/courses/${initialCourse.slug}/exam/submit`)
+      .send({
+        answers: questions.slice(0, 13).map((question) => ({
+          questionId: question.id,
+          selectedOptionIds: ["correct"],
+        })),
+      })
+      .expect(200);
+    expect(configuredThreshold.body.result).toMatchObject({ percentage: 65, passed: false });
+    const configuredExam = await employee.get(`/api/courses/${initialCourse.slug}/exam`).expect(200);
+    expect(configuredExam.body.course).toMatchObject({ passThreshold: 70, durationMinutes: 25 });
   });
 
   it("stores and serves uploaded PDFs to employees and denies upload to employees", async () => {

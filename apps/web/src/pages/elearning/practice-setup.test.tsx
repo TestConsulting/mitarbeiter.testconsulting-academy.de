@@ -48,6 +48,94 @@ function renderPractice(withCourseNavigation = false) {
 }
 
 describe("ISTQB practice setup", () => {
+  it("rejects non-digit input without changing the displayed count", async () => {
+    mocks.getPractice.mockResolvedValue({
+      ...course,
+      questions: Array.from({ length: 379 }, (_, index) => ({ ...course.questions[0], id: `digits-${index}` })),
+    });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    const count = screen.getByRole("textbox", { name: "Fragenanzahl" });
+    for (const value of ["+", "-", ".", ",", "e", "20+", "-20", "2e1", "2.5", "2,5", " 20", "20 ", "abc", "２１"]) {
+      fireEvent.change(count, { target: { value } });
+      expect(count).toHaveValue("20");
+      expect(count).toHaveAttribute("aria-invalid", "true");
+      expect(screen.getByRole("button", { name: "Übung starten" })).toBeDisabled();
+    }
+    fireEvent.change(count, { target: { value: "" } });
+    expect(count).toHaveValue("");
+    fireEvent.change(count, { target: { value: "30" } });
+    expect(count).toHaveValue("30");
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeEnabled();
+  });
+
+  it.each([45, 379, 412])("rejects counts above the catalog size of %i and extra digits", async (maximum) => {
+    mocks.getPractice.mockResolvedValue({
+      ...course,
+      questions: Array.from({ length: maximum }, (_, index) => ({
+        ...course.questions[0], id: `maximum-${index}`,
+      })),
+    });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    const count = screen.getByRole("textbox", { name: "Fragenanzahl" });
+    fireEvent.change(count, { target: { value: String(maximum) } });
+    expect(count).toHaveValue(String(maximum));
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeEnabled();
+    for (const value of [String(maximum + 1), `${maximum}0`, "0001"]) {
+      fireEvent.change(count, { target: { value } });
+      expect(count).toHaveValue(String(maximum));
+      expect(count).toHaveAttribute("aria-invalid", "true");
+      expect(screen.getByRole("button", { name: "Übung starten" })).toBeDisabled();
+    }
+    fireEvent.change(count, { target: { value: "20" } });
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeEnabled();
+  });
+
+  it("does not allow custom sessions below the minimum when the catalog has fewer than 20 questions", async () => {
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeDisabled();
+    expect(screen.getByRole("alert")).toHaveTextContent("mindestens 20 Fragen im Katalog");
+    fireEvent.click(screen.getByRole("radio", { name: "Alle verfügbaren Fragen" }));
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeEnabled();
+  });
+
+  it("validates custom counts, preserves the value across modes and limits sessions to available questions", async () => {
+    mocks.getPractice.mockResolvedValue({
+      ...course,
+      questions: Array.from({ length: 45 }, (_, index) => ({
+        ...course.questions[index % course.questions.length], id: `count-${index}`,
+      })),
+    });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    const count = screen.getByRole("textbox", { name: /Fragenanzahl/ });
+    expect(count).toHaveValue("20");
+    expect(count).toHaveAttribute("inputmode", "numeric");
+    expect(count).toHaveAttribute("maxlength", "2");
+    for (const value of ["", "0", "-1", "19", "20.5", "46", "100", "9007199254740992"]) {
+      fireEvent.change(count, { target: { value } });
+      expect(screen.getByRole("button", { name: "Übung starten" })).toBeDisabled();
+      expect(screen.getByText("Bitte gib eine ganze Fragenanzahl zwischen 20 und 45 ein (maximal 2 Ziffern).")).toBeInTheDocument();
+    }
+    fireEvent.click(screen.getByRole("radio", { name: "40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)" }));
+    expect(screen.queryByRole("textbox", { name: "Fragenanzahl" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeEnabled();
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    expect(screen.getByRole("button", { name: "Übung starten" })).toBeDisabled();
+    fireEvent.change(screen.getByRole("textbox", { name: "Fragenanzahl" }), { target: { value: "25" } });
+    fireEvent.click(screen.getByRole("radio", { name: "Alle verfügbaren Fragen" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    expect(screen.getByRole("textbox", { name: "Fragenanzahl" })).toHaveValue("25");
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    expect(screen.getByRole("heading", { name: "Frage 1 von 25" })).toBeInTheDocument();
+  });
+
   it("distributes questions 50/50 across two selected chapters", async () => {
     const sizes = [30, 15, 10, 40, 8, 20];
     mocks.getPractice.mockResolvedValue({
@@ -65,6 +153,8 @@ describe("ISTQB practice setup", () => {
     }
     expect(screen.getByText("Bei einer Auswahl einzelner Kapitel werden die Fragen gleichmäßig auf die ausgewählten Kapitel verteilt."))
       .toBeInTheDocument();
+    fireEvent.click(screen.getByRole("radio", { name: "Eigene Fragenanzahl (mindestens 20)" }));
+    fireEvent.change(screen.getByRole("textbox", { name: /Fragenanzahl/ }), { target: { value: "24" } });
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     const actual = [0, 0, 0, 0, 0, 0];
     const navigation = screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" });
@@ -73,13 +163,14 @@ describe("ISTQB practice setup", () => {
       const title = screen.getByRole("heading", { name: /^Kapitel \d Frage \d+$/ }).textContent!;
       actual[Number(title.split(" ")[1]) - 1] += 1;
     }
-    expect(actual).toEqual([10, 10, 0, 0, 0, 0]);
+    expect(actual).toEqual([12, 12, 0, 0, 0, 0]);
   });
 
   it.each([
-    ["20 Fragen", [4, 3, 2, 6, 4, 1]],
-    ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", [8, 6, 4, 11, 9, 2]],
-  ] as const)("applies CTFL chapter quotas through the setup: %s", async (label, counts) => {
+    ["Eigene Fragenanzahl (mindestens 20)", 20, [4, 3, 2, 6, 4, 1]],
+    ["Eigene Fragenanzahl (mindestens 20)", 30, [6, 5, 3, 8, 7, 1]],
+    ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", 40, [8, 6, 4, 11, 9, 2]],
+  ] as const)("applies CTFL chapter quotas through the setup: %s (%i)", async (label, count, counts) => {
     mocks.getPractice.mockResolvedValue({
       ...course,
       questions: [1, 2, 3, 4, 5, 6].flatMap((chapter) =>
@@ -92,7 +183,10 @@ describe("ISTQB practice setup", () => {
     await screen.findByRole("heading", { name: "Übungsfragen" });
     expect(screen.getByText(/CTFL-Prüfungsverteilung: Kapitel 1: 20 %, Kapitel 2: 15 %, Kapitel 3: 10 %, Kapitel 4: 27,5 %, Kapitel 5: 22,5 %, Kapitel 6: 5 %/))
       .toBeInTheDocument();
-    fireEvent.click(screen.getByRole("radio", { name: label }));
+    if (count !== 40) fireEvent.click(screen.getByRole("radio", { name: label }));
+    if (label === "Eigene Fragenanzahl (mindestens 20)") {
+      fireEvent.change(screen.getByRole("textbox", { name: /Fragenanzahl/ }), { target: { value: String(count) } });
+    }
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     const navigation = screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" });
     const buttons = within(navigation).getAllByRole("button");
@@ -107,7 +201,8 @@ describe("ISTQB practice setup", () => {
   });
 
   it.each([
-    ["20 Fragen", 20], ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", 40], ["Alle verfügbaren Fragen", 45],
+    ["Eigene Fragenanzahl (mindestens 20)", 27],
+    ["40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)", 40], ["Alle verfügbaren Fragen", 45],
   ] as const)("starts the selected session size: %s", async (label, count) => {
     mocks.getPractice.mockResolvedValue({
       ...course,
@@ -117,10 +212,14 @@ describe("ISTQB practice setup", () => {
     });
     renderPractice();
     await screen.findByRole("heading", { name: "Übungsfragen" });
-    expect(screen.getByRole("radio", { name: "20 Fragen" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)" })).toBeChecked();
+    expect(screen.getAllByRole("radio")).toHaveLength(3);
     expect(screen.queryByRole("radio", { name: "30 Fragen" })).not.toBeInTheDocument();
     expect(screen.queryByRole("radio", { name: "60 Fragen" })).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("radio", { name: label }));
+    if (count !== 40) fireEvent.click(screen.getByRole("radio", { name: label }));
+    if (label === "Eigene Fragenanzahl (mindestens 20)") {
+      fireEvent.change(screen.getByRole("textbox", { name: /Fragenanzahl/ }), { target: { value: String(count) } });
+    }
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     expect(screen.getByRole("heading", { name: `Frage 1 von ${count}` })).toBeInTheDocument();
     expect(within(screen.getByRole("navigation", { name: "Fragen in dieser Sitzung" }))
@@ -128,7 +227,7 @@ describe("ISTQB practice setup", () => {
     expect(mocks.checkPracticeAnswer).not.toHaveBeenCalled();
   });
 
-  it("does not apply a delayed answer response to another course after navigation", async () => {
+  it.each(["check", "finish"])("does not apply a delayed %s response to another course after navigation", async (action) => {
     let finishAnswer: (progress: PracticeProgress) => void = () => { throw new Error("Promise not initialized"); };
     const pending = new Promise<PracticeProgress>((resolve) => { finishAnswer = resolve; });
     mocks.checkPracticeAnswer.mockReturnValueOnce(pending);
@@ -138,13 +237,40 @@ describe("ISTQB practice setup", () => {
     fireEvent.click(screen.getByLabelText("K1 – Erinnern"));
     fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
     fireEvent.click(screen.getByLabelText("Antwort A"));
-    fireEvent.click(screen.getByRole("button", { name: "Antwort prüfen" }));
-    expect(screen.getByRole("button", { name: "Antwort wird gespeichert …" })).toBeDisabled();
+    if (action === "check") {
+      fireEvent.click(screen.getByRole("button", { name: "Antwort prüfen" }));
+      expect(screen.getByRole("button", { name: "Antwort wird gespeichert …" })).toBeDisabled();
+    } else {
+      fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+      fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+      const finish = screen.getByRole("button", { name: "Antworten werden geprüft …" });
+      expect(finish).toBeDisabled();
+      expect(screen.getByRole("button", { name: "Weiter bearbeiten" })).toBeDisabled();
+      fireEvent.click(finish);
+      expect(mocks.checkPracticeAnswer).toHaveBeenCalledTimes(1);
+    }
     fireEvent.click(screen.getByRole("link", { name: "Anderer Kurs" }));
     expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
     await act(async () => { finishAnswer({ questionId: "q1", lastCorrect: true }); await pending; });
     expect(screen.queryByText("Richtig gelöst!")).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Übung abgeschlossen!" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Antwort prüfen" })).toBeDisabled();
+  });
+
+  it("grades earlier drafts when viewing results from a checked final question without resaving checked answers", async () => {
+    mocks.getPractice.mockResolvedValue({ ...course, questions: course.questions.slice(0, 2) });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Nächste Frage" }));
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Antwort prüfen" }));
+    await screen.findByText("Richtig gelöst!");
+    fireEvent.click(screen.getByRole("button", { name: "Ergebnis ansehen" }));
+    expect(await screen.findByText("100 %")).toBeInTheDocument();
+    expect(mocks.checkPracticeAnswer).toHaveBeenCalledTimes(2);
+    expect(new Set(mocks.checkPracticeAnswer.mock.calls.map((call) => call[1])).size).toBe(2);
   });
 
   it("opens setup first, combines chapter and K-level filters and starts only the matching questions", async () => {
@@ -155,7 +281,7 @@ describe("ISTQB practice setup", () => {
       .toHaveAttribute("href", "/areas/elearning/istqb-foundation");
     expect(screen.queryByText("Übungsfrage 1")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Alle Kapitel")).toBeChecked();
-    expect(screen.getByLabelText("20 Fragen")).toBeChecked();
+    expect(screen.getByLabelText("40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)")).toBeChecked();
     expect(screen.getByLabelText("40 Fragen (gleiche Anzahl wie in der CTFL-Prüfung)")).toBeInTheDocument();
     expect(screen.getByLabelText("Alle verfügbaren Fragen")).toBeInTheDocument();
     expect(screen.getByLabelText("K1 – Erinnern")).not.toBeChecked();
@@ -216,7 +342,7 @@ describe("ISTQB practice setup", () => {
 
     expect(screen.getByRole("dialog")).toHaveTextContent("Übung beenden?");
     expect(screen.getByRole("dialog")).toHaveTextContent("3 unbeantwortete Fragen (davon 0 unvollständig ausgewählt).");
-    expect(screen.getByRole("dialog")).toHaveTextContent("3 nicht geprüfte Fragen zählen als übersprungen.");
+    expect(screen.getByRole("dialog")).toHaveTextContent("Nur Fragen ohne Auswahl zählen als übersprungen");
     expect(screen.queryByRole("heading", { name: "Übung abgeschlossen!" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Weiter bearbeiten" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -234,32 +360,32 @@ describe("ISTQB practice setup", () => {
     expect(screen.getByText("0 %", { selector: ".practice-score-ring__percent" })).toBeInTheDocument();
     const reviewSection = document.querySelector<HTMLDetailsElement>(".exam-review")!;
     expect(reviewSection).not.toHaveAttribute("open");
-    expect(reviewSection.querySelectorAll(".exam-history-review")).toHaveLength(3);
+    expect(reviewSection.querySelectorAll(".exam-history-review__question-review")).toHaveLength(3);
     expect(screen.queryByText("Frage 1: Frage 1")).not.toBeInTheDocument();
     fireEvent.click(reviewSection.querySelector<HTMLElement>("summary")!);
     expect(reviewSection).toHaveAttribute("open");
     expect(reviewSection.querySelectorAll(".exam-history-review__summary-status")).toHaveLength(3);
     fireEvent.change(screen.getByRole("combobox", { name: "Antworten anzeigen" }), { target: { value: "correct" } });
-    expect(reviewSection.querySelectorAll(".exam-history-review")).toHaveLength(0);
+    expect(reviewSection.querySelectorAll(".exam-history-review__question-review")).toHaveLength(0);
     expect(within(reviewSection).getByText("Keine Fragen in dieser Kategorie.")).toBeInTheDocument();
     fireEvent.change(screen.getByRole("combobox", { name: "Antworten anzeigen" }), { target: { value: "open" } });
-    expect(reviewSection.querySelectorAll(".exam-history-review")).toHaveLength(3);
-    const review = reviewSection.querySelector<HTMLElement>(".exam-history-review")!;
+    expect(reviewSection.querySelectorAll(".exam-history-review__question-review")).toHaveLength(3);
+    const review = reviewSection.querySelector<HTMLElement>(".exam-history-review__question-review")!;
     expect(review).not.toHaveAttribute("open");
     expect(review.querySelector("summary")).toHaveTextContent(/^Frage 1: /);
     expect(review.querySelector("summary")).not.toHaveTextContent(/Richtig|Falsch|Nicht beantwortet/);
     expect(within(review).getByRole("img", { name: "Nicht beantwortet" }))
       .toHaveClass("exam-history-review__status-icon", "exam-history-review__open-icon");
+    expect(within(review).getByText(/^Lösung \d$/)).not.toBeVisible();
     fireEvent.click(review.querySelector<HTMLElement>("summary")!);
     expect(review).toHaveAttribute("open");
-    expect(review.querySelector(".exam-history-review__list > li > div > strong")).toBeNull();
     expect(within(review).getByText(/^Lösung \d$/)).toBeVisible();
     expect(within(review).getByText("Erklärung zur Lösung:")).toBeVisible();
-    expect(review.querySelector(".exam-history-review__list > li")).toBeInTheDocument();
+    expect(review.querySelector(".exam-history-review__answer-card")).toBeInTheDocument();
     expect(review.querySelector(".exam-history-review__options"))
-      .toHaveClass("exam-history-review__options--indented");
+      .toHaveClass("exam-history-review__options--standalone");
     expect(review.querySelector(".exam-history-review__explanation"))
-      .toHaveClass("exam-history-review__explanation--indented");
+      .toHaveClass("exam-history-review__explanation--standalone");
     expect(within(review).getByText("0 Punkte (übersprungen/nicht geprüft)"))
       .toHaveClass("exam-history-review__summary-status");
   });
@@ -276,7 +402,7 @@ describe("ISTQB practice setup", () => {
     const reviewSection = document.querySelector<HTMLDetailsElement>(".exam-review")!;
     expect(reviewSection).not.toHaveAttribute("open");
     fireEvent.click(reviewSection.querySelector<HTMLElement>("summary")!);
-    const review = reviewSection.querySelector<HTMLElement>(".exam-history-review")!;
+    const review = reviewSection.querySelector<HTMLElement>(".exam-history-review__question-review")!;
     expect(review).not.toHaveAttribute("open");
     expect(within(review).getByRole("img", { name: "Falsch beantwortet" }))
       .toHaveClass("exam-history-review__status-icon", "practice-review-option--wrong");
@@ -295,8 +421,8 @@ describe("ISTQB practice setup", () => {
     expect(correctAnswer).toHaveClass("practice-review-option");
     expect(wrongAnswer).toHaveTextContent("◉ Antwort B");
     expect(correctAnswer).toHaveTextContent("○ Antwort A");
-    expect(review.parentElement).toBe(reviewSection);
-    expect(review).toHaveClass("exam-history-review");
+    expect(review.closest(".exam-review")).toBe(reviewSection);
+    expect(review).toHaveClass("exam-history-review__question-review");
     expect(within(review).queryByText(/Deine Auswahl|Richtige Antwort/)).not.toBeInTheDocument();
     expect(within(within(review).getByText(/Antwort C/).closest<HTMLElement>("li")!)
       .queryByText(/Deine Auswahl|Richtige Antwort/)).not.toBeInTheDocument();
@@ -315,9 +441,53 @@ describe("ISTQB practice setup", () => {
     fireEvent.click(screen.getByLabelText("Antwort C"));
     fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
     expect(screen.getByRole("dialog")).toHaveTextContent("0 unbeantwortete Fragen (davon 0 unvollständig ausgewählt).");
-    expect(screen.getByRole("dialog")).toHaveTextContent("1 nicht geprüfte Fragen zählen als übersprungen.");
+    expect(screen.getByRole("dialog")).toHaveTextContent("Ausgewählte Antworten werden beim Beenden automatisch geprüft.");
     fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
-    expect(screen.getByText("0 %")).toBeInTheDocument();
+    expect(await screen.findByText("100 %")).toBeInTheDocument();
+    expect(mocks.checkPracticeAnswer).toHaveBeenCalledWith(course.slug, "q3", expect.arrayContaining(["a", "c"]));
+  });
+
+  it("grades incomplete multiple answers as incorrect when finishing", async () => {
+    mocks.getPractice.mockResolvedValue({ ...course, questions: [course.questions[2]] });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    await screen.findByRole("heading", { name: "Übung abgeschlossen!" });
+    expect(screen.getByText("0 Punkte (falsch)")).toBeInTheDocument();
+    expect(screen.queryByText("0 Punkte (übersprungen/nicht geprüft)")).not.toBeInTheDocument();
+    expect(progress).toEqual([{ questionId: "q3", lastCorrect: false }]);
+  });
+
+  it("keeps the session open on automatic grading failure and retries without resaving successful answers", async () => {
+    mocks.getPractice.mockResolvedValue({ ...course, questions: course.questions.slice(0, 2) });
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Nächste Frage" }));
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    const secondQuestionId = screen.getByRole("heading", { name: /^Übungsfrage \d$/ }).textContent?.endsWith("1") ? "q1" : "q2";
+    const firstQuestionId = secondQuestionId === "q1" ? "q2" : "q1";
+    const save = mocks.checkPracticeAnswer.getMockImplementation()!;
+    let failed = false;
+    mocks.checkPracticeAnswer.mockImplementation(async (...args) => {
+      if (args[1] === secondQuestionId && !failed) {
+        failed = true;
+        throw new Error("Unavailable");
+      }
+      return save(...args);
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    expect(await within(screen.getByRole("dialog")).findByRole("alert")).toHaveTextContent("nicht gespeichert");
+    expect(screen.queryByRole("heading", { name: "Übung abgeschlossen!" })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    expect(await screen.findByText("100 %")).toBeInTheDocument();
+    expect(mocks.checkPracticeAnswer.mock.calls.filter((call) => call[1] === firstQuestionId)).toHaveLength(1);
+    expect(mocks.checkPracticeAnswer.mock.calls.filter((call) => call[1] === secondQuestionId)).toHaveLength(2);
   });
 
   it("reloads saved errors, retries a failed save explicitly and removes corrected errors", async () => {

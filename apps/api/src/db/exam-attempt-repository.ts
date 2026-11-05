@@ -20,7 +20,9 @@ type ExamAttemptRow = Omit<ExamAttempt, "submittedAt"> & {
 };
 
 const fields = `id, course_id AS "courseId", course_slug AS "courseSlug",
-  course_title AS "courseTitle", percentage, passed, correct_count AS "correctCount",
+  course_title AS "courseTitle", percentage,
+  CASE WHEN result_data ? 'passed' THEN (result_data->>'passed')::boolean ELSE passed END AS passed,
+  correct_count AS "correctCount",
   total_questions AS "totalQuestions", result_data->'results' AS results, submitted_at`;
 
 function toAttempt(row: ExamAttemptRow): ExamAttempt {
@@ -64,10 +66,10 @@ export function createExamAttemptRepository(database: Pick<Pool, "query">): Exam
           input.courseSlug,
           input.courseTitle,
           input.result.percentage,
-          input.result.passed,
+          input.result.passed ?? false,
           input.result.correctCount,
           input.result.totalQuestions,
-          { results: input.result.results },
+          { results: input.result.results, passed: input.result.passed },
           input.submittedAt ?? null,
         ],
       );

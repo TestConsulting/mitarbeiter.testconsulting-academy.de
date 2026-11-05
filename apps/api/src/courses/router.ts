@@ -3,6 +3,8 @@ import express, { Router, type RequestHandler } from "express";
 import { z } from "zod";
 import {
   EXAM_PASS_THRESHOLD,
+  COURSE_EXAM_DURATION_MINUTES,
+  getUploadedQuestionImageId,
   type Course,
   type CourseInput,
   type CourseSummary,
@@ -44,17 +46,18 @@ const materialSchema = z.object({
 }).strict();
 const questionSchema = z.object({
   id: idText,
-  question: z.string().trim().min(1).max(2000),
+  question: z.string().trim().max(2000),
   type: z.enum(["single", "multiple"]),
   options: z.array(z.object({
     id: idText,
     text: z.string().trim().min(1).max(1000),
   }).strict()).min(2).max(10),
   correctOptionIds: z.array(idText).min(1).max(10),
-  explanation: z.string().trim().min(1).max(5000),
+  explanation: z.string().trim().max(5000),
   usage: z.enum(["practice", "exam", "both"]).optional(),
   image: z.object({
-    url: z.string().regex(/^\/questions\/istqb-foundation\/(?:prozess-\d+|(?:lebenszyklus|statisch|testentwurf)-\d{3})\.png$/),
+    url: z.string().refine((url) => Boolean(getUploadedQuestionImageId(url)) ||
+      /^\/questions\/istqb-foundation\/(?:prozess-\d+|(?:lebenszyklus|statisch|testentwurf)-\d{3})\.png$/.test(url)),
     alt: z.string().trim().min(1).max(500),
   }).strict().optional(),
   metadata: z.object({
@@ -64,6 +67,9 @@ const questionSchema = z.object({
     kLevel: z.enum(["K1", "K2", "K3"]),
   }).strict().optional(),
 }).strict().superRefine((question, context) => {
+  if (!question.question && !question.image) {
+    context.addIssue({ code: "custom", message: "Bitte gib einen Fragetext oder ein Aufgabenbild an." });
+  }
   const optionIds = question.options.map((option) => option.id);
   if (new Set(optionIds).size !== optionIds.length) {
     context.addIssue({ code: "custom", message: "Antwortmöglichkeiten brauchen eindeutige IDs." });
@@ -81,8 +87,10 @@ const questionSchema = z.object({
 });
 const courseInputSchema = z.object({
   title: z.string().trim().min(1).max(160),
-  category: z.enum(["Vorstellung", "ISTQB", "Sonstiges"]),
+  category: z.string().trim().min(1).max(80),
   description: z.string().trim().min(1).max(2000),
+  passThreshold: z.number().int().min(1).max(100).nullable().optional(),
+  durationMinutes: z.number().int().min(1).max(600).nullable().optional(),
   isDemo: z.boolean().optional(),
   demoNotice: z.string().trim().max(5000).optional(),
   materials: z.array(materialSchema).max(20),
@@ -95,6 +103,15 @@ const courseInputSchema = z.object({
     context.addIssue({ code: "custom", message: "Übungsfragen brauchen eindeutige IDs." });
   }
 });
+const categoryNameSchema = z.string().trim().min(1).max(80);
+const renameCategorySchema = z.object({
+  category: categoryNameSchema,
+  name: categoryNameSchema,
+}).strict();
+const deleteCategorySchema = z.object({
+  category: categoryNameSchema,
+  replacement: categoryNameSchema,
+}).strict();
 const examSubmissionSchema = z.object({
   answers: z.array(z.object({
     questionId: idText,
@@ -123,7 +140,12 @@ function createSlug(title: string, id: string): string {
 
 function toCourseSummary(course: Course): CourseSummary {
   const { questions, ...summary } = course;
-  return { ...summary, questionCount: questions.filter((question) => question.usage !== "exam").length };
+  return {
+    ...summary,
+    passThreshold: course.passThreshold === undefined ? EXAM_PASS_THRESHOLD : course.passThreshold,
+    durationMinutes: course.durationMinutes === undefined ? COURSE_EXAM_DURATION_MINUTES : course.durationMinutes,
+    questionCount: questions.filter((question) => question.usage !== "exam").length,
+  };
 }
 
 function toExamCourse(course: Course): ExamCourse {
@@ -133,6 +155,8 @@ function toExamCourse(course: Course): ExamCourse {
     title: course.title,
     category: course.category,
     description: course.description,
+    passThreshold: course.passThreshold === undefined ? EXAM_PASS_THRESHOLD : course.passThreshold,
+    durationMinutes: course.durationMinutes === undefined ? COURSE_EXAM_DURATION_MINUTES : course.durationMinutes,
     ...(course.isDemo !== undefined ? { isDemo: course.isDemo } : {}),
     ...(course.demoNotice !== undefined ? { demoNotice: course.demoNotice } : {}),
     questions: course.questions.filter((question) => question.usage !== "practice").map(({ id, question, type, options, image }) => ({
@@ -206,6 +230,19 @@ export function createCoursesRouter(
 ): Router {
   const router = Router();
   router.use(requireAuth());
+
+  async function validQuestionImages(course: CourseInput): Promise<boolean> {
+    const ids = new Set(course.questions.flatMap((question) => {
+      const id = question.image ? getUploadedQuestionImageId(question.image.url) : undefined;
+      return id ? [id] : [];
+    }));
+    for (const id of ids) {
+      const file = await courses.readMaterialFile(id);
+      if (!file || !materialContentType(file.fileName)?.startsWith("image/") ||
+          !matchesMaterialSignature(file.fileName, file.content)) return false;
+    }
+    return true;
+  }
 
   router.get("/materials/:id/download", async (request, response, next) => {
     const id = materialFileIdSchema.safeParse(request.params.id);
@@ -293,6 +330,66 @@ export function createCoursesRouter(
     }
   });
 
+  router.put("/categories/rename", requireAdmin(users), async (request, response, next) => {
+    const payload = renameCategorySchema.safeParse(request.body);
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte gib eine Kategorie und einen Namen mit maximal 80 Zeichen an." });
+      return;
+    }
+    try {
+      const existing = await courses.list();
+      const categoryExists = existing.some((course) => course.category === payload.data.category);
+      const nameTaken = existing.some((course) =>
+        course.category !== payload.data.category &&
+        course.category.toLocaleLowerCase() === payload.data.name.toLocaleLowerCase());
+      if (!categoryExists) {
+        response.status(404).json({ error: "Kategorie wurde nicht gefunden." });
+        return;
+      }
+      if (nameTaken) {
+        response.status(409).json({ error: "Eine Kategorie mit diesem Namen existiert bereits." });
+        return;
+      }
+      const updatedCourses = await courses.updateCategory(payload.data.category, payload.data.name);
+      if (updatedCourses === 0) {
+        response.status(404).json({ error: "Kategorie wurde nicht gefunden." });
+        return;
+      }
+      response.json({ updatedCourses });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.put("/categories/delete", requireAdmin(users), async (request, response, next) => {
+    const payload = deleteCategorySchema.safeParse(request.body);
+    if (!payload.success) {
+      response.status(400).json({ error: "Bitte wähle eine Kategorie und eine Ersatzkategorie aus." });
+      return;
+    }
+    try {
+      const existing = await courses.list();
+      const categoryExists = existing.some((course) => course.category === payload.data.category);
+      const replacementExists = existing.some((course) => course.category === payload.data.replacement);
+      if (!categoryExists) {
+        response.status(404).json({ error: "Kategorie wurde nicht gefunden." });
+        return;
+      }
+      if (payload.data.category === payload.data.replacement || !replacementExists) {
+        response.status(400).json({ error: "Bitte wähle eine andere vorhandene Kategorie als Ersatz." });
+        return;
+      }
+      const updatedCourses = await courses.updateCategory(payload.data.category, payload.data.replacement);
+      if (updatedCourses === 0) {
+        response.status(404).json({ error: "Kategorie wurde nicht gefunden." });
+        return;
+      }
+      response.json({ updatedCourses });
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.get("/results", async (request, response, next) => {
     const userId = request.session.userId;
     if (!userId) {
@@ -300,7 +397,22 @@ export function createCoursesRouter(
       return;
     }
     try {
-      response.json({ attempts: await examAttempts.listByUser(userId) });
+      const [attempts, currentCourses] = await Promise.all([
+        examAttempts.listByUser(userId),
+        courses.list(),
+      ]);
+      const coursesById = new Map(currentCourses.map((course) => [course.id, course]));
+      response.json({
+        attempts: attempts.map((attempt) => {
+          const course = coursesById.get(attempt.courseId);
+          if (!course || course.slug === "istqb-foundation") return attempt;
+          return {
+            ...attempt,
+            passed: course.passThreshold === null ? null
+              : attempt.percentage >= (course.passThreshold ?? EXAM_PASS_THRESHOLD),
+          };
+        }),
+      });
     } catch (error) {
       next(error);
     }
@@ -401,7 +513,7 @@ export function createCoursesRouter(
       const percentage = Math.round((correctCount / results.length) * 100);
       const result: ExamSubmissionResult = {
         percentage,
-        passed: percentage >= EXAM_PASS_THRESHOLD,
+        passed: course.passThreshold === null ? null : percentage >= (course.passThreshold ?? EXAM_PASS_THRESHOLD),
         correctCount,
         totalQuestions: results.length,
         results,
@@ -512,10 +624,16 @@ export function createCoursesRouter(
     const input: CourseInput = payload.data;
     const course: Course = {
       ...input,
+      passThreshold: input.passThreshold === undefined ? EXAM_PASS_THRESHOLD : input.passThreshold,
+      durationMinutes: input.durationMinutes === undefined ? COURSE_EXAM_DURATION_MINUTES : input.durationMinutes,
       id,
       slug: createSlug(payload.data.title, id),
     };
     try {
+      if (!await validQuestionImages(input)) {
+        response.status(400).json({ error: "Mindestens ein Aufgabenbild fehlt oder ist keine gültige Bilddatei." });
+        return;
+      }
       response.status(201).json({ course: await courses.create(course) });
     } catch (error) {
       next(error);
@@ -535,8 +653,16 @@ export function createCoursesRouter(
         response.status(404).json({ error: "Kurs wurde nicht gefunden." });
         return;
       }
+      if (!await validQuestionImages(payload.data)) {
+        response.status(400).json({ error: "Mindestens ein Aufgabenbild fehlt oder ist keine gültige Bilddatei." });
+        return;
+      }
       const updated = await courses.update(id.data, {
         ...payload.data,
+        passThreshold: payload.data.passThreshold === undefined
+          ? (existing.passThreshold === undefined ? EXAM_PASS_THRESHOLD : existing.passThreshold) : payload.data.passThreshold,
+        durationMinutes: payload.data.durationMinutes === undefined
+          ? (existing.durationMinutes === undefined ? COURSE_EXAM_DURATION_MINUTES : existing.durationMinutes) : payload.data.durationMinutes,
         id: existing.id,
         slug: existing.slug,
       });

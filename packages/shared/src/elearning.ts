@@ -1,4 +1,4 @@
-export type CourseCategory = "Vorstellung" | "ISTQB" | "Sonstiges";
+export type CourseCategory = string;
 
 export type LearningMaterial = {
   id: string;
@@ -44,11 +44,28 @@ export type Course = {
   title: string;
   category: CourseCategory;
   description: string;
+  passThreshold?: number | null;
+  durationMinutes?: number | null;
   isDemo?: boolean;
   demoNotice?: string;
   materials: LearningMaterial[];
   questions: PracticeQuestion[];
 };
+
+export function getUploadedQuestionImageId(url: string): string | undefined {
+  return /^\/api\/courses\/materials\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\/download\?preview=1$/.exec(url)?.[1];
+}
+
+export function getCourseUploadedFileIds(course: Pick<Course, "materials" | "questions">): string[] {
+  return [...new Set([
+    ...course.materials.filter((material) => material.url.startsWith("/api/courses/materials/"))
+      .map((material) => material.id),
+    ...course.questions.flatMap((question) => {
+      const id = question.image ? getUploadedQuestionImageId(question.image.url) : undefined;
+      return id ? [id] : [];
+    }),
+  ])];
+}
 
 export type CourseSummary = Omit<Course, "questions"> & {
   questionCount: number;
@@ -62,6 +79,8 @@ export type ExamCourse = Pick<
   Course,
   "id" | "slug" | "title" | "category" | "description" | "isDemo" | "demoNotice"
 > & {
+  passThreshold?: number | null;
+  durationMinutes?: number | null;
   questions: ExamQuestion[];
 };
 
@@ -80,7 +99,7 @@ export type ExamQuestionResult = {
 
 export type ExamSubmissionResult = {
   percentage: number;
-  passed: boolean;
+  passed: boolean | null;
   correctCount: number;
   totalQuestions: number;
   results: ExamQuestionResult[];
@@ -95,6 +114,7 @@ export type ExamAttempt = ExamSubmissionResult & {
 };
 
 export const EXAM_PASS_THRESHOLD = 65;
+export const COURSE_EXAM_DURATION_MINUTES = 10;
 
 export const CTFL_EXAM_CHAPTER_COUNTS = [8, 6, 4, 11, 9, 2] as const;
 export const CTFL_EXAM_K_LEVEL_COUNTS = { K1: 8, K2: 24, K3: 8 } as const;
@@ -124,7 +144,7 @@ export type AbortedExamSession = {
 
 export type CourseInput = Omit<Course, "id" | "slug">;
 
-export const courseCategories: readonly ("Alle" | CourseCategory)[] = [
+export const courseCategories: readonly string[] = [
   "Alle",
   "Vorstellung",
   "ISTQB",

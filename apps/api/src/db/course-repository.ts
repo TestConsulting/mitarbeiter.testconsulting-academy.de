@@ -1,6 +1,35 @@
-import { coursesData } from "@portal/shared";
+import { coursesData, getCourseUploadedFileIds } from "@portal/shared";
 import type { Course, CourseInput, LearningMaterial } from "@portal/shared";
 import type { Pool } from "pg";
+
+const fileIsUnreferenced = `
+  NOT EXISTS (
+    SELECT 1 FROM elearning_courses
+    WHERE course_data->'materials' @> jsonb_build_array(
+      jsonb_build_object('id', elearning_material_files.id::text)
+    )
+    OR course_data->'questions' @> jsonb_build_array(
+      jsonb_build_object('image', jsonb_build_object(
+        'url', '/api/courses/materials/' || elearning_material_files.id::text || '/download?preview=1'
+      ))
+    )
+  )
+  AND NOT EXISTS (
+    SELECT 1 FROM elearning_exam_attempts
+    WHERE result_data->'results' @> jsonb_build_array(
+      jsonb_build_object('question', jsonb_build_object('image', jsonb_build_object(
+        'url', '/api/courses/materials/' || elearning_material_files.id::text || '/download?preview=1'
+      )))
+    )
+  )
+  AND NOT EXISTS (
+    SELECT 1 FROM elearning_exam_sessions
+    WHERE course_snapshot->'questions' @> jsonb_build_array(
+      jsonb_build_object('image', jsonb_build_object(
+        'url', '/api/courses/materials/' || elearning_material_files.id::text || '/download?preview=1'
+      ))
+    )
+  )`;
 
 export type CourseRepository = {
   list(): Promise<Course[]>;
@@ -8,6 +37,7 @@ export type CourseRepository = {
   findBySlug(slug: string): Promise<Course | null>;
   create(course: Course): Promise<Course>;
   update(id: string, course: Course): Promise<Course | null>;
+  updateCategory(category: string, replacement: string): Promise<number>;
   delete(id: string): Promise<boolean>;
   importDefaults(): Promise<number>;
   createMaterialFile(fileName: string, content: Buffer): Promise<{ id: string; fileName: string; sizeBytes: number }>;
@@ -56,6 +86,16 @@ export function createCourseRepository(database: Pick<Pool, "query" | "connect">
       );
       return result.rows[0]?.course ?? null;
     },
+    async updateCategory(category, replacement) {
+      const result = await database.query(
+        `UPDATE elearning_courses
+         SET course_data = jsonb_set(course_data, '{category}', to_jsonb($2::text), false),
+             updated_at = now()
+         WHERE course_data->>'category' = $1`,
+        [category, replacement],
+      );
+      return result.rowCount ?? 0;
+    },
     async delete(id) {
       const client = await database.connect();
       try {
@@ -70,19 +110,12 @@ export function createCourseRepository(database: Pick<Pool, "query" | "connect">
           return false;
         }
         await client.query("DELETE FROM elearning_courses WHERE id = $1", [id]);
-        const fileIds = course.materials
-          .filter((material) => material.url.startsWith("/api/courses/materials/"))
-          .map((material) => material.id);
+        const fileIds = getCourseUploadedFileIds(course);
         if (fileIds.length > 0) {
           await client.query(
             `DELETE FROM elearning_material_files
              WHERE id::text = ANY($1::text[])
-               AND NOT EXISTS (
-                 SELECT 1 FROM elearning_courses
-                 WHERE course_data->'materials' @> jsonb_build_array(
-                   jsonb_build_object('id', elearning_material_files.id::text)
-                 )
-               )`,
+               AND ${fileIsUnreferenced}`,
             [fileIds],
           );
         }
@@ -152,12 +185,7 @@ export function createCourseRepository(database: Pick<Pool, "query" | "connect">
       const result = await database.query(
         `DELETE FROM elearning_material_files
          WHERE id = $1
-           AND NOT EXISTS (
-             SELECT 1 FROM elearning_courses
-             WHERE course_data->'materials' @> jsonb_build_array(
-               jsonb_build_object('id', $1::text)
-             )
-           )`,
+           AND ${fileIsUnreferenced}`,
         [id],
       );
       return result.rowCount === 1;

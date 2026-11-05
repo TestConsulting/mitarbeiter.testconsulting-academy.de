@@ -10,7 +10,11 @@ import {
   QuizNew24Regular,
 } from "@fluentui/react-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import type { CourseSummary } from "@portal/shared";
+import {
+  COURSE_EXAM_DURATION_MINUTES,
+  EXAM_PASS_THRESHOLD,
+  type CourseSummary,
+} from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 
 const imageExtensions = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
@@ -182,11 +186,20 @@ export function CourseDetailPage() {
                 <span className="metric-box__label">Fragen im Katalog</span>
               </div>
               <div className="metric-box">
-                <span className="metric-box__value">{course.slug === "istqb-foundation" ? "60 / 75 Min" : "10 Min"}</span>
+                <span className="metric-box__value">
+                  {course.slug === "istqb-foundation"
+                    ? "60 / 75 Min"
+                    : course.durationMinutes === null ? "Ohne Zeitlimit"
+                      : `${course.durationMinutes ?? COURSE_EXAM_DURATION_MINUTES} Min`}
+                </span>
                 <span className="metric-box__label">Probeprüfungszeit</span>
               </div>
               <div className="metric-box">
-                <span className="metric-box__value">65 %</span>
+                <span className="metric-box__value">
+                  {course.slug !== "istqb-foundation" && course.passThreshold === null
+                    ? "Keine"
+                    : `${course.slug === "istqb-foundation" ? EXAM_PASS_THRESHOLD : course.passThreshold ?? EXAM_PASS_THRESHOLD} %`}
+                </span>
                 <span className="metric-box__label">Bestehensgrenze</span>
               </div>
             </div>

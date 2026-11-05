@@ -26,6 +26,11 @@ type AnswerEvaluation = {
   isCorrect: boolean;
 };
 
+function isCorrectSelection(question: PracticeQuestion, selectedIds: string[]) {
+  return selectedIds.length === question.correctOptionIds.length &&
+    selectedIds.every((id) => question.correctOptionIds.includes(id));
+}
+
 export function CoursePracticePage() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
@@ -88,7 +93,7 @@ export function CoursePracticePage() {
       if (!active) return;
       setLoadStatus(error instanceof ApiError && error.status === 404 ? "not-found" : "error");
     });
-    return () => { active = false; };
+    return () => { active = false; courseVersion.current++; };
   }, [courseId, loadAttempt, configurable]);
 
   if (loadStatus === "loading") {
@@ -172,10 +177,7 @@ export function CoursePracticePage() {
     // A single or multiple answer is correct iff:
     // 1) all selected options are in correctOptionIds
     // 2) all correctOptionIds are selected
-    const correctIds = currentQuestion.correctOptionIds;
-    let isCorrect =
-      selectedOptionIds.length === correctIds.length &&
-      selectedOptionIds.every((id) => correctIds.includes(id));
+    let isCorrect = isCorrectSelection(currentQuestion, selectedOptionIds);
 
     if (configurable) {
       const version = courseVersion.current;
@@ -235,10 +237,41 @@ export function CoursePracticePage() {
     handleSelectQuestion(currentIndex + 1);
   }
 
-  function handleFinish() {
-    setSubmittedAt(Date.now());
-    setConfirmSubmitOpen(false);
-    setIsFinished(true);
+  async function handleFinish() {
+    if (answerPending.current) return;
+    const version = courseVersion.current;
+    answerPending.current = true;
+    setSavingAnswer(true);
+    setAnswerError("");
+    try {
+      for (const question of questions) {
+        const ids = answersByQuestion[question.id] ?? [];
+        if (ids.length === 0 || evaluations.some((item) => item.questionId === question.id)) continue;
+        let isCorrect = isCorrectSelection(question, ids);
+        if (configurable) {
+          const saved = await api.courses.checkPracticeAnswer(courseSlug, question.id, ids);
+          if (version !== courseVersion.current) return;
+          isCorrect = saved.lastCorrect;
+          setProgress((previous) => [...previous.filter((item) => item.questionId !== saved.questionId), saved]);
+        }
+        const evaluation = { questionId: question.id, selectedOptionIds: [...ids], isCorrect };
+        setEvaluations((previous) => [...previous.filter((item) => item.questionId !== question.id), evaluation]);
+        if (question.id === currentQuestion.id) setIsAnswerChecked(true);
+      }
+      if (version !== courseVersion.current) return;
+      setSubmittedAt(Date.now());
+      setConfirmSubmitOpen(false);
+      setIsFinished(true);
+    } catch {
+      if (version === courseVersion.current) {
+        setAnswerError("Die Übung konnte nicht beendet werden, weil Antworten nicht gespeichert werden konnten. Bitte versuche es erneut.");
+      }
+    } finally {
+      if (version === courseVersion.current) {
+        answerPending.current = false;
+        setSavingAnswer(false);
+      }
+    }
   }
 
   function handleRestart() {
@@ -364,6 +397,7 @@ export function CoursePracticePage() {
               <h2 id="practice-review-title">Alle Fragen im Rückblick</h2>
             </summary>
             <ExamReviewFilter value={reviewFilter} onChange={setReviewFilter} />
+            <ol className="exam-history-review__list">
             {questions.map((question, index) => {
               const evaluation = evaluations.find((item) => item.questionId === question.id);
               const selectedOptionIds = evaluation?.selectedOptionIds ?? answersByQuestion[question.id] ?? [];
@@ -375,7 +409,8 @@ export function CoursePracticePage() {
                 ? "1 Punkt (richtig)"
                 : status === "incorrect" ? "0 Punkte (falsch)" : "0 Punkte (übersprungen/nicht geprüft)";
               return (
-                <details key={question.id} className="exam-history-review">
+                <li key={question.id}>
+                <details className="exam-history-review__question-review">
                   <summary>
                     <span className="exam-history-review__question">
                       {evaluation?.isCorrect
@@ -400,11 +435,9 @@ export function CoursePracticePage() {
                       {summaryText}
                     </span>
                   </summary>
-                  {question.image && <QuestionContent question={{ question: "", image: question.image }} />}
-                  <ol className="exam-history-review__list">
-                    <li>
-                      <div>
-                        <ul className="exam-history-review__options exam-history-review__options--indented">
+                  <div className="exam-history-review__answer-card exam-history-review__answer-card--history">
+                        {question.image && <QuestionContent question={{ question: "", image: question.image }} />}
+                        <ul className="exam-history-review__options exam-history-review__options--standalone">
                           {question.options.map((option) => (
                             <li key={option.id} className="practice-review-option">
                               {selectedOptionIds.includes(option.id) ? "◉ " : "○ "}{option.text}
@@ -422,14 +455,15 @@ export function CoursePracticePage() {
                             </li>
                           ))}
                         </ul>
-                        <div className="exam-history-review__explanation exam-history-review__explanation--indented">
-                          <strong>Erklärung zur Lösung:</strong>
-                          <p>{question.explanation}</p>
-                        </div>
-                      </div>
-                    </li>
-                  </ol>
+                        {question.explanation && (
+                          <div className="exam-history-review__explanation exam-history-review__explanation--standalone">
+                            <strong>Erklärung zur Lösung:</strong>
+                            <p>{question.explanation}</p>
+                          </div>
+                        )}
+                  </div>
                 </details>
+                </li>
               );
             })}
             {questions.every((question) => {
@@ -439,7 +473,8 @@ export function CoursePracticePage() {
                 ? "correct"
                 : evaluation && selectedOptionIds.length > 0 ? "incorrect" : "open";
               return !matchesExamReviewFilter(reviewFilter, status);
-            }) && <p className="exam-review__empty">Keine Fragen in dieser Kategorie.</p>}
+            }) && <li className="exam-review__empty">Keine Fragen in dieser Kategorie.</li>}
+            </ol>
           </details>
       </div>
     );
@@ -621,10 +656,12 @@ export function CoursePracticePage() {
                 </span>
               </div>
 
-              <div className="practice-feedback__explanation">
-                <strong>Erklärung zur Lösung:</strong>
-                <p>{currentQuestion.explanation}</p>
-              </div>
+              {currentQuestion.explanation && (
+                <div className="practice-feedback__explanation">
+                  <strong>Erklärung zur Lösung:</strong>
+                  <p>{currentQuestion.explanation}</p>
+                </div>
+              )}
             </div>
           )}
 
@@ -666,23 +703,26 @@ export function CoursePracticePage() {
           </div>
         </article>
       </div>
-      <Dialog open={confirmSubmitOpen} onOpenChange={(_event, data) => setConfirmSubmitOpen(data.open)}>
+      <Dialog open={confirmSubmitOpen} onOpenChange={(_event, data) => {
+        if (!answerPending.current) setConfirmSubmitOpen(data.open);
+      }}>
         <DialogSurface>
           <DialogBody>
             <DialogTitle>Übung beenden?</DialogTitle>
             <DialogContent>
               <p>{unansweredCount} unbeantwortete Fragen (davon {incompleteCount} unvollständig ausgewählt).</p>
-              <p>{uncheckedQuestions.length} nicht geprüfte Fragen zählen als übersprungen.</p>
-              <p>Offene Fragen zählen mit 0 Punkten. Danach können Antworten nicht mehr verändert werden.</p>
+              <p>Ausgewählte Antworten werden beim Beenden automatisch geprüft. Unvollständige Mehrfachantworten zählen als falsch.</p>
+              <p>Nur Fragen ohne Auswahl zählen als übersprungen mit 0 Punkten. Danach können Antworten nicht mehr verändert werden.</p>
+              {answerError && <p role="alert">{answerError}</p>}
             </DialogContent>
             <DialogActions>
-              <Button appearance="secondary" onClick={() => setConfirmSubmitOpen(false)}>
+              <Button appearance="secondary" disabled={savingAnswer} onClick={() => setConfirmSubmitOpen(false)}>
                 Weiter bearbeiten
               </Button>
-              <Button appearance="primary" onClick={() => {
-                handleFinish();
+              <Button appearance="primary" disabled={savingAnswer} onClick={() => {
+                void handleFinish();
               }}>
-                Endgültig beenden
+                {savingAnswer ? "Antworten werden geprüft …" : "Endgültig beenden"}
               </Button>
             </DialogActions>
           </DialogBody>
