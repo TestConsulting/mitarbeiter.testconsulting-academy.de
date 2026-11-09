@@ -1340,6 +1340,56 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
     expect(history.getAllByRole("listitem")).toHaveLength(5);
   });
 
+  it("opens the selected exam with its questions collapsed from the history list", async () => {
+    const course = coursesData[0];
+    const question = course.questions[0];
+    const makeAttempt = (id: string, submittedAt: string): ExamAttempt => ({
+      id,
+      courseId: course.id,
+      courseSlug: course.slug,
+      courseTitle: course.title,
+      percentage: 50,
+      passed: false,
+      correctCount: 1,
+      totalQuestions: 2,
+      results: [{
+        question: {
+          id: question.id,
+          question: question.question,
+          type: question.type,
+          options: question.options,
+        },
+        selectedOptionIds: [],
+        correctOptionIds: question.correctOptionIds,
+        explanation: question.explanation,
+        isCorrect: false,
+      }],
+      submittedAt,
+    });
+    mocks.api.courses.examResults.mockResolvedValue([
+      makeAttempt("attempt-nov-4-morning", "2026-11-04T08:00:00.000Z"),
+      makeAttempt("attempt-nov-4-afternoon", "2026-11-04T14:00:00.000Z"),
+    ]);
+    renderWithRouter(<ExamResultsPage />, ["/areas/elearning/results"]);
+
+    const history = within(await screen.findByRole("region", { name: "Bisherige Ergebnisse" }));
+    const reviews = document.querySelectorAll<HTMLDetailsElement>(".exam-history-review--attempt");
+    const scrollToStart = vi.fn();
+    reviews.forEach((review) => { review.scrollIntoView = scrollToStart; });
+
+    const sameDayAttempts = history.getAllByRole("button", {
+      name: "Prüfung vom 04. November 2026 ansehen: Fragenkatalog Essentials, 50%",
+    });
+    await userEvent.setup().click(sameDayAttempts[1]);
+
+    expect(reviews[0]).not.toHaveAttribute("open");
+    expect(reviews[1]).toHaveAttribute("open");
+    const questionReviews = reviews[1].querySelectorAll<HTMLDetailsElement>(".exam-history-review__question-review");
+    expect(questionReviews).toHaveLength(1);
+    expect(questionReviews[0]).not.toHaveAttribute("open");
+    expect(scrollToStart).toHaveBeenCalledWith({ block: "start", behavior: "instant" });
+  });
+
   it("shows a user's history, best result, average per course and saved answer review", async () => {
     const course = coursesData[0];
     const question = course.questions[0];

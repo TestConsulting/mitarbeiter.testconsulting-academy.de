@@ -3205,10 +3205,29 @@ a { color: inherit; }
   grid-template-columns: 5px minmax(0, 1fr) minmax(140px, 180px);
   align-items: center;
   gap: 12px;
+  width: 100%;
   min-height: 66px;
   padding: 12px;
+  border: 0;
   border-radius: 10px;
   background: var(--surface-alt);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.exam-history-item:hover {
+  filter: brightness(1.08);
+}
+
+.exam-history-item:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.exam-history-item--selected {
+  outline: 2px solid var(--primary);
 }
 
 .exam-history-item__marker {
@@ -3236,7 +3255,7 @@ a { color: inherit; }
   gap: 8px;
 }
 
-.exam-history-item__title a,
+.exam-history-item__title > span,
 .exam-best-list a,
 .exam-performance-list a {
   overflow: hidden;
@@ -3246,7 +3265,6 @@ a { color: inherit; }
   text-overflow: ellipsis;
 }
 
-.exam-history-item__title a:hover,
 .exam-best-list a:hover,
 .exam-performance-list a:hover {
   text-decoration: underline;

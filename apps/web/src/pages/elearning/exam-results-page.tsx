@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Badge, Button, Dropdown, Option, ProgressBar } from "@fluentui/react-components";
 import {
   ArrowLeft20Regular,
@@ -57,6 +57,8 @@ export function ExamResultsPage() {
   const [showAll, setShowAll] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [reviewFilters, setReviewFilters] = useState<Record<string, ExamReviewFilterValue>>({});
+  const [openAttemptId, setOpenAttemptId] = useState<string | null>(null);
+  const reviewRefs = useRef(new Map<string, HTMLDetailsElement>());
 
   useEffect(() => {
     let active = true;
@@ -171,23 +173,37 @@ export function ExamResultsPage() {
               </div>
               <ol className="exam-history-list">
                 {visibleAttempts.map((attempt) => (
-                  <li key={attempt.id} className="exam-history-item">
-                    <div className="exam-history-item__marker" aria-hidden="true" />
-                    <div className="exam-history-item__details">
-                      <div className="exam-history-item__title">
-                        <Link to={`/areas/elearning/${attempt.courseSlug}`}>{attempt.courseTitle}</Link>
-                        <Badge appearance="tint" color={attempt.passed === null ? "informative" : attempt.passed ? "success" : "danger"}>
-                          {attempt.passed === null ? "Ohne Bestehensbewertung" : attempt.passed ? "Bestanden" : "Nicht bestanden"}
-                        </Badge>
+                  <li key={attempt.id}>
+                    <button
+                      type="button"
+                      className={`exam-history-item${openAttemptId === attempt.id ? " exam-history-item--selected" : ""}`}
+                      aria-label={`Prüfung vom ${dateFormatter.format(new Date(attempt.submittedAt))} ansehen: ${attempt.courseTitle}, ${attempt.percentage}%`}
+                      onClick={() => {
+                        setOpenAttemptId(attempt.id);
+                        for (const [attemptId, review] of reviewRefs.current) {
+                          review.open = attemptId === attempt.id;
+                        }
+                        reviewRefs.current.get(attempt.id)
+                          ?.scrollIntoView({ block: "start", behavior: "instant" });
+                      }}
+                    >
+                      <div className="exam-history-item__marker" aria-hidden="true" />
+                      <div className="exam-history-item__details">
+                        <div className="exam-history-item__title">
+                          <span>{attempt.courseTitle}</span>
+                          <Badge appearance="tint" color={attempt.passed === null ? "informative" : attempt.passed ? "success" : "danger"}>
+                            {attempt.passed === null ? "Ohne Bestehensbewertung" : attempt.passed ? "Bestanden" : "Nicht bestanden"}
+                          </Badge>
+                        </div>
+                        <span className="exam-history-item__meta">
+                          {dateFormatter.format(new Date(attempt.submittedAt))} · {attempt.totalQuestions} Fragen · {attempt.correctCount} richtig
+                        </span>
                       </div>
-                      <span className="exam-history-item__meta">
-                        {dateFormatter.format(new Date(attempt.submittedAt))} · {attempt.totalQuestions} Fragen · {attempt.correctCount} richtig
-                      </span>
-                    </div>
-                    <div className="exam-history-item__score">
-                      <ProgressBar value={attempt.percentage} max={100} aria-label={`Ergebnis ${attempt.percentage}%`} />
-                      <strong>{attempt.percentage}%</strong>
-                    </div>
+                      <div className="exam-history-item__score" aria-hidden="true">
+                        <ProgressBar value={attempt.percentage} max={100} />
+                        <strong>{attempt.percentage}%</strong>
+                      </div>
+                    </button>
                   </li>
                 ))}
               </ol>
@@ -251,9 +267,16 @@ export function ExamResultsPage() {
             <details
               key={`review-${attempt.id}`}
               className="exam-history-review exam-history-review--attempt"
+              ref={(element) => {
+                if (element) reviewRefs.current.set(attempt.id, element);
+                else reviewRefs.current.delete(attempt.id);
+              }}
               onToggle={(event) => {
                 if (event.target === event.currentTarget && event.currentTarget.open) {
+                  setOpenAttemptId(attempt.id);
                   event.currentTarget.scrollIntoView({ block: "start", behavior: "instant" });
+                } else if (event.target === event.currentTarget && !event.currentTarget.open) {
+                  setOpenAttemptId((current) => current === attempt.id ? null : current);
                 }
               }}
             >
@@ -274,7 +297,9 @@ export function ExamResultsPage() {
                     : status === "incorrect" ? "0 Punkte (falsch)" : "0 Punkte (übersprungen/nicht geprüft)";
                   return (
                     <li key={item.question.id}>
-                      <details className="exam-history-review__question-review">
+                      <details
+                        className="exam-history-review__question-review"
+                      >
                         <summary>
                           <span className="exam-history-review__question">
                             {item.isCorrect
