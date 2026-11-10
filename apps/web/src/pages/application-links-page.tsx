@@ -18,7 +18,11 @@ import { AreaIcon } from "../app/area-icon.js";
 import { useAuth } from "../app/auth-context.js";
 import { SortablePortalCard } from "./sortable-portal-card.js";
 
-type LinkDraft = Omit<AppLinkInput, "sortOrder"> & { id?: string; sortOrder: string };
+type LinkDraft = Omit<AppLinkInput, "sortOrder" | "contactEmail"> & {
+  id?: string;
+  contactEmail: string;
+  sortOrder: string;
+};
 const emptyDraft: LinkDraft = {
   name: "",
   description: "",

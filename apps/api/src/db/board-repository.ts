@@ -9,6 +9,7 @@ type TicketRow = {
   description: string | null;
   assignee_id: string | null;
   priority: TicketPriority;
+  type: "task" | "bug" | "feature" | "spike" | "todo";
   due_date: string | null;
   position: number;
   created_by: string;
@@ -19,7 +20,7 @@ type TicketRow = {
 
 let ticketArchivingSchemaReady = false;
 
-const ticketFields = `id, column_id, title, description, assignee_id, priority,
+const ticketFields = `id, column_id, title, description, assignee_id, priority, type,
   due_date::text AS due_date, position, created_by, created_at, updated_at, archived_at`;
 
 function mapColumn(row: ColumnRow): BoardColumn {
@@ -34,6 +35,7 @@ function mapTicket(row: TicketRow): Ticket {
     description: row.description,
     assigneeId: row.assignee_id,
     priority: row.priority,
+    type: row.type,
     dueDate: row.due_date,
     position: row.position,
     createdBy: row.created_by,
@@ -48,6 +50,7 @@ export type NewTicketInput = {
   description?: string | null;
   assigneeId?: string | null;
   priority?: TicketPriority;
+  type?: "task" | "bug" | "feature" | "spike" | "todo";
   dueDate?: string | null;
   createdBy: string;
 };
@@ -57,6 +60,7 @@ export type TicketPatch = {
   description?: string | null;
   assigneeId?: string | null;
   priority?: TicketPriority;
+  type?: "task" | "bug" | "feature" | "spike" | "todo";
   dueDate?: string | null;
   columnId?: string;
   position?: number;
@@ -123,6 +127,13 @@ async function ensureTicketArchivingSchema(client: Pick<PoolClient, "query">): P
   if (ticketArchivingSchemaReady) return;
   await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS archived_at timestamptz`);
   await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS priority text NOT NULL DEFAULT 'normal'`);
+  await client.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS type text NOT NULL DEFAULT 'task'`);
+  await client.query(`ALTER TABLE tickets DROP CONSTRAINT IF EXISTS tickets_type_check`);
+  await client.query(
+    `ALTER TABLE tickets
+       ADD CONSTRAINT tickets_type_check
+       CHECK (type IN ('task', 'bug', 'feature', 'spike', 'todo'))`,
+  );
   await client.query(
     `CREATE INDEX IF NOT EXISTS tickets_active_column_position_idx
      ON tickets (column_id, position)
@@ -300,9 +311,19 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         );
         const position = (max.rows[0]?.max ?? -1) + 1;
         await client.query(
-          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, position, created_by, due_date)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-          [input.columnId, input.title, input.description ?? null, input.assigneeId ?? null, input.priority ?? "normal", position, input.createdBy, input.dueDate ?? null],
+          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, type, position, created_by, due_date)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+          [
+            input.columnId,
+            input.title,
+            input.description ?? null,
+            input.assigneeId ?? null,
+            input.priority ?? "normal",
+            input.type ?? "task",
+            position,
+            input.createdBy,
+            input.dueDate ?? null,
+          ],
         );
         const tickets = await listAllTickets(client);
         await client.query("COMMIT");
@@ -486,10 +507,11 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         const description = patch.description === undefined ? existing.description : patch.description;
         const assigneeId = patch.assigneeId === undefined ? existing.assignee_id : patch.assigneeId;
         const priority = patch.priority ?? existing.priority;
+        const type = patch.type ?? existing.type;
         const dueDate = patch.dueDate === undefined ? existing.due_date : patch.dueDate;
         await client.query(
-          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, due_date = $5, updated_at = now() WHERE id = $6`,
-          [title, description, assigneeId, priority, dueDate, id],
+          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, type = $5, due_date = $6, updated_at = now() WHERE id = $7`,
+          [title, description, assigneeId, priority, type, dueDate, id],
         );
 
         if (targetColumnId !== existing.column_id || patch.position !== undefined) {

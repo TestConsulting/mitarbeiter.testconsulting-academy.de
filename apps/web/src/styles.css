@@ -3698,3 +3698,75 @@ a { color: inherit; }
     margin-left: 0;
   }
 }
+
+/* Task board ticket type overrides (placed late to beat legacy rules). */
+.ticket-card {
+  gap: 8px;
+  padding: 10px 10px 8px;
+  border-left-color: var(--accent);
+  background: rgb(117 184 67 / 8%);
+  min-height: 76px;
+}
+:root:not([data-theme="dark"]) .ticket-card--type-task { border-left-color: var(--primary); background: rgb(0 76 126 / 10%); }
+:root:not([data-theme="dark"]) .ticket-card--type-bug { border-left-color: #c63a3a; background: rgb(198 58 58 / 12%); }
+:root:not([data-theme="dark"]) .ticket-card--type-feature { border-left-color: #c97b1f; background: rgb(201 123 31 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--type-spike { border-left-color: #b58a09; background: rgb(181 138 9 / 15%); }
+:root:not([data-theme="dark"]) .ticket-card--type-todo { border-left-color: #7d8ba1; background: rgb(125 139 161 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--done { border-left-color: var(--accent-strong); background: rgb(117 184 67 / 16%); }
+:root[data-theme="dark"] .ticket-card--type-task { border-left-color: #8cc8ff; background: rgb(140 200 255 / 16%); }
+:root[data-theme="dark"] .ticket-card--type-bug { border-left-color: #ff8f8f; background: rgb(255 120 120 / 15%); }
+:root[data-theme="dark"] .ticket-card--type-feature { border-left-color: #ffc27a; background: rgb(255 176 89 / 16%); }
+:root[data-theme="dark"] .ticket-card--type-spike { border-left-color: #f0d67a; background: rgb(234 202 98 / 16%); }
+:root[data-theme="dark"] .ticket-card--type-todo { border-left-color: #b8cade; background: rgb(173 192 216 / 14%); }
+:root[data-theme="dark"] .ticket-card--done { border-left-color: #7dcf6a; background: rgb(125 207 106 / 20%); }
+
+.ticket-card__type-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ticket-card__type-badge--task { border-color: rgb(0 76 126 / 35%); color: #0b5f96; background: rgb(0 76 126 / 12%); }
+.ticket-card__type-badge--bug { border-color: rgb(198 58 58 / 40%); color: #9f2424; background: rgb(198 58 58 / 14%); }
+.ticket-card__type-badge--feature { border-color: rgb(201 123 31 / 42%); color: #9d5f17; background: rgb(201 123 31 / 16%); }
+.ticket-card__type-badge--spike { border-color: rgb(181 138 9 / 45%); color: #7a5d00; background: rgb(181 138 9 / 18%); }
+.ticket-card__type-badge--todo { border-color: rgb(125 139 161 / 48%); color: #4e5b6e; background: rgb(125 139 161 / 20%); }
+:root[data-theme="dark"] .ticket-card__type-badge--task { border-color: rgb(140 200 255 / 45%); color: #b5e1ff; background: rgb(140 200 255 / 20%); }
+:root[data-theme="dark"] .ticket-card__type-badge--bug { border-color: rgb(255 120 120 / 45%); color: #ffb3b3; background: rgb(255 120 120 / 20%); }
+:root[data-theme="dark"] .ticket-card__type-badge--feature { border-color: rgb(255 176 89 / 50%); color: #ffcf99; background: rgb(255 176 89 / 20%); }
+:root[data-theme="dark"] .ticket-card__type-badge--spike { border-color: rgb(234 202 98 / 50%); color: #f2df9a; background: rgb(234 202 98 / 20%); }
+:root[data-theme="dark"] .ticket-card__type-badge--todo { border-color: rgb(173 192 216 / 50%); color: #cedcf0; background: rgb(173 192 216 / 20%); }
+
+/* Task board ticket palette tuning (v2) */
+:root:not([data-theme="dark"]) .ticket-card--type-task { border-left-color: #0b6fae; background: rgb(11 111 174 / 12%); }
+:root:not([data-theme="dark"]) .ticket-card--type-bug { border-left-color: #c81e1e; background: rgb(200 30 30 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--type-feature { border-left-color: #7c3aed; background: rgb(124 58 237 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--type-spike { border-left-color: #a16207; background: rgb(161 98 7 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--type-todo { border-left-color: #64748b; background: rgb(100 116 139 / 14%); }
+:root:not([data-theme="dark"]) .ticket-card--done { border-left-color: var(--accent-strong); background: rgb(117 184 67 / 16%); }
+
+:root[data-theme="dark"] .ticket-card--type-task { border-left-color: #79c4ff; background: rgb(121 196 255 / 20%); }
+:root[data-theme="dark"] .ticket-card--type-bug { border-left-color: #ff6654; background: rgb(255 102 84 / 20%); }
+:root[data-theme="dark"] .ticket-card--type-feature { border-left-color: #c4b5fd; background: rgb(196 181 253 / 20%); }
+:root[data-theme="dark"] .ticket-card--type-spike { border-left-color: #f6c875; background: rgb(246 200 117 / 16%); }
+:root[data-theme="dark"] .ticket-card--type-todo { border-left-color: #c4cedb; background: rgb(196 206 219 / 14%); }
+:root[data-theme="dark"] .ticket-card--done { border-left-color: #7dcf6a; background: rgb(125 207 106 / 20%); }
+
+.ticket-card__type-badge--task { border-color: rgb(11 111 174 / 42%); color: #085b8f; background: rgb(11 111 174 / 16%); }
+.ticket-card__type-badge--bug { border-color: rgb(200 30 30 / 45%); color: #8f1515; background: rgb(200 30 30 / 16%); }
+.ticket-card__type-badge--feature { border-color: rgb(124 58 237 / 45%); color: #5b21b6; background: rgb(124 58 237 / 16%); }
+.ticket-card__type-badge--spike { border-color: rgb(161 98 7 / 45%); color: #7a4c06; background: rgb(161 98 7 / 16%); }
+.ticket-card__type-badge--todo { border-color: rgb(100 116 139 / 48%); color: #49566b; background: rgb(100 116 139 / 18%); }
+
+:root[data-theme="dark"] .ticket-card__type-badge--task { border-color: rgb(121 196 255 / 55%); color: #cce9ff; background: rgb(121 196 255 / 24%); }
+:root[data-theme="dark"] .ticket-card__type-badge--bug { border-color: rgb(255 102 84 / 55%); color: #ffd5cf; background: rgb(255 102 84 / 24%); }
+:root[data-theme="dark"] .ticket-card__type-badge--feature { border-color: rgb(196 181 253 / 58%); color: #f1eaff; background: rgb(196 181 253 / 26%); }
+:root[data-theme="dark"] .ticket-card__type-badge--spike { border-color: rgb(246 200 117 / 55%); color: #ffe2b4; background: rgb(246 200 117 / 24%); }
+:root[data-theme="dark"] .ticket-card__type-badge--todo { border-color: rgb(196 206 219 / 55%); color: #e7edf6; background: rgb(196 206 219 / 24%); }
