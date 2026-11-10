@@ -1,33 +1,4 @@
-export {
-  courseCategories,
-  coursesData,
-  getCourseBySlug,
-  getCourses,
-  getUploadedQuestionImageId,
-  getCourseUploadedFileIds,
-} from "./elearning.js";
-export type {
-  Course,
-  CourseCategory,
-  CourseInput,
-  CourseSummary,
-  ExamAnswer,
-  ExamAttempt,
-  ExamCourse,
-  ExamQuestion,
-  ExamQuestionResult,
-  ExamSubmissionResult,
-  ExamSession,
-  AbortedExamSession,
-  LearningMaterial,
-  PracticeQuestion,
-  PracticeProgress,
-  QuestionOption,
-} from "./elearning.js";
-export {
-  EXAM_PASS_THRESHOLD, COURSE_EXAM_DURATION_MINUTES, CTFL_EXAM_CHAPTER_COUNTS, CTFL_EXAM_K_LEVEL_COUNTS,
-  CTFL_EXAM_DURATION_MINUTES, CTFL_EXAM_EXTENDED_MINUTES, CTFL_EXAM_QUESTION_COUNT,
-} from "./elearning.js";
+export * from "./elearning.js";
 
 export type PortalUser = {
   id: string;
@@ -43,13 +14,14 @@ export function canManagePortal(user: PortalUser | null | undefined): boolean {
 export type AppLinkInput = {
   name: string;
   description: string;
-  contactEmail: string;
   url: string;
   icon: string;
+  contactEmail?: string;
   sortOrder: number;
 };
 
-export type AppLink = AppLinkInput & { id: string };
+export type AppLink = Omit<AppLinkInput, "contactEmail"> & { id: string; contactEmail: string };
+
 export const DEFAULT_APP_LINK_CONTACT_EMAIL = "backoffice@testconsulting.de";
 
 export type BenefitInput = {
@@ -89,8 +61,8 @@ export type BoardColumn = {
   position: number;
 };
 
-export const ticketPriorities = ["low", "normal", "high", "urgent"] as const;
-export type TicketPriority = (typeof ticketPriorities)[number];
+export type TicketPriority = "low" | "normal" | "high" | "urgent";
+export type TicketType = "task" | "bug" | "feature" | "spike" | "todo";
 
 export type Ticket = {
   id: string;
@@ -98,8 +70,9 @@ export type Ticket = {
   title: string;
   description: string | null;
   assigneeId: string | null;
-  priority: TicketPriority;
-  dueDate: string | null;
+  priority?: TicketPriority;
+  type?: TicketType;
+  dueDate?: string | null;
   position: number;
   createdBy: string;
   createdAt: string;

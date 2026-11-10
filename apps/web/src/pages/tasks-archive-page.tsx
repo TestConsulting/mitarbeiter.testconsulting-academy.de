@@ -107,7 +107,7 @@ export function TasksArchivePage() {
               <li key={ticket.id} className="archive-list__item">
                 <div className="archive-list__meta">
                   <strong>{ticket.title}</strong>
-                  <TicketDueDate dueDate={ticket.dueDate} />
+                  <TicketDueDate dueDate={ticket.dueDate ?? null} />
                   <span>
                     {columnsById.get(ticket.columnId)?.title ?? "Unbekannte Spalte"} • {new Date(ticket.archivedAt).toLocaleDateString("de-DE")}
                   </span>
@@ -124,4 +124,5 @@ export function TasksArchivePage() {
       </section>
     </div>
   );
+
 }

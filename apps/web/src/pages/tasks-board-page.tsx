@@ -3,16 +3,12 @@ import {
   DragOverlay,
   PointerSensor,
   closestCenter,
-  pointerWithin,
-  useDndContext,
-  useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
-  type CollisionDetection,
 } from "@dnd-kit/core";
-import { SortableContext, horizontalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { SortableContext, horizontalListSortingStrategy, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   Avatar,
@@ -28,8 +24,6 @@ import {
   Dropdown,
   Field,
   Input,
-  MessageBar,
-  MessageBarBody,
   Option,
 } from "@fluentui/react-components";
 import {
@@ -42,21 +36,47 @@ import {
   Edit16Regular,
   ErrorCircle16Regular,
 } from "@fluentui/react-icons";
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type UIEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   canManagePortal,
-  ticketPriorities,
   type BoardColumn,
   type BoardState,
   type PortalUser,
   type Ticket,
   type TicketPriority,
+  type TicketType,
 } from "@portal/shared";
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
-import { TicketDueDate } from "./ticket-due-date.js";
 import { TicketDateField } from "./ticket-date-field.js";
+import { TicketDueDate } from "./ticket-due-date.js";
+
+const ticketTypeOptions: { value: TicketType; label: string }[] = [
+  { value: "task", label: "Task" },
+  { value: "bug", label: "Bug" },
+  { value: "feature", label: "Feature" },
+  { value: "spike", label: "Spike" },
+  { value: "todo", label: "TODO" },
+];
+
+const ticketPriorities: TicketPriority[] = ["low", "normal", "high", "urgent"];
+
+const priorityLabels: Record<TicketPriority, string> = {
+  low: "Niedrig",
+  normal: "Normal",
+  high: "Hoch",
+  urgent: "Dringend",
+};
+
+function isDoneColumn(title: string): boolean {
+  const normalized = title.trim().toLowerCase();
+  return normalized === "erledigt" || normalized === "done" || normalized === "fertig";
+}
+
+function getTicketTypeLabel(type: TicketType): string {
+  return ticketTypeOptions.find((entry) => entry.value === type)?.label ?? "Task";
+}
 
 export function TasksBoardPage() {
   const navigate = useNavigate();
@@ -71,9 +91,8 @@ export function TasksBoardPage() {
   const [newTicketTitle, setNewTicketTitle] = useState("");
   const [newTicketDescription, setNewTicketDescription] = useState("");
   const [newTicketPriority, setNewTicketPriority] = useState<TicketPriority>("normal");
+  const [newTicketType, setNewTicketType] = useState<TicketType>("task");
   const [newTicketDueDate, setNewTicketDueDate] = useState("");
-  const [newTicketError, setNewTicketError] = useState<string | null>(null);
-  const [isCreatingTicket, setCreatingTicket] = useState(false);
   const [filterQuery, setFilterQuery] = useState("");
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
@@ -174,29 +193,22 @@ export function TasksBoardPage() {
     if (!newTicketColumnId) return;
     const title = newTicketTitle.trim();
     if (!title) return;
-    if (isCreatingTicket) return;
-    setNewTicketError(null);
-    setCreatingTicket(true);
-    try {
-      const tickets = await api.board.createTicket({
-        columnId: newTicketColumnId,
-        title,
-        description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
-        priority: newTicketPriority,
-        dueDate: newTicketDueDate || null,
-      });
-      setBoard((current) => (current ? { ...current, tickets } : current));
-      setAddTicketOpen(false);
-      setNewTicketColumnId(null);
-      setNewTicketTitle("");
-      setNewTicketDescription("");
-      setNewTicketPriority("normal");
-      setNewTicketDueDate("");
-    } catch (error) {
-      setNewTicketError(error instanceof ApiError ? error.message : "Ticket konnte nicht angelegt werden.");
-    } finally {
-      setCreatingTicket(false);
-    }
+    const tickets = await api.board.createTicket({
+      columnId: newTicketColumnId,
+      title,
+      description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
+      priority: newTicketPriority,
+      type: newTicketType,
+      dueDate: newTicketDueDate || null,
+    });
+    setBoard((current) => (current ? { ...current, tickets } : current));
+    setAddTicketOpen(false);
+    setNewTicketColumnId(null);
+    setNewTicketTitle("");
+    setNewTicketDescription("");
+    setNewTicketPriority("normal");
+    setNewTicketType("task");
+    setNewTicketDueDate("");
   }
 
   async function handleArchiveTickets(columnId: string) {
@@ -214,7 +226,6 @@ export function TasksBoardPage() {
   }
 
   function openAddTicket(columnId: string) {
-    setNewTicketError(null);
     setNewTicketColumnId(columnId);
     setAddTicketOpen(true);
   }
@@ -245,6 +256,7 @@ export function TasksBoardPage() {
     description?: string | null;
     assigneeId?: string | null;
     priority?: TicketPriority;
+    type?: TicketType;
     dueDate?: string | null;
     columnId?: string;
     position?: number;
@@ -262,27 +274,6 @@ export function TasksBoardPage() {
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
-  const detectCollision = useCallback<CollisionDetection>((args) => {
-    if (board?.columns.some((column) => column.id === args.active.id)) {
-      return closestCenter({
-        ...args,
-        droppableContainers: args.droppableContainers.filter((container) =>
-          board.columns.some((column) => column.id === container.id)),
-      });
-    }
-    const collisions = pointerWithin(args);
-    const insertionCollision = collisions.find((collision) =>
-      args.droppableContainers.find((container) => container.id === collision.id)?.data.current?.type === "ticket-insertion");
-    if (insertionCollision) {
-      const targetId: unknown = args.droppableContainers
-        .find((container) => container.id === insertionCollision.id)?.data.current?.targetId;
-      if (typeof targetId === "string") return [{ ...insertionCollision, id: targetId }];
-    }
-    const ticketCollisions = collisions.filter((collision) =>
-      board?.tickets.some((ticket) => ticket.id === collision.id));
-    return ticketCollisions.length > 0 ? ticketCollisions : collisions;
-  }, [board]);
-
   const handleDragStart = useCallback((event: DragStartEvent) => {
     const activeId = String(event.active.id);
     const isColumnDrag = board?.columns.some((column) => column.id === activeId) ?? false;
@@ -298,7 +289,6 @@ export function TasksBoardPage() {
 
     const activeId = String(active.id);
     const overId = String(over.id);
-    if (activeId === overId) return;
 
     const activeColumn = board.columns.find((entry) => entry.id === activeId);
     const overColumn = board.columns.find((entry) => entry.id === overId);
@@ -378,7 +368,7 @@ export function TasksBoardPage() {
 
       <DndContext
         sensors={sensors}
-        collisionDetection={detectCollision}
+        collisionDetection={closestCenter}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={() => { setActiveTicketId(null); setActiveColumnId(null); }}
@@ -397,8 +387,8 @@ export function TasksBoardPage() {
                 onArchiveTickets={() => { setColumnActionError(null); setArchivingColumnId(column.id); }}
                 onArchiveTicket={handleArchiveTicket}
                 onAddTicket={() => openAddTicket(column.id)}
-                canArchive={column.title === "Erledigt" || column.title === "Done" || column.title === "Fertig"}
-                isTicketDragging={activeTicketId !== null}
+                canArchive={isDoneColumn(column.title)}
+                dragDisabled={normalizedFilter.length > 0}
                 onRenameColumn={() => openRenameColumn(column)}
                 onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}
                 canManageColumns={canManageColumns}
@@ -406,7 +396,7 @@ export function TasksBoardPage() {
             ))}
           </div>
         </SortableContext>
-        <DragOverlay dropAnimation={null}>
+        <DragOverlay>
           {activeTicket ? (
             <TicketCardPreview
               ticket={activeTicket}
@@ -427,8 +417,8 @@ export function TasksBoardPage() {
           setNewTicketTitle("");
           setNewTicketDescription("");
           setNewTicketPriority("normal");
+          setNewTicketType("task");
           setNewTicketDueDate("");
-          setNewTicketError(null);
         }
       }}>
         <DialogSurface>
@@ -436,19 +426,31 @@ export function TasksBoardPage() {
             <DialogBody>
               <DialogTitle>Ticket in {newTicketColumnTitle} anlegen</DialogTitle>
               <DialogContent className="ticket-dialog-content">
-                {newTicketError && <MessageBar intent="error"><MessageBarBody>{newTicketError}</MessageBarBody></MessageBar>}
                 <Field label="Titel">
                   <Input value={newTicketTitle} onChange={(_event, data) => setNewTicketTitle(data.value)} autoFocus />
                 </Field>
                 <Field label="Beschreibung">
-                  {(controlProps) => <textarea
-                    {...controlProps}
+                  <textarea
                     className="ticket-dialog__textarea"
                     value={newTicketDescription}
                     onChange={(event) => setNewTicketDescription(event.target.value)}
                     rows={7}
                     placeholder="Beschreibung eingeben"
-                  />}
+                  />
+                </Field>
+                <Field label="Typ">
+                  <Dropdown
+                    className="ticket-dialog__dropdown"
+                    value={getTicketTypeLabel(newTicketType)}
+                    selectedOptions={[newTicketType]}
+                    onOptionSelect={(_event, data) => {
+                      if (data.optionValue) setNewTicketType(data.optionValue as TicketType);
+                    }}
+                  >
+                    {ticketTypeOptions.map((option) => (
+                      <Option key={option.value} value={option.value}>{option.label}</Option>
+                    ))}
+                  </Dropdown>
                 </Field>
                 <Field label="Priorität">
                   <PriorityDropdown priority={newTicketPriority} onChange={setNewTicketPriority} />
@@ -459,7 +461,7 @@ export function TasksBoardPage() {
                 <DialogTrigger disableButtonEnhancement>
                   <Button appearance="secondary" type="button">Abbrechen</Button>
                 </DialogTrigger>
-                <Button appearance="primary" type="submit" disabled={isCreatingTicket}>Anlegen</Button>
+                <Button appearance="primary" type="submit">Anlegen</Button>
               </DialogActions>
             </DialogBody>
           </form>
@@ -604,7 +606,7 @@ function BoardColumnView({
   onArchiveTicket,
   onAddTicket,
   canArchive,
-  isTicketDragging,
+  dragDisabled,
   onRenameColumn,
   onDeleteColumn,
   canManageColumns,
@@ -619,40 +621,16 @@ function BoardColumnView({
   onArchiveTicket: (id: string) => void;
   onAddTicket: () => void;
   canArchive: boolean;
-  isTicketDragging: boolean;
+  dragDisabled: boolean;
   onRenameColumn: () => void;
   onDeleteColumn: () => void;
   canManageColumns: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({ id: column.id, disabled: !canManageColumns });
-  const { active, over } = useDndContext();
-  const isColumnOver = isOver || (isTicketDragging && tickets.some((ticket) => ticket.id === over?.id));
-  const insertionTargetId = isTicketDragging && isColumnOver && over?.id !== active?.id
-    ? over?.id
-    : null;
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({ id: column.id, disabled: dragDisabled || !canManageColumns });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.75 : 1 };
-  const [scrollIndicator, setScrollIndicator] = useState<{ height: number; top: number } | null>(null);
-  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => () => {
-    if (scrollTimeout.current !== null) clearTimeout(scrollTimeout.current);
-  }, []);
-
-  function handleScroll(event: UIEvent<HTMLDivElement>) {
-    const { clientHeight, scrollHeight, scrollTop } = event.currentTarget;
-    if (scrollTimeout.current !== null) clearTimeout(scrollTimeout.current);
-    if (scrollHeight <= clientHeight) {
-      setScrollIndicator(null);
-      return;
-    }
-    const height = Math.min(clientHeight, Math.max(24, clientHeight * clientHeight / scrollHeight));
-    const top = Math.max(0, Math.min(1, scrollTop / (scrollHeight - clientHeight))) * (clientHeight - height);
-    setScrollIndicator({ height, top });
-    scrollTimeout.current = setTimeout(() => setScrollIndicator(null), 800);
-  }
 
   return (
-    <section className={`board-column${isDragging ? " board-column--dragging" : ""}${isColumnOver ? " board-column--over" : ""}`} ref={setNodeRef} style={style}>
+    <section className={`board-column${isDragging ? " board-column--dragging" : ""}${isOver ? " board-column--over" : ""}`} ref={setNodeRef} style={style}>
       <header className="board-column__header">
         <div className="board-column__header-main">
           {canManageColumns ? (
@@ -713,34 +691,21 @@ function BoardColumnView({
         </div>
       </header>
 
-      <SortableContext items={tickets.map((ticket) => ticket.id)} strategy={() => null}>
-        <div className="board-column__scroll-area">
-          <div className="board-column__cards" onScroll={handleScroll}>
-            {tickets.map((ticket) => (
-              <Fragment key={ticket.id}>
-                {insertionTargetId === ticket.id && (
-                  <TicketInsertionMarker columnId={column.id} targetId={ticket.id} />
-                )}
-                <TicketCard
-                  ticket={ticket}
-                  columnTitle={column.title}
-                  assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
-                  canArchive={canArchive}
-                  onArchive={() => onArchiveTicket(ticket.id)}
-                  onEdit={() => onEditTicket(ticket)}
-                  onDelete={() => onDeleteTicket(ticket.id)}
-                />
-              </Fragment>
-            ))}
-            {insertionTargetId === column.id && (
-              <TicketInsertionMarker columnId={column.id} targetId={column.id} />
-            )}
-          </div>
-          <div
-            className={`board-column__scroll-indicator${scrollIndicator ? " board-column__scroll-indicator--visible" : ""}`}
-            style={{ height: scrollIndicator?.height ?? 0, top: scrollIndicator?.top ?? 0 }}
-            aria-hidden="true"
-          />
+      <SortableContext items={tickets.map((ticket) => ticket.id)} strategy={verticalListSortingStrategy}>
+        <div className="board-column__cards">
+          {tickets.map((ticket) => (
+            <TicketCard
+              key={ticket.id}
+              ticket={ticket}
+              columnTitle={column.title}
+              assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
+              dragDisabled={dragDisabled}
+              canArchive={canArchive}
+              onArchive={() => onArchiveTicket(ticket.id)}
+              onEdit={() => onEditTicket(ticket)}
+              onDelete={() => onDeleteTicket(ticket.id)}
+            />
+          ))}
         </div>
       </SortableContext>
 
@@ -758,18 +723,11 @@ function BoardColumnView({
   );
 }
 
-function TicketInsertionMarker({ columnId, targetId }: { columnId: string; targetId: string }) {
-  const { setNodeRef } = useDroppable({
-    id: `ticket-insertion-${columnId}`,
-    data: { type: "ticket-insertion", targetId },
-  });
-  return <div ref={setNodeRef} className="board-column__insertion-marker" aria-hidden="true"><div /></div>;
-}
-
 function TicketCard({
   ticket,
   columnTitle,
   assignee,
+  dragDisabled,
   canArchive,
   onArchive,
   onEdit,
@@ -778,18 +736,21 @@ function TicketCard({
   ticket: Ticket;
   columnTitle: string;
   assignee: PortalUser | undefined;
+  dragDisabled: boolean;
   canArchive: boolean;
   onArchive: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id, disabled: dragDisabled });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.2 : 1 };
-  const tone = columnTitle === "Erledigt" ? "done" : columnTitle === "In Review" ? "review" : columnTitle === "In Arbeit" ? "doing" : "todo";
+  const ticketType = ticket.type ?? "task";
+  const priority = ticket.priority ?? "normal";
+  const done = isDoneColumn(columnTitle);
 
   return (
     <article
-      className={`ticket-card ticket-card--${tone}`}
+      className={`ticket-card${done ? " ticket-card--done" : ""} ticket-card--type-${ticketType}`}
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -833,10 +794,11 @@ function TicketCard({
             </button>
           </div>
       </div>
-      <TicketDueDate dueDate={ticket.dueDate} />
+      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
+      <TicketDueDate dueDate={ticket.dueDate ?? null} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
-        <TicketPriorityBadge priority={ticket.priority} />
+        <TicketPriorityBadge priority={priority} />
       </div>
     </article>
   );
@@ -861,10 +823,12 @@ function TicketCardPreview({
   columnTitle: string;
   assignee: PortalUser | undefined;
 }) {
-  const tone = columnTitle === "Erledigt" ? "done" : columnTitle === "In Review" ? "review" : columnTitle === "In Arbeit" ? "doing" : "todo";
+  const ticketType = ticket.type ?? "task";
+  const priority = ticket.priority ?? "normal";
+  const done = isDoneColumn(columnTitle);
 
   return (
-    <article className={`ticket-card ticket-card--${tone} ticket-card--drag-overlay`} role="presentation" aria-hidden="true">
+    <article className={`ticket-card${done ? " ticket-card--done" : ""} ticket-card--type-${ticketType} ticket-card--drag-overlay`} role="presentation" aria-hidden="true">
       <div className="ticket-card__header">
         <span className="ticket-card__title">{ticket.title}</span>
         <div className="ticket-card__actions">
@@ -872,10 +836,11 @@ function TicketCardPreview({
           <Delete16Regular />
         </div>
       </div>
-      <TicketDueDate dueDate={ticket.dueDate} />
+      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
+      <TicketDueDate dueDate={ticket.dueDate ?? null} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
-        <TicketPriorityBadge priority={ticket.priority} />
+        <TicketPriorityBadge priority={priority} />
       </div>
     </article>
   );
@@ -898,44 +863,31 @@ function EditTicketDialog({
     description: string | null;
     assigneeId: string | null;
     priority: TicketPriority;
+    type: TicketType;
     dueDate: string | null;
     columnId: string;
-  }) => Promise<void>;
+  }) => void;
   onRequestDelete: () => void;
 }) {
   const [title, setTitle] = useState(ticket.title);
   const [description, setDescription] = useState(ticket.description ?? "");
   const [assigneeId, setAssigneeId] = useState(ticket.assigneeId ?? "");
-  const [priority, setPriority] = useState<TicketPriority>(ticket.priority);
+  const [priority, setPriority] = useState<TicketPriority>(ticket.priority ?? "normal");
+  const [type, setType] = useState<TicketType>(ticket.type ?? "task");
   const [dueDate, setDueDate] = useState(ticket.dueDate ?? "");
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [isSaving, setSaving] = useState(false);
   const [columnId, setColumnId] = useState(ticket.columnId);
-  const editorRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
-    editorRef.current?.focus();
-  }, []);
-
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (isSaving) return;
-    setSaveError(null);
-    setSaving(true);
-    try {
-      await onSave({
-        title: title.trim(),
-        description: description.trim() ? description.trim() : null,
-        assigneeId: assigneeId || null,
-        priority,
-        dueDate: dueDate || null,
-        columnId,
-      });
-    } catch (error) {
-      setSaveError(error instanceof ApiError ? error.message : "Ticket konnte nicht gespeichert werden.");
-    } finally {
-      setSaving(false);
-    }
+    onSave({
+      title: title.trim(),
+      description: description.trim() ? description.trim() : null,
+      assigneeId: assigneeId || null,
+      priority,
+      type,
+      dueDate: dueDate || null,
+      columnId,
+    });
   }
 
   const assigneeName = users.find((entry) => entry.id === assigneeId)?.name ?? "Niemand zugewiesen";
@@ -946,21 +898,19 @@ function EditTicketDialog({
       <DialogSurface>
         <form onSubmit={handleSubmit}>
           <DialogBody>
-            <DialogTitle ref={editorRef} tabIndex={-1}>Ticket bearbeiten</DialogTitle>
+            <DialogTitle>Ticket bearbeiten</DialogTitle>
             <DialogContent className="ticket-dialog-content">
-              {saveError && <MessageBar intent="error"><MessageBarBody>{saveError}</MessageBarBody></MessageBar>}
               <Field label="Titel">
-                <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} />
+                <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} autoFocus />
               </Field>
               <Field label="Beschreibung">
-                {(controlProps) => <textarea
-                  {...controlProps}
+                <textarea
                   className="ticket-dialog__textarea"
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
                   rows={10}
                   placeholder="Beschreibung eingeben"
-                />}
+                />
               </Field>
               <Field label="Zuweisung">
                 <Dropdown
@@ -972,6 +922,20 @@ function EditTicketDialog({
                   <Option value="">Niemand zugewiesen</Option>
                   {users.map((entry) => (
                     <Option key={entry.id} value={entry.id}>{entry.name}</Option>
+                  ))}
+                </Dropdown>
+              </Field>
+              <Field label="Typ">
+                <Dropdown
+                  className="ticket-dialog__dropdown"
+                  value={getTicketTypeLabel(type)}
+                  selectedOptions={[type]}
+                  onOptionSelect={(_event, data) => {
+                    if (data.optionValue) setType(data.optionValue as TicketType);
+                  }}
+                >
+                  {ticketTypeOptions.map((option) => (
+                    <Option key={option.value} value={option.value}>{option.label}</Option>
                   ))}
                 </Dropdown>
               </Field>
@@ -1000,7 +964,7 @@ function EditTicketDialog({
               <DialogTrigger disableButtonEnhancement>
                 <Button appearance="secondary" type="button">Abbrechen</Button>
               </DialogTrigger>
-              <Button appearance="primary" type="submit" disabled={isSaving}>Speichern</Button>
+              <Button appearance="primary" type="submit">Speichern</Button>
             </DialogActions>
           </DialogBody>
         </form>
@@ -1009,17 +973,10 @@ function EditTicketDialog({
   );
 }
 
-const priorityLabels: Record<TicketPriority, string> = {
-  low: "Niedrig",
-  normal: "Normal",
-  high: "Hoch",
-  urgent: "Dringend",
-};
-
 const priorityIcons = {
   low: <ChevronDown16Regular />,
   normal: (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path d="M3.5 6h9M3.5 10h9" stroke="currentColor" strokeLinecap="round" />
     </svg>
   ),

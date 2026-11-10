@@ -1,4 +1,5 @@
 import type {
+  AbortedExamSession,
   AppLink,
   AppLinkInput,
   ArchivedTicket,
@@ -12,6 +13,7 @@ import type {
   ExamAnswer,
   ExamAttempt,
   ExamCourse,
+  ExamSession,
   ExamSubmissionResult,
   LearningMaterial,
   PortalUser,
@@ -157,16 +159,6 @@ export const api = {
     },
   },
   courses: {
-    renameCategory(category: string, name: string) {
-      return request<{ updatedCourses: number }>("/api/courses/categories/rename", {
-        method: "PUT", body: JSON.stringify({ category, name }),
-      });
-    },
-    deleteCategory(category: string, replacement: string) {
-      return request<{ updatedCourses: number }>("/api/courses/categories/delete", {
-        method: "PUT", body: JSON.stringify({ category, replacement }),
-      });
-    },
     async list() {
       const result = await request<{ courses: CourseSummary[] }>("/api/courses");
       return result.courses;
@@ -184,50 +176,64 @@ export const api = {
       return result.course;
     },
     async getPracticeProgress(slug: string) {
-      const result = await request<{ progress: PracticeProgress[] }>(
-        `/api/courses/${encodeURIComponent(slug)}/practice/progress`,
-      );
+      const result = await request<{ progress: PracticeProgress[] }>(`/api/courses/${encodeURIComponent(slug)}/practice/progress`);
       return result.progress;
     },
     async checkPracticeAnswer(slug: string, questionId: string, selectedOptionIds: string[]) {
-      const result = await request<{ progress: PracticeProgress }>(
-        `/api/courses/${encodeURIComponent(slug)}/practice/answer`,
-        { method: "POST", body: JSON.stringify({ questionId, selectedOptionIds }) },
-      );
+      const result = await request<{ progress: PracticeProgress }>(`/api/courses/${encodeURIComponent(slug)}/practice/answer`, {
+        method: "POST",
+        body: JSON.stringify({ questionId, selectedOptionIds }),
+      });
       return result.progress;
     },
     async getExam(slug: string) {
       const result = await request<{ course: ExamCourse }>(`/api/courses/${encodeURIComponent(slug)}/exam`);
       return result.course;
     },
-    async currentExamSession() {
-      return (await request<{ session: import("@portal/shared").ExamSession | null }>("/api/exam-sessions/current")).session;
-    },
-    async startExamSession(extended: boolean) {
-      return (await request<{ session: import("@portal/shared").ExamSession }>("/api/exam-sessions/start", {
-        method: "POST", body: JSON.stringify({ slug: "istqb-foundation", extended }),
-      })).session;
-    },
-    async changeExamSession(id: string, action: "save" | "submit" | "abort", answers?: ExamAnswer[]) {
-      return (await request<{ session: import("@portal/shared").ExamSession }>(
-        `/api/exam-sessions/${encodeURIComponent(id)}/${action}`,
-        { method: "POST", body: JSON.stringify({ answers }) },
-      )).session;
-    },
-    async abortedExamSessions() {
-      return (await request<{ attempts: import("@portal/shared").AbortedExamSession[] }>("/api/exam-sessions/aborted")).attempts;
-    },
     async submitExam(slug: string, answers: ExamAnswer[]) {
-      const result = await request<{ result: ExamSubmissionResult }>(
-        `/api/courses/${encodeURIComponent(slug)}/exam/submit`,
-        { method: "POST", body: JSON.stringify({ answers }) },
-      );
+      const result = await request<{ result: ExamSubmissionResult }>(`/api/courses/${encodeURIComponent(slug)}/exam/submit`, {
+        method: "POST",
+        body: JSON.stringify({ answers }),
+      });
       return result.result;
     },
     async examResults() {
-      await this.currentExamSession();
       const result = await request<{ attempts: ExamAttempt[] }>("/api/courses/results");
       return result.attempts;
+    },
+    async renameCategory(category: string, name: string) {
+      return request<{ updatedCourses: number }>("/api/courses/categories/rename", {
+        method: "PUT",
+        body: JSON.stringify({ category, name }),
+      });
+    },
+    async deleteCategory(category: string, replacement: string) {
+      return request<{ updatedCourses: number }>("/api/courses/categories/delete", {
+        method: "PUT",
+        body: JSON.stringify({ category, replacement }),
+      });
+    },
+    async currentExamSession() {
+      const result = await request<{ session: ExamSession | null }>("/api/exam-sessions/current");
+      return result.session;
+    },
+    async abortedExamSessions() {
+      const result = await request<{ attempts: AbortedExamSession[] }>("/api/exam-sessions/aborted");
+      return result.attempts;
+    },
+    async startExamSession(extended: boolean) {
+      const result = await request<{ session: ExamSession }>("/api/exam-sessions/start", {
+        method: "POST",
+        body: JSON.stringify({ slug: "istqb-foundation", extended }),
+      });
+      return result.session;
+    },
+    async changeExamSession(id: string, action: "save" | "submit" | "abort", answers?: ExamAnswer[]) {
+      const result = await request<{ session: ExamSession }>(`/api/exam-sessions/${encodeURIComponent(id)}/${action}`, {
+        method: "POST",
+        body: JSON.stringify(answers ? { answers } : {}),
+      });
+      return result.session;
     },
     async create(input: CourseInput) {
       const result = await request<{ course: Course }>("/api/courses", {
@@ -245,18 +251,19 @@ export const api = {
       return request<{ success: true }>(`/api/courses/${encodeURIComponent(id)}`, { method: "DELETE" });
     },
     async uploadMaterial(file: File) {
+      const knownContentType = file.type && file.type.trim() ? file.type : undefined;
       const response = await fetch("/api/courses/materials", {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": file.type,
+          "Content-Type": knownContentType ?? "application/octet-stream",
           "X-File-Name": encodeURIComponent(file.name),
         },
         body: file,
       });
       if (!response.ok) {
         const payload = await response.json().catch(() => ({})) as { error?: string };
-        throw new ApiError(payload.error ?? "Das Lernmaterial konnte nicht hochgeladen werden.", response.status);
+        throw new ApiError(payload.error ?? "Die PDF-Datei konnte nicht hochgeladen werden.", response.status);
       }
       const result = await response.json() as { material: LearningMaterial };
       return result.material;
@@ -300,6 +307,7 @@ export const api = {
       description?: string | null;
       assigneeId?: string | null;
       priority?: TicketPriority;
+      type?: "task" | "bug" | "feature" | "spike" | "todo";
       dueDate?: string | null;
     }) {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
@@ -337,6 +345,7 @@ export const api = {
       description?: string | null;
       assigneeId?: string | null;
       priority?: TicketPriority;
+      type?: "task" | "bug" | "feature" | "spike" | "todo";
       dueDate?: string | null;
       columnId?: string;
       position?: number;
