@@ -53,6 +53,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
+import { MobileKanbanBoard } from "./tasks-board-mobile.js";
 import { TicketDateField } from "./ticket-date-field.js";
 import { TicketDueDate } from "./ticket-due-date.js";
 
@@ -108,7 +109,19 @@ export function TasksBoardPage() {
   const [activeTicketId, setActiveTicketId] = useState<string | null>(null);
   const [activeColumnId, setActiveColumnId] = useState<string | null>(null);
   const [archivedCount, setArchivedCount] = useState(0);
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
   const canManageColumns = canManagePortal(user);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateViewport = () => setIsMobile(window.innerWidth < 768);
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
 
   const usersById = useMemo(() => new Map(users.map((entry) => [entry.id, entry])), [users]);
 
@@ -197,14 +210,24 @@ export function TasksBoardPage() {
     if (!newTicketColumnId) return;
     const title = newTicketTitle.trim();
     if (!title) return;
-    const tickets = await api.board.createTicket({
+    const payload: {
+      columnId: string;
+      title: string;
+      description?: string | null;
+      assigneeId?: string | null;
+      priority?: TicketPriority;
+      type?: TicketType;
+      dueDate?: string | null;
+    } = {
       columnId: newTicketColumnId,
       title,
       description: newTicketDescription.trim() ? newTicketDescription.trim() : null,
-      priority: newTicketPriority,
-      type: newTicketType,
-      dueDate: newTicketDueDate || null,
-    });
+    };
+    if (newTicketPriority !== "normal") payload.priority = newTicketPriority;
+    if (newTicketType !== "task") payload.type = newTicketType;
+    if (newTicketDueDate) payload.dueDate = newTicketDueDate;
+
+    const tickets = await api.board.createTicket(payload);
     setBoard((current) => (current ? { ...current, tickets } : current));
     setAddTicketOpen(false);
     setNewTicketColumnId(null);
@@ -367,6 +390,23 @@ export function TasksBoardPage() {
           <p>Bitte lade die Seite neu oder versuche es später erneut.</p>
         </section>
       </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <MobileKanbanBoard
+        columns={columnsSorted}
+        ticketsByColumn={ticketsByColumn}
+        usersById={usersById}
+        filterQuery={filterQuery}
+        setFilterQuery={setFilterQuery}
+        canManageColumns={canManageColumns}
+        onAddColumn={() => setAddColumnOpen(true)}
+        onEditTicket={(ticket) => setEditingTicket(ticket)}
+        onAddTicket={openAddTicket}
+        onMoveTicket={(ticketId, columnId, position) => handleUpdateTicket(ticketId, { columnId, position })}
+      />
     );
   }
 
@@ -738,6 +778,7 @@ function BoardColumnView({
                 assignee={ticket.assigneeId ? users.get(ticket.assigneeId) : undefined}
                 dragDisabled={dragDisabled}
                 canArchive={canArchive}
+                canManageColumns={canManageColumns}
                 onArchive={() => onArchiveTicket(ticket.id)}
                 onEdit={() => onEditTicket(ticket)}
                 onDelete={() => onDeleteTicket(ticket.id)}
@@ -750,16 +791,18 @@ function BoardColumnView({
         </div>
       </SortableContext>
 
-      <div className="board-column__footer">
-        <Button appearance="secondary" size="small" onClick={onAddTicket}>
-          Ticket hinzufügen
-        </Button>
-        {canArchive && (
-          <Button appearance="subtle" size="small" onClick={onArchiveTickets} disabled={ticketCount === 0}>
-            Archivieren
+      {canManageColumns && (
+        <div className="board-column__footer">
+          <Button appearance="secondary" size="small" onClick={onAddTicket}>
+            Ticket hinzufügen
           </Button>
-        )}
-      </div>
+          {canArchive && (
+            <Button appearance="subtle" size="small" onClick={onArchiveTickets} disabled={ticketCount === 0}>
+              Archivieren
+            </Button>
+          )}
+        </div>
+      )}
     </section>
   );
 }
@@ -778,6 +821,7 @@ function TicketCard({
   assignee,
   dragDisabled,
   canArchive,
+  canManageColumns,
   onArchive,
   onEdit,
   onDelete,
@@ -787,6 +831,7 @@ function TicketCard({
   assignee: PortalUser | undefined;
   dragDisabled: boolean;
   canArchive: boolean;
+  canManageColumns: boolean;
   onArchive: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -832,15 +877,17 @@ function TicketCard({
                 <Archive16Regular />
               </button>
             )}
-            <button
-              type="button"
-              className="ticket-card__delete"
-              aria-label="Ticket löschen"
-              title="Ticket löschen"
-              onClick={(event) => { event.stopPropagation(); onDelete(); }}
-            >
-              <Delete16Regular />
-            </button>
+            {canManageColumns && (
+              <button
+                type="button"
+                className="ticket-card__delete"
+                aria-label="Ticket löschen"
+                title="Ticket löschen"
+                onClick={(event) => { event.stopPropagation(); onDelete(); }}
+              >
+                <Delete16Regular />
+              </button>
+            )}
           </div>
       </div>
       <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>

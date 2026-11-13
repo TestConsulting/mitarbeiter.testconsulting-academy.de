@@ -705,6 +705,23 @@ a { color: inherit; }
 }
 
 .board { display: flex; align-items: stretch; gap: 14px; height: calc(100% - 8px); min-height: 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+.mobile-board-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+.mobile-board-tabs::-webkit-scrollbar { display: none; }
+.mobile-board-tab { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); white-space: nowrap; cursor: pointer; }
+.mobile-board-tab--selected { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.mobile-board-tab__count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; border-radius: 999px; background: color-mix(in srgb, currentColor 18%, transparent); font-size: 11px; font-weight: 700; }
+.mobile-board-column { display: flex; flex-direction: column; gap: 12px; }
+.mobile-board-column__header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mobile-board-column__header h2 { margin: 0; font-size: 0.95rem; }
+.mobile-board-column__list { display: flex; flex-direction: column; gap: 10px; }
+.mobile-ticket-card { width: 100%; display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--text); text-align: left; }
+.mobile-ticket-card__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.mobile-ticket-card__content { flex: 1 1 auto; display: block; border: 0; background: transparent; color: inherit; text-align: left; padding: 0; cursor: pointer; }
+.mobile-ticket-card__title { display: block; font-size: 0.95rem; font-weight: 600; }
+.mobile-ticket-card__drag-handle { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-alt); color: var(--muted); cursor: grab; touch-action: none; }
+.mobile-ticket-card__drag-handle:active { cursor: grabbing; }
+.mobile-ticket-card__meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.77rem; color: var(--muted); }
+.empty-state--compact { padding: 16px; border: 1px dashed var(--border); border-radius: 12px; }
 .board-column { display: flex; width: 300px; flex: 1 0 280px; max-width: 300px; flex-direction: column; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); min-height: 0; transition: border-color 120ms ease, background 120ms ease; }
 .board-column--over { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--surface-alt)); }
 .board-column__header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 4px; }
