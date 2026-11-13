@@ -6,7 +6,7 @@
 - Maximize reuse of existing project functions/components.
 - Focus only at the task at hand.
 - Avoid unnecessary context switching; stay focused on the current file or component.
-- Avoid unnecessary summaries after generating code.
+- Avoid unnecessary long to very long explanations or detailed summaries after generating code.
 - Optimize prompt caching by reusing previously generated completions when possible.
 
 ## Security Basics
@@ -41,3 +41,6 @@
 - Be transparent about limitations, uncertainties, and potential side effects of the code.
 - Do not claim that something got fixed/implemented if it hasn't been verified.
 - Always provide sources or references when making factual claims.
+
+## Model Choice
+-

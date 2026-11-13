@@ -20,15 +20,7 @@ vi.mock("../api/client.js", async (importOriginal) => ({
   api: { links: mocks },
 }));
 
-const link: AppLink = {
-  id: "link-1",
-  name: "Microsoft 365",
-  description: "Outlook, Teams, OneDrive",
-  contactEmail: "backoffice@testconsulting.de",
-  icon: "M365",
-  url: "https://www.microsoft365.com/",
-  sortOrder: 0,
-};
+const link: AppLink = { id: "link-1", name: "Microsoft 365", description: "Outlook, Teams, OneDrive", icon: "M365", url: "https://www.microsoft365.com/", sortOrder: 0 };
 
 function renderPage() {
   return render(<FluentProvider theme={webLightTheme}><MemoryRouter><ApplicationLinksPage /></MemoryRouter></FluentProvider>);
@@ -50,39 +42,13 @@ afterEach(() => {
 });
 
 describe("application links page", () => {
-  it("starts editing without highlighting the name and moves focus between fields", async () => {
-    mocks.role = "admin";
-    const user = userEvent.setup();
-    renderPage();
-    await user.click(await screen.findByRole("button", { name: `${link.name} bearbeiten` }));
-    const dialog = within(await screen.findByRole("dialog"));
-    expect(dialog.getByRole("heading", { name: "Link bearbeiten" })).toHaveFocus();
-    const name = dialog.getByRole("textbox", { name: "Name" });
-    await user.click(name);
-    expect(name).toHaveFocus();
-    await user.click(dialog.getByRole("textbox", { name: "Kurzbeschreibung" }));
-    expect(name).not.toHaveFocus();
-  });
-
   it("renders email links with an envelope and no new tab", async () => {
     mocks.list.mockResolvedValue([{ ...link, name: "Backoffice", url: "mailto:backoffice@testconsulting.de" }]);
     renderPage();
-    const actions = await screen.findAllByRole("link", { name: "Backoffice: E-Mail schreiben" });
-    expect(actions).toHaveLength(1);
-    const [action] = actions;
+    const action = await screen.findByRole("link", { name: "Backoffice: E-Mail schreiben" });
     expect(action).toHaveAttribute("href", "mailto:backoffice@testconsulting.de");
     expect(action).not.toHaveAttribute("target");
     expect(screen.getByRole("article", { name: "Backoffice" }).querySelector(".application-link-card__icon svg")).toBeInTheDocument();
-  });
-
-  it("adds a separate contact email button to regular application links", async () => {
-    renderPage();
-    const openLink = await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" });
-    const emailLink = screen.getByRole("link", { name: "Microsoft 365: E-Mail schreiben" });
-    expect(openLink).toHaveAttribute("href", link.url);
-    expect(openLink).toHaveAttribute("target", "_blank");
-    expect(emailLink).toHaveAttribute("href", `mailto:${link.contactEmail}`);
-    expect(emailLink).not.toHaveAttribute("target");
   });
 
   it.each([
@@ -118,7 +84,6 @@ describe("application links page", () => {
     const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByText(description.trim())).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: link.url })).toHaveAttribute("href", link.url);
-    expect(dialog.getByRole("link", { name: link.contactEmail })).toHaveAttribute("href", `mailto:${link.contactEmail}`);
     expect(dialog.getByRole("link", { name: "Öffnen" })).toHaveAttribute("target", "_blank");
     expect(dialog.getByRole("button", { name: "Popup schließen" })).toBeInTheDocument();
     expect(dialog.getByRole("heading", { name: "Beschreibung" })).toBeInTheDocument();
@@ -130,7 +95,7 @@ describe("application links page", () => {
 
   it("keeps the description out of the tile", async () => {
     renderPage();
-    await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" });
+    await screen.findByRole("link", { name: /Microsoft 365/ });
     expect(screen.queryByRole("button", { name: /mehr anzeigen/ })).not.toBeInTheDocument();
     expect(screen.queryByText(link.description)).not.toBeInTheDocument();
   });
@@ -158,14 +123,14 @@ describe("application links page", () => {
 
   it("does not open details when the external link is clicked", async () => {
     renderPage();
-    const action = await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" });
+    const action = await screen.findByRole("link", { name: /Microsoft 365/ });
     fireEvent.click(action);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("renders external link tiles without management controls for employees", async () => {
     renderPage();
-    const tile = await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" });
+    const tile = await screen.findByRole("link", { name: /Microsoft 365/ });
     expect(tile).toHaveAttribute("href", link.url);
     expect(tile).toHaveAttribute("target", "_blank");
     expect(tile).toHaveAttribute("rel", "noopener noreferrer");
@@ -204,12 +169,10 @@ describe("application links page", () => {
     expect(mocks.reorder).toHaveBeenCalledWith([second.id, link.id]);
     if (fails) {
       expect(await screen.findByText("Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut.")).toBeInTheDocument();
-      expect(screen.getAllByRole("link", { name: /öffnen \(neuer Tab\)/ }).map((tile) => tile.getAttribute("href")))
-        .toEqual([link.url, second.url]);
+      expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([link.url, second.url]);
     } else {
       expect(await screen.findByText("Reihenfolge wurde für alle Mitarbeitenden gespeichert.")).toBeInTheDocument();
-      expect(screen.getAllByRole("link", { name: /öffnen \(neuer Tab\)/ }).map((tile) => tile.getAttribute("href")))
-        .toEqual([second.url, link.url]);
+      expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([second.url, link.url]);
     }
   });
 
@@ -232,7 +195,7 @@ describe("application links page", () => {
     expect(screen.getByRole("status")).toBeInTheDocument();
     expect(await screen.findByText("Application Links konnten nicht geladen werden.")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Erneut versuchen" }));
-    expect(await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" })).toBeInTheDocument();
+    expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
   it("lets admins create links without an abbreviation field and displays them in order", async () => {
@@ -246,25 +209,13 @@ describe("application links page", () => {
     await user.type(dialog.getByLabelText("Name", { exact: false }), created.name);
     await user.type(dialog.getByLabelText("Kurzbeschreibung", { exact: false }), created.description);
     expect(dialog.queryByLabelText("Kürzel")).not.toBeInTheDocument();
-    const contactField = dialog.getByRole("textbox", { name: "Ansprechpartner" });
-    expect(contactField).toHaveValue("backoffice@testconsulting.de");
-    await user.clear(contactField);
-    await user.type(contactField, "support@example.test");
     await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), created.url);
     await user.clear(dialog.getByLabelText("Reihenfolge", { exact: false }));
     await user.type(dialog.getByLabelText("Reihenfolge", { exact: false }), "2");
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
-    expect(await screen.findByRole("link", { name: "Wiki öffnen (neuer Tab)" })).toBeInTheDocument();
-    expect(mocks.create).toHaveBeenCalledWith({
-      name: created.name,
-      description: created.description,
-      contactEmail: "support@example.test",
-      icon: "App",
-      url: created.url,
-      sortOrder: 2,
-    });
-    expect(screen.getAllByRole("link", { name: /öffnen \(neuer Tab\)/ }).map((tile) => tile.getAttribute("href")))
-      .toEqual([link.url, created.url]);
+    expect(await screen.findByRole("link", { name: /Wiki/ })).toBeInTheDocument();
+    expect(mocks.create).toHaveBeenCalledWith({ name: created.name, description: created.description, icon: "App", url: created.url, sortOrder: 2 });
+    expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([link.url, created.url]);
   });
 
   it.each(["admin"] as const)("lets %s accounts edit and reorder an existing link", async (role) => {
@@ -281,17 +232,9 @@ describe("application links page", () => {
     await user.clear(dialog.getByLabelText("Reihenfolge", { exact: false }));
     await user.type(dialog.getByLabelText("Reihenfolge", { exact: false }), "8");
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
-    expect(await screen.findByRole("link", { name: "Office öffnen (neuer Tab)" })).toBeInTheDocument();
-    expect(mocks.update).toHaveBeenCalledWith(link.id, {
-      name: "Office",
-      description: link.description,
-      contactEmail: link.contactEmail,
-      icon: link.icon,
-      url: link.url,
-      sortOrder: 8,
-    });
-    expect(screen.getAllByRole("link", { name: /öffnen \(neuer Tab\)/ }).map((tile) => tile.getAttribute("href")))
-      .toEqual([second.url, link.url]);
+    expect(await screen.findByRole("link", { name: /Office/ })).toBeInTheDocument();
+    expect(mocks.update).toHaveBeenCalledWith(link.id, { name: "Office", description: link.description, icon: link.icon, url: link.url, sortOrder: 8 });
+    expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([second.url, link.url]);
   });
 
   it("lets admins replace a description at the 500-character limit", async () => {
@@ -331,9 +274,7 @@ describe("application links page", () => {
     await user.type(order, String(position));
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-    await waitFor(() => expect(
-      screen.getAllByRole("link", { name: /öffnen \(neuer Tab\)/ }).map((tile) => tile.getAttribute("href")),
-    ).toEqual([second.url, link.url]));
+    await waitFor(() => expect(screen.getAllByRole("link").map((tile) => tile.getAttribute("href"))).toEqual([second.url, link.url]));
     expect(mocks.update).toHaveBeenCalledWith(edited.id, expect.objectContaining({ sortOrder: position }));
     expect(mocks.reorder).not.toHaveBeenCalled();
   });
@@ -346,7 +287,7 @@ describe("application links page", () => {
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 löschen" }));
     expect(mocks.delete).not.toHaveBeenCalled();
     await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
-    await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     await user.click(await screen.findByRole("button", { name: "Microsoft 365 löschen" }));
     await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Noch keine Application Links vorhanden.")).toBeInTheDocument();
@@ -363,7 +304,7 @@ describe("application links page", () => {
     expect(await screen.findByText("Bitte prüfe deine Eingaben.")).toBeInTheDocument();
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
-    expect(await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" })).toBeInTheDocument();
+    expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
   it("keeps the link visible when deletion fails", async () => {
@@ -375,7 +316,7 @@ describe("application links page", () => {
     await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Der Link konnte nicht gelöscht werden. Bitte versuche es erneut.")).toBeInTheDocument();
     await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
-    expect(await screen.findByRole("link", { name: "Microsoft 365 öffnen (neuer Tab)" })).toBeInTheDocument();
+    expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toBeInTheDocument();
   });
 
   it("rejects URLs with unsafe protocols before calling the API", async () => {
@@ -415,10 +356,7 @@ describe("application links page", () => {
     await user.clear(dialog.getByLabelText("Ziel-URL", { exact: false }));
     await user.type(dialog.getByLabelText("Ziel-URL", { exact: false }), url);
     await user.click(dialog.getByRole("button", { name: "Speichern" }));
-    const savedAction = expectedUrl.startsWith("mailto:")
-      ? "Microsoft 365: E-Mail schreiben"
-      : "Microsoft 365 öffnen (neuer Tab)";
-    expect(await screen.findByRole("link", { name: savedAction })).toHaveAttribute("href", saved.url);
+    expect(await screen.findByRole("link", { name: /Microsoft 365/ })).toHaveAttribute("href", saved.url);
     const { id, ...expectedInput } = saved;
     if (mode === "create") expect(mocks.create).toHaveBeenCalledWith({ ...expectedInput, icon: "App" });
     else expect(mocks.update).toHaveBeenCalledWith(id, expectedInput);

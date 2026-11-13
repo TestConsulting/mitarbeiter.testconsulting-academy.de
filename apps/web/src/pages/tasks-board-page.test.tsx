@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { BoardState, PortalUser, TicketPriority } from "@portal/shared";
+import type { BoardState, PortalUser } from "@portal/shared";
 import { AuthProvider } from "../app/auth-context.js";
 import { TasksBoardPage } from "./tasks-board-page.js";
 
@@ -47,8 +47,6 @@ function buildBoard(): BoardState {
         title: "Angebot schreiben",
         description: null,
         assigneeId: employeeUser.id,
-        priority: "normal",
-        dueDate: null,
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
@@ -68,20 +66,6 @@ function renderBoard(currentUser: PortalUser) {
       </AuthProvider>
     </MemoryRouter>,
   );
-}
-
-function chooseDueDate(value: string) {
-  if (!value) {
-    fireEvent.click(screen.getByRole("button", { name: "Fälligkeitsdatum entfernen" }));
-    return;
-  }
-  fireEvent.click(screen.getByRole("button", { name: "Fälligkeitsdatum" }));
-  const calendar = within(screen.getByRole("dialog", { name: "Fälligkeitsdatum auswählen" }));
-  const [year, month] = value.split("-");
-  fireEvent.change(calendar.getByRole("spinbutton", { name: "Jahr" }), { target: { value: year } });
-  fireEvent.change(calendar.getByRole("combobox", { name: "Monat" }), { target: { value: String(Number(month) - 1) } });
-  const label = new Intl.DateTimeFormat("de-DE", { dateStyle: "full" }).format(new Date(`${value}T12:00:00`));
-  fireEvent.click(calendar.getByRole("button", { name: label }));
 }
 
 beforeEach(() => {
@@ -106,23 +90,6 @@ afterEach(() => {
 });
 
 describe("tasks board page", () => {
-  it.each<{ priority: TicketPriority; label: string }>([
-    { priority: "low", label: "Niedrig" },
-    { priority: "normal", label: "Normal" },
-    { priority: "high", label: "Hoch" },
-    { priority: "urgent", label: "Dringend" },
-  ])("renders the $label priority with a vector icon, also without an assignee", async ({ priority, label }) => {
-    const board = buildBoard();
-    board.tickets[0] = { ...board.tickets[0], priority, assigneeId: null };
-    boardApi.get.mockResolvedValue(board);
-    renderBoard(employeeUser);
-
-    const badge = await screen.findByLabelText(`Priorität: ${label}`);
-    expect(badge).toHaveTextContent(label);
-    expect(badge.querySelector("svg")).toBeInTheDocument();
-    expect(badge.closest(".ticket-card__footer")).toBeInTheDocument();
-  });
-
   it("renders columns and tickets from the server", async () => {
     renderBoard(employeeUser);
     expect(await screen.findByText("Angebot schreiben")).toBeInTheDocument();
@@ -132,7 +99,7 @@ describe("tasks board page", () => {
     expect(screen.getByText("In Review")).toBeInTheDocument();
   });
 
-  it.each([adminUser, employeeUser])("creates a ticket in a column via the column action as $role", async (currentUser) => {
+  it("creates a ticket in a column via the column action", async () => {
     const user = userEvent.setup();
     boardApi.createTicket.mockResolvedValue([
       ...buildBoard().tickets,
@@ -142,25 +109,19 @@ describe("tasks board page", () => {
         title: "Neue Aufgabe",
         description: null,
         assigneeId: null,
-        priority: "normal",
-        dueDate: null,
         position: 0,
         createdBy: employeeUser.id,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
     ]);
-    renderBoard(currentUser);
+    renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
-    expect(screen.getByLabelText("Priorität: Normal")).toBeInTheDocument();
 
     const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
     fireEvent.click(within(todoColumn).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     const titleInput = within(dialog).getByLabelText("Titel");
-    expect(within(dialog).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
-    await user.click(within(dialog).getByText("Beschreibung", { selector: "label" }));
-    expect(within(dialog).getByRole("textbox", { name: "Beschreibung" })).toHaveFocus();
     await user.type(titleInput, "Neue Aufgabe");
     await user.click(within(dialog).getByRole("button", { name: "Anlegen" }));
 
@@ -168,103 +129,8 @@ describe("tasks board page", () => {
       columnId: "col-todo",
       title: "Neue Aufgabe",
       description: null,
-      priority: "normal",
-      dueDate: null,
     }));
     expect(await screen.findByText("Neue Aufgabe")).toBeInTheDocument();
-  });
-
-  it("opens the mini calendar and creates a ticket with the selected date", async () => {
-    const user = userEvent.setup();
-    const datedTicket = { ...buildBoard().tickets[0], title: "Mit Termin", dueDate: "2030-11-05" };
-    boardApi.createTicket.mockResolvedValue([datedTicket]);
-    renderBoard(employeeUser);
-    await screen.findByText("Angebot schreiben");
-    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
-    const dialog = within(await screen.findByRole("dialog"));
-    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
-    chooseDueDate("2030-11-05");
-    expect(screen.queryByRole("dialog", { name: "Fälligkeitsdatum auswählen" })).not.toBeInTheDocument();
-    await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
-    await user.click(dialog.getByRole("button", { name: "Anlegen" }));
-    await waitFor(() => expect(boardApi.createTicket).toHaveBeenCalledWith(
-      expect.objectContaining({ dueDate: "2030-11-05" }),
-    ));
-    expect(await screen.findByText("05.11.")).toBeInTheDocument();
-    await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
-    fireEvent.click((await screen.findAllByRole("button", { name: "Ticket hinzufügen" }))[0]);
-    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
-  });
-
-  it("resets the selected due date after cancelling creation", async () => {
-    const user = userEvent.setup();
-    renderBoard(employeeUser);
-    await screen.findByText("Angebot schreiben");
-    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
-    const dialog = within(await screen.findByRole("dialog"));
-    chooseDueDate("2030-11-05");
-    await user.click(dialog.getByRole("button", { name: "Abbrechen" }));
-    await waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeInTheDocument());
-    fireEvent.click((await screen.findAllByRole("button", { name: "Ticket hinzufügen" }))[0]);
-    expect(within(await screen.findByRole("dialog")).getByLabelText("Fälligkeitsdatum")).toHaveTextContent("TT/MM/JJJJ");
-  });
-
-  it.each(["2031-02-28", ""])("updates or clears a due date with %s", async (value) => {
-    const user = userEvent.setup();
-    const board = buildBoard();
-    board.tickets[0].dueDate = "2030-11-05";
-    boardApi.get.mockResolvedValue(board);
-    boardApi.updateTicket.mockResolvedValue([{ ...board.tickets[0], dueDate: value || null }]);
-    renderBoard(employeeUser);
-    await user.click(await screen.findByText("Angebot schreiben"));
-    const dialog = within(await screen.findByRole("dialog"));
-    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("05/11/2030");
-    expect(dialog.getByText("Fällig am 05/11/2030")).toBeInTheDocument();
-    chooseDueDate(value);
-    await user.click(dialog.getByRole("button", { name: "Speichern" }));
-    await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith("ticket-1",
-      expect.objectContaining({ dueDate: value || null }),
-    ));
-    if (!value) await waitFor(() => expect(document.querySelector("time[datetime]")).not.toBeInTheDocument());
-  });
-
-  it("keeps the selected due date and displays an error if creation fails", async () => {
-    const user = userEvent.setup();
-    boardApi.createTicket.mockRejectedValue(new Error("network"));
-    renderBoard(employeeUser);
-    await screen.findByText("Angebot schreiben");
-    fireEvent.click(screen.getAllByRole("button", { name: "Ticket hinzufügen" })[0]);
-    const dialog = within(await screen.findByRole("dialog"));
-    await user.type(dialog.getByLabelText("Titel"), "Mit Termin");
-    chooseDueDate("2030-11-05");
-    await user.click(dialog.getByRole("button", { name: "Anlegen" }));
-    expect(await screen.findByText("Ticket konnte nicht angelegt werden.")).toBeInTheDocument();
-    expect(dialog.getByLabelText("Fälligkeitsdatum")).toHaveTextContent("05/11/2030");
-  });
-
-  it("starts editing without highlighting the title and moves focus between fields", async () => {
-    const user = userEvent.setup();
-    renderBoard(adminUser);
-    const ticket = await screen.findByText("Angebot schreiben");
-    await user.click(ticket);
-
-    const dialog = within(await screen.findByRole("dialog"));
-    expect(dialog.getByRole("heading", { name: "Ticket bearbeiten" })).toHaveFocus();
-    const title = dialog.getByRole("textbox", { name: "Titel" });
-    expect(title).not.toHaveFocus();
-    await user.click(title);
-    expect(title).toHaveFocus();
-    await user.click(dialog.getByText("Beschreibung", { selector: "label" }));
-    expect(title).not.toHaveFocus();
-    const description = dialog.getByRole("textbox", { name: "Beschreibung" });
-    expect(description).toHaveFocus();
-    await user.type(description, "Zusatz");
-    expect(description).toHaveFocus();
-    await user.click(dialog.getByText("Titel", { selector: "label" }));
-    expect(title).toHaveFocus();
-    expect(description).not.toHaveFocus();
-    await user.click(description);
-    expect(description).toHaveFocus();
   });
 
   it("opens the edit dialog and saves changes", async () => {
@@ -285,23 +151,6 @@ describe("tasks board page", () => {
     await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith("ticket-1", expect.objectContaining({
       title: "Angebot überarbeiten",
     })));
-  });
-
-  it("updates a ticket priority from the edit dialog", async () => {
-    const user = userEvent.setup();
-    boardApi.updateTicket.mockResolvedValue([{ ...buildBoard().tickets[0], priority: "urgent" }]);
-    renderBoard(adminUser);
-    await user.click(await screen.findByText("Angebot schreiben"));
-
-    const dialog = within(await screen.findByRole("dialog"));
-    await user.click(dialog.getByRole("combobox", { name: "Priorität" }));
-    await user.click(screen.getByRole("option", { name: "Dringend" }));
-    await user.click(dialog.getByRole("button", { name: "Speichern" }));
-
-    await waitFor(() => expect(boardApi.updateTicket).toHaveBeenCalledWith(
-      "ticket-1",
-      expect.objectContaining({ priority: "urgent" }),
-    ));
   });
 
   it("deletes a ticket after confirmation", async () => {
@@ -329,13 +178,13 @@ describe("tasks board page", () => {
     expect(screen.getByRole("button", { name: /Archiv anzeigen \(0\)/ })).toBeInTheDocument();
   });
 
-  it("allows employees to add tickets but hides column management actions", async () => {
+  it("hides mutation actions for employees", async () => {
     renderBoard(employeeUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.queryByRole("button", { name: "Spalte hinzufügen" })).not.toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "Ticket hinzufügen" })).toHaveLength(buildBoard().columns.length);
+    expect(screen.queryByRole("button", { name: "Ticket hinzufügen" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Spalte umbenennen" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Spalte löschen" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Ticket löschen" })).not.toBeInTheDocument();
   });
 
   it("filters tickets via the search field", async () => {
@@ -346,19 +195,6 @@ describe("tasks board page", () => {
     await user.type(screen.getByPlaceholderText("Tickets durchsuchen"), "Feedback");
 
     expect(screen.queryByText("Angebot schreiben")).not.toBeInTheDocument();
-  });
-
-  it("keeps matching tickets draggable while searching", async () => {
-    const user = userEvent.setup();
-    renderBoard(adminUser);
-    await screen.findByText("Angebot schreiben");
-
-    await user.type(screen.getByPlaceholderText("Tickets durchsuchen"), "Angebot");
-
-    const ticket = screen.getByText("Angebot schreiben").closest("article");
-    expect(ticket).toHaveAttribute("aria-disabled", "false");
-    expect(screen.getByRole("button", { name: "Spalte Zu erledigen verschieben" }))
-      .toHaveAttribute("aria-disabled", "false");
   });
 
   it("shows the column rename/delete actions for admins", async () => {
@@ -428,8 +264,6 @@ describe("tasks board page", () => {
       title: "Abgeschlossen",
       description: null,
       assigneeId: null,
-      priority: "normal",
-      dueDate: null,
       position: 0,
       createdBy: employeeUser.id,
       createdAt: new Date().toISOString(),

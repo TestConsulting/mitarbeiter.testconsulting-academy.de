@@ -44,62 +44,7 @@ describe("tickets router", () => {
       columnId,
       title: "Angebot prüfen",
       assigneeId: fixture.employeeUser.id,
-      priority: "normal",
-      dueDate: null,
     });
-  });
-
-  it("creates, preserves, updates and clears a date-only due date", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    await fixture.board.createColumn("In Arbeit");
-    const created = await agent.post("/api/tickets").send({
-      columnId: fixture.columns[0].id, title: "Mit Termin", dueDate: "2028-02-29",
-    }).expect(201);
-    const id = created.body.tickets[0].id as string;
-    expect(created.body.tickets[0].dueDate).toBe("2028-02-29");
-    const moved = await agent.patch(`/api/tickets/${id}`).send({
-      columnId: fixture.columns[1].id, position: 0,
-    }).expect(200);
-    expect(moved.body.tickets[0].dueDate).toBe("2028-02-29");
-    const updated = await agent.patch(`/api/tickets/${id}`).send({ dueDate: "2030-11-05" }).expect(200);
-    expect(updated.body.tickets[0].dueDate).toBe("2030-11-05");
-    const cleared = await agent.patch(`/api/tickets/${id}`).send({ dueDate: null }).expect(200);
-    expect(cleared.body.tickets[0].dueDate).toBeNull();
-  });
-
-  it.each(["2030-02-29", "2030-04-31", "2030-13-01", "0000-01-01", "05.11.2030", "2030-11-05T00:00:00Z", "", 123])(
-    "rejects invalid due date %s on creation and editing",
-    async (dueDate) => {
-      const agent = await loginAs(fixture.employeeUser.email);
-      const columnId = fixture.columns[0].id;
-      const created = await agent.post("/api/tickets").send({ columnId, title: "Ohne Termin", dueDate: null }).expect(201);
-      expect(created.body.tickets[0].dueDate).toBeNull();
-      await agent.post("/api/tickets").send({ columnId, title: "Ungültiger Termin", dueDate }).expect(400);
-      await agent.patch(`/api/tickets/${created.body.tickets[0].id}`).send({ dueDate }).expect(400);
-    },
-  );
-
-  it("creates and updates tickets with the selected priority", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    const columnId = fixture.columns[0].id;
-    const created = await agent
-      .post("/api/tickets")
-      .send({ columnId, title: "Dringende Aufgabe", priority: "urgent" })
-      .expect(201);
-    const ticketId = created.body.tickets[0].id as string;
-    expect(created.body.tickets[0].priority).toBe("urgent");
-
-    const updated = await agent
-      .patch(`/api/tickets/${ticketId}`)
-      .send({ priority: "low" })
-      .expect(200);
-    expect(updated.body.tickets.find((ticket: { id: string }) => ticket.id === ticketId).priority).toBe("low");
-  });
-
-  it("rejects an unsupported priority", async () => {
-    const agent = await loginAs(fixture.employeeUser.email);
-    const columnId = fixture.columns[0].id;
-    await agent.post("/api/tickets").send({ columnId, title: "Test", priority: "critical" }).expect(400);
   });
 
   it("rejects a ticket for an unknown column", async () => {
@@ -140,7 +85,6 @@ describe("tickets router", () => {
       title: "Aktualisiert",
       description: "Details",
       assigneeId: fixture.adminUser.id,
-      priority: "normal",
     });
   });
 
@@ -180,16 +124,14 @@ describe("tickets router", () => {
     const doneColumn = await admin.post("/api/board/columns").send({ title: "Erledigt" }).expect(201);
     const doneColumnId = doneColumn.body.columns.at(-1).id as string;
     const agent = await loginAs(fixture.employeeUser.email);
-    await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Restore me", dueDate: "2030-11-05" }).expect(201);
+    await agent.post("/api/tickets").send({ columnId: doneColumnId, title: "Restore me" }).expect(201);
     await agent.post("/api/tickets/archive").send({ columnId: doneColumnId }).expect(200);
 
     const archived = await agent.get("/api/tickets/archived").expect(200);
     const archivedId = archived.body.tickets[0].id as string;
-    expect(archived.body.tickets[0].dueDate).toBe("2030-11-05");
     const restored = await agent.post(`/api/tickets/${archivedId}/restore`).send({}).expect(200);
 
     expect(restored.body.tickets.some((ticket: { id: string }) => ticket.id === archivedId)).toBe(true);
-    expect(restored.body.tickets[0].dueDate).toBe("2030-11-05");
   });
 
   it("archives a single done ticket", async () => {

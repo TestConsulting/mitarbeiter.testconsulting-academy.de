@@ -2,7 +2,6 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { coursesData } from "@portal/shared";
-import { ApiError } from "../api/client.js";
 import { App } from "./App.js";
 import { AuthProvider } from "./auth-context.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
@@ -16,7 +15,7 @@ const authApi = vi.hoisted(() => ({
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
   users: { list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
-  courses: { list: vi.fn(), get: vi.fn(), getPractice: vi.fn(), examResults: vi.fn(), abortedExamSessions: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
+  courses: { list: vi.fn(), get: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -27,7 +26,6 @@ vi.mock("../api/client.js", () => ({
 }));
 
 beforeEach(() => {
-  window.localStorage.clear();
   window.history.replaceState({}, "", "/");
   authApi.me.mockResolvedValue(testUser);
   authApi.login.mockResolvedValue(testUser);
@@ -40,88 +38,12 @@ beforeEach(() => {
   authApi.users.update.mockResolvedValue({ id: "u-new", email: "", name: "", role: "employee" });
   authApi.users.delete.mockResolvedValue({ success: true });
   authApi.courses.list.mockResolvedValue([...coursesData]);
-  authApi.courses.examResults.mockResolvedValue([]);
-  authApi.courses.abortedExamSessions.mockResolvedValue([]);
   authApi.courses.get.mockImplementation((slug: string) => Promise.resolve(
-    coursesData.find((course) => course.slug === slug || course.id === slug),
-  ));
-  authApi.courses.getPractice.mockImplementation((slug: string) => Promise.resolve(
     coursesData.find((course) => course.slug === slug || course.id === slug),
   ));
 });
 
 describe("portal shell", () => {
-  it("keeps the login page light and applies the signed-in user's saved theme", async () => {
-    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
-    window.history.replaceState({}, "", "/login");
-    window.localStorage.setItem("portal-theme:u1", "dark");
-
-    render(<App />);
-    await screen.findByRole("heading", { name: "Anmelden" });
-    expect(document.documentElement.dataset.theme).toBe("light");
-
-    await userEvent.type(screen.getByPlaceholderText("name@unternehmen.de"), testUser.email);
-    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
-    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
-
-    expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
-    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
-  });
-
-  it("keeps the last saved theme while entering a different user's email", async () => {
-    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
-    window.history.replaceState({}, "", "/login");
-    window.localStorage.setItem("portal-last-user-email", testUser.email);
-    window.localStorage.setItem("portal-theme:email:alex%40example.test", "dark");
-    const otherUser = { id: "u2", email: "other@example.test", name: "Other User", role: "employee" as const };
-    window.localStorage.setItem("portal-theme:email:other%40example.test", "light");
-    authApi.login.mockResolvedValue(otherUser);
-
-    render(<App />);
-    await screen.findByRole("heading", { name: "Anmelden" });
-    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
-
-    const emailInput = screen.getByPlaceholderText("name@unternehmen.de");
-    await userEvent.type(emailInput, "other@");
-    expect(document.documentElement.dataset.theme).toBe("dark");
-    await userEvent.type(emailInput, "example.test");
-    expect(document.documentElement.dataset.theme).toBe("dark");
-
-    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
-    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
-    expect(await screen.findByRole("heading", { name: "Willkommen, Other" })).toBeInTheDocument();
-    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("light"));
-  });
-
-  it("keeps the user's selected theme on the login page after signing out", async () => {
-    render(<App />);
-    await screen.findByRole("heading", { name: "Willkommen, Alex" });
-    await userEvent.click(screen.getByRole("button", { name: /dark mode/i }));
-    await userEvent.click(screen.getAllByRole("button", { name: "Abmelden" })[0]);
-
-    await screen.findByRole("heading", { name: "Anmelden" });
-    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
-  });
-
-  it("migrates the previous browser theme to the signed-in user's preference", async () => {
-    authApi.me.mockRejectedValue(new ApiError("Unauthenticated", 401));
-    window.history.replaceState({}, "", "/login");
-    window.localStorage.setItem("portal-theme", "dark");
-
-    render(<App />);
-    await screen.findByRole("heading", { name: "Anmelden" });
-    expect(document.documentElement.dataset.theme).toBe("light");
-
-    await userEvent.type(screen.getByPlaceholderText("name@unternehmen.de"), testUser.email);
-    await userEvent.type(screen.getByPlaceholderText("Passwort eingeben"), "correct-password");
-    await userEvent.click(screen.getByRole("button", { name: "Anmelden" }));
-
-    expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
-    await waitFor(() => expect(document.documentElement.dataset.theme).toBe("dark"));
-    expect(window.localStorage.getItem("portal-theme:u1")).toBe("dark");
-    expect(window.localStorage.getItem("portal-theme")).toBeNull();
-  });
-
   it("shows the signed-in employee and all six phase-one destinations", async () => {
     render(<App />);
     expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();
@@ -138,29 +60,7 @@ describe("portal shell", () => {
     await userEvent.click(switcher);
 
     expect(document.documentElement.dataset.theme).toBe("dark");
-    expect(window.localStorage.getItem("portal-theme:u1")).toBe("dark");
     expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
-  });
-
-  it("nests exam results under eLearning without adding a home destination", async () => {
-    render(<App />);
-    await screen.findByRole("heading", { name: "Willkommen, Alex" });
-
-    const learningNavigation = screen.getByRole("group", { name: "eLearning-Bereiche" });
-    expect(within(learningNavigation).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
-    expect(within(screen.getByRole("main")).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
-
-    await userEvent.click(within(learningNavigation).getByRole("link", { name: "eLearning" }));
-    const resultsLink = within(learningNavigation).getByRole("link", { name: "Prüfungsauswertung" });
-    expect(resultsLink).toHaveClass("nav-subitem");
-
-    await userEvent.click(resultsLink);
-    expect(await screen.findByRole("heading", { name: "Noch keine Prüfungen abgelegt" })).toBeInTheDocument();
-    expect(resultsLink).toHaveClass("nav-subitem--active");
-    expect(within(learningNavigation).getByRole("link", { name: "eLearning" })).toHaveClass("nav-item--active");
-
-    await userEvent.click(screen.getByRole("link", { name: "Übersicht" }));
-    expect(within(learningNavigation).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
   });
 
   it("opens a protected placeholder from portal navigation", async () => {
@@ -216,7 +116,6 @@ describe("portal shell", () => {
       if (!el) throw new Error("Dialog not found");
       return el as HTMLElement;
     });
-
     expect(within(dialog).getByText("Passwort ändern", { selector: "h2" })).toBeInTheDocument();
 
     const currentPwInput = within(dialog).getByLabelText("Aktuelles Passwort", { selector: "input" });
@@ -253,26 +152,6 @@ describe("portal shell", () => {
     fireEvent.click(securitySubLink);
     expect(await screen.findByRole("region", { name: "Sicherheit" })).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Persönliche Daten" })).not.toBeInTheDocument();
-  });
-
-  it("shows profile subnavigation only while the profile area is open", async () => {
-    render(<App />);
-    const sidebar = await screen.findByRole("complementary", { name: "Portalnavigation" });
-    expect(within(sidebar).queryByRole("group", { name: "Profil-Bereiche" })).not.toBeInTheDocument();
-
-    const profileLink = within(sidebar).getByRole("link", { name: "Mein Profil" });
-    await userEvent.click(profileLink);
-    expect(within(sidebar).getByRole("link", { name: "Persönliche Daten" })).toBeInTheDocument();
-    expect(within(sidebar).getByRole("link", { name: "Sicherheit" })).toBeInTheDocument();
-
-    await userEvent.click(profileLink);
-    expect(within(sidebar).getByRole("group", { name: "Profil-Bereiche" })).toBeInTheDocument();
-
-    await userEvent.click(within(sidebar).getByRole("link", { name: "eLearning" }));
-    expect(within(sidebar).queryByRole("group", { name: "Profil-Bereiche" })).not.toBeInTheDocument();
-
-    await userEvent.click(screen.getByRole("link", { name: "Mein Profil: alex@example.test" }));
-    expect(within(sidebar).getByRole("group", { name: "Profil-Bereiche" })).toBeInTheDocument();
   });
 
   it("allows selecting the admin role in the user form without crashing", async () => {

@@ -121,10 +121,12 @@ export function BenefitsPage() {
                 <BenefitIcon title={benefit.title} />
                 <h2>{benefit.title}</h2>
                 <p>{benefit.description}</p>
-                <Link className="benefit-card__open" to={`/areas/benefits/${benefit.id}`} draggable={false} aria-label={`${benefit.title}: Details ansehen`}>
-                  Details ansehen <ArrowRight20Regular aria-hidden="true" />
-                </Link>
-                <BenefitLink benefit={benefit} />
+                <div className="benefit-card__links">
+                  <Link className="benefit-card__open" to={`/areas/benefits/${benefit.id}`} draggable={false} aria-label={`${benefit.title}: Details ansehen`}>
+                    Details ansehen <ArrowRight20Regular aria-hidden="true" />
+                  </Link>
+                  <BenefitLink benefit={benefit} />
+                </div>
               </div>
               {isAdmin && (
                 <div className="benefit-card__actions">
