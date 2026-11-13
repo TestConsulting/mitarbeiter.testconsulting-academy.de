@@ -1508,13 +1508,14 @@ describe("ExamResultsPage - Prüfungsauswertung", () => {
     expect(mocks.api.courses.examResults).toHaveBeenCalledOnce();
   });
 
-  it.each(["Zur Kursübersicht", "Kurse ansehen"])("shows a clear empty state and navigates via the %s button", async (name) => {
+  it.each(["Zurück zur Kursansicht", "Kurse ansehen"])("shows a clear empty state and navigates via the %s button", async (name) => {
     renderWithRouter(<Routes>
       <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
       <Route path="/areas/elearning" element={<h1>Kursübersicht</h1>} />
     </Routes>, ["/areas/elearning/results"]);
     expect(await screen.findByRole("heading", { name: "Noch keine Prüfungen abgelegt" })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name }));
+
+    fireEvent.click(screen.getByRole(name === "Zurück zur Kursansicht" ? "link" : "button", { name }));
     expect(await screen.findByRole("heading", { name: "Kursübersicht" })).toBeInTheDocument();
   });
 });

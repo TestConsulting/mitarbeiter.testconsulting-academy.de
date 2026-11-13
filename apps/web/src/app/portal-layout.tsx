@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@fluentui/react-components";
 import {
   ArrowExit20Regular,
+  CheckmarkCircle24Regular,
   ChevronDown16Regular,
   ChevronRight16Regular,
   ContactCard16Regular,
@@ -77,11 +78,23 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
         <NavLink to="/" end className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`} onClick={closeMobileNav}>
           <Home24Regular aria-hidden="true" /> Übersicht
         </NavLink>
-        {portalAreas.map((area) => (
-          <NavLink key={area.slug} to={`/areas/${area.slug}`} className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`} onClick={closeMobileNav}>
-            <AreaIcon slug={area.slug} /> {area.label}
-          </NavLink>
-        ))}
+        {portalAreas.map((area) => {
+          const isAreaActive = location.pathname === `/areas/${area.slug}` || location.pathname.startsWith(`/areas/${area.slug}/`);
+          return (
+            <div key={area.slug}>
+              <NavLink to={`/areas/${area.slug}`} className={({ isActive }) => `nav-item${isActive ? " nav-item--active" : ""}`} onClick={closeMobileNav}>
+                <AreaIcon slug={area.slug} /> {area.label}
+              </NavLink>
+              {area.slug === "elearning" && isAreaActive && (
+                <div className="nav-subgroup" role="group" aria-label="eLearning-Bereiche">
+                  <NavLink to="/areas/elearning/results" className={({ isActive }) => `nav-subitem${isActive ? " nav-subitem--active" : ""}`} onClick={closeMobileNav}>
+                    <CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung
+                  </NavLink>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
       <div className="sidebar-account">
         <span className="sidebar-label">Konto</span>

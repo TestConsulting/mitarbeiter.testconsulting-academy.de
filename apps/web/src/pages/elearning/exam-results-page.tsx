@@ -89,13 +89,16 @@ export function ExamResultsPage() {
 
   return (
     <div className="page-stack elearning-page exam-results-page">
-      <div className="page-heading">
-        <h1><CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung</h1>
-        <span>Deine bisherigen Prüfungen und Ergebnisse</span>
-        <Button appearance="secondary" onClick={() => navigate("/areas/elearning")}>
-          <ArrowLeft20Regular aria-hidden="true" /> Zur Kursübersicht
-        </Button>
+      <div className="elearning-nav-header">
+        <Link to="/areas/elearning" className="elearning-back-link">
+          <ArrowLeft20Regular aria-hidden="true" />
+          <span>Zurück zur Kursansicht</span>
+        </Link>
       </div>
+
+      <header className="page-heading">
+        <h1><CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung</h1>
+      </header>
 
       {status === "loading" && <p role="status">Prüfungsergebnisse werden geladen …</p>}
       {status === "error" && (
