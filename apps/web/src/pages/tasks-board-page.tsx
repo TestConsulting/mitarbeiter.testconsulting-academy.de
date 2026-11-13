@@ -37,6 +37,7 @@ import {
   ChevronDoubleUp16Regular,
   ChevronDown16Regular,
   Delete16Regular,
+  Dismiss20Regular,
   Edit16Regular,
   ErrorCircle16Regular,
 } from "@fluentui/react-icons";
@@ -393,24 +394,22 @@ export function TasksBoardPage() {
     );
   }
 
-  if (isMobile) {
-    return (
-      <MobileKanbanBoard
-        columns={columnsSorted}
-        ticketsByColumn={ticketsByColumn}
-        usersById={usersById}
-        filterQuery={filterQuery}
-        setFilterQuery={setFilterQuery}
-        canManageColumns={canManageColumns}
-        onAddColumn={() => setAddColumnOpen(true)}
-        onEditTicket={(ticket) => setEditingTicket(ticket)}
-        onAddTicket={openAddTicket}
-        onMoveTicket={(ticketId, columnId, position) => handleUpdateTicket(ticketId, { columnId, position })}
-      />
-    );
-  }
-
-  return (
+  const boardView = isMobile ? (
+    <MobileKanbanBoard
+      columns={columnsSorted}
+      ticketsByColumn={filteredTicketsByColumn}
+      usersById={usersById}
+      filterQuery={filterQuery}
+      setFilterQuery={setFilterQuery}
+      canManageColumns={canManageColumns}
+      onAddColumn={() => setAddColumnOpen(true)}
+      onEditTicket={(ticket) => setEditingTicket(ticket)}
+      onAddTicket={openAddTicket}
+      onMoveTicket={(ticketId, columnId, position) => handleUpdateTicket(ticketId, { columnId, position })}
+      onRenameColumn={openRenameColumn}
+      onDeleteColumn={(columnId) => { setColumnActionError(null); setDeletingColumnId(columnId); }}
+    />
+  ) : (
     <div className="page-stack">
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Tasks</h1>
@@ -476,6 +475,12 @@ export function TasksBoardPage() {
           ) : null}
         </DragOverlay>
       </DndContext>
+    </div>
+  );
+
+  return (
+    <>
+      {boardView}
 
       <Dialog open={isAddTicketOpen} onOpenChange={(_event, data) => {
         setAddTicketOpen(data.open);
@@ -633,6 +638,7 @@ export function TasksBoardPage() {
           ticket={editingTicket}
           columns={columnsSorted}
           users={users}
+          isMobile={isMobile}
           onClose={() => setEditingTicket(null)}
           onSave={async (patch) => {
             await handleUpdateTicket(editingTicket.id, patch);
@@ -658,7 +664,7 @@ export function TasksBoardPage() {
           </DialogBody>
         </DialogSurface>
       </Dialog>
-    </div>
+    </>
   );
 }
 
@@ -946,6 +952,7 @@ function EditTicketDialog({
   ticket,
   columns,
   users,
+  isMobile,
   onClose,
   onSave,
   onRequestDelete,
@@ -953,6 +960,7 @@ function EditTicketDialog({
   ticket: Ticket;
   columns: BoardColumn[];
   users: PortalUser[];
+  isMobile?: boolean;
   onClose: () => void;
   onSave: (patch: {
     title: string;
@@ -994,7 +1002,23 @@ function EditTicketDialog({
       <DialogSurface>
         <form onSubmit={handleSubmit}>
           <DialogBody>
-            <DialogTitle>Ticket bearbeiten</DialogTitle>
+            {isMobile ? (
+              <DialogTitle className="mobile-ticket-dialog__title">
+                <span>Ticket bearbeiten</span>
+                <Button
+                  appearance="subtle"
+                  size="small"
+                  type="button"
+                  aria-label="Ticket bearbeiten schließen"
+                  title="Schließen"
+                  className="mobile-ticket-dialog__close"
+                  icon={<Dismiss20Regular />}
+                  onClick={onClose}
+                />
+              </DialogTitle>
+            ) : (
+              <DialogTitle>Ticket bearbeiten</DialogTitle>
+            )}
             <DialogContent className="ticket-dialog-content">
               <Field label="Titel">
                 <Input className="ticket-dialog__input" value={title} onChange={(_event, data) => setTitle(data.value)} autoFocus />
@@ -1054,12 +1078,14 @@ function EditTicketDialog({
               </Field>
             </DialogContent>
             <DialogActions>
+              {!isMobile && (
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance="secondary" type="button">Abbrechen</Button>
+                </DialogTrigger>
+              )}
               <Button appearance="outline" type="button" icon={<Delete16Regular />} onClick={onRequestDelete}>
                 Löschen
               </Button>
-              <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary" type="button">Abbrechen</Button>
-              </DialogTrigger>
               <Button appearance="primary" type="submit">Speichern</Button>
             </DialogActions>
           </DialogBody>

@@ -87,6 +87,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllMocks();
+  Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 1024 });
 });
 
 describe("tasks board page", () => {
@@ -97,6 +98,117 @@ describe("tasks board page", () => {
     expect(screen.getByText("Zu erledigen")).toBeInTheDocument();
     expect(screen.getByText("In Arbeit")).toBeInTheDocument();
     expect(screen.getByText("In Review")).toBeInTheDocument();
+  });
+
+  it("opens the edit dialog from a mobile ticket card and keeps the ticket metadata visible", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    const board = buildBoard();
+    board.tickets = [{
+      ...board.tickets[0],
+      title: "Angebot schreiben",
+      description: "Vertrag prüfen und überarbeiten",
+      type: "feature",
+      priority: "high",
+      dueDate: "2026-11-25",
+      assigneeId: employeeUser.id,
+    }];
+    boardApi.get.mockResolvedValue(board);
+
+    renderBoard(adminUser);
+    expect(await screen.findByRole("tab", { name: /Backlog/i })).toBeInTheDocument();
+    expect(await screen.findByText("Vertrag prüfen und überarbeiten")).toBeInTheDocument();
+
+    const card = screen.getByText("Angebot schreiben").closest(".mobile-ticket-card");
+    expect(card).not.toBeNull();
+    fireEvent.click(card as HTMLElement);
+
+    const dialog = await screen.findByRole("dialog");
+    expect(within(dialog).getByDisplayValue("Angebot schreiben")).toBeInTheDocument();
+    expect(within(dialog).getByText("Feature")).toBeInTheDocument();
+    expect(within(dialog).getByText("Hoch")).toBeInTheDocument();
+  });
+
+  it("scrolls the selected mobile tab into view", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    const scrollIntoView = vi.fn();
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+
+    renderBoard(adminUser);
+    const tab = await screen.findByRole("tab", { name: /Zu erledigen/i });
+    fireEvent.click(tab);
+
+    await waitFor(() => {
+      expect(scrollIntoView).toHaveBeenCalled();
+    });
+  });
+
+  it("applies the shared search filter to the visible mobile ticket list", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    const board = buildBoard();
+    board.tickets = [
+      { ...board.tickets[0], id: "ticket-alpha", title: "Alpha Aufgabe", description: "Erste Aufgabe", columnId: "col-backlog" },
+      { ...board.tickets[0], id: "ticket-beta", title: "Beta Aufgabe", description: "Zweite Aufgabe", columnId: "col-backlog" },
+    ];
+    boardApi.get.mockResolvedValue(board);
+
+    renderBoard(adminUser);
+    const searchInput = await screen.findByPlaceholderText("Tickets durchsuchen");
+    fireEvent.change(searchInput, { target: { value: "Zweite" } });
+
+    await waitFor(() => {
+      expect(screen.getByText("Beta Aufgabe")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("Alpha Aufgabe")).not.toBeInTheDocument();
+  });
+
+  it("shows the compact column actions in the mobile board for admins", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    renderBoard(adminUser);
+
+    const renameButton = await screen.findByRole("button", { name: /Spalte Backlog umbenennen/i });
+    const deleteButton = screen.getByRole("button", { name: /Spalte Backlog löschen/i });
+
+    expect(renameButton).toBeInTheDocument();
+    expect(deleteButton).toBeInTheDocument();
+  });
+
+  it("keeps the mobile tab strip horizontally scrollable and prevents tabs from shrinking", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    const board = buildBoard();
+    board.columns = Array.from({ length: 10 }, (_, index) => ({
+      id: `col-${index}`,
+      title: `Status ${index + 1}`,
+      position: index,
+    }));
+    board.tickets = [];
+    boardApi.get.mockResolvedValue(board);
+
+    renderBoard(adminUser);
+    const tablist = await screen.findByRole("tablist", { name: /Board-Spalten/i });
+    const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+    expect(window.getComputedStyle(tablist).overflowX).toBe("auto");
+    expect(Array.from(tabs).every((tab) => window.getComputedStyle(tab).flex === "0 0 auto")).toBe(true);
+    expect(tabs.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("registers every mobile status tab as a valid column drop target", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
+    const board = buildBoard();
+    board.columns = Array.from({ length: 10 }, (_, index) => ({
+      id: `drop-col-${index}`,
+      title: `Status ${index + 1}`,
+      position: index,
+    }));
+    board.tickets = [];
+    boardApi.get.mockResolvedValue(board);
+
+    renderBoard(adminUser);
+    const tablist = await screen.findByRole("tablist", { name: /Board-Spalten/i });
+    const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+    expect(tabs.length).toBeGreaterThanOrEqual(10);
+    expect(tabs.every((tab) => tab.getAttribute("data-column-id") !== null)).toBe(true);
   });
 
   it("creates a ticket in a column via the column action", async () => {
