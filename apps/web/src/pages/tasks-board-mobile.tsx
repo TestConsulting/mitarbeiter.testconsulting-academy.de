@@ -124,11 +124,6 @@ export function MobileKanbanBoard({
     [columns, ticketsByColumn],
   );
 
-  const activeTickets = useMemo(
-    () => selectedColumn ? ticketsByColumn.get(selectedColumn.id) ?? [] : [],
-    [selectedColumn, ticketsByColumn],
-  );
-
   const resolveTargetColumnId = (overId: string | null) => {
     if (!overId) return null;
     if (columns.some((column) => column.id === overId)) return overId;
@@ -236,7 +231,7 @@ export function MobileKanbanBoard({
             onChange={(_event, data) => setFilterQuery(data.value)}
           />
           {canManageColumns && (
-            <Button className="mobile-board__add-column" appearance="primary" size="small" onClick={onAddColumn}>
+            <Button className="mobile-board__add-column" appearance="primary" size="small" icon={<Add20Regular />} onClick={onAddColumn}>
               Spalte hinzufügen
             </Button>
           )}

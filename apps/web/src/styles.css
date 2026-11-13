@@ -404,7 +404,6 @@ a { color: inherit; }
   font-weight: 700;
   padding: 10px 16px;
 }
-
 .page-heading h1::after { position: absolute; }
 .page-heading > span, .section-heading > span { color: var(--muted); font-size: 12px; }
 .welcome-panel { position: relative; display: flex; min-height: 220px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px; overflow: hidden; padding: 28px 34px; border-radius: 8px; background: var(--primary); color: #fff; }
@@ -495,6 +494,77 @@ a { color: inherit; }
 :is(.application-link-card__open, .benefit-card__open):hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button { background: var(--action-btn-bg); color: var(--action-btn-text); border: 0; }
 :is(.application-links-page, .benefits-page) .page-heading > .fui-Button:hover { background: color-mix(in srgb, var(--action-btn-bg) 90%, var(--text)); }
+@media (max-width: 639px) {
+  .application-links-page {
+    gap: 14px;
+  }
+
+  .application-links-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 148px), 1fr));
+    gap: 12px;
+  }
+
+  .application-link-card {
+    aspect-ratio: auto;
+    min-height: 0;
+    height: auto;
+    border-radius: 16px;
+    overflow: visible;
+  }
+
+  .application-links-grid .application-link-card__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 0;
+    padding: 12px 10px 10px;
+  }
+
+  .application-links-grid .application-link-card__icon {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    margin: 0 auto;
+    border-radius: 10px;
+    place-self: center;
+  }
+
+  .application-links-grid .application-link-card h2 {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .application-links-grid .application-link-card__open {
+    display: flex;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    min-height: 34px;
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .application-links-grid .application-link-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 10px 10px;
+    border-top: 1px solid var(--border);
+  }
+}
 .benefit-card__links {
   display: flex;
   width: 100%;
@@ -635,6 +705,18 @@ a { color: inherit; }
   .portal-header { padding-inline: 14px; }
   .header-account__name { display: none; }
   .portal-main { padding: 16px 12px; }
+  :is(.elearning-page, .application-links-page) .page-heading {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  :is(.elearning-page, .application-links-page) .page-heading h1 {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  :is(.elearning-page, .application-links-page) .page-heading > .fui-Button {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
   .page-heading h1 { font-size: 22px; }
   .welcome-panel { min-height: 205px; padding: 22px; }
   .welcome-panel h2 { font-size: 29px; }
@@ -2009,6 +2091,118 @@ a { color: inherit; }
 .course-materials-empty__hint {
   font-size: 0.88rem;
   color: var(--muted);
+}
+
+@media (max-width: 639px) {
+  .elearning-page {
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .elearning-back-link {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 12px;
+  }
+
+  .course-detail-header,
+  .course-detail-card,
+  .course-detail-sections,
+  .course-practice-info,
+  .course-practice-metrics,
+  .course-material-item,
+  .course-material-item__info {
+    min-width: 0;
+  }
+
+  .course-detail-header {
+    padding: 18px 16px;
+    overflow-wrap: anywhere;
+  }
+
+  .course-detail-header__title {
+    font-size: 1.7rem;
+    overflow-wrap: anywhere;
+  }
+
+  .course-detail-header__description {
+    font-size: 0.96rem;
+    overflow-wrap: anywhere;
+  }
+
+  .course-detail-card {
+    padding: 18px 16px;
+  }
+
+  .course-detail-card__heading {
+    min-width: 0;
+  }
+
+  .course-detail-card__heading h2,
+  .course-detail-card__heading p {
+    overflow-wrap: anywhere;
+  }
+
+  .course-detail-card__heading h2 {
+    font-size: 1.1rem;
+  }
+
+  .course-material-item {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .course-material-item__preview {
+    width: 84px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+
+  .course-material-item__info {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .course-material-item__title,
+  .course-material-item__meta {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .course-material-item__download {
+    width: 100%;
+    justify-content: center;
+    flex-shrink: 1;
+  }
+
+  .course-practice-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-box {
+    min-width: 0;
+  }
+
+  .metric-box__value,
+  .metric-box__label {
+    overflow-wrap: anywhere;
+  }
+
+  .course-practice-actions {
+    flex-direction: column;
+  }
+
+  .course-practice-actions > * {
+    width: 100%;
+  }
+
+  .elearning-start-btn {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
 }
 
 /* Practice launcher */

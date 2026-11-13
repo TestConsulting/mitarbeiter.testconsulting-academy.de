@@ -173,7 +173,6 @@ export function ElearningPage() {
         <h1>
           <BookOpen24Regular aria-hidden="true" /> eLearning
         </h1>
-        <span>Lernen & Weiterbildung</span>
         {isAdmin && (
           <Button appearance="primary" icon={<Add20Regular />} onClick={() => navigate("/areas/elearning/new")}>
             Kurs anlegen
