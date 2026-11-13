@@ -14,7 +14,14 @@ export function MobileNavDrawer({ isOpen, onClose, triggerRef, children }: Mobil
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const mediaQuery = typeof window.matchMedia === "function"
+      ? window.matchMedia("(min-width: 1024px)")
+      : null;
+
+    if (!mediaQuery || typeof mediaQuery.addEventListener !== "function") {
+      return;
+    }
+
     const handleDesktop = (event: MediaQueryListEvent) => {
       if (event.matches) {
         onClose();
@@ -46,7 +53,9 @@ export function MobileNavDrawer({ isOpen, onClose, triggerRef, children }: Mobil
   }, [isOpen, onClose]);
 
   useEffect(() => {
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const isDesktop = typeof window.matchMedia === "function"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false;
     if (!isOpen || isDesktop) {
       return;
     }
@@ -82,7 +91,9 @@ export function MobileNavDrawer({ isOpen, onClose, triggerRef, children }: Mobil
   }, [isOpen]);
 
   useEffect(() => {
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const isDesktop = typeof window.matchMedia === "function"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false;
     if (isDesktop) {
       return;
     }

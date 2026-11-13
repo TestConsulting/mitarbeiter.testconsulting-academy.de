@@ -15,7 +15,20 @@ const authApi = vi.hoisted(() => ({
   links: { list: vi.fn() },
   benefits: { list: vi.fn(), get: vi.fn() },
   users: { list: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
-  courses: { list: vi.fn(), get: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), uploadMaterial: vi.fn(), deleteMaterial: vi.fn() },
+  courses: {
+    list: vi.fn(),
+    get: vi.fn(),
+    getPractice: vi.fn(),
+    getPracticeProgress: vi.fn(),
+    checkPracticeAnswer: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+    uploadMaterial: vi.fn(),
+    deleteMaterial: vi.fn(),
+    examResults: vi.fn(),
+    abortedExamSessions: vi.fn(),
+  },
 }));
 
 vi.mock("../api/client.js", () => ({
@@ -41,6 +54,17 @@ beforeEach(() => {
   authApi.courses.get.mockImplementation((slug: string) => Promise.resolve(
     coursesData.find((course) => course.slug === slug || course.id === slug),
   ));
+  authApi.courses.getPractice.mockImplementation((slug: string) => Promise.resolve(
+    coursesData.find((course) => course.slug === slug || course.id === slug),
+  ));
+  authApi.courses.getPracticeProgress.mockResolvedValue([]);
+  authApi.courses.checkPracticeAnswer.mockImplementation(async (_slug: string, questionId: string) => ({
+    questionId,
+    lastCorrect: false,
+    correctOptionIds: [],
+  }));
+  authApi.courses.examResults.mockResolvedValue([]);
+  authApi.courses.abortedExamSessions.mockResolvedValue([]);
 });
 
 describe("portal shell", () => {
@@ -179,7 +203,9 @@ describe("portal shell", () => {
     await userEvent.click(within(sidebarNav).getByRole("link", { name: "eLearning" }));
 
     expect(await screen.findByRole("heading", { name: /eLearning/i, level: 1 })).toBeInTheDocument();
+    expect(screen.queryByText("Lernen & Weiterbildung")).not.toBeInTheDocument();
     expect(screen.queryByText("Dieser Bereich wird in einer späteren Phase eingerichtet.")).not.toBeInTheDocument();
+    expect(within(sidebarNav).getByRole("link", { name: "Prüfungsauswertung" })).toBeInTheDocument();
 
     const firstCourseCard = (await screen.findByRole("heading", { name: /Fragenkatalog Essentials/i })).closest("article");
     const courseLink = within(firstCourseCard!).getByRole("link", { name: /Kurs ansehen/i });
@@ -192,5 +218,18 @@ describe("portal shell", () => {
     await userEvent.click(practiceStartLink);
     expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
     expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
+  });
+
+  it("shows the exam results entry only within the eLearning section", async () => {
+    render(<App />);
+    const sidebarNav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+
+    expect(within(sidebarNav).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
+
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "eLearning" }));
+    expect(await within(sidebarNav).findByRole("link", { name: "Prüfungsauswertung" })).toBeInTheDocument();
+
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Application Links" }));
+    expect(within(sidebarNav).queryByRole("link", { name: "Prüfungsauswertung" })).not.toBeInTheDocument();
   });
 });

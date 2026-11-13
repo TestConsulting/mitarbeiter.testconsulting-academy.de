@@ -17,6 +17,27 @@ if (typeof window !== "undefined" && !window.ResizeObserver) {
 if (!HTMLElement.prototype.scrollIntoView) {
   HTMLElement.prototype.scrollIntoView = vi.fn();
 }
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(() => false),
+    }),
+  });
+  Object.defineProperty(globalThis, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: window.matchMedia,
+  });
+}
 if (!URL.createObjectURL) {
   URL.createObjectURL = vi.fn(() => "blob:question-image-preview");
   URL.revokeObjectURL = vi.fn();
