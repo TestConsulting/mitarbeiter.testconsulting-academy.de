@@ -123,11 +123,12 @@ export async function createBoardFixture(): Promise<BoardFixture> {
       if (!columns.some((column) => column.id === input.columnId)) return "column-not-found";
       const now = new Date().toISOString();
       tickets.push({
-        id: randomUUID(),
+        id: input.id ?? randomUUID(),
         columnId: input.columnId,
         title: input.title,
         description: input.description ?? null,
         assigneeId: input.assigneeId ?? null,
+        blocked: false,
         position: tickets.filter((ticket) => ticket.columnId === input.columnId).length,
         createdBy: input.createdBy,
         createdAt: now,
@@ -174,6 +175,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
         title: archived.title,
         description: archived.description,
         assigneeId: archived.assigneeId,
+        blocked: archived.blocked,
         position: tickets.filter((ticket) => ticket.columnId === targetColumnId).length,
         createdBy: archived.createdBy,
         createdAt: archived.createdAt,
@@ -188,6 +190,7 @@ export async function createBoardFixture(): Promise<BoardFixture> {
         return "column-not-found";
       }
       if (patch.title !== undefined) ticket.title = patch.title;
+      if (patch.blocked !== undefined) ticket.blocked = patch.blocked;
       if (patch.description !== undefined) ticket.description = patch.description;
       if (patch.assigneeId !== undefined) ticket.assigneeId = patch.assigneeId;
       if (patch.columnId !== undefined) ticket.columnId = patch.columnId;

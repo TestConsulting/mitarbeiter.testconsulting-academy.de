@@ -13,6 +13,9 @@ const boardApi = vi.hoisted(() => ({
   get: vi.fn(),
   createColumn: vi.fn(),
   createTicket: vi.fn(),
+  listAttachments: vi.fn(),
+  uploadAttachment: vi.fn(),
+  deleteAttachment: vi.fn(),
   archiveTickets: vi.fn(),
   listArchivedTickets: vi.fn(),
   restoreTicket: vi.fn(),
@@ -72,6 +75,9 @@ beforeEach(() => {
   boardApi.get.mockReset();
   boardApi.createColumn.mockReset();
   boardApi.createTicket.mockReset();
+  boardApi.listAttachments.mockReset();
+  boardApi.uploadAttachment.mockReset();
+  boardApi.deleteAttachment.mockReset();
   boardApi.archiveTickets.mockReset();
   boardApi.listArchivedTickets.mockReset();
   boardApi.restoreTicket.mockReset();
@@ -83,6 +89,7 @@ beforeEach(() => {
   authApi.me.mockReset();
   boardApi.get.mockResolvedValue(buildBoard());
   boardApi.listArchivedTickets.mockResolvedValue([]);
+  boardApi.listAttachments.mockResolvedValue([]);
 });
 
 afterEach(() => {
@@ -100,6 +107,54 @@ describe("tasks board page", () => {
     expect(screen.getByText("In Review")).toBeInTheDocument();
   });
 
+  it.each([1024, 390])("toggles the persisted blocked flag without opening the dialog and restores it after remount at width %i", async (width) => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
+    const user = userEvent.setup();
+    const board = buildBoard();
+    boardApi.updateTicket.mockImplementation(async (id: string, patch: { blocked: boolean }) => {
+      board.tickets = board.tickets.map((ticket) => ticket.id === id ? { ...ticket, ...patch } : ticket);
+      return [...board.tickets];
+    });
+    const view = renderBoard(employeeUser);
+    const blockButton = await screen.findByRole("button", { name: "Ticket blockieren" });
+    const card = blockButton.closest<HTMLElement>(".ticket-card, .mobile-ticket-card")!;
+    expect(blockButton.nextElementSibling).toHaveAttribute("aria-label", width < 768 ? "Ticket verschieben" : "Ticket bearbeiten");
+    blockButton.focus();
+    await user.keyboard("{Enter}");
+    expect(await within(card).findByText("Blockiert")).toBeInTheDocument();
+    expect(boardApi.updateTicket).toHaveBeenLastCalledWith("ticket-1", { blocked: true });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    view.unmount();
+    boardApi.get.mockResolvedValue(board);
+    renderBoard(employeeUser);
+    expect(await screen.findByText("Blockiert")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Blockierung aufheben" }));
+    await waitFor(() => expect(screen.queryByText("Blockiert")).not.toBeInTheDocument());
+    expect(boardApi.updateTicket).toHaveBeenLastCalledWith("ticket-1", { blocked: false });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it.each([1024, 390])("shows failed blocking on the card, preserves the status and permits retry at width %i", async (width) => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
+    boardApi.updateTicket.mockRejectedValueOnce(new Error("offline"));
+    renderBoard(employeeUser);
+    fireEvent.click(await screen.findByRole("button", { name: "Ticket blockieren" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Die Blockierung konnte nicht gespeichert werden.");
+    expect(screen.queryByText("Blockiert")).not.toBeInTheDocument();
+    const board = buildBoard();
+    board.tickets[0].blocked = true;
+    let finish!: (tickets: BoardState["tickets"]) => void;
+    boardApi.updateTicket.mockReturnValueOnce(new Promise<BoardState["tickets"]>((resolve) => { finish = resolve; }));
+    const retry = screen.getByRole("button", { name: "Ticket blockieren" });
+    fireEvent.click(retry);
+    expect(retry).toBeDisabled();
+    fireEvent.click(retry);
+    expect(boardApi.updateTicket).toHaveBeenCalledTimes(2);
+    finish(board.tickets);
+    expect(await screen.findByText("Blockiert")).toBeInTheDocument();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
   it("opens the edit dialog from a mobile ticket card and keeps the ticket metadata visible", async () => {
     Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 500 });
     const board = buildBoard();
@@ -111,12 +166,14 @@ describe("tasks board page", () => {
       priority: "high",
       dueDate: "2026-11-25",
       assigneeId: employeeUser.id,
+      blocked: true,
     }];
     boardApi.get.mockResolvedValue(board);
 
     renderBoard(adminUser);
     expect(await screen.findByRole("tab", { name: /Backlog/i })).toBeInTheDocument();
     expect(await screen.findByText("Vertrag prüfen und überarbeiten")).toBeInTheDocument();
+    expect(screen.getByText("Blockiert")).toBeInTheDocument();
 
     const card = screen.getByText("Angebot schreiben").closest(".mobile-ticket-card");
     expect(card).not.toBeNull();
@@ -213,7 +270,7 @@ describe("tasks board page", () => {
 
   it("creates a ticket in a column via the column action", async () => {
     const user = userEvent.setup();
-    boardApi.createTicket.mockResolvedValue([
+    boardApi.createTicket.mockResolvedValue({ createdTicketId: "ticket-2", tickets: [
       ...buildBoard().tickets,
       {
         id: "ticket-2",
@@ -226,7 +283,7 @@ describe("tasks board page", () => {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
-    ]);
+    ] });
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
 
@@ -243,6 +300,94 @@ describe("tasks board page", () => {
       description: null,
     }));
     expect(await screen.findByText("Neue Aufgabe")).toBeInTheDocument();
+  });
+
+  it("uploads selected files when creating a ticket and rejects oversized files", async () => {
+    const user = userEvent.setup();
+    boardApi.createTicket.mockResolvedValue({ createdTicketId: "ticket-2", tickets: buildBoard().tickets });
+    boardApi.uploadAttachment.mockResolvedValue({ id: "a1", fileName: "test.pdf", size: 5, contentType: "application/pdf" });
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+    const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
+    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    const dialog = await screen.findByRole("dialog");
+    await user.type(within(dialog).getByLabelText("Titel"), "Ticket");
+    const input = within(dialog).getByLabelText("Anhänge auswählen");
+    await user.upload(input, new File([new Uint8Array(20 * 1024 * 1024 + 1)], "gross.pdf", { type: "application/pdf" }));
+    expect(within(dialog).getByRole("alert")).toHaveTextContent("maximal 20 MB");
+    const file = new File(["%PDF-"], "test.pdf", { type: "application/pdf" });
+    await user.upload(input, file);
+    await user.click(within(dialog).getByRole("button", { name: "Anlegen" }));
+    await waitFor(() => expect(boardApi.uploadAttachment).toHaveBeenCalledWith("ticket-2", file));
+  });
+
+  it("removes existing attachments only when saving the edited ticket", async () => {
+    const user = userEvent.setup();
+    boardApi.listAttachments.mockResolvedValue([{ id: "a1", fileName: "datei.pdf", size: 5, contentType: "application/pdf" }]);
+    boardApi.updateTicket.mockResolvedValue(buildBoard().tickets);
+    boardApi.deleteAttachment.mockResolvedValue({ success: true });
+    renderBoard(employeeUser);
+    fireEvent.click((await screen.findByText("Angebot schreiben")).closest("article") as HTMLElement);
+    const dialog = await screen.findByRole("dialog");
+    await user.click(await within(dialog).findByRole("button", { name: "datei.pdf entfernen" }));
+    expect(boardApi.deleteAttachment).not.toHaveBeenCalled();
+    await user.click(within(dialog).getByRole("button", { name: "Speichern" }));
+    await waitFor(() => expect(boardApi.deleteAttachment).toHaveBeenCalledWith("ticket-1", "a1"));
+  });
+
+  it("discards attachment removal when the edit dialog is cancelled", async () => {
+    const user = userEvent.setup();
+    boardApi.listAttachments.mockResolvedValue([{ id: "a1", fileName: "datei.pdf", size: 5, contentType: "application/pdf" }]);
+    renderBoard(adminUser);
+    fireEvent.click((await screen.findByText("Angebot schreiben")).closest("article") as HTMLElement);
+    const dialog = await screen.findByRole("dialog");
+    await user.click(await within(dialog).findByRole("button", { name: "datei.pdf entfernen" }));
+    await user.click(within(dialog).getByRole("button", { name: "Abbrechen" }));
+    expect(boardApi.deleteAttachment).not.toHaveBeenCalled();
+  });
+
+  it("retries a failed attachment upload without creating another ticket or uploading completed files again", async () => {
+    const user = userEvent.setup();
+    boardApi.createTicket.mockResolvedValue({ createdTicketId: "ticket-2", tickets: buildBoard().tickets });
+    boardApi.updateTicket.mockResolvedValue(buildBoard().tickets);
+    boardApi.uploadAttachment
+      .mockResolvedValueOnce({ id: "a1", fileName: "eins.pdf", size: 5, contentType: "application/pdf" })
+      .mockRejectedValueOnce(new Error("Upload fehlgeschlagen"))
+      .mockResolvedValueOnce({ id: "a2", fileName: "zwei.pdf", size: 5, contentType: "application/pdf" });
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+    const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
+    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    const dialog = await screen.findByRole("dialog");
+    await user.type(within(dialog).getByLabelText("Titel"), "Ticket");
+    const first = new File(["%PDF-"], "eins.pdf", { type: "application/pdf" });
+    const second = new File(["%PDF-"], "zwei.pdf", { type: "application/pdf" });
+    await user.upload(within(dialog).getByLabelText("Anhänge auswählen"), [first, second]);
+    await user.click(within(dialog).getByRole("button", { name: "Anlegen" }));
+    expect(await within(dialog).findByRole("alert")).toHaveTextContent("Ticket wurde angelegt");
+    await user.click(within(dialog).getByRole("button", { name: "Erneut speichern" }));
+    await waitFor(() => expect(boardApi.uploadAttachment).toHaveBeenCalledTimes(3));
+    expect(boardApi.createTicket).toHaveBeenCalledTimes(1);
+    expect(boardApi.uploadAttachment.mock.calls.map((call) => call[1])).toEqual([first, second, second]);
+  });
+
+  it("enforces the per-ticket attachment count and total size", async () => {
+    const user = userEvent.setup();
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+    const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
+    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    const dialog = await screen.findByRole("dialog");
+    const input = within(dialog).getByLabelText("Anhänge auswählen");
+    await user.upload(input, Array.from({ length: 11 }, (_, i) => new File(["x"], `${i}.pdf`, { type: "application/pdf" })));
+    expect(within(dialog).getByRole("alert")).toHaveTextContent("höchstens 10 Anhänge");
+    const largeFiles = Array.from({ length: 6 }, (_, i) => {
+      const file = new File(["x"], `${i}.pdf`, { type: "application/pdf" });
+      Object.defineProperty(file, "size", { value: 20 * 1024 * 1024 });
+      return file;
+    });
+    await user.upload(input, largeFiles);
+    expect(within(dialog).getByRole("alert")).toHaveTextContent("höchstens 100 MB");
   });
 
   it("opens the edit dialog and saves changes", async () => {
@@ -373,7 +518,7 @@ describe("tasks board page", () => {
     board.tickets.push({
       id: "ticket-2",
       columnId: "col-done",
-      title: "Abgeschlossen",
+      title: "Fertige Aufgabe",
       description: null,
       assigneeId: null,
       position: 0,
@@ -384,7 +529,8 @@ describe("tasks board page", () => {
     boardApi.get.mockResolvedValue(board);
     boardApi.archiveTickets.mockResolvedValue([buildBoard().tickets[0]]);
     renderBoard(adminUser);
-    await screen.findByText("Abgeschlossen");
+    await screen.findByText("Fertige Aufgabe");
+    expect(screen.getByText("Abgeschlossen")).toBeInTheDocument();
 
     const doneColumn = screen.getByText("Erledigt").closest("section") as HTMLElement;
     await user.click(within(doneColumn).getByRole("button", { name: "Archivieren" }));

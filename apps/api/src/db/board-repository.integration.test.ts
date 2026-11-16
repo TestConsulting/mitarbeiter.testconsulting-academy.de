@@ -28,6 +28,9 @@ describe.skipIf(process.env.RUN_BOARD_DB_TESTS !== "1")("tickets with PostgreSQL
     const migration = await readFile(new URL("../../migrations/014_add_ticket_due_date.sql", import.meta.url), "utf8");
     await database.query(migration);
     await database.query(migration);
+    const blockedMigration = await readFile(new URL("../../migrations/018_add_ticket_blocked.sql", import.meta.url), "utf8");
+    await database.query(blockedMigration);
+    await database.query(blockedMigration);
   });
 
   afterAll(async () => {
@@ -114,5 +117,25 @@ describe.skipIf(process.env.RUN_BOARD_DB_TESTS !== "1")("tickets with PostgreSQL
     const cleared = await repository.updateTicket(ticket.id, { dueDate: null });
     if (typeof cleared === "string") throw new Error(cleared);
     expect(cleared.find((entry) => entry.id === ticket.id)?.dueDate).toBeNull();
+  });
+
+  it("persists blocking through edits, moves, archiving and restoring, and allows unblocking", async () => {
+    const board = await repository.getBoard();
+    expect(board.tickets.find((ticket) => ticket.title === "Existing ticket")?.blocked).toBe(false);
+    const backlog = board.columns.find((column) => column.title === "Backlog")!;
+    const done = board.columns.find((column) => column.title === "Erledigt")!;
+    const created = await repository.createTicket({ columnId: backlog.id, title: "Blocked ticket", createdBy: userId });
+    if (typeof created === "string") throw new Error(created);
+    const ticket = created.find((entry) => entry.title === "Blocked ticket")!;
+    expect(ticket.blocked).toBe(false);
+    await repository.updateTicket(ticket.id, { blocked: true });
+    await repository.updateTicket(ticket.id, { title: "Still blocked", columnId: done.id });
+    expect((await repository.getBoard()).tickets.find((entry) => entry.id === ticket.id)?.blocked).toBe(true);
+    await repository.archiveTicket(ticket.id);
+    expect((await repository.listArchivedTickets()).find((entry) => entry.id === ticket.id)?.blocked).toBe(true);
+    await repository.restoreTicket(ticket.id, backlog.id);
+    expect((await repository.getBoard()).tickets.find((entry) => entry.id === ticket.id)?.blocked).toBe(true);
+    await repository.updateTicket(ticket.id, { blocked: false });
+    expect((await repository.getBoard()).tickets.find((entry) => entry.id === ticket.id)?.blocked).toBe(false);
   });
 });

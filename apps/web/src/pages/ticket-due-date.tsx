@@ -1,12 +1,12 @@
 import { Tooltip } from "@fluentui/react-components";
-import { CalendarLtr16Regular, Clock16Regular } from "@fluentui/react-icons";
+import { CalendarLtr16Regular, CheckmarkCircle16Regular, Clock16Regular } from "@fluentui/react-icons";
 import { useEffect, useState } from "react";
 
 export function localDateKey(date: Date): string {
   return `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 }
 
-export function TicketDueDate({ dueDate, showExactDate = false }: { dueDate: string | null; showExactDate?: boolean }) {
+export function TicketDueDate({ dueDate, showExactDate = false, columnTitle = "" }: { dueDate: string | null; showExactDate?: boolean; columnTitle?: string }) {
   const [today, setToday] = useState(() => localDateKey(new Date()));
 
   useEffect(() => {
@@ -15,6 +15,15 @@ export function TicketDueDate({ dueDate, showExactDate = false }: { dueDate: str
     const timer = setTimeout(() => setToday(localDateKey(new Date())), midnight.getTime() - now.getTime());
     return () => clearTimeout(timer);
   }, [today]);
+
+  if (["erledigt", "done", "fertig"].includes(columnTitle.trim().toLowerCase())) {
+    return (
+      <span className="ticket-due-date ticket-due-date--completed">
+        <CheckmarkCircle16Regular aria-hidden="true" />
+        <span>Abgeschlossen</span>
+      </span>
+    );
+  }
 
   if (!dueDate) return null;
 

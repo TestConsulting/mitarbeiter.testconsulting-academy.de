@@ -5,6 +5,21 @@ import { TicketDueDate } from "./ticket-due-date.js";
 afterEach(() => vi.useRealTimers());
 
 describe("ticket due date", () => {
+  it("replaces overdue status in the done column and restores it when moved back", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2030, 10, 5, 12));
+    const { rerender } = render(<TicketDueDate dueDate="2030-11-02" columnTitle="Erledigt" />);
+    expect(screen.getByText("Abgeschlossen").parentElement).toHaveClass("ticket-due-date--completed");
+    expect(screen.queryByText(/überfällig/)).not.toBeInTheDocument();
+    rerender(<TicketDueDate dueDate="2030-11-02" columnTitle="In Arbeit" />);
+    expect(screen.getByText("3 Tage überfällig")).toBeInTheDocument();
+  });
+
+  it("shows completion for tickets without a due date", () => {
+    render(<TicketDueDate dueDate={null} columnTitle="Erledigt" />);
+    expect(screen.getByText("Abgeschlossen")).toBeInTheDocument();
+  });
+
   it("renders no date when no due date is set", () => {
     const { container } = render(<TicketDueDate dueDate={null} />);
     expect(container).toBeEmptyDOMElement();

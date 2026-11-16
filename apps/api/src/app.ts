@@ -10,6 +10,10 @@ import { createBoardRouter } from "./board/router.js";
 import { createAppLinkRepository, type AppLinkRepository } from "./db/app-link-repository.js";
 import { createLinksRouter } from "./links/router.js";
 import { createBoardRepository, type BoardRepository } from "./db/board-repository.js";
+import {
+  createTicketAttachmentRepository,
+  type TicketAttachmentRepository,
+} from "./db/ticket-attachment-repository.js";
 import { pool } from "./db/pool.js";
 import { createUserRepository, type UserRepository } from "./db/user-repository.js";
 import { createTicketsRouter } from "./tickets/router.js";
@@ -32,6 +36,7 @@ type AppOptions = {
   database?: Pick<Pool, "query" | "connect">;
   userRepository?: UserRepository;
   boardRepository?: BoardRepository;
+  ticketAttachmentRepository?: TicketAttachmentRepository;
   appLinkRepository?: AppLinkRepository;
   benefitRepository?: BenefitRepository;
   courseRepository?: CourseRepository;
@@ -71,6 +76,7 @@ export function createApp(options: AppOptions = {}) {
   });
   const users = options.userRepository ?? createUserRepository(database as Pool);
   const board = options.boardRepository ?? createBoardRepository(database as Pool);
+  const ticketAttachments = options.ticketAttachmentRepository ?? createTicketAttachmentRepository(database);
   const links = options.appLinkRepository ?? createAppLinkRepository(database);
   const benefits = options.benefitRepository ?? createBenefitRepository(database);
   const courses = options.courseRepository ?? createCourseRepository(database);
@@ -113,7 +119,7 @@ export function createApp(options: AppOptions = {}) {
   }));
   app.use("/api/users", createUsersRouter(users));
   app.use("/api/board", createBoardRouter(board, users));
-  app.use("/api/tickets", createTicketsRouter(board, users));
+  app.use("/api/tickets", createTicketsRouter(board, users, ticketAttachments));
   app.use("/api/links", createLinksRouter(links, users));
   app.use("/api/benefits", createBenefitsRouter(benefits, users));
   app.use("/api/exam-sessions", createExamSessionRouter(

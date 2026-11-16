@@ -57,6 +57,7 @@ export function AdminUsersPage() {
   const [editingUser, setEditingUser] = useState<PortalUser | null>(null);
   const [deletingUser, setDeletingUser] = useState<PortalUser | null>(null);
   const [editForm, setEditForm] = useState<UserFormState>(emptyForm);
+  const [editError, setEditError] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -131,6 +132,7 @@ export function AdminUsersPage() {
   function openEditForm(target: PortalUser) {
     const splitName = splitFullName(target.name);
     setError("");
+    setEditError("");
     setEditingUser(target);
     setEditForm({
       email: target.email,
@@ -144,7 +146,7 @@ export function AdminUsersPage() {
   async function handleUpdate(event: FormEvent) {
     event.preventDefault();
     if (!editingUser) return;
-    setError("");
+    setEditError("");
     setBusy(true);
     try {
       const updated = await api.users.update(editingUser.id, {
@@ -157,7 +159,7 @@ export function AdminUsersPage() {
       setEditingUser(null);
       setEditForm(emptyForm);
     } catch (failure) {
-      setError(getApiErrorMessage(failure, "Benutzer konnte nicht gespeichert werden."));
+      setEditError(getApiErrorMessage(failure, "Benutzer konnte nicht gespeichert werden."));
     } finally {
       setBusy(false);
     }
@@ -262,6 +264,7 @@ export function AdminUsersPage() {
             <DialogBody>
               <DialogTitle>Benutzer bearbeiten</DialogTitle>
               <DialogContent className="admin-users-form admin-users-form--edit">
+                {editError && <MessageBar intent="error"><MessageBarBody>{editError}</MessageBarBody></MessageBar>}
                 <Field label="Vorname" required>
                   <Input value={editForm.firstName} onChange={(_event, data) => setEditForm((current) => ({ ...current, firstName: data.value }))} autoFocus />
                 </Field>

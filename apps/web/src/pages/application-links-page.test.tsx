@@ -85,6 +85,9 @@ describe("application links page", () => {
     expect(dialog.getByText(description.trim())).toBeInTheDocument();
     expect(dialog.getByRole("link", { name: link.url })).toHaveAttribute("href", link.url);
     expect(dialog.getByRole("link", { name: "Öffnen" })).toHaveAttribute("target", "_blank");
+    expect(dialog.getByRole("link", { name: "Öffnen" }).compareDocumentPosition(
+      dialog.getByRole("button", { name: "Schließen" }),
+    ) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(dialog.getByRole("button", { name: "Popup schließen" })).toBeInTheDocument();
     expect(dialog.getByRole("heading", { name: "Beschreibung" })).toBeInTheDocument();
     expect(mocks.reorder).not.toHaveBeenCalled();

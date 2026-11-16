@@ -302,10 +302,10 @@ export function ApplicationLinksPage() {
             </DialogContent>
             <DialogActions className="application-link-detail__actions">
               <span className="application-link-detail__hint">{detailIsEmail ? "Öffnet dein E-Mail-Programm" : "Öffnet in einem neuen Tab"}</span>
-              <Button onClick={() => setDetailTarget(null)}>Schließen</Button>
               <Button as="a" href={detailTarget?.url} target={detailIsEmail ? undefined : "_blank"} rel="noopener noreferrer" appearance="primary" icon={detailIsEmail ? <Mail24Regular /> : <ArrowUpRight20Regular />}>
                 {detailIsEmail ? "E-Mail schreiben" : "Öffnen"}
               </Button>
+              <Button onClick={() => setDetailTarget(null)}>Schließen</Button>
             </DialogActions>
           </DialogBody>
         </DialogSurface>

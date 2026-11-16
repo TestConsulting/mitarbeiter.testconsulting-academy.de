@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { coursesData } from "@portal/shared";
+import { ApiError } from "../api/client.js";
 import { App } from "./App.js";
 import { AuthProvider } from "./auth-context.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
@@ -18,6 +19,7 @@ const authApi = vi.hoisted(() => ({
   courses: {
     list: vi.fn(),
     get: vi.fn(),
+    getAdmin: vi.fn(),
     getPractice: vi.fn(),
     getPracticeProgress: vi.fn(),
     checkPracticeAnswer: vi.fn(),
@@ -52,6 +54,9 @@ beforeEach(() => {
   authApi.users.delete.mockResolvedValue({ success: true });
   authApi.courses.list.mockResolvedValue([...coursesData]);
   authApi.courses.get.mockImplementation((slug: string) => Promise.resolve(
+    coursesData.find((course) => course.slug === slug || course.id === slug),
+  ));
+  authApi.courses.getAdmin.mockImplementation((slug: string) => Promise.resolve(
     coursesData.find((course) => course.slug === slug || course.id === slug),
   ));
   authApi.courses.getPractice.mockImplementation((slug: string) => Promise.resolve(
@@ -197,6 +202,34 @@ describe("portal shell", () => {
     expect(roleSelect).toHaveValue("admin");
   });
 
+  it("shows invalid password errors inside the edit user dialog", async () => {
+    const adminUser = { id: "admin-1", email: "admin@example.test", name: "Admin Beispiel", role: "admin" as const };
+    const targetUser = { id: "u2", email: "user@example.test", name: "Test User", role: "employee" as const };
+    const errorMessage = "Bitte pruefe deine Eingaben: password: Too small: expected string to have >=12 characters";
+    authApi.me.mockResolvedValue(adminUser);
+    authApi.users.list.mockResolvedValue([targetUser]);
+    authApi.users.update.mockRejectedValue(new ApiError(errorMessage, 400));
+
+    render(
+      <AuthProvider>
+        <AdminUsersPage />
+      </AuthProvider>,
+    );
+
+    const userRow = (await screen.findByText(targetUser.email)).closest("li");
+    expect(userRow).not.toBeNull();
+    await userEvent.click(within(userRow!).getByRole("button", { name: "Bearbeiten" }));
+    const dialog = await screen.findByRole("dialog");
+    await userEvent.type(
+      within(dialog).getByLabelText("Neues Passwort (optional)", { selector: "input" }),
+      "short",
+    );
+    await userEvent.click(within(dialog).getByRole("button", { name: "Speichern" }));
+
+    expect(await within(dialog).findByText(errorMessage)).toBeInTheDocument();
+    expect(screen.getAllByText(errorMessage)).toHaveLength(1);
+  });
+
   it("opens eLearning from navigation and navigates to course details and practice runner", async () => {
     render(<App />);
     const sidebarNav = await screen.findByRole("complementary", { name: "Portalnavigation" });
@@ -218,6 +251,29 @@ describe("portal shell", () => {
     await userEvent.click(practiceStartLink);
     expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
     expect(await screen.findByText("Frage 1 von 4")).toBeInTheDocument();
+  });
+
+  it("opens the course editor from the real app route and saves changes", async () => {
+    const adminUser = { id: "admin-1", email: "admin@example.test", name: "Admin Beispiel", role: "admin" as const };
+    const course = { ...coursesData[0], questions: [], materials: [] };
+    authApi.me.mockResolvedValue(adminUser);
+    authApi.courses.getAdmin.mockResolvedValue(course);
+    authApi.courses.update.mockImplementation(async (id, input) => ({ ...input, id, slug: course.slug }));
+    window.history.replaceState({}, "", "/areas/elearning");
+
+    render(<App />);
+    await userEvent.click(await screen.findByRole("button", { name: `${course.title} bearbeiten` }));
+    const title = await screen.findByRole("textbox", { name: "Kurstitel" });
+    expect(title).toHaveValue(course.title);
+    expect(window.location.pathname).toBe(`/areas/elearning/${course.slug}/edit`);
+    await userEvent.clear(title);
+    await userEvent.type(title, "Aktualisierter Kurs");
+    await userEvent.click(screen.getByRole("button", { name: "Kurs speichern" }));
+    await waitFor(() => expect(authApi.courses.update).toHaveBeenCalledWith(
+      course.id,
+      expect.objectContaining({ title: "Aktualisierter Kurs" }),
+    ));
+    await waitFor(() => expect(window.location.pathname).toBe(`/areas/elearning/${course.slug}`));
   });
 
   it("shows the exam results entry only within the eLearning section", async () => {

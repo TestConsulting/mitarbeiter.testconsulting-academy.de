@@ -24,6 +24,7 @@ import {
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { BoardColumn, PortalUser, Ticket, TicketPriority, TicketType } from "@portal/shared";
 import { TicketDueDate } from "./ticket-due-date.js";
+import { TicketBlockButton, TicketBlockedBadge } from "./ticket-blocked-badge.js";
 
 const ticketTypeOptions: { value: TicketType; label: string }[] = [
   { value: "task", label: "Task" },
@@ -73,6 +74,7 @@ export type MobileKanbanBoardProps = {
   canManageColumns: boolean;
   onAddColumn: () => void;
   onEditTicket: (ticket: Ticket) => void;
+  onToggleBlocked: (ticket: Ticket) => Promise<void>;
   onAddTicket: (columnId: string) => void;
   onMoveTicket: (ticketId: string, columnId: string, position: number) => Promise<void> | void;
   onRenameColumn: (column: BoardColumn) => void;
@@ -88,6 +90,7 @@ export function MobileKanbanBoard({
   canManageColumns,
   onAddColumn,
   onEditTicket,
+  onToggleBlocked,
   onAddTicket,
   onMoveTicket,
   onRenameColumn,
@@ -299,6 +302,7 @@ export function MobileKanbanBoard({
               dragOverColumnId={dragOverColumnId}
               onAddTicket={onAddTicket}
               onEditTicket={onEditTicket}
+              onToggleBlocked={onToggleBlocked}
               onRenameColumn={onRenameColumn}
               onDeleteColumn={onDeleteColumn}
               draggingTicketId={draggingTicketId}
@@ -309,7 +313,7 @@ export function MobileKanbanBoard({
 
         <DragOverlay>
           {draggingTicketId ? (
-            <MobileTicketCardDragOverlay ticket={allTickets.find((ticket) => ticket.id === draggingTicketId)!} usersById={usersById} />
+            <MobileTicketCardDragOverlay ticket={allTickets.find((ticket) => ticket.id === draggingTicketId)!} usersById={usersById} columns={columns} />
           ) : null}
         </DragOverlay>
       </DndContext>
@@ -365,6 +369,7 @@ function MobileColumnSection({
   dragOverColumnId,
   onAddTicket,
   onEditTicket,
+  onToggleBlocked,
   onRenameColumn,
   onDeleteColumn,
   draggingTicketId,
@@ -377,6 +382,7 @@ function MobileColumnSection({
   dragOverColumnId: string | null;
   onAddTicket: (columnId: string) => void;
   onEditTicket: (ticket: Ticket) => void;
+  onToggleBlocked: (ticket: Ticket) => Promise<void>;
   onRenameColumn: (column: BoardColumn) => void;
   onDeleteColumn: (columnId: string) => void;
   draggingTicketId: string | null;
@@ -440,8 +446,10 @@ function MobileColumnSection({
                 <MobileTicketCard
                   key={ticket.id}
                   ticket={ticket}
+                  columnTitle={column.title}
                   assignee={assignee}
                   onEdit={() => onEditTicket(ticket)}
+                  onToggleBlocked={() => onToggleBlocked(ticket)}
                   isDragging={draggingTicketId === ticket.id}
                 />
               );
@@ -453,7 +461,7 @@ function MobileColumnSection({
   );
 }
 
-function MobileTicketCardDragOverlay({ ticket, usersById }: { ticket: Ticket; usersById: Map<string, PortalUser> }) {
+function MobileTicketCardDragOverlay({ ticket, usersById, columns }: { ticket: Ticket; usersById: Map<string, PortalUser>; columns: BoardColumn[] }) {
   const assignee = ticket.assigneeId ? usersById.get(ticket.assigneeId) : undefined;
   const ticketType = ticket.type ?? "task";
   const priority = ticket.priority ?? "normal";
@@ -466,9 +474,12 @@ function MobileTicketCardDragOverlay({ ticket, usersById }: { ticket: Ticket; us
           {ticket.description && <p className="mobile-ticket-card__description">{ticket.description}</p>}
         </div>
       </div>
-      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>
-        {getTicketTypeLabel(ticketType)}
-      </span>
+      <div className="ticket-card__badges">
+        <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>
+          {getTicketTypeLabel(ticketType)}
+        </span>
+        <TicketBlockedBadge blocked={ticket.blocked} />
+      </div>
       <div className="mobile-ticket-card__meta">
         {assignee ? (
           <span className="mobile-ticket-card__assignee">
@@ -478,7 +489,7 @@ function MobileTicketCardDragOverlay({ ticket, usersById }: { ticket: Ticket; us
         ) : (
           <span className="mobile-ticket-card__assignee mobile-ticket-card__assignee--empty">Unzugewiesen</span>
         )}
-        {ticket.dueDate && <TicketDueDate dueDate={ticket.dueDate} />}
+        <TicketDueDate dueDate={ticket.dueDate ?? null} columnTitle={columns.find((column) => column.id === ticket.columnId)?.title} />
         <TicketPriorityBadge priority={priority} />
       </div>
     </div>
@@ -487,13 +498,17 @@ function MobileTicketCardDragOverlay({ ticket, usersById }: { ticket: Ticket; us
 
 function MobileTicketCard({
   ticket,
+  columnTitle,
   assignee,
   onEdit,
+  onToggleBlocked,
   isDragging: forcedDragging,
 }: {
   ticket: Ticket;
+  columnTitle: string;
   assignee: PortalUser | undefined;
   onEdit: () => void;
+  onToggleBlocked: () => Promise<void>;
   isDragging?: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id });
@@ -504,6 +519,7 @@ function MobileTicketCard({
   };
   const ticketType = ticket.type ?? "task";
   const priority = ticket.priority ?? "normal";
+  const [blockError, setBlockError] = useState<string | null>(null);
 
   return (
     <div
@@ -531,27 +547,39 @@ function MobileTicketCard({
             <p className="mobile-ticket-card__description">{ticket.description}</p>
           )}
         </div>
-        <button
-          type="button"
-          className="mobile-ticket-card__drag-handle"
-          aria-label="Ticket verschieben"
-          title="Ticket verschieben"
-          onPointerDown={(event) => {
-            event.stopPropagation();
-          }}
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-          {...attributes}
-          {...listeners}
-        >
-          ⋮⋮
-        </button>
+        <div className="ticket-card__actions">
+          <TicketBlockButton
+            blocked={ticket.blocked}
+            onToggle={onToggleBlocked}
+            onError={setBlockError}
+            className="mobile-ticket-card__block"
+          />
+          <button
+            type="button"
+            className="mobile-ticket-card__drag-handle"
+            aria-label="Ticket verschieben"
+            title="Ticket verschieben"
+            onPointerDown={(event) => {
+              event.stopPropagation();
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+            {...attributes}
+            {...listeners}
+          >
+            ⋮⋮
+          </button>
+        </div>
       </div>
 
-      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>
-        {getTicketTypeLabel(ticketType)}
-      </span>
+      <div className="ticket-card__badges">
+        <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>
+          {getTicketTypeLabel(ticketType)}
+        </span>
+        <TicketBlockedBadge blocked={ticket.blocked} />
+      </div>
+      {blockError && <p className="ticket-card__block-error" role="alert">{blockError}</p>}
 
       <div className="mobile-ticket-card__meta">
         {assignee ? (
@@ -565,7 +593,7 @@ function MobileTicketCard({
           <span className="mobile-ticket-card__assignee mobile-ticket-card__assignee--empty">Unzugewiesen</span>
         )}
 
-        <TicketDueDate dueDate={ticket.dueDate ?? null} />
+        <TicketDueDate dueDate={ticket.dueDate ?? null} columnTitle={columnTitle} />
         <TicketPriorityBadge priority={priority} />
       </div>
     </div>

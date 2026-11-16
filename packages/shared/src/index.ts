@@ -73,6 +73,7 @@ export type Ticket = {
   priority?: TicketPriority;
   type?: TicketType;
   dueDate?: string | null;
+  blocked?: boolean;
   position: number;
   createdBy: string;
   createdAt: string;

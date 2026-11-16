@@ -40,6 +40,7 @@ import {
   Dismiss20Regular,
   Edit16Regular,
   ErrorCircle16Regular,
+  Flag16Filled,
 } from "@fluentui/react-icons";
 import { Fragment, useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import {
@@ -57,6 +58,8 @@ import { useAuth } from "../app/auth-context.js";
 import { MobileKanbanBoard } from "./tasks-board-mobile.js";
 import { TicketDateField } from "./ticket-date-field.js";
 import { TicketDueDate } from "./ticket-due-date.js";
+import { TicketBlockButton, TicketBlockedBadge } from "./ticket-blocked-badge.js";
+import { TicketAttachments, useTicketAttachments } from "./ticket-attachments.js";
 
 const ticketTypeOptions: { value: TicketType; label: string }[] = [
   { value: "task", label: "Task" },
@@ -99,6 +102,10 @@ export function TasksBoardPage() {
   const [newTicketPriority, setNewTicketPriority] = useState<TicketPriority>("normal");
   const [newTicketType, setNewTicketType] = useState<TicketType>("task");
   const [newTicketDueDate, setNewTicketDueDate] = useState("");
+  const [createdTicketId, setCreatedTicketId] = useState<string | null>(null);
+  const [ticketSaving, setTicketSaving] = useState(false);
+  const [ticketSaveError, setTicketSaveError] = useState<string | null>(null);
+  const newAttachments = useTicketAttachments();
   const [filterQuery, setFilterQuery] = useState("");
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
@@ -228,15 +235,41 @@ export function TasksBoardPage() {
     if (newTicketType !== "task") payload.type = newTicketType;
     if (newTicketDueDate) payload.dueDate = newTicketDueDate;
 
-    const tickets = await api.board.createTicket(payload);
-    setBoard((current) => (current ? { ...current, tickets } : current));
-    setAddTicketOpen(false);
-    setNewTicketColumnId(null);
-    setNewTicketTitle("");
-    setNewTicketDescription("");
-    setNewTicketPriority("normal");
-    setNewTicketType("task");
-    setNewTicketDueDate("");
+    if (ticketSaving) return;
+    setTicketSaving(true);
+    setTicketSaveError(null);
+    let id = createdTicketId;
+    try {
+      if (id) {
+        const tickets = await api.board.updateTicket(id, {
+          ...payload,
+          priority: newTicketPriority,
+          type: newTicketType,
+          dueDate: newTicketDueDate || null,
+        });
+        setBoard((current) => (current ? { ...current, tickets } : current));
+      } else {
+        const result = await api.board.createTicket(payload);
+        id = result.createdTicketId;
+        setCreatedTicketId(id);
+        setBoard((current) => (current ? { ...current, tickets: result.tickets } : current));
+      }
+      await newAttachments.save(id);
+      setAddTicketOpen(false);
+      setNewTicketColumnId(null);
+      setNewTicketTitle("");
+      setNewTicketDescription("");
+      setNewTicketPriority("normal");
+      setNewTicketType("task");
+      setNewTicketDueDate("");
+      setCreatedTicketId(null);
+      newAttachments.reset();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Das Ticket konnte nicht gespeichert werden.";
+      setTicketSaveError(id ? `Das Ticket wurde angelegt, aber Anhänge konnten nicht vollständig gespeichert werden: ${message}` : message);
+    } finally {
+      setTicketSaving(false);
+    }
   }
 
   async function handleArchiveTickets(columnId: string) {
@@ -280,6 +313,7 @@ export function TasksBoardPage() {
   const newTicketColumnTitle = newTicketColumnId ? columnsById.get(newTicketColumnId)?.title ?? "" : "";
 
   async function handleUpdateTicket(id: string, patch: {
+    blocked?: boolean;
     title?: string;
     description?: string | null;
     assigneeId?: string | null;
@@ -404,6 +438,7 @@ export function TasksBoardPage() {
       canManageColumns={canManageColumns}
       onAddColumn={() => setAddColumnOpen(true)}
       onEditTicket={(ticket) => setEditingTicket(ticket)}
+      onToggleBlocked={(ticket) => handleUpdateTicket(ticket.id, { blocked: !ticket.blocked })}
       onAddTicket={openAddTicket}
       onMoveTicket={(ticketId, columnId, position) => handleUpdateTicket(ticketId, { columnId, position })}
       onRenameColumn={openRenameColumn}
@@ -413,7 +448,7 @@ export function TasksBoardPage() {
     <div className="page-stack">
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Tasks</h1>
-        <div className="page-heading__actions">
+        <div className="page-heading__actions board-desktop-actions">
           <Input
             className="board-search"
             placeholder="Tickets durchsuchen"
@@ -448,6 +483,7 @@ export function TasksBoardPage() {
                 ticketCount={(ticketsByColumn.get(column.id) ?? []).length}
                 users={usersById}
                 onEditTicket={setEditingTicket}
+                onToggleBlocked={(ticket) => handleUpdateTicket(ticket.id, { blocked: !ticket.blocked })}
                 onDeleteTicket={setDeletingTicketId}
                 onArchiveTickets={() => { setColumnActionError(null); setArchivingColumnId(column.id); }}
                 onArchiveTicket={handleArchiveTicket}
@@ -483,6 +519,7 @@ export function TasksBoardPage() {
       {boardView}
 
       <Dialog open={isAddTicketOpen} onOpenChange={(_event, data) => {
+        if (ticketSaving) return;
         setAddTicketOpen(data.open);
         if (!data.open) {
           setNewTicketColumnId(null);
@@ -491,9 +528,12 @@ export function TasksBoardPage() {
           setNewTicketPriority("normal");
           setNewTicketType("task");
           setNewTicketDueDate("");
+          setCreatedTicketId(null);
+          setTicketSaveError(null);
+          newAttachments.reset();
         }
       }}>
-        <DialogSurface>
+        <DialogSurface className="ticket-dialog-surface">
           <form onSubmit={handleCreateTicket}>
             <DialogBody>
               <DialogTitle>Ticket in {newTicketColumnTitle} anlegen</DialogTitle>
@@ -510,6 +550,8 @@ export function TasksBoardPage() {
                     placeholder="Beschreibung eingeben"
                   />
                 </Field>
+                <TicketAttachments manager={newAttachments} ticketId={createdTicketId ?? undefined} disabled={ticketSaving} />
+                {ticketSaveError && <div role="alert">{ticketSaveError}</div>}
                 <Field label="Typ">
                   <Dropdown
                     className="ticket-dialog__dropdown"
@@ -531,9 +573,9 @@ export function TasksBoardPage() {
               </DialogContent>
               <DialogActions>
                 <DialogTrigger disableButtonEnhancement>
-                  <Button appearance="secondary" type="button">Abbrechen</Button>
+                  <Button appearance="secondary" type="button" disabled={ticketSaving}>Abbrechen</Button>
                 </DialogTrigger>
-                <Button appearance="primary" type="submit">Anlegen</Button>
+                <Button appearance="primary" type="submit" disabled={ticketSaving}>{createdTicketId ? "Erneut speichern" : "Anlegen"}</Button>
               </DialogActions>
             </DialogBody>
           </form>
@@ -642,7 +684,6 @@ export function TasksBoardPage() {
           onClose={() => setEditingTicket(null)}
           onSave={async (patch) => {
             await handleUpdateTicket(editingTicket.id, patch);
-            setEditingTicket(null);
           }}
           onRequestDelete={() => setDeletingTicketId(editingTicket.id)}
         />
@@ -674,6 +715,7 @@ function BoardColumnView({
   ticketCount,
   users,
   onEditTicket,
+  onToggleBlocked,
   onDeleteTicket,
   onArchiveTickets,
   onArchiveTicket,
@@ -690,6 +732,7 @@ function BoardColumnView({
   ticketCount: number;
   users: Map<string, PortalUser>;
   onEditTicket: (ticket: Ticket) => void;
+  onToggleBlocked: (ticket: Ticket) => Promise<void>;
   onDeleteTicket: (id: string) => void;
   onArchiveTickets: () => void;
   onArchiveTicket: (id: string) => void;
@@ -787,6 +830,7 @@ function BoardColumnView({
                 canManageColumns={canManageColumns}
                 onArchive={() => onArchiveTicket(ticket.id)}
                 onEdit={() => onEditTicket(ticket)}
+                onToggleBlocked={() => onToggleBlocked(ticket)}
                 onDelete={() => onDeleteTicket(ticket.id)}
               />
             </Fragment>
@@ -830,6 +874,7 @@ function TicketCard({
   canManageColumns,
   onArchive,
   onEdit,
+  onToggleBlocked,
   onDelete,
 }: {
   ticket: Ticket;
@@ -840,6 +885,7 @@ function TicketCard({
   canManageColumns: boolean;
   onArchive: () => void;
   onEdit: () => void;
+  onToggleBlocked: () => Promise<void>;
   onDelete: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id, disabled: dragDisabled });
@@ -847,6 +893,7 @@ function TicketCard({
   const ticketType = ticket.type ?? "task";
   const priority = ticket.priority ?? "normal";
   const done = isDoneColumn(columnTitle);
+  const [blockError, setBlockError] = useState<string | null>(null);
 
   return (
     <article
@@ -863,6 +910,7 @@ function TicketCard({
       <div className="ticket-card__header">
         <span className="ticket-card__title">{ticket.title}</span>
         <div className="ticket-card__actions">
+            <TicketBlockButton blocked={ticket.blocked} onToggle={onToggleBlocked} onError={setBlockError} />
             <button
               type="button"
               className="ticket-card__action"
@@ -896,8 +944,12 @@ function TicketCard({
             )}
           </div>
       </div>
-      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
-      <TicketDueDate dueDate={ticket.dueDate ?? null} />
+      <div className="ticket-card__badges">
+        <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
+        <TicketBlockedBadge blocked={ticket.blocked} />
+      </div>
+      {blockError && <p className="ticket-card__block-error" role="alert">{blockError}</p>}
+      <TicketDueDate dueDate={ticket.dueDate ?? null} columnTitle={columnTitle} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
         <TicketPriorityBadge priority={priority} />
@@ -934,12 +986,16 @@ function TicketCardPreview({
       <div className="ticket-card__header">
         <span className="ticket-card__title">{ticket.title}</span>
         <div className="ticket-card__actions">
+          <Flag16Filled />
           <Edit16Regular />
           <Delete16Regular />
         </div>
       </div>
-      <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
-      <TicketDueDate dueDate={ticket.dueDate ?? null} />
+      <div className="ticket-card__badges">
+        <span className={`ticket-card__type-badge ticket-card__type-badge--${ticketType}`}>{getTicketTypeLabel(ticketType)}</span>
+        <TicketBlockedBadge blocked={ticket.blocked} />
+      </div>
+      <TicketDueDate dueDate={ticket.dueDate ?? null} columnTitle={columnTitle} />
       <div className="ticket-card__footer">
         {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
         <TicketPriorityBadge priority={priority} />
@@ -970,7 +1026,7 @@ function EditTicketDialog({
     type: TicketType;
     dueDate: string | null;
     columnId: string;
-  }) => void;
+  }) => Promise<void>;
   onRequestDelete: () => void;
 }) {
   const [title, setTitle] = useState(ticket.title);
@@ -980,26 +1036,43 @@ function EditTicketDialog({
   const [type, setType] = useState<TicketType>(ticket.type ?? "task");
   const [dueDate, setDueDate] = useState(ticket.dueDate ?? "");
   const [columnId, setColumnId] = useState(ticket.columnId);
+  const attachments = useTicketAttachments(ticket.id);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    onSave({
-      title: title.trim(),
-      description: description.trim() ? description.trim() : null,
-      assigneeId: assigneeId || null,
-      priority,
-      type,
-      dueDate: dueDate || null,
-      columnId,
-    });
+    if (saving || attachments.loading || attachments.loadFailed) return;
+    setSaving(true);
+    setSaveError(null);
+    let ticketSaved = false;
+    try {
+      await onSave({
+        title: title.trim(),
+        description: description.trim() ? description.trim() : null,
+        assigneeId: assigneeId || null,
+        priority,
+        type,
+        dueDate: dueDate || null,
+        columnId,
+      });
+      ticketSaved = true;
+      await attachments.save(ticket.id);
+      onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Das Ticket konnte nicht gespeichert werden.";
+      setSaveError(ticketSaved ? `Das Ticket wurde gespeichert, aber Anhänge konnten nicht vollständig gespeichert werden: ${message}` : message);
+    } finally {
+      setSaving(false);
+    }
   }
 
   const assigneeName = users.find((entry) => entry.id === assigneeId)?.name ?? "Niemand zugewiesen";
   const columnName = columns.find((entry) => entry.id === columnId)?.title ?? "";
 
   return (
-    <Dialog open onOpenChange={(_event, data) => { if (!data.open) onClose(); }}>
-      <DialogSurface>
+    <Dialog open onOpenChange={(_event, data) => { if (!data.open && !saving) onClose(); }}>
+      <DialogSurface className={isMobile ? "ticket-dialog-surface" : "ticket-dialog-surface ticket-edit-dialog--desktop"}>
         <form onSubmit={handleSubmit}>
           <DialogBody>
             {isMobile ? (
@@ -1014,6 +1087,7 @@ function EditTicketDialog({
                   className="mobile-ticket-dialog__close"
                   icon={<Dismiss20Regular />}
                   onClick={onClose}
+                  disabled={saving}
                 />
               </DialogTitle>
             ) : (
@@ -1032,6 +1106,8 @@ function EditTicketDialog({
                   placeholder="Beschreibung eingeben"
                 />
               </Field>
+              <TicketAttachments manager={attachments} ticketId={ticket.id} disabled={saving} />
+              {saveError && <div role="alert">{saveError}</div>}
               <Field label="Zuweisung">
                 <Dropdown
                   className="ticket-dialog__dropdown"
@@ -1063,7 +1139,7 @@ function EditTicketDialog({
                 <PriorityDropdown priority={priority} onChange={setPriority} />
               </Field>
               <TicketDateField value={dueDate} onChange={setDueDate} />
-              <TicketDueDate dueDate={dueDate || null} showExactDate />
+              <TicketDueDate dueDate={dueDate || null} columnTitle={columnName} showExactDate />
               <Field label="Spalte">
                 <Dropdown
                   className="ticket-dialog__dropdown"
@@ -1080,13 +1156,13 @@ function EditTicketDialog({
             <DialogActions>
               {!isMobile && (
                 <DialogTrigger disableButtonEnhancement>
-                  <Button appearance="secondary" type="button">Abbrechen</Button>
+                  <Button appearance="secondary" type="button" disabled={saving}>Abbrechen</Button>
                 </DialogTrigger>
               )}
-              <Button appearance="outline" type="button" icon={<Delete16Regular />} onClick={onRequestDelete}>
+              <Button appearance="outline" type="button" icon={<Delete16Regular />} onClick={onRequestDelete} disabled={saving}>
                 Löschen
               </Button>
-              <Button appearance="primary" type="submit">Speichern</Button>
+              <Button appearance="primary" type="submit" disabled={saving || attachments.loading || attachments.loadFailed}>Speichern</Button>
             </DialogActions>
           </DialogBody>
         </form>

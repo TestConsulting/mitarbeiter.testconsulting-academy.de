@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { ArchivedTicket, BoardColumn, Ticket, TicketPriority } from "@portal/shared";
 import type { Pool, PoolClient } from "pg";
 
@@ -11,6 +12,7 @@ type TicketRow = {
   priority: TicketPriority;
   type: "task" | "bug" | "feature" | "spike" | "todo";
   due_date: string | null;
+  blocked: boolean;
   position: number;
   created_by: string;
   created_at: Date;
@@ -21,7 +23,7 @@ type TicketRow = {
 let ticketArchivingSchemaReady = false;
 
 const ticketFields = `id, column_id, title, description, assignee_id, priority, type,
-  due_date::text AS due_date, position, created_by, created_at, updated_at, archived_at`;
+  due_date::text AS due_date, blocked, position, created_by, created_at, updated_at, archived_at`;
 
 function mapColumn(row: ColumnRow): BoardColumn {
   return { id: row.id, title: row.title, position: row.position };
@@ -37,6 +39,7 @@ function mapTicket(row: TicketRow): Ticket {
     priority: row.priority,
     type: row.type,
     dueDate: row.due_date,
+    blocked: row.blocked,
     position: row.position,
     createdBy: row.created_by,
     createdAt: row.created_at.toISOString(),
@@ -45,6 +48,7 @@ function mapTicket(row: TicketRow): Ticket {
 }
 
 export type NewTicketInput = {
+  id?: string;
   columnId: string;
   title: string;
   description?: string | null;
@@ -56,6 +60,7 @@ export type NewTicketInput = {
 };
 
 export type TicketPatch = {
+  blocked?: boolean;
   title?: string;
   description?: string | null;
   assigneeId?: string | null;
@@ -311,9 +316,10 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         );
         const position = (max.rows[0]?.max ?? -1) + 1;
         await client.query(
-          `INSERT INTO tickets (column_id, title, description, assignee_id, priority, type, position, created_by, due_date)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+          `INSERT INTO tickets (id, column_id, title, description, assignee_id, priority, type, position, created_by, due_date)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
           [
+            input.id ?? randomUUID(),
             input.columnId,
             input.title,
             input.description ?? null,
@@ -510,8 +516,8 @@ export function createBoardRepository(pool: Pool): BoardRepository {
         const type = patch.type ?? existing.type;
         const dueDate = patch.dueDate === undefined ? existing.due_date : patch.dueDate;
         await client.query(
-          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, type = $5, due_date = $6, updated_at = now() WHERE id = $7`,
-          [title, description, assigneeId, priority, type, dueDate, id],
+          `UPDATE tickets SET title = $1, description = $2, assignee_id = $3, priority = $4, type = $5, due_date = $6, blocked = COALESCE($7, blocked), updated_at = now() WHERE id = $8`,
+          [title, description, assigneeId, priority, type, dueDate, patch.blocked ?? null, id],
         );
 
         if (targetColumnId !== existing.column_id || patch.position !== undefined) {

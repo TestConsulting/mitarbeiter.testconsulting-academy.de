@@ -36,6 +36,8 @@
    Get-Content -Raw apps/api/migrations/011_create_exam_sessions.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps/api/migrations/013_add_app_link_contact_email.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    Get-Content -Raw apps\api\migrations\014_add_ticket_due_date.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps/api/migrations/017_create_ticket_attachments.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
+   Get-Content -Raw apps\api\migrations\018_add_ticket_blocked.sql | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --single-transaction -U portal -d mitarbeiterportal
    npm run seed --workspace @portal/api
    ```
 
@@ -44,6 +46,10 @@
    `003_create_app_links.sql` legt die Tabelle `app_links` an. Es werden keine fiktiven Unternehmenslinks automatisch eingetragen; Admins pflegen die tatsächlichen Zieladressen.
    `013_add_app_link_contact_email.sql` ergänzt je Application Link einen Ansprechpartner und setzt bei vorhandenen Links `backoffice@testconsulting.de` als Standard.
    `014_add_ticket_due_date.sql` ergänzt ein optionales Fälligkeitsdatum für Tickets. Neue und vorhandene Tickets haben standardmäßig keinen Termin. Beim Anlegen und Bearbeiten öffnet das Datumsfeld den kleinen Kalender des Browsers; Leeren entfernt den Termin. Unter dem Tickettitel stehen Termine in mehr als sieben Tagen als `DD.MM.`, in zwei bis sieben Tagen als „In N Tagen“ (grau), morgen als „Morgen“ (dezentes Orange), heute als „Heute fällig“ (Orange) und vergangene Termine als „N Tag/Tage überfällig“ mit Uhrsymbol (Rot). Hover und Tastaturfokus zeigen das genaue Datum und gegebenenfalls die Überfälligkeit; diese Information steht auch im Bearbeitungsdialog. Der Tageswechsel erfolgt nach lokaler Kalenderzeit, ohne Zeitumstellungsfehler. Verschieben, Archivieren und Wiederherstellen erhalten das Datum ohne Zeitzonenverschiebung.
+
+   `017_create_ticket_attachments.sql` legt die persistente Ablage für Ticket-Anhänge an. Alle angemeldeten Mitarbeitenden dürfen Dateien an Tickets anhängen; erlaubt sind PNG, JPEG, GIF, WebP, PDF, XLSX und XLS. Die API begrenzt einzelne Dateien auf 20 MiB sowie Anhänge je Ticket auf 10 Dateien und insgesamt 100 MiB. Anhänge bleiben beim Archivieren erhalten und werden beim endgültigen Löschen eines Tickets kaskadierend entfernt.
+
+   `018_add_ticket_blocked.sql` ergänzt die dauerhafte Blockiert-Markierung (standardmäßig aus). Alle Angemeldeten können sie über die Flagge ein- und ausschalten: auf Desktop-Ticketkarten links vom Stift, mobil links neben dem Verschieben-Symbol. Blockierte Tickets zeigen eine rote Flagge mit „Blockiert“ neben dem Tickettyp, auch mobil und beim Ziehen. Ein erneuter Klick entfernt die Markierung. Speichern geschieht sofort; Fehler erscheinen auf der Karte. Spaltenwechsel, Bearbeiten, Archivieren und Wiederherstellen erhalten die Markierung.
 
    Ticket-Datumsfelder, Tooltips und Detailangaben zeigen vollständige Daten unabhängig von der Browser-Sprache im Format `TT/MM/JJJJ`, zum Beispiel `29/10/2026`. Die Kalenderauswahl bleibt erhalten; der Entfernen-Button leert das Datum. API und Datenbank verwenden weiterhin `YYYY-MM-DD`.
 

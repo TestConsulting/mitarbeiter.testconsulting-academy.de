@@ -29,6 +29,13 @@ export class ApiError extends Error {
   }
 }
 
+export type TicketAttachment = {
+  id: string;
+  fileName: string;
+  size: number;
+  contentType: string;
+};
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
     ...init,
@@ -310,11 +317,25 @@ export const api = {
       type?: "task" | "bug" | "feature" | "spike" | "todo";
       dueDate?: string | null;
     }) {
-      const result = await request<{ tickets: Ticket[] }>("/api/tickets", {
+      return request<{ tickets: Ticket[]; createdTicketId: string }>("/api/tickets", {
         method: "POST",
         body: JSON.stringify(input),
       });
-      return result.tickets;
+    },
+    async listAttachments(ticketId: string) {
+      const result = await request<{ attachments: TicketAttachment[] }>(`/api/tickets/${encodeURIComponent(ticketId)}/attachments`);
+      return result.attachments;
+    },
+    async uploadAttachment(ticketId: string, file: File) {
+      const result = await request<{ attachment: TicketAttachment }>(`/api/tickets/${encodeURIComponent(ticketId)}/attachments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/octet-stream", "X-File-Name": encodeURIComponent(file.name) },
+        body: file,
+      });
+      return result.attachment;
+    },
+    deleteAttachment(ticketId: string, attachmentId: string) {
+      return request<{ success: true }>(`/api/tickets/${encodeURIComponent(ticketId)}/attachments/${encodeURIComponent(attachmentId)}`, { method: "DELETE" });
     },
     async archiveTickets(columnId: string) {
       const result = await request<{ tickets: Ticket[] }>("/api/tickets/archive", {
@@ -341,6 +362,7 @@ export const api = {
       return result.tickets;
     },
     async updateTicket(id: string, patch: {
+      blocked?: boolean;
       title?: string;
       description?: string | null;
       assigneeId?: string | null;
