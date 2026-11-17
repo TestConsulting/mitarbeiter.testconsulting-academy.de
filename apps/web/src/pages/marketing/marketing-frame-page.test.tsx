@@ -1,15 +1,20 @@
+import { useEffect } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Link, MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { MarketingFramePage } from "./marketing-frame-page.js";
 
+const visited: string[] = [];
+
 function LocationProbe() {
   const location = useLocation();
+  useEffect(() => { visited.push(location.pathname + location.search); }, [location]);
   return <span data-testid="loc">{location.pathname + location.search}</span>;
 }
 
 function renderAt(path: string) {
+  visited.length = 0;
   return render(
     <MemoryRouter initialEntries={[path]}>
       <Link to="/areas/marketing/ideas">zu Ideen</Link>
@@ -52,8 +57,10 @@ describe("MarketingFramePage", () => {
     post(frame, "unbekannt");
     post(frame, "reviews", { source: "anderes" });
     post(frame, "reviews", { type: "reload" });
-    await new Promise((r) => setTimeout(r, 0));
-    expect(screen.getByTestId("loc")).toHaveTextContent("/areas/marketing/ideas");
+    // Kontrollnachricht: ist sie verarbeitet, sind die vorherigen Nachrichten ebenfalls durch den Handler gelaufen.
+    post(frame, "settings");
+    await waitFor(() => expect(screen.getByTestId("loc")).toHaveTextContent("/areas/marketing/settings"));
+    expect(visited).toEqual(["/areas/marketing/ideas", "/areas/marketing/settings"]);
   });
 
   it("redirects unknown pages to ideas", () => {
@@ -77,6 +84,28 @@ describe("MarketingFramePage", () => {
   });
 
   it("changes src on a click after a message-driven navigation", async () => {
+    renderAt("/areas/marketing/ideas");
+    const frame = screen.getByTitle("Marketing – Ideen") as HTMLIFrameElement;
+    post(frame, "reviews");
+    await waitFor(() => expect(screen.getByTestId("loc")).toHaveTextContent("/areas/marketing/reviews"));
+    await userEvent.click(screen.getByRole("link", { name: "zu Ideen" }));
+    await userEvent.click(screen.getByRole("link", { name: "zu Freigaben" }));
+    expect(screen.getByTitle("Marketing – Freigaben")).toHaveAttribute("src", "/marketing/dashboard/reviews");
+  });
+
+  it("reloads the frame when a click targets a page other than the one the frame shows", async () => {
+    renderAt("/areas/marketing/ideas");
+    const frame = screen.getByTitle("Marketing – Ideen") as HTMLIFrameElement;
+    post(frame, "reviews");
+    await waitFor(() => expect(screen.getByTestId("loc")).toHaveTextContent("/areas/marketing/reviews"));
+    expect(screen.getByTitle("Marketing – Freigaben")).toBe(frame);
+    await userEvent.click(screen.getByRole("link", { name: "zu Ideen" }));
+    const reloaded = screen.getByTitle("Marketing – Ideen");
+    expect(reloaded).toHaveAttribute("src", "/marketing/dashboard/ideas");
+    expect(reloaded).not.toBe(frame);
+  });
+
+  it("loads the clicked page again after a reload", async () => {
     renderAt("/areas/marketing/ideas");
     const frame = screen.getByTitle("Marketing – Ideen") as HTMLIFrameElement;
     post(frame, "reviews");
