@@ -9,6 +9,7 @@ export default defineConfig({
     strictPort: false,
     proxy: {
       "/api": "http://localhost:4000",
+      "/marketing": { target: "http://localhost:3000", changeOrigin: false },
     },
   },
   test: {

@@ -157,6 +157,28 @@ Für frei konfigurierbare Kurse wird „Bestanden/Nicht bestanden“ im Prüfung
 
 Ohne Bestehensgrenze wird „Ohne Bestehensbewertung“ angezeigt. Diese Versuche zählen zum Durchschnitt, aber nicht zur Anzahl bewerteter Prüfungen in der Bestanden-Statistik. Neue Ergebnisse speichern den nullable Bewertungsstatus zusätzlich in `result_data.passed`; beim Lesen hat dieser Wert Vorrang vor der bisherigen nicht-nullbaren `passed`-Spalte. Damit sind keine Änderungen an bestehenden Datenbanktabellen notwendig.
 
+## Marketing-AI lokal einbinden
+
+Die Marketing-AI wird unter `/marketing` per iframe in die Academy eingebettet. Der Vite-Dev-Server leitet `/marketing` an `http://localhost:3000` weiter (`apps/web/vite.config.ts`, `changeOrigin: false`, kein Prefix-Stripping). Die Marketing-AI muss daher selbst unter dem Basispfad `/marketing` laufen.
+
+1. Academy starten (API auf Port 4000, Web auf Port 5173):
+
+   ```powershell
+   npm run dev
+   ```
+
+2. Im Marketing-AI-Repo die Marketing-AI mit passender Umgebung starten:
+
+   ```powershell
+   $env:PORT="3000"; $env:BASE_PATH="/marketing"; $env:PORTAL_INTERNAL_URL="http://localhost:4000"; $env:PORTAL_LOGIN_URL="http://localhost:5173/"; $env:EMBED_PARENT_PATH="/areas/marketing"; npm run dev
+   ```
+
+   In einer Unix-Shell entsprechend: `PORT=3000 BASE_PATH=/marketing PORTAL_INTERNAL_URL=http://localhost:4000 PORTAL_LOGIN_URL=http://localhost:5173/ EMBED_PARENT_PATH=/areas/marketing npm run dev`
+
+3. Die eingebettete Marketing-AI ist dann unter `http://localhost:5173/areas/marketing` erreichbar. Stoppt die Marketing-AI, zeigt der iframe einen Fehler; Sidenav und Navigation der Academy funktionieren weiter.
+
+Nach Änderungen an `packages/shared` muss vor Tests und Dev-Server `npm run build --workspace @portal/shared` ausgeführt werden, da `@portal/web` das Paket über das gitignorierte `packages/shared/dist` auflöst.
+
 ## Checks
 
 ```powershell

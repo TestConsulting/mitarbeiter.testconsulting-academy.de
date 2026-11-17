@@ -8,6 +8,23 @@ Lege `/var/www/mitarbeiter-portal/.env` aus `deploy/env.production.example` an u
 
 Der Host-Nginx muss beim Proxy an `http://127.0.0.1:8090` mindestens `Host`, `X-Forwarded-For` und `X-Forwarded-Proto $scheme` weitergeben. Der Webcontainer reicht `X-Forwarded-Proto` an die API weiter; damit funktionieren HTTPS-Erkennung und sichere Sitzungscookies.
 
+## Marketing-AI unter /marketing
+
+Die Marketing-AI läuft als eigener Dienst auf `127.0.0.1:3000` und wird per iframe unter `/marketing` in die Academy eingebettet. Im Host-Nginx muss dieser Block **vor** `location /` stehen:
+
+```nginx
+location /marketing/ {
+    proxy_pass http://127.0.0.1:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+- Kein Prefix-Stripping: `proxy_pass` ohne URI-Anteil, die Marketing-AI erwartet den Pfad inklusive `/marketing`.
+- Umgebung der Marketing-AI: `BASE_PATH=/marketing`, `EMBED_PARENT_PATH=/areas/marketing`, `PORTAL_INTERNAL_URL=http://127.0.0.1:8090`.
+- Auf dem Host-Nginx darf für `/marketing/` kein globaler `X-Frame-Options: DENY` gesetzt werden, sonst blockiert der Browser den iframe.
+
 ## Erstdeployment
 
 Jenkins baut die Images, startet PostgreSQL und führt die vorhandenen, wiederholbar ausführbaren SQL-Dateien in `apps/api/migrations` in Dateinamenreihenfolge aus. Jeder SQL-Fehler bricht den Job ab. Danach importiert Jenkins fehlende Links und Benefits aus `deploy/portal-content.json`, initialisiert einmalig die Standardkurse, startet die Anwendung und prüft Startseite und API-Healthcheck. Gleichzeitige Deployments desselben Jobs sind gesperrt.
