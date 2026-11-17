@@ -1,10 +1,11 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { BoardState, PortalUser } from "@portal/shared";
 import { AuthProvider } from "../app/auth-context.js";
 import { TasksBoardPage } from "./tasks-board-page.js";
+import { localDateKey } from "./ticket-due-date.js";
 
 const employeeUser: PortalUser = { id: "u1", email: "alex@example.test", name: "Alex Beispiel", role: "employee" };
 const adminUser: PortalUser = { id: "u2", email: "admina@example.test", name: "Admina Beispiel", role: "admin" };
@@ -93,6 +94,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.clearAllMocks();
   Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 1024 });
 });
@@ -105,6 +107,121 @@ describe("tasks board page", () => {
     expect(screen.getByText("Zu erledigen")).toBeInTheDocument();
     expect(screen.getByText("In Arbeit")).toBeInTheDocument();
     expect(screen.getByText("In Review")).toBeInTheDocument();
+  });
+
+  it.each([1024, 390])("combines ownership, priority and the existing search at width %i", async (width) => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
+    const board = buildBoard();
+    const ticket = board.tickets[0];
+    board.tickets = [
+      { ...ticket, id: "own-high", title: "Eigene Analyse", description: "Suchbegriff", priority: "high" },
+      { ...ticket, id: "own-normal", title: "Eigene Aufgabe" },
+      { ...ticket, id: "other-high", title: "Andere Analyse", assigneeId: adminUser.id, priority: "high" },
+      { ...ticket, id: "unassigned", title: "Unzugewiesene Analyse", assigneeId: null, priority: "urgent" },
+    ];
+    boardApi.get.mockResolvedValue(board);
+    renderBoard(employeeUser);
+    await screen.findByText("Eigene Analyse");
+
+    fireEvent.click(screen.getByRole("button", { name: "Meine Tickets" }));
+    expect(screen.getByText("Eigene Aufgabe")).toBeInTheDocument();
+    expect(screen.queryByText("Andere Analyse")).not.toBeInTheDocument();
+    expect(screen.queryByText("Unzugewiesene Analyse")).not.toBeInTheDocument();
+
+    const priority = screen.getByRole("combobox", { name: "Priorität" });
+    fireEvent.change(priority, { target: { value: "high" } });
+    expect(screen.getByText("Eigene Analyse")).toBeInTheDocument();
+    expect(screen.queryByText("Eigene Aufgabe")).not.toBeInTheDocument();
+    const search = screen.getByRole("textbox", { name: "Tickets durchsuchen" });
+    fireEvent.change(search, { target: { value: "Suchbegriff" } });
+    expect(screen.getByText("Eigene Analyse")).toBeInTheDocument();
+    fireEvent.change(search, { target: { value: "Nicht vorhanden" } });
+    expect(screen.queryByText("Eigene Analyse")).not.toBeInTheDocument();
+
+    fireEvent.change(search, { target: { value: "" } });
+    fireEvent.click(screen.getByRole("button", { name: "Alle Tickets" }));
+    expect(screen.getByText("Andere Analyse")).toBeInTheDocument();
+    fireEvent.change(search, { target: { value: adminUser.name } });
+    expect(screen.getByText("Andere Analyse")).toBeInTheDocument();
+    expect(screen.queryByText("Eigene Analyse")).not.toBeInTheDocument();
+
+    fireEvent.change(search, { target: { value: "" } });
+    fireEvent.change(priority, { target: { value: "normal" } });
+    expect(screen.getByText("Eigene Aufgabe")).toBeInTheDocument();
+    expect(screen.queryByText("Eigene Analyse")).not.toBeInTheDocument();
+    if (width < 768) {
+      expect(screen.getByRole("button", { name: "Ticket verschieben" })).toBeDisabled();
+      expect(screen.getAllByRole("tab")).toHaveLength(board.columns.length);
+    } else {
+      expect(screen.getByText("Eigene Aufgabe").closest(".ticket-card")).toHaveAttribute("aria-disabled", "true");
+      for (const column of board.columns) {
+        expect(screen.getByRole("heading", { name: column.title })).toBeInTheDocument();
+      }
+    }
+
+    fireEvent.change(priority, { target: { value: "all" } });
+    for (const item of board.tickets) expect(screen.getByText(item.title)).toBeInTheDocument();
+    if (width < 768) {
+      for (const handle of screen.getAllByRole("button", { name: "Ticket verschieben" })) {
+        expect(handle).toBeEnabled();
+      }
+    }
+    expect(boardApi.updateTicket).not.toHaveBeenCalled();
+  });
+
+  it.each([1024, 390])("filters only unfinished overdue tickets and keeps the global count at width %i", async (width) => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2030, 10, 5, 12));
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
+    const board = buildBoard();
+    const ticket = board.tickets[0];
+    board.columns[4].title = " Fertig ";
+    board.tickets = [
+      { ...ticket, id: "late-own", title: "Eigene überfällige Aufgabe", dueDate: "2030-11-04", priority: "high" },
+      { ...ticket, id: "late-other", title: "Andere überfällige Aufgabe", dueDate: "2030-11-03", assigneeId: adminUser.id },
+      { ...ticket, id: "today", title: "Heute bearbeiten", dueDate: localDateKey(new Date()) },
+      { ...ticket, id: "future", title: "Morgen bearbeiten", dueDate: "2030-11-06" },
+      { ...ticket, id: "undated", title: "Ohne Termin", dueDate: null },
+      { ...ticket, id: "done", title: "Bereits abgeschlossen", dueDate: "2030-11-01", columnId: "col-done" },
+    ];
+    boardApi.get.mockResolvedValue(board);
+    renderBoard(employeeUser);
+    const overdue = await screen.findByRole("button", { name: "Überfällig (2)" });
+    fireEvent.click(overdue);
+    expect(overdue).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("Eigene überfällige Aufgabe")).toBeInTheDocument();
+    expect(screen.getByText("Andere überfällige Aufgabe")).toBeInTheDocument();
+    for (const title of ["Heute bearbeiten", "Morgen bearbeiten", "Ohne Termin", "Bereits abgeschlossen"]) {
+      expect(screen.queryByText(title)).not.toBeInTheDocument();
+    }
+    fireEvent.change(screen.getByRole("combobox", { name: "Priorität" }), { target: { value: "high" } });
+    expect(screen.queryByText("Andere überfällige Aufgabe")).not.toBeInTheDocument();
+    expect(overdue).toHaveAccessibleName("Überfällig (2)");
+    expect(screen.getByText("Eigene überfällige Aufgabe")).toBeInTheDocument();
+  });
+
+  it("updates the overdue filter at local midnight without reloading the board", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2030, 10, 5, 23, 59, 59));
+    const board = buildBoard();
+    board.tickets[0].dueDate = "2030-11-05";
+    boardApi.get.mockResolvedValue(board);
+    await act(async () => { renderBoard(employeeUser); });
+    fireEvent.click(screen.getByRole("button", { name: "Überfällig (0)" }));
+    expect(screen.queryByText("Angebot schreiben")).not.toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(1000));
+    expect(screen.getByRole("button", { name: "Überfällig (1)" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("Angebot schreiben")).toBeInTheDocument();
+    expect(boardApi.get).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not allow deleting a populated mobile column when filters hide its tickets", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 390 });
+    renderBoard(adminUser);
+    await screen.findByText("Angebot schreiben");
+    fireEvent.click(screen.getByRole("button", { name: "Meine Tickets" }));
+    expect(screen.queryByText("Angebot schreiben")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Spalte Backlog löschen" })).toBeDisabled();
   });
 
   it.each([1024, 390])("toggles the persisted blocked flag without opening the dialog and restores it after remount at width %i", async (width) => {
@@ -197,6 +314,38 @@ describe("tasks board page", () => {
     await waitFor(() => {
       expect(scrollIntoView).toHaveBeenCalled();
     });
+  });
+
+  it.each([
+    { endEvent: "pointerup", emitsClick: false },
+    { endEvent: "pointercancel", emitsClick: false },
+    { endEvent: "pointerup", emitsClick: true },
+  ])("selects a mobile column on the first tap after a swipe ending with $endEvent (click: $emitsClick)", async ({ endEvent, emitsClick }) => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 390 });
+    renderBoard(employeeUser);
+    const tab = await screen.findByRole("tab", { name: /^Zu erledigen/ });
+    const tablist = screen.getByRole("tablist", { name: "Board-Spalten" });
+    const dispatchPointer = (type: string, clientX: number) => {
+      const event = new MouseEvent(type, { bubbles: true, cancelable: true, clientX });
+      Object.defineProperties(event, {
+        pointerId: { value: 1 },
+        pointerType: { value: "touch" },
+      });
+      fireEvent(tab, event);
+    };
+
+    dispatchPointer("pointerdown", 200);
+    dispatchPointer("pointermove", 80);
+    dispatchPointer(endEvent, 80);
+    if (emitsClick) fireEvent.click(tab, { detail: 1 });
+    expect(tablist.scrollLeft).toBe(120);
+    expect(tab).toHaveAttribute("aria-selected", "false");
+
+    dispatchPointer("pointerdown", 80);
+    dispatchPointer("pointerup", 80);
+    fireEvent.click(tab, { detail: 1 });
+    expect(tab).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("heading", { name: "Zu erledigen" })).toBeInTheDocument();
   });
 
   it("applies the shared search filter to the visible mobile ticket list", async () => {

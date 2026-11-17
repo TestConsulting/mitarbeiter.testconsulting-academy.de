@@ -56,8 +56,9 @@ import { useNavigate } from "react-router-dom";
 import { ApiError, api } from "../api/client.js";
 import { useAuth } from "../app/auth-context.js";
 import { MobileKanbanBoard } from "./tasks-board-mobile.js";
+import { TasksBoardFilters, type TasksBoardFilterScope, type TasksBoardPriorityFilter } from "./tasks-board-filters.js";
 import { TicketDateField } from "./ticket-date-field.js";
-import { TicketDueDate } from "./ticket-due-date.js";
+import { TicketDueDate, useLocalDateKey } from "./ticket-due-date.js";
 import { TicketBlockButton, TicketBlockedBadge } from "./ticket-blocked-badge.js";
 import { TicketAttachments, useTicketAttachments } from "./ticket-attachments.js";
 
@@ -107,6 +108,9 @@ export function TasksBoardPage() {
   const [ticketSaveError, setTicketSaveError] = useState<string | null>(null);
   const newAttachments = useTicketAttachments();
   const [filterQuery, setFilterQuery] = useState("");
+  const [filterScope, setFilterScope] = useState<TasksBoardFilterScope>("all");
+  const [filterPriority, setFilterPriority] = useState<TasksBoardPriorityFilter>("all");
+  const today = useLocalDateKey();
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [deletingTicketId, setDeletingTicketId] = useState<string | null>(null);
   const [renamingColumn, setRenamingColumn] = useState<BoardColumn | null>(null);
@@ -292,13 +296,23 @@ export function TasksBoardPage() {
   }
 
   const normalizedFilter = filterQuery.trim().toLowerCase();
+  const filtersActive = normalizedFilter.length > 0 || filterScope !== "all" || filterPriority !== "all";
+  const overdueTicketIds = useMemo(() => new Set(
+    (board?.tickets ?? []).filter((ticket) =>
+      ticket.dueDate && ticket.dueDate < today &&
+      !isDoneColumn(columnsById.get(ticket.columnId)?.title ?? ""),
+    ).map((ticket) => ticket.id),
+  ), [board, columnsById, today]);
 
   const filteredTicketsByColumn = useMemo(() => {
-    if (!normalizedFilter) return ticketsByColumn;
+    if (!filtersActive) return ticketsByColumn;
     const map = new Map<string, Ticket[]>();
     for (const column of columnsSorted) {
       const tickets = ticketsByColumn.get(column.id) ?? [];
       const filtered = tickets.filter((ticket) => {
+        if (filterScope === "mine" && (!user || ticket.assigneeId !== user.id)) return false;
+        if (filterScope === "overdue" && !overdueTicketIds.has(ticket.id)) return false;
+        if (filterPriority !== "all" && (ticket.priority ?? "normal") !== filterPriority) return false;
         const assigneeName = ticket.assigneeId ? usersById.get(ticket.assigneeId)?.name ?? "" : "";
         const haystack = [ticket.title, ticket.description ?? "", assigneeName, column.title]
           .join(" ")
@@ -308,7 +322,7 @@ export function TasksBoardPage() {
       map.set(column.id, filtered);
     }
     return map;
-  }, [columnsSorted, normalizedFilter, ticketsByColumn, usersById]);
+  }, [columnsSorted, normalizedFilter, ticketsByColumn, usersById, filtersActive, filterScope, filterPriority, overdueTicketIds, user]);
 
   const newTicketColumnTitle = newTicketColumnId ? columnsById.get(newTicketColumnId)?.title ?? "" : "";
 
@@ -428,13 +442,26 @@ export function TasksBoardPage() {
     );
   }
 
+  const filters = (
+    <TasksBoardFilters
+      query={filterQuery}
+      onQueryChange={setFilterQuery}
+      scope={filterScope}
+      onScopeChange={setFilterScope}
+      priority={filterPriority}
+      onPriorityChange={setFilterPriority}
+      overdueCount={overdueTicketIds.size}
+    />
+  );
+
   const boardView = isMobile ? (
     <MobileKanbanBoard
       columns={columnsSorted}
       ticketsByColumn={filteredTicketsByColumn}
       usersById={usersById}
-      filterQuery={filterQuery}
-      setFilterQuery={setFilterQuery}
+      filters={filters}
+      dragDisabled={filtersActive}
+      canDeleteColumn={(columnId) => (ticketsByColumn.get(columnId)?.length ?? 0) === 0}
       canManageColumns={canManageColumns}
       onAddColumn={() => setAddColumnOpen(true)}
       onEditTicket={(ticket) => setEditingTicket(ticket)}
@@ -449,12 +476,6 @@ export function TasksBoardPage() {
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Tasks</h1>
         <div className="page-heading__actions board-desktop-actions">
-          <Input
-            className="board-search"
-            placeholder="Tickets durchsuchen"
-            value={filterQuery}
-            onChange={(_event, data) => setFilterQuery(data.value)}
-          />
           <Button appearance="secondary" onClick={() => navigate("/areas/tasks/archive")}>
             {`Archiv anzeigen (${archivedCount})`}
           </Button>
@@ -465,6 +486,8 @@ export function TasksBoardPage() {
           )}
         </div>
       </div>
+
+      {filters}
 
       <DndContext
         sensors={sensors}
@@ -489,7 +512,7 @@ export function TasksBoardPage() {
                 onArchiveTicket={handleArchiveTicket}
                 onAddTicket={() => openAddTicket(column.id)}
                 canArchive={isDoneColumn(column.title)}
-                dragDisabled={normalizedFilter.length > 0}
+                dragDisabled={filtersActive}
                 isTicketDragging={activeTicketId !== null}
                 onRenameColumn={() => openRenameColumn(column)}
                 onDeleteColumn={() => { setColumnActionError(null); setDeletingColumnId(column.id); }}

@@ -395,6 +395,34 @@ a { color: inherit; }
 .page-heading h1 { display: flex; align-items: center; gap: 10px; color: #8fc5ff; font-size: 18px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
 .page-heading__actions { display: flex; align-items: center; gap: 12px; }
 .board-search { width: min(100%, 26rem); min-width: 0; }
+.tasks-board-filters { display: flex; flex-shrink: 0; align-items: center; flex-wrap: wrap; gap: 12px; min-width: 0; padding-top: 16px; border-top: 1px solid var(--border); }
+.tasks-board-filters .board-search { width: 260px; max-width: 100%; min-height: 36px; }
+.tasks-board-filters__scopes { display: flex; flex-wrap: wrap; gap: 8px; }
+.tasks-board-filters .tasks-board-filters__scope.fui-Button { min-height: 36px; padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); white-space: nowrap; }
+.tasks-board-filters .tasks-board-filters__scope.fui-Button:hover { border-color: var(--primary); background: var(--surface-strong); }
+.tasks-board-filters .tasks-board-filters__scope.fui-Button[aria-pressed="true"] { border-color: var(--action-btn-bg); background: var(--action-btn-bg); color: var(--action-btn-text); }
+.tasks-board-filters .tasks-board-filters__scope.fui-Button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.tasks-board-filters__overdue-count { margin-left: 4px; color: var(--colorPaletteRedForeground1); }
+.tasks-board-filters__scope[aria-pressed="true"] .tasks-board-filters__overdue-count { color: inherit; }
+.tasks-board-filters__priority { padding-left: 12px; border-left: 1px solid var(--border); }
+.tasks-board-filters__priority .fui-Select { min-width: 148px; }
+.tasks-board-filters__priority select { min-height: 36px; }
+@media (min-width: 768px) {
+  :root[data-theme="dark"] .tasks-board-filters { --colorCompoundBrandStroke: var(--accent); }
+  :root[data-theme="dark"] .tasks-board-filters .board-search:is(:hover, :focus-within),
+  :root[data-theme="dark"] .tasks-board-filters .fui-Select__select:is(:hover, :focus) { border-color: var(--accent); }
+  :root[data-theme="dark"] .tasks-board-filters .tasks-board-filters__scope.fui-Button:is(:hover, :focus-visible) { border-color: var(--accent); outline-color: var(--accent); }
+}
+@media (max-width: 767px) {
+  .tasks-board-filters { gap: 10px; padding-top: 12px; }
+  .tasks-board-filters .board-search, .tasks-board-filters__scopes { width: 100%; }
+  .tasks-board-filters .board-search { min-height: 44px; }
+  .tasks-board-filters__scopes { gap: 6px; }
+  .tasks-board-filters .tasks-board-filters__scope.fui-Button { flex: 1; min-height: 40px; padding: 7px 8px; font-size: 12px; }
+  .tasks-board-filters__priority { width: 100%; padding: 0; border: 0; }
+  .tasks-board-filters__priority .fui-Select { width: 100%; }
+  .tasks-board-filters__priority select { min-height: 42px; }
+}
 .page-heading__actions button,
 .page-heading__actions .fui-Button {
   background: var(--action-btn-bg);
@@ -802,6 +830,7 @@ a { color: inherit; }
 .mobile-board-tabs::-webkit-scrollbar { display: none; }
 .mobile-board-tab { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); white-space: nowrap; cursor: pointer; scroll-snap-align: start; user-select: none; -webkit-tap-highlight-color: transparent; }
 .mobile-board-tab--selected { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+:root[data-theme="dark"] .mobile-board-tab--selected { background: var(--action-btn-bg); border-color: var(--action-btn-bg); color: var(--action-btn-text); }
 .mobile-board-tab--drop-target { border-color: var(--accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent); }
 .mobile-board-tab__count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; border-radius: 999px; background: color-mix(in srgb, currentColor 18%, transparent); font-size: 11px; font-weight: 700; }
 .mobile-board-column { display: flex; flex-direction: column; gap: 12px; min-width: 0; }

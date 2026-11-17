@@ -11,7 +11,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Button, Input } from "@fluentui/react-components";
+import { Button } from "@fluentui/react-components";
 import {
   Add20Regular,
   CheckmarkCircle24Regular,
@@ -69,8 +69,9 @@ export type MobileKanbanBoardProps = {
   columns: BoardColumn[];
   ticketsByColumn: Map<string, Ticket[]>;
   usersById: Map<string, PortalUser>;
-  filterQuery: string;
-  setFilterQuery: (value: string) => void;
+  filters: ReactNode;
+  dragDisabled: boolean;
+  canDeleteColumn: (columnId: string) => boolean;
   canManageColumns: boolean;
   onAddColumn: () => void;
   onEditTicket: (ticket: Ticket) => void;
@@ -85,8 +86,9 @@ export function MobileKanbanBoard({
   columns,
   ticketsByColumn,
   usersById,
-  filterQuery,
-  setFilterQuery,
+  filters,
+  dragDisabled,
+  canDeleteColumn,
   canManageColumns,
   onAddColumn,
   onEditTicket,
@@ -168,6 +170,7 @@ export function MobileKanbanBoard({
     if (event.pointerType === "mouse" && event.button !== 0) return;
     if (!tabsRef.current) return;
 
+    suppressTabClickRef.current = false;
     tabDragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
@@ -227,12 +230,6 @@ export function MobileKanbanBoard({
       <div className="page-heading">
         <h1><CheckmarkCircle24Regular aria-hidden="true" /> Tasks</h1>
         <div className="page-heading__actions">
-          <Input
-            className="board-search"
-            placeholder="Tickets durchsuchen"
-            value={filterQuery}
-            onChange={(_event, data) => setFilterQuery(data.value)}
-          />
           {canManageColumns && (
             <Button className="mobile-board__add-column" appearance="primary" size="small" icon={<Add20Regular />} onClick={onAddColumn}>
               Spalte hinzufügen
@@ -240,6 +237,8 @@ export function MobileKanbanBoard({
           )}
         </div>
       </div>
+
+      {filters}
 
       <DndContext
         sensors={sensors}
@@ -299,6 +298,8 @@ export function MobileKanbanBoard({
               tickets={ticketsByColumn.get(selectedColumn.id) ?? []}
               usersById={usersById}
               canManageColumns={canManageColumns}
+              canDeleteColumn={canDeleteColumn(selectedColumn.id)}
+              dragDisabled={dragDisabled}
               dragOverColumnId={dragOverColumnId}
               onAddTicket={onAddTicket}
               onEditTicket={onEditTicket}
@@ -366,6 +367,8 @@ function MobileColumnSection({
   tickets,
   usersById,
   canManageColumns,
+  canDeleteColumn,
+  dragDisabled,
   dragOverColumnId,
   onAddTicket,
   onEditTicket,
@@ -379,6 +382,8 @@ function MobileColumnSection({
   tickets: Ticket[];
   usersById: Map<string, PortalUser>;
   canManageColumns: boolean;
+  canDeleteColumn: boolean;
+  dragDisabled: boolean;
   dragOverColumnId: string | null;
   onAddTicket: (columnId: string) => void;
   onEditTicket: (ticket: Ticket) => void;
@@ -419,7 +424,7 @@ function MobileColumnSection({
                 icon={<Delete16Regular />}
                 aria-label={`Spalte ${column.title} löschen`}
                 title="Spalte löschen"
-                disabled={tickets.length > 0}
+                disabled={!canDeleteColumn}
                 onClick={() => onDeleteColumn(column.id)}
               />
             </>
@@ -451,6 +456,7 @@ function MobileColumnSection({
                   onEdit={() => onEditTicket(ticket)}
                   onToggleBlocked={() => onToggleBlocked(ticket)}
                   isDragging={draggingTicketId === ticket.id}
+                  dragDisabled={dragDisabled}
                 />
               );
             })
@@ -503,6 +509,7 @@ function MobileTicketCard({
   onEdit,
   onToggleBlocked,
   isDragging: forcedDragging,
+  dragDisabled,
 }: {
   ticket: Ticket;
   columnTitle: string;
@@ -510,8 +517,9 @@ function MobileTicketCard({
   onEdit: () => void;
   onToggleBlocked: () => Promise<void>;
   isDragging?: boolean;
+  dragDisabled: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: ticket.id, disabled: dragDisabled });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -558,6 +566,7 @@ function MobileTicketCard({
             type="button"
             className="mobile-ticket-card__drag-handle"
             aria-label="Ticket verschieben"
+            disabled={dragDisabled}
             title="Ticket verschieben"
             onPointerDown={(event) => {
               event.stopPropagation();

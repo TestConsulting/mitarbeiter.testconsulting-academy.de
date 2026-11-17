@@ -6,7 +6,7 @@ export function localDateKey(date: Date): string {
   return `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 }
 
-export function TicketDueDate({ dueDate, showExactDate = false, columnTitle = "" }: { dueDate: string | null; showExactDate?: boolean; columnTitle?: string }) {
+export function useLocalDateKey() {
   const [today, setToday] = useState(() => localDateKey(new Date()));
 
   useEffect(() => {
@@ -15,6 +15,12 @@ export function TicketDueDate({ dueDate, showExactDate = false, columnTitle = ""
     const timer = setTimeout(() => setToday(localDateKey(new Date())), midnight.getTime() - now.getTime());
     return () => clearTimeout(timer);
   }, [today]);
+
+  return today;
+}
+
+export function TicketDueDate({ dueDate, showExactDate = false, columnTitle = "" }: { dueDate: string | null; showExactDate?: boolean; columnTitle?: string }) {
+  const today = useLocalDateKey();
 
   if (["erledigt", "done", "fertig"].includes(columnTitle.trim().toLowerCase())) {
     return (
