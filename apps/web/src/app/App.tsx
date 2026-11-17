@@ -69,6 +69,8 @@ export function App() {
                 <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
                 <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
                 <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
+                <Route path="/areas/marketing" element={<Navigate to="/areas/marketing/ideas" replace />} />
+                <Route path="/areas/marketing/:page" element={<div>Marketing-Platzhalter</div>} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="/areas/:area" element={<AreaPage />} />

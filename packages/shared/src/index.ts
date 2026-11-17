@@ -93,9 +93,21 @@ export const portalAreas = [
   { slug: "elearning", label: "eLearning", description: "Lernen und Zertifikate" },
   { slug: "applications", label: "Application Links", description: "Unternehmenswerkzeuge" },
   { slug: "benefits", label: "Benefits", description: "Mitarbeiterangebote" },
-  { slug: "marketing", label: "Marketing", description: "Vorlagen und Markenmaterial" },
+  { slug: "marketing", label: "Marketing", description: "Ideen, Freigaben und Einstellungen der Marketing-AI" },
   { slug: "sales", label: "Vertrieb", description: "Vertriebsunterstützung" },
   { slug: "tasks", label: "Tasks", description: "Gemeinsame Aufgaben" },
 ] as const;
 
 export type PortalArea = (typeof portalAreas)[number];
+
+export const marketingPages = [
+  { slug: "ideas", label: "Ideen", adminOnly: false },
+  { slug: "reviews", label: "Freigaben", adminOnly: false },
+  { slug: "settings", label: "Settings", adminOnly: true },
+] as const;
+
+export type MarketingPageSlug = (typeof marketingPages)[number]["slug"];
+
+export function isMarketingPage(value: string): value is MarketingPageSlug {
+  return marketingPages.some((page) => page.slug === value);
+}

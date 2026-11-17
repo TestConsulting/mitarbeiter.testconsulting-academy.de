@@ -15,7 +15,7 @@ import {
   WeatherSunny20Regular,
 } from "@fluentui/react-icons";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { canManagePortal, portalAreas } from "@portal/shared";
+import { canManagePortal, marketingPages, portalAreas } from "@portal/shared";
 import { useAuth } from "./auth-context.js";
 import { AreaIcon } from "./area-icon.js";
 import { MobileNavDrawer } from "./mobile-nav-drawer.js";
@@ -90,6 +90,17 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
                   <NavLink to="/areas/elearning/results" className={({ isActive }) => `nav-subitem${isActive ? " nav-subitem--active" : ""}`} onClick={closeMobileNav}>
                     <CheckmarkCircle24Regular aria-hidden="true" /> Prüfungsauswertung
                   </NavLink>
+                </div>
+              )}
+              {area.slug === "marketing" && isAreaActive && (
+                <div className="nav-subgroup" role="group" aria-label="Marketing-Bereiche">
+                  {marketingPages
+                    .filter((page) => !page.adminOnly || canManagePortal(user))
+                    .map((page) => (
+                      <NavLink key={page.slug} to={`/areas/marketing/${page.slug}`} className={({ isActive }) => `nav-subitem${isActive ? " nav-subitem--active" : ""}`} onClick={closeMobileNav}>
+                        {page.label}
+                      </NavLink>
+                    ))}
                 </div>
               )}
             </div>

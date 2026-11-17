@@ -92,11 +92,31 @@ describe("portal shell", () => {
     expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
   });
 
+  it("shows Marketing sub-entries when the Marketing area is active", async () => {
+    const adminUser = { id: "admin-1", email: "admin@example.test", name: "Admin Beispiel", role: "admin" as const };
+    authApi.me.mockResolvedValue(adminUser);
+    render(<App />);
+    const nav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(nav).getByRole("link", { name: "Marketing" }));
+    const group = within(nav).getByRole("group", { name: "Marketing-Bereiche" });
+    expect(within(group).getByRole("link", { name: "Ideen" })).toHaveClass("nav-subitem--active");
+    expect(within(group).getByRole("link", { name: "Freigaben" })).toHaveAttribute("href", "/areas/marketing/reviews");
+    expect(within(group).getByRole("link", { name: "Settings" })).toBeInTheDocument();
+  });
+
+  it("hides Marketing settings for employees", async () => {
+    render(<App />);
+    const nav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    await userEvent.click(within(nav).getByRole("link", { name: "Marketing" }));
+    expect(within(nav).getByRole("group", { name: "Marketing-Bereiche" })).toBeInTheDocument();
+    expect(within(nav).queryByRole("link", { name: "Settings" })).not.toBeInTheDocument();
+  });
+
   it("opens a protected placeholder from portal navigation", async () => {
     render(<App />);
     await screen.findByRole("heading", { name: "Willkommen, Alex" });
     const sidebarNav = screen.getByRole("complementary", { name: "Portalnavigation" });
-    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Marketing" }));
+    await userEvent.click(within(sidebarNav).getByRole("link", { name: "Vertrieb" }));
     expect(await screen.findByRole("heading", { name: "Dieser Bereich wird in einer späteren Phase eingerichtet." })).toBeInTheDocument();
     expect(screen.getByText("In Vorbereitung")).toBeInTheDocument();
   });
