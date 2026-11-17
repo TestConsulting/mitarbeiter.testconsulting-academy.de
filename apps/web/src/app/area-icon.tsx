@@ -3,6 +3,7 @@ import {
   BookOpen24Regular,
   Briefcase24Regular,
   CheckmarkCircle24Regular,
+  DataTrending24Regular,
   Gift24Regular,
   Megaphone24Regular,
 } from "@fluentui/react-icons";
@@ -14,6 +15,7 @@ export function AreaIcon({ slug, large = false }: { slug: string; large?: boolea
     case "applications": return <AppsListDetail24Regular className={size} aria-hidden="true" />;
     case "benefits": return <Gift24Regular className={size} aria-hidden="true" />;
     case "marketing": return <Megaphone24Regular className={size} aria-hidden="true" />;
+    case "analytics": return <DataTrending24Regular className={size} aria-hidden="true" />;
     case "sales": return <Briefcase24Regular className={size} aria-hidden="true" />;
     default: return <CheckmarkCircle24Regular className={size} aria-hidden="true" />;
   }

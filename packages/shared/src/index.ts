@@ -1,4 +1,5 @@
 export * from "./elearning.js";
+export * from "./marketing-analytics.js";
 
 export type PortalUser = {
   id: string;
@@ -94,6 +95,7 @@ export const portalAreas = [
   { slug: "applications", label: "Application Links", description: "Unternehmenswerkzeuge" },
   { slug: "benefits", label: "Benefits", description: "Mitarbeiterangebote" },
   { slug: "marketing", label: "Marketing", description: "Ideen, Freigaben und Einstellungen der Marketing-AI" },
+  { slug: "analytics", label: "Analyse", description: "Website-Besuche und Wirkung der LinkedIn-Posts" },
   { slug: "sales", label: "Vertrieb", description: "Vertriebsunterstützung" },
   { slug: "tasks", label: "Tasks", description: "Gemeinsame Aufgaben" },
 ] as const;

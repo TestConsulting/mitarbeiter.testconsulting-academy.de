@@ -1,0 +1,215 @@
+{
+  "stub": true,
+  "canSync": true,
+  "syncStatus": {
+    "lastRunAt": "2026-10-14T04:30:00.000Z",
+    "lastOkAt": "2026-10-14T04:30:00.000Z",
+    "lastError": null
+  },
+  "days": 7,
+  "from": "2026-10-07",
+  "to": "2026-10-13",
+  "totals": {
+    "activeUsers": 272,
+    "sessions": 307,
+    "pageViews": 614
+  },
+  "previousTotals": {
+    "activeUsers": 270,
+    "sessions": 305,
+    "pageViews": 610
+  },
+  "daily": [
+    {
+      "date": "2026-10-07",
+      "activeUsers": 41,
+      "sessions": 46,
+      "pageViews": 92
+    },
+    {
+      "date": "2026-10-08",
+      "activeUsers": 42,
+      "sessions": 47,
+      "pageViews": 94
+    },
+    {
+      "date": "2026-10-09",
+      "activeUsers": 43,
+      "sessions": 48,
+      "pageViews": 96
+    },
+    {
+      "date": "2026-10-10",
+      "activeUsers": 35,
+      "sessions": 40,
+      "pageViews": 80
+    },
+    {
+      "date": "2026-10-11",
+      "activeUsers": 36,
+      "sessions": 41,
+      "pageViews": 82
+    },
+    {
+      "date": "2026-10-12",
+      "activeUsers": 37,
+      "sessions": 42,
+      "pageViews": 84
+    },
+    {
+      "date": "2026-10-13",
+      "activeUsers": 38,
+      "sessions": 43,
+      "pageViews": 86
+    }
+  ],
+  "previousDaily": [
+    {
+      "date": "2026-09-30",
+      "activeUsers": 45,
+      "sessions": 50,
+      "pageViews": 100
+    },
+    {
+      "date": "2026-10-01",
+      "activeUsers": 35,
+      "sessions": 40,
+      "pageViews": 80
+    },
+    {
+      "date": "2026-10-02",
+      "activeUsers": 36,
+      "sessions": 41,
+      "pageViews": 82
+    },
+    {
+      "date": "2026-10-03",
+      "activeUsers": 37,
+      "sessions": 42,
+      "pageViews": 84
+    },
+    {
+      "date": "2026-10-04",
+      "activeUsers": 38,
+      "sessions": 43,
+      "pageViews": 86
+    },
+    {
+      "date": "2026-10-05",
+      "activeUsers": 39,
+      "sessions": 44,
+      "pageViews": 88
+    },
+    {
+      "date": "2026-10-06",
+      "activeUsers": 40,
+      "sessions": 45,
+      "pageViews": 90
+    }
+  ],
+  "channels": [
+    {
+      "key": "Organic Search",
+      "activeUsers": 155,
+      "sessions": 155,
+      "pageViews": 310
+    },
+    {
+      "key": "Direct",
+      "activeUsers": 92,
+      "sessions": 92,
+      "pageViews": 184
+    },
+    {
+      "key": "Organic Social",
+      "activeUsers": 61,
+      "sessions": 61,
+      "pageViews": 122
+    }
+  ],
+  "pages": [
+    {
+      "key": "/",
+      "activeUsers": 155,
+      "sessions": 155,
+      "pageViews": 307
+    },
+    {
+      "key": "/leistungen/",
+      "activeUsers": 94,
+      "sessions": 94,
+      "pageViews": 185
+    },
+    {
+      "key": "/kontakt/",
+      "activeUsers": 63,
+      "sessions": 63,
+      "pageViews": 122
+    }
+  ],
+  "posts": [
+    {
+      "campaign": "manuell-geteilt",
+      "title": null,
+      "date": null,
+      "pillar": null,
+      "pillarLabel": null,
+      "format": null,
+      "url": null,
+      "sessions": 12,
+      "activeUsers": 12
+    },
+    {
+      "campaign": "post-1",
+      "title": "Flaky Tests kosten Vertrauen",
+      "date": "2026-10-09",
+      "pillar": "humor_relatable",
+      "pillarLabel": "Humor/Relatable",
+      "format": "carousel",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:1",
+      "sessions": 11,
+      "activeUsers": 11
+    },
+    {
+      "campaign": "post-2",
+      "title": "KI im Testing: Hype oder Hilfe?",
+      "date": "2026-10-09",
+      "pillar": "trends_news",
+      "pillarLabel": "Trends/News (KI in QA, neue Test-Tools)",
+      "format": "video",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:2",
+      "sessions": 10,
+      "activeUsers": 10
+    }
+  ],
+  "byPillar": [
+    {
+      "key": "humor_relatable",
+      "sessions": 11,
+      "activeUsers": 11,
+      "posts": 1,
+      "label": "Humor/Relatable"
+    },
+    {
+      "key": "trends_news",
+      "sessions": 10,
+      "activeUsers": 10,
+      "posts": 1,
+      "label": "Trends/News (KI in QA, neue Test-Tools)"
+    }
+  ],
+  "byFormat": [
+    {
+      "key": "carousel",
+      "sessions": 11,
+      "activeUsers": 11,
+      "posts": 1
+    },
+    {
+      "key": "video",
+      "sessions": 10,
+      "activeUsers": 10,
+      "posts": 1
+    }
+  ]
+}

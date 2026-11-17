@@ -92,6 +92,17 @@ describe("portal shell", () => {
     expect(screen.getByRole("button", { name: /light mode/i })).toBeInTheDocument();
   });
 
+  it("lists Analyse after Marketing in the side navigation", async () => {
+    render(<App />);
+    const nav = await screen.findByRole("complementary", { name: "Portalnavigation" });
+    const links = within(nav).getAllByRole("link");
+    const marketing = links.findIndex((l) => l.textContent?.includes("Marketing") && l.getAttribute("href") === "/areas/marketing");
+    const analyse = links.findIndex((l) => l.getAttribute("href") === "/areas/analytics");
+    expect(within(nav).getByRole("link", { name: "Analyse" })).toHaveAttribute("href", "/areas/analytics");
+    expect(marketing).toBeGreaterThanOrEqual(0);
+    expect(analyse).toBeGreaterThan(marketing);
+  });
+
   it("shows Marketing sub-entries when the Marketing area is active", async () => {
     const adminUser = { id: "admin-1", email: "admin@example.test", name: "Admin Beispiel", role: "admin" as const };
     authApi.me.mockResolvedValue(adminUser);
