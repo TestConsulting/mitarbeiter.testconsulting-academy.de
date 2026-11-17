@@ -4344,9 +4344,10 @@ a { color: inherit; }
 :root[data-theme="dark"] .ticket-card__type-badge--spike { border-color: rgb(246 200 117 / 55%); color: #ffe2b4; background: rgb(246 200 117 / 24%); }
 :root[data-theme="dark"] .ticket-card__type-badge--todo { border-color: rgb(196 206 219 / 55%); color: #e7edf6; background: rgb(196 206 219 / 24%); }
 
-/* Eingebettete Marketing-AI: kein Innenabstand, iframe füllt den Inhaltsbereich (58px = Höhe der Kopfzeile). */
-.portal-main.portal-main--flush { padding: 0; }
-.marketing-frame { display: block; width: 100%; height: calc(100dvh - 58px); border: 0; background: var(--surface); }
+/* Eingebettete Marketing-AI: kein Innenabstand. Die Wurzel ist genau so hoch wie der Viewport, der iframe füllt per Flex den Rest unter der Kopfzeile (egal wie hoch diese gerade ist: Breakpoints, nav-toggle, safe-area). */
+.portal-root:has(.portal-main--flush) { height: 100dvh; min-height: 0; }
+.portal-main.portal-main--flush { display: flex; flex-direction: column; padding: 0; }
+.marketing-frame { display: block; width: 100%; flex: 1 1 auto; min-height: 0; border: 0; background: var(--surface); }
 
 /* Analyse-Seite (nur Tokens: --primary aktuell, --muted Vorperiode, --accent Balken) */
 .analytics-page { height: auto; }

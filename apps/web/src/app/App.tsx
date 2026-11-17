@@ -1,4 +1,3 @@
-import { AnalyticsPage } from "../pages/analytics/analytics-page.js";
 import { useEffect, useState } from "react";
 import { FluentProvider, webDarkTheme, webLightTheme } from "@fluentui/react-components";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -14,6 +13,7 @@ import { ApplicationLinksPage } from "../pages/application-links-page.js";
 import { BenefitsPage } from "../pages/benefits-page.js";
 import { BenefitDetailPage } from "../pages/benefit-detail-page.js";
 import { AdminUsersPage } from "../pages/admin-users-page.js";
+import { AnalyticsPage } from "../pages/analytics/analytics-page.js";
 import { ElearningPage } from "../pages/elearning/elearning-page.js";
 import { CourseCreatePage } from "../pages/elearning/course-create-page.js";
 import { CourseEditPage } from "../pages/elearning/course-edit-page.js";
@@ -73,9 +73,9 @@ export function App() {
                 <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
                 <Route path="/areas/marketing" element={<Navigate to="/areas/marketing/ideas" replace />} />
                 <Route path="/areas/marketing/:page" element={<MarketingFramePage />} />
+                <Route path="/areas/analytics" element={<AnalyticsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
-                <Route path="/areas/analytics" element={<AnalyticsPage />} />
                 <Route path="/areas/:area" element={<AreaPage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>

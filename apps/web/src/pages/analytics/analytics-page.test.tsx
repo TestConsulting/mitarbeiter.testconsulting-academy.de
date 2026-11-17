@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { MarketingAnalytics } from "@portal/shared";
 import fixture from "./__fixtures__/analytics.example.json";
@@ -12,8 +12,26 @@ vi.mock("../../api/marketing-analytics-client.js", () => client);
 const base = fixture as MarketingAnalytics;
 const live: MarketingAnalytics = { ...base, stub: false, canSync: true };
 
+function Loc() {
+  return <span data-testid="loc">{useLocation().pathname}</span>;
+}
+
 function renderPage(path = "/areas/analytics?days=7") {
-  return render(<MemoryRouter initialEntries={[path]}><AnalyticsPage /></MemoryRouter>);
+  return render(<MemoryRouter initialEntries={[path]}><AnalyticsPage /><Loc /></MemoryRouter>);
+}
+
+// Prüft, dass ein Klick eine echte Seitennavigation auslöst (kein Router-preventDefault).
+function expectFullPageNavigation(link: HTMLElement) {
+  let prevented: boolean | null = null;
+  const listener = (event: Event) => { prevented = event.defaultPrevented; event.preventDefault(); };
+  document.addEventListener("click", listener);
+  try {
+    link.click();
+  } finally {
+    document.removeEventListener("click", listener);
+  }
+  expect(prevented).toBe(false);
+  expect(screen.getByTestId("loc")).toHaveTextContent("/areas/analytics");
 }
 
 beforeEach(() => {
@@ -85,6 +103,43 @@ describe("AnalyticsPage", () => {
     expect(await screen.findByText(/Bitte neu anmelden/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Zur Anmeldung" })).toHaveAttribute("href", "/login");
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    // Muss die App neu laden, damit /api/auth/me 401 liefert; eine Router-Navigation würde auf "/" zurückspringen.
+    expectFullPageNavigation(screen.getByRole("link", { name: "Zur Anmeldung" }));
+  });
+
+  it("links to a full page login after an unauthorized sync", async () => {
+    client.syncMarketingAnalytics.mockResolvedValue({ status: "unauthorized" });
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: "Jetzt synchronisieren" }));
+    const link = await screen.findByRole("link", { name: "Zur Anmeldung" });
+    expect(link).toHaveAttribute("href", "/login");
+    expectFullPageNavigation(link);
+  });
+
+  it("marks the page busy while a new range loads", async () => {
+    renderPage();
+    await screen.findByRole("list", { name: "Kennzahlen" });
+    expect(document.querySelector(".analytics-page")).toHaveAttribute("aria-busy", "false");
+    let resolve!: (v: unknown) => void;
+    client.fetchMarketingAnalytics.mockReturnValue(new Promise((r) => { resolve = r; }));
+    await userEvent.click(screen.getByRole("link", { name: "90 Tage" }));
+    expect(document.querySelector(".analytics-page")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByText("Wird aktualisiert …")).toBeInTheDocument();
+    resolve({ status: "ok", data: live });
+    await waitFor(() => expect(document.querySelector(".analytics-page")).toHaveAttribute("aria-busy", "false"));
+    expect(screen.queryByText("Wird aktualisiert …")).not.toBeInTheDocument();
+  });
+
+  it("disables the sync button and shows busy state while syncing", async () => {
+    let resolve!: (v: unknown) => void;
+    client.syncMarketingAnalytics.mockReturnValue(new Promise((r) => { resolve = r; }));
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: "Jetzt synchronisieren" }));
+    expect(screen.getByRole("button", { name: "Jetzt synchronisieren" })).toBeDisabled();
+    expect(document.querySelector(".analytics-page")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByText("Wird aktualisiert …")).toBeInTheDocument();
+    resolve({ status: "error", message: "x" });
+    await waitFor(() => expect(screen.getByRole("button", { name: "Jetzt synchronisieren" })).toBeEnabled());
   });
 
   it("shows outage hint when unavailable", async () => {

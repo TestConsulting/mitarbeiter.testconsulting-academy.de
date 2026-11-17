@@ -34,13 +34,17 @@ export function AnalyticsPage() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [reloadKey, setReloadKey] = useState(0);
   const [syncing, setSyncing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     // Beim Zeitraumwechsel bleiben die alten Daten stehen, bis die neuen da sind.
+    setRefreshing(true);
     void fetchMarketingAnalytics(days).then((result) => {
-      if (!cancelled) setState(result);
+      if (cancelled) return;
+      setState(result);
+      setRefreshing(false);
     });
     return () => { cancelled = true; };
   }, [days, reloadKey]);
@@ -61,9 +65,10 @@ export function AnalyticsPage() {
   }, []);
 
   const data = state.status === "ok" ? state.data : null;
+  const busy = state.status === "loading" || refreshing || syncing;
 
   return (
-    <div className="page-stack analytics-page">
+    <div className="page-stack analytics-page" aria-busy={busy}>
       <div className="page-heading">
         <h1><AreaIcon slug="analytics" /> Analyse</h1>
         <nav className="analytics-ranges" aria-label="Zeitraum">
@@ -75,10 +80,13 @@ export function AnalyticsPage() {
 
       {state.status === "loading" && <p className="analytics-note" role="status">Daten werden geladen …</p>}
 
+      {data && (refreshing || syncing) && <p className="analytics-note" role="status">Wird aktualisiert …</p>}
+
       {state.status === "unauthorized" && (
         <section className="analytics-notice" role="alert">
           <p><strong>Bitte neu anmelden.</strong> Deine Sitzung ist abgelaufen.</p>
-          <Link to="/login">Zur Anmeldung</Link>
+          {/* Bewusst kein Router-Link: Der Auth-Kontext hält den Nutzer noch für angemeldet. Erst das Neuladen holt /api/auth/me (401) und zeigt das Formular. */}
+          <a href="/login">Zur Anmeldung</a>
         </section>
       )}
 
@@ -116,8 +124,8 @@ export function AnalyticsPage() {
           </section>
 
           <div className="analytics-grid-2">
-            <RankedBars title="Kanäle" valueLabel="Sitzungen" rows={data.channels.map((c) => ({ key: c.key, value: c.sessions }))} />
-            <RankedBars title="Top-Seiten" valueLabel="Aufrufe" rows={data.pages.map((p) => ({ key: p.key, value: p.pageViews }))} />
+            <RankedBars title="Kanäle" keyLabel="Kanal" valueLabel="Sitzungen" rows={data.channels.map((c) => ({ key: c.key, value: c.sessions }))} />
+            <RankedBars title="Top-Seiten" keyLabel="Seite" valueLabel="Aufrufe" rows={data.pages.map((p) => ({ key: p.key, value: p.pageViews }))} />
           </div>
 
           <section className="analytics-card">

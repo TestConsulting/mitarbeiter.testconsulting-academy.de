@@ -10,7 +10,7 @@ Der Host-Nginx muss beim Proxy an `http://127.0.0.1:8090` mindestens `Host`, `X-
 
 ## Marketing-AI unter /marketing
 
-Die Marketing-AI läuft als eigener Dienst auf `127.0.0.1:3000` und wird per iframe unter `/marketing` in die Academy eingebettet. Im Host-Nginx muss dieser Block **vor** `location /` stehen:
+Die Marketing-AI läuft als eigener Dienst auf `127.0.0.1:3000` und wird per iframe unter `/marketing` in die Academy eingebettet. Im Host-Nginx braucht `/marketing/` einen eigenen Block. Nginx wählt bei Präfix-Locations den längsten Treffer, die Reihenfolge zu `location /` spielt keine Rolle (nur Regex-Locations sind reihenfolgeabhängig). Zusätzlich braucht `/marketing` ohne Slash eine Weiterleitung, sonst landet der Aufruf in der SPA:
 
 ```nginx
 location /marketing/ {
@@ -18,6 +18,10 @@ location /marketing/ {
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
+}
+
+location = /marketing {
+    return 301 /marketing/;
 }
 ```
 

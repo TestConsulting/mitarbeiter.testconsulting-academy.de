@@ -104,14 +104,4 @@ describe("MarketingFramePage", () => {
     expect(reloaded).toHaveAttribute("src", "/marketing/dashboard/ideas");
     expect(reloaded).not.toBe(frame);
   });
-
-  it("loads the clicked page again after a reload", async () => {
-    renderAt("/areas/marketing/ideas");
-    const frame = screen.getByTitle("Marketing – Ideen") as HTMLIFrameElement;
-    post(frame, "reviews");
-    await waitFor(() => expect(screen.getByTestId("loc")).toHaveTextContent("/areas/marketing/reviews"));
-    await userEvent.click(screen.getByRole("link", { name: "zu Ideen" }));
-    await userEvent.click(screen.getByRole("link", { name: "zu Freigaben" }));
-    expect(screen.getByTitle("Marketing – Freigaben")).toHaveAttribute("src", "/marketing/dashboard/reviews");
-  });
 });

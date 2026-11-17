@@ -1,13 +1,13 @@
 import { numberFormat } from "./kpi-tile.js";
 
-export function RankedBars({ title, valueLabel, rows }: { title: string; valueLabel: string; rows: { key: string; value: number }[] }) {
+export function RankedBars({ title, keyLabel, valueLabel, rows }: { title: string; keyLabel: string; valueLabel: string; rows: { key: string; value: number }[] }) {
   const max = Math.max(1, ...rows.map((r) => r.value));
   return (
     <section className="analytics-card">
       <h2>{title}</h2>
       <div className="analytics-table-scroll">
         <table aria-label={title}>
-          <thead><tr><th>{title === "Kanäle" ? "Kanal" : "Seite"}</th><th>{valueLabel}</th></tr></thead>
+          <thead><tr><th>{keyLabel}</th><th>{valueLabel}</th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.key}>
