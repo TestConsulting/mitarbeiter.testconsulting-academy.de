@@ -109,6 +109,55 @@ describe("tasks board page", () => {
     expect(screen.getByText("In Review")).toBeInTheDocument();
   });
 
+  it.each(["hover", "focus"])("shows the desktop assignee name on %s", async (interaction) => {
+    vi.useFakeTimers();
+    await act(async () => { renderBoard(employeeUser); });
+    const avatar = screen.getByRole("img", { name: employeeUser.name });
+    if (interaction === "hover") fireEvent.pointerEnter(avatar);
+    else fireEvent.focus(avatar);
+    act(() => vi.advanceTimersByTime(1000));
+    expect(screen.getByRole("tooltip")).toHaveTextContent(employeeUser.name);
+    expect(avatar).toHaveAttribute("tabindex", "0");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it.each([1024, 390])("searches titles by default and optionally includes descriptions at width %i", async (width) => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
+    const board = buildBoard();
+    board.tickets = [
+      { ...board.tickets[0], id: "title-match", title: "fd", description: null },
+      { ...board.tickets[0], id: "description-match", title: "Beschreibungstreffer", description: "Notiz mit FD" },
+      { ...board.tickets[0], id: "unmatched", title: "Andere Aufgabe", description: null },
+    ];
+    boardApi.get.mockResolvedValue(board);
+    renderBoard(employeeUser);
+    await screen.findByText("Beschreibungstreffer");
+    const search = screen.getByRole("textbox", { name: "Tickets durchsuchen" });
+    const descriptions = screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" });
+    expect(descriptions).not.toBeChecked();
+    fireEvent.change(search, { target: { value: "  fD  " } });
+    expect(screen.getByText("fd")).toBeInTheDocument();
+    expect(screen.queryByText("Beschreibungstreffer")).not.toBeInTheDocument();
+    expect(screen.queryByText("Andere Aufgabe")).not.toBeInTheDocument();
+
+    fireEvent.click(descriptions);
+    expect(screen.getByText("Beschreibungstreffer")).toBeInTheDocument();
+    expect(screen.queryByText("Andere Aufgabe")).not.toBeInTheDocument();
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width < 768 ? 1024 : 390 });
+    fireEvent(window, new Event("resize"));
+    expect(screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" })).toBeChecked();
+    expect(screen.getByRole("textbox", { name: "Tickets durchsuchen" })).toHaveValue("  fD  ");
+    expect(screen.getByText("Beschreibungstreffer")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" }));
+    expect(screen.queryByText("Beschreibungstreffer")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" }));
+    for (const query of [employeeUser.name, "Backlog"]) {
+      fireEvent.change(screen.getByRole("textbox", { name: "Tickets durchsuchen" }), { target: { value: query } });
+      for (const ticket of board.tickets) expect(screen.queryByText(ticket.title)).not.toBeInTheDocument();
+    }
+  });
+
   it.each([1024, 390])("combines ownership, priority and the existing search at width %i", async (width) => {
     Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: width });
     const board = buildBoard();
@@ -134,6 +183,7 @@ describe("tasks board page", () => {
     expect(screen.queryByText("Eigene Aufgabe")).not.toBeInTheDocument();
     const search = screen.getByRole("textbox", { name: "Tickets durchsuchen" });
     fireEvent.change(search, { target: { value: "Suchbegriff" } });
+    fireEvent.click(screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" }));
     expect(screen.getByText("Eigene Analyse")).toBeInTheDocument();
     fireEvent.change(search, { target: { value: "Nicht vorhanden" } });
     expect(screen.queryByText("Eigene Analyse")).not.toBeInTheDocument();
@@ -141,7 +191,7 @@ describe("tasks board page", () => {
     fireEvent.change(search, { target: { value: "" } });
     fireEvent.click(screen.getByRole("button", { name: "Alle Tickets" }));
     expect(screen.getByText("Andere Analyse")).toBeInTheDocument();
-    fireEvent.change(search, { target: { value: adminUser.name } });
+    fireEvent.change(search, { target: { value: "Andere" } });
     expect(screen.getByText("Andere Analyse")).toBeInTheDocument();
     expect(screen.queryByText("Eigene Analyse")).not.toBeInTheDocument();
 
@@ -359,6 +409,7 @@ describe("tasks board page", () => {
 
     renderBoard(adminUser);
     const searchInput = await screen.findByPlaceholderText("Tickets durchsuchen");
+    fireEvent.click(screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" }));
     fireEvent.change(searchInput, { target: { value: "Zweite" } });
 
     await waitFor(() => {

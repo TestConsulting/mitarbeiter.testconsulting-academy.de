@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "@fluentui/react-components";
+import { Button, Checkbox, Input, Select } from "@fluentui/react-components";
 import { Search20Regular } from "@fluentui/react-icons";
 import type { TicketPriority } from "@portal/shared";
 
@@ -14,10 +14,12 @@ const priorityOptions: { value: TasksBoardPriorityFilter; label: string }[] = [
 ];
 
 export function TasksBoardFilters({
-  query, onQueryChange, scope, onScopeChange, priority, onPriorityChange, overdueCount,
+  query, onQueryChange, includeDescription, onIncludeDescriptionChange, scope, onScopeChange, priority, onPriorityChange, overdueCount,
 }: {
   query: string;
   onQueryChange: (value: string) => void;
+  includeDescription: boolean;
+  onIncludeDescriptionChange: (value: boolean) => void;
   scope: TasksBoardFilterScope;
   onScopeChange: (value: TasksBoardFilterScope) => void;
   priority: TasksBoardPriorityFilter;
@@ -33,6 +35,11 @@ export function TasksBoardFilters({
         contentBefore={<Search20Regular aria-hidden="true" />}
         value={query}
         onChange={(_event, data) => onQueryChange(data.value)}
+      />
+      <Checkbox
+        label="Beschreibung einbeziehen"
+        checked={includeDescription}
+        onChange={(_event, data) => onIncludeDescriptionChange(data.checked === true)}
       />
       <div className="tasks-board-filters__scopes" role="group" aria-label="Ticketauswahl">
         <Button className="tasks-board-filters__scope" aria-pressed={scope === "all"} onClick={() => onScopeChange("all")}>

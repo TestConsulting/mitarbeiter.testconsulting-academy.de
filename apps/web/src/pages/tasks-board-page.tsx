@@ -29,6 +29,7 @@ import {
   Field,
   Input,
   Option,
+  Tooltip,
 } from "@fluentui/react-components";
 import {
   Add20Regular,
@@ -108,6 +109,7 @@ export function TasksBoardPage() {
   const [ticketSaveError, setTicketSaveError] = useState<string | null>(null);
   const newAttachments = useTicketAttachments();
   const [filterQuery, setFilterQuery] = useState("");
+  const [includeDescription, setIncludeDescription] = useState(false);
   const [filterScope, setFilterScope] = useState<TasksBoardFilterScope>("all");
   const [filterPriority, setFilterPriority] = useState<TasksBoardPriorityFilter>("all");
   const today = useLocalDateKey();
@@ -313,16 +315,13 @@ export function TasksBoardPage() {
         if (filterScope === "mine" && (!user || ticket.assigneeId !== user.id)) return false;
         if (filterScope === "overdue" && !overdueTicketIds.has(ticket.id)) return false;
         if (filterPriority !== "all" && (ticket.priority ?? "normal") !== filterPriority) return false;
-        const assigneeName = ticket.assigneeId ? usersById.get(ticket.assigneeId)?.name ?? "" : "";
-        const haystack = [ticket.title, ticket.description ?? "", assigneeName, column.title]
-          .join(" ")
-          .toLowerCase();
-        return haystack.includes(normalizedFilter);
+        return ticket.title.toLowerCase().includes(normalizedFilter) ||
+          (includeDescription && (ticket.description ?? "").toLowerCase().includes(normalizedFilter));
       });
       map.set(column.id, filtered);
     }
     return map;
-  }, [columnsSorted, normalizedFilter, ticketsByColumn, usersById, filtersActive, filterScope, filterPriority, overdueTicketIds, user]);
+  }, [columnsSorted, normalizedFilter, includeDescription, ticketsByColumn, filtersActive, filterScope, filterPriority, overdueTicketIds, user]);
 
   const newTicketColumnTitle = newTicketColumnId ? columnsById.get(newTicketColumnId)?.title ?? "" : "";
 
@@ -446,6 +445,8 @@ export function TasksBoardPage() {
     <TasksBoardFilters
       query={filterQuery}
       onQueryChange={setFilterQuery}
+      includeDescription={includeDescription}
+      onIncludeDescriptionChange={setIncludeDescription}
       scope={filterScope}
       onScopeChange={setFilterScope}
       priority={filterPriority}
@@ -974,7 +975,11 @@ function TicketCard({
       {blockError && <p className="ticket-card__block-error" role="alert">{blockError}</p>}
       <TicketDueDate dueDate={ticket.dueDate ?? null} columnTitle={columnTitle} />
       <div className="ticket-card__footer">
-        {assignee && <Avatar name={assignee.name} size={24} color="colorful" />}
+        {assignee && (
+          <Tooltip content={assignee.name} relationship="label">
+            <Avatar name={assignee.name} size={24} color="colorful" tabIndex={0} />
+          </Tooltip>
+        )}
         <TicketPriorityBadge priority={priority} />
       </div>
     </article>
