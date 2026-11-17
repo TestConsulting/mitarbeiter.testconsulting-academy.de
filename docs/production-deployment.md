@@ -22,7 +22,8 @@ location /marketing/ {
 ```
 
 - Kein Prefix-Stripping: `proxy_pass` ohne URI-Anteil, die Marketing-AI erwartet den Pfad inklusive `/marketing`.
-- Umgebung der Marketing-AI: `BASE_PATH=/marketing`, `EMBED_PARENT_PATH=/areas/marketing`, `PORTAL_INTERNAL_URL=http://127.0.0.1:8090`.
+- Umgebung der Marketing-AI: `BASE_PATH=/marketing`, `EMBED_PARENT_PATH=/areas/marketing`, `PORTAL_INTERNAL_URL=http://127.0.0.1:8090`, `PORTAL_LOGIN_URL=https://mitarbeiter.testconsulting-academy.de/` (Login-Ziel der Academy).
+- `NODE_ENV=production` ist Pflicht: Sonst startet die Marketing-AI auch mit `PORTAL_AUTH=off`, und jeder Besucher ist Admin. `PORTAL_AUTH` darf in Produktion nicht auf `off` stehen.
 - Auf dem Host-Nginx darf für `/marketing/` kein globaler `X-Frame-Options: DENY` gesetzt werden, sonst blockiert der Browser den iframe.
 
 ## Erstdeployment
