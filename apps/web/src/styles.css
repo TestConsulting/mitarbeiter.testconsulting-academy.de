@@ -4343,3 +4343,7 @@ a { color: inherit; }
 :root[data-theme="dark"] .ticket-card__type-badge--feature { border-color: rgb(196 181 253 / 58%); color: #f1eaff; background: rgb(196 181 253 / 26%); }
 :root[data-theme="dark"] .ticket-card__type-badge--spike { border-color: rgb(246 200 117 / 55%); color: #ffe2b4; background: rgb(246 200 117 / 24%); }
 :root[data-theme="dark"] .ticket-card__type-badge--todo { border-color: rgb(196 206 219 / 55%); color: #e7edf6; background: rgb(196 206 219 / 24%); }
+
+/* Eingebettete Marketing-AI: kein Innenabstand, iframe füllt den Inhaltsbereich (58px = Höhe der Kopfzeile). */
+.portal-main.portal-main--flush { padding: 0; }
+.marketing-frame { display: block; width: 100%; height: calc(100dvh - 58px); border: 0; background: var(--surface); }

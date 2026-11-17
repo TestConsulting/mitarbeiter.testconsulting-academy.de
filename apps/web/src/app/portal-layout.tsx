@@ -47,6 +47,7 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const isMarketingRoute = location.pathname === "/areas/marketing" || location.pathname.startsWith("/areas/marketing/");
   const isProfileActive = location.pathname.startsWith("/profile") || location.pathname.startsWith("/admin/users");
   const [accountExpanded, setAccountExpanded] = useState(true);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -198,7 +199,7 @@ export function PortalLayout({ theme, setTheme }: ThemeToggleProps) {
         <MobileNavDrawer isOpen={mobileNavOpen} onClose={closeMobileNav} triggerRef={navToggleRef}>
           {navigationContent}
         </MobileNavDrawer>
-        <main className="portal-main"><Outlet /></main>
+        <main className={`portal-main${isMarketingRoute ? " portal-main--flush" : ""}`}><Outlet /></main>
       </div>
     </div>
   );

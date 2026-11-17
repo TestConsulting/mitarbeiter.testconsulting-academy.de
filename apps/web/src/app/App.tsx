@@ -19,6 +19,7 @@ import { CourseEditPage } from "../pages/elearning/course-edit-page.js";
 import { CourseDetailPage } from "../pages/elearning/course-detail-page.js";
 import { CoursePracticePage } from "../pages/elearning/course-practice-page.js";
 import { ExamResultsPage } from "../pages/elearning/exam-results-page.js";
+import { MarketingFramePage } from "../pages/marketing/marketing-frame-page.js";
 import { ProfilePage } from "../pages/profile-page.js";
 
 type ThemeMode = "light" | "dark";
@@ -70,7 +71,7 @@ export function App() {
                 <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
                 <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
                 <Route path="/areas/marketing" element={<Navigate to="/areas/marketing/ideas" replace />} />
-                <Route path="/areas/marketing/:page" element={<div>Marketing-Platzhalter</div>} />
+                <Route path="/areas/marketing/:page" element={<MarketingFramePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="/areas/:area" element={<AreaPage />} />

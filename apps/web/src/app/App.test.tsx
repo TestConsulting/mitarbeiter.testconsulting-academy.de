@@ -104,6 +104,14 @@ describe("portal shell", () => {
     expect(within(group).getByRole("link", { name: "Settings" })).toBeInTheDocument();
   });
 
+  it("embeds the Marketing-AI in the content area", async () => {
+    window.history.pushState({}, "", "/areas/marketing");
+    render(<App />);
+    expect(await screen.findByTitle("Marketing – Ideen")).toHaveAttribute("src", "/marketing/dashboard/ideas");
+    expect(screen.queryByText("In Vorbereitung")).not.toBeInTheDocument();
+    expect(document.querySelector(".portal-main")).toHaveClass("portal-main--flush");
+  });
+
   it("hides Marketing settings for employees", async () => {
     render(<App />);
     const nav = await screen.findByRole("complementary", { name: "Portalnavigation" });
