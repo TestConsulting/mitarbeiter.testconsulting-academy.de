@@ -18,6 +18,7 @@ import { CourseCreatePage } from "../pages/elearning/course-create-page.js";
 import { CourseEditPage } from "../pages/elearning/course-edit-page.js";
 import { CourseDetailPage } from "../pages/elearning/course-detail-page.js";
 import { CoursePracticePage } from "../pages/elearning/course-practice-page.js";
+import { CourseExamPage } from "../pages/elearning/course-exam-page.js";
 import { ExamResultsPage } from "../pages/elearning/exam-results-page.js";
 import { ProfilePage } from "../pages/profile-page.js";
 
@@ -69,6 +70,7 @@ export function App() {
                 <Route path="/areas/elearning/results" element={<ExamResultsPage />} />
                 <Route path="/areas/elearning/:courseId" element={<CourseDetailPage />} />
                 <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
+                <Route path="/areas/elearning/:courseId/exam" element={<CourseExamPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="/areas/:area" element={<AreaPage />} />

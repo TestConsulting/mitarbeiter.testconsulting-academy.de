@@ -19,6 +19,7 @@ import { ApiError, api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
 import { PracticeSetup } from "./practice-setup.js";
 import { QuestionContent } from "./question-content.js";
+import { ChapterResults } from "./chapter-results.js";
 
 type AnswerEvaluation = {
   questionId: string;
@@ -294,6 +295,43 @@ export function CoursePracticePage() {
 
   const percentage = Math.round((correctCount / totalQuestions) * 100);
 
+  const uncheckedQuestions = questions.filter((question) =>
+    !evaluations.some((item) => item.questionId === question.id));
+  const unansweredCount = uncheckedQuestions.filter((question) =>
+    (answersByQuestion[question.id]?.length ?? 0) < question.correctOptionIds.length).length;
+  const incompleteCount = uncheckedQuestions.filter((question) => {
+    const selectedCount = answersByQuestion[question.id]?.length ?? 0;
+    return selectedCount > 0 && selectedCount < question.correctOptionIds.length;
+  }).length;
+  // Preserve the dialog across the results transition so modal cleanup can finish.
+  const confirmationDialog = (
+    <Dialog key="practice-confirmation" open={confirmSubmitOpen} onOpenChange={(_event, data) => {
+      if (!answerPending.current) setConfirmSubmitOpen(data.open);
+    }}>
+      <DialogSurface className="practice-submit-dialog">
+        <DialogBody>
+          <DialogTitle>Übung beenden?</DialogTitle>
+          <DialogContent>
+            <p>{unansweredCount} unbeantwortete Fragen (davon {incompleteCount} unvollständig ausgewählt).</p>
+            <p>Ausgewählte Antworten werden beim Beenden automatisch geprüft. Unvollständige Mehrfachantworten zählen als falsch.</p>
+            <p>Nur Fragen ohne Auswahl zählen als übersprungen mit 0 Punkten. Danach können Antworten nicht mehr verändert werden.</p>
+            {answerError && <p role="alert">{answerError}</p>}
+          </DialogContent>
+          <DialogActions>
+            <Button appearance="secondary" disabled={savingAnswer} onClick={() => setConfirmSubmitOpen(false)}>
+              Weiter bearbeiten
+            </Button>
+            <Button appearance="primary" disabled={savingAnswer} onClick={() => {
+              void handleFinish();
+            }}>
+              {savingAnswer ? "Antworten werden geprüft …" : "Endgültig beenden"}
+            </Button>
+          </DialogActions>
+        </DialogBody>
+      </DialogSurface>
+    </Dialog>
+  );
+
   // Completed / Summary View
   if (isFinished) {
     const incorrectCount = evaluations.length - correctCount;
@@ -348,33 +386,20 @@ export function CoursePracticePage() {
         {chapters.length > 0 && (
           <section className="practice-card" aria-labelledby="practice-chapters-title">
             <h2 id="practice-chapters-title">Kapitelwerte und Lernempfehlungen</h2>
-            <div className="practice-results-table-wrapper">
-              <table className="practice-results-table">
-                <caption>Ergebnis pro Kapitel</caption>
-                <thead><tr>
-                  <th scope="col">Kapitel</th><th scope="col">Richtig</th><th scope="col">Falsch</th>
-                  <th scope="col">Offen</th><th scope="col">Gesamt</th><th scope="col">Punkte</th>
-                  <th scope="col">Empfehlung</th>
-                </tr></thead>
-                <tbody>{chapters.map((chapter) => {
-                  const chapterQuestions = questions.filter((question) => question.metadata?.chapter === chapter);
-                  const chapterEvaluations = evaluations.filter((evaluation) =>
-                    chapterQuestions.some((question) => question.id === evaluation.questionId));
-                  const right = chapterEvaluations.filter((evaluation) => evaluation.isCorrect).length;
-                  const wrong = chapterEvaluations.length - right;
-                  const open = chapterQuestions.length - chapterEvaluations.length;
-                  return <tr key={chapter}>
-                    <th scope="row">{chapter}. {chapterQuestions[0].metadata?.chapterTitle}</th>
-                    <td>{right}</td><td>{wrong}</td><td>{open}</td><td>{chapterQuestions.length}</td>
-                    <td>{right}/{chapterQuestions.length} Pkt.</td>
-                    <td>{wrong > 0
-                      ? "Lernziele dieses Kapitels wiederholen und Fehler gezielt üben."
-                      : open > 0 ? "Offene Fragen dieses Kapitels bearbeiten und Antworten prüfen."
-                        : "Alle Fragen richtig beantwortet. Wissen durch regelmäßige Wiederholung festigen."}</td>
-                  </tr>;
-                })}</tbody>
-              </table>
-            </div>
+            <ChapterResults chapters={chapters.map((chapter) => {
+              const chapterQuestions = questions.filter((question) => question.metadata?.chapter === chapter);
+              const chapterEvaluations = evaluations.filter((evaluation) =>
+                chapterQuestions.some((question) => question.id === evaluation.questionId));
+              const correct = chapterEvaluations.filter((evaluation) => evaluation.isCorrect).length;
+              return {
+                chapter,
+                title: chapterQuestions[0].metadata?.chapterTitle,
+                correct,
+                wrong: chapterEvaluations.length - correct,
+                open: chapterQuestions.length - chapterEvaluations.length,
+                total: chapterQuestions.length,
+              };
+            })} />
           </section>
         )}
 
@@ -476,6 +501,7 @@ export function CoursePracticePage() {
             }) && <li className="exam-review__empty">Keine Fragen in dieser Kategorie.</li>}
             </ol>
           </details>
+        {confirmationDialog}
       </div>
     );
   }
@@ -484,14 +510,6 @@ export function CoursePracticePage() {
   const progressPercent = ((currentIndex + 1) / totalQuestions) * 100;
   const currentEvaluation = evaluations.find((item) => item.questionId === currentQuestion.id);
   const isCorrect = currentEvaluation?.isCorrect;
-  const uncheckedQuestions = questions.filter((question) =>
-    !evaluations.some((item) => item.questionId === question.id));
-  const unansweredCount = uncheckedQuestions.filter((question) =>
-    (answersByQuestion[question.id]?.length ?? 0) < question.correctOptionIds.length).length;
-  const incompleteCount = uncheckedQuestions.filter((question) => {
-    const selectedCount = answersByQuestion[question.id]?.length ?? 0;
-    return selectedCount > 0 && selectedCount < question.correctOptionIds.length;
-  }).length;
 
   return (
     <div className="page-stack elearning-page">
@@ -687,9 +705,10 @@ export function CoursePracticePage() {
                 Vorherige Frage
               </Button>
               <Button appearance="primary" onClick={handleNextQuestion} disabled={savingAnswer}
+                aria-label={currentIndex + 1 < totalQuestions && selectedOptionIds.length === 0 ? "Überspringen" : undefined}
                 icon={<ArrowRight20Regular aria-hidden="true" />}>
                 {currentIndex + 1 < totalQuestions
-                  ? selectedOptionIds.length > 0 ? "Nächste Frage" : "Überspringen"
+                  ? selectedOptionIds.length > 0 ? "Nächste Frage" : <>Über&shy;springen</>
                   : isAnswerChecked ? "Ergebnis ansehen" : "Übung abgeben"}
               </Button>
             </div>
@@ -703,31 +722,7 @@ export function CoursePracticePage() {
           </div>
         </article>
       </div>
-      <Dialog open={confirmSubmitOpen} onOpenChange={(_event, data) => {
-        if (!answerPending.current) setConfirmSubmitOpen(data.open);
-      }}>
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>Übung beenden?</DialogTitle>
-            <DialogContent>
-              <p>{unansweredCount} unbeantwortete Fragen (davon {incompleteCount} unvollständig ausgewählt).</p>
-              <p>Ausgewählte Antworten werden beim Beenden automatisch geprüft. Unvollständige Mehrfachantworten zählen als falsch.</p>
-              <p>Nur Fragen ohne Auswahl zählen als übersprungen mit 0 Punkten. Danach können Antworten nicht mehr verändert werden.</p>
-              {answerError && <p role="alert">{answerError}</p>}
-            </DialogContent>
-            <DialogActions>
-              <Button appearance="secondary" disabled={savingAnswer} onClick={() => setConfirmSubmitOpen(false)}>
-                Weiter bearbeiten
-              </Button>
-              <Button appearance="primary" disabled={savingAnswer} onClick={() => {
-                void handleFinish();
-              }}>
-                {savingAnswer ? "Antworten werden geprüft …" : "Endgültig beenden"}
-              </Button>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
+      {confirmationDialog}
     </div>
   );
 }

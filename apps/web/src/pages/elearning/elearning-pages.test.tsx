@@ -993,6 +993,7 @@ describe("CoursePracticePage - Interaktiver Übungsablauf", () => {
     const questionNavigation = questionCard.querySelector(".practice-card__navigation");
     expect(questionNavigation).toContainElement(within(questionCard).getByRole("button", { name: "Vorherige Frage" }));
     expect(questionNavigation).toContainElement(within(questionCard).getByRole("button", { name: "Überspringen" }));
+    expect(within(questionCard).getByRole("button", { name: "Überspringen" }).textContent).toContain("Über\u00adspringen");
     expect(within(questionCard).getByRole("button", { name: "Übung abgeben" }).parentElement)
       .toHaveClass("practice-card__submit");
 

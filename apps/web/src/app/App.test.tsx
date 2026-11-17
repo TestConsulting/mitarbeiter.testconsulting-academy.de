@@ -30,6 +30,7 @@ const authApi = vi.hoisted(() => ({
     deleteMaterial: vi.fn(),
     examResults: vi.fn(),
     abortedExamSessions: vi.fn(),
+    currentExamSession: vi.fn(),
   },
 }));
 
@@ -70,9 +71,29 @@ beforeEach(() => {
   }));
   authApi.courses.examResults.mockResolvedValue([]);
   authApi.courses.abortedExamSessions.mockResolvedValue([]);
+  authApi.courses.currentExamSession.mockResolvedValue(null);
 });
 
 describe("portal shell", () => {
+  it("opens the exam preparation through the completed practice button in the real app router", async () => {
+    authApi.courses.getPractice.mockResolvedValue({
+      ...coursesData[1],
+      questions: coursesData[1].questions.slice(0, 3).map((question, index) => ({
+        ...question,
+        metadata: { chapter: index + 1, chapterTitle: `Kapitel ${index + 1}`,
+          learningObjective: `FL-${index + 1}.1.1`, kLevel: "K1" as const },
+      })),
+    });
+    window.history.replaceState({}, "", "/areas/elearning/istqb-foundation/practice");
+    render(<App />);
+    fireEvent.click(await screen.findByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Neue Prüfung vorbereiten" }));
+    expect(await screen.findByRole("heading", { name: "ISTQB Foundation Level - Prüfungsmodus" }))
+      .toBeInTheDocument();
+  });
+
   it("shows the signed-in employee and all six phase-one destinations", async () => {
     render(<App />);
     expect(await screen.findByRole("heading", { name: "Willkommen, Alex" })).toBeInTheDocument();

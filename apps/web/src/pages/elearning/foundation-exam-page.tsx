@@ -10,6 +10,7 @@ import { CTFL_EXAM_CHAPTER_COUNTS, type ExamSession } from "@portal/shared";
 import { ApiError, api } from "../../api/client.js";
 import { ExamReviewFilter, matchesExamReviewFilter, type ExamReviewFilterValue } from "./exam-review-filter.js";
 import { QuestionContent } from "./question-content.js";
+import { ChapterResults } from "./chapter-results.js";
 
 const courseUrl = "/areas/elearning/istqb-foundation";
 const chapterNames = [
@@ -179,7 +180,7 @@ export function FoundationExamPage() {
   const answered = session?.course.questions.filter((item) => (answers[item.id]?.length ?? 0) > 0).length ?? 0;
   const confirmationDialog = <Dialog key="exam-confirmation" open={confirm !== null}
     onOpenChange={(_event, data) => { if (!busy && !data.open) setConfirm(null); }}>
-    <DialogSurface><DialogBody>
+    <DialogSurface className="foundation-exam__confirmation"><DialogBody>
       <DialogTitle>{confirm === "abort" ? "Prüfung abbrechen?" : "Prüfung abgeben?"}</DialogTitle>
       <DialogContent>{confirm === "abort"
         ? "Der Versuch wird ohne Wertung als abgebrochen dokumentiert und kann nicht fortgesetzt werden."
@@ -297,35 +298,23 @@ export function FoundationExamPage() {
         </div>
         {examChapters.length > 0 && <section className="practice-card" aria-labelledby="exam-chapters-title">
           <h2 id="exam-chapters-title">Kapitelwerte und Lernempfehlungen</h2>
-          <div className="practice-results-table-wrapper">
-            <table className="practice-results-table">
-              <caption>Ergebnis pro Kapitel</caption>
-              <thead><tr>
-                <th scope="col">Kapitel</th><th scope="col">Richtig</th><th scope="col">Falsch</th>
-                <th scope="col">Offen</th><th scope="col">Gesamt</th><th scope="col">Punkte</th>
-                <th scope="col">Empfehlung</th>
-              </tr></thead>
-              <tbody>{examChapters.map((chapter) => {
-                const chapterQuestions = session.course.questions.filter((question) =>
-                  question.metadata?.chapter === chapter);
-                const chapterResults = examResults.filter((result) =>
-                  result.question.metadata?.chapter === chapter);
-                const right = chapterResults.filter((result) => result.isCorrect).length;
-                const wrong = chapterResults.filter((result) =>
-                  !result.isCorrect && result.selectedOptionIds.length > 0).length;
-                const open = chapterQuestions.length - right - wrong;
-                return <tr key={chapter}>
-                  <th scope="row">{chapter}. {chapterQuestions[0].metadata?.chapterTitle ?? chapterNames[chapter - 1]}</th>
-                  <td>{right}</td><td>{wrong}</td><td>{open}</td><td>{chapterQuestions.length}</td>
-                  <td>{right}/{chapterQuestions.length} Pkt.</td>
-                  <td>{wrong > 0
-                    ? "Lernziele dieses Kapitels wiederholen und Fehler gezielt üben."
-                    : open > 0 ? "Offene Fragen dieses Kapitels bearbeiten und Antworten prüfen."
-                      : "Alle Fragen richtig beantwortet. Wissen durch regelmäßige Wiederholung festigen."}</td>
-                </tr>;
-              })}</tbody>
-            </table>
-          </div>
+          <ChapterResults chapters={examChapters.map((chapter) => {
+            const chapterQuestions = session.course.questions.filter((question) =>
+              question.metadata?.chapter === chapter);
+            const chapterResults = examResults.filter((result) =>
+              result.question.metadata?.chapter === chapter);
+            const correct = chapterResults.filter((result) => result.isCorrect).length;
+            const wrong = chapterResults.filter((result) =>
+              !result.isCorrect && result.selectedOptionIds.length > 0).length;
+            return {
+              chapter,
+              title: chapterQuestions[0].metadata?.chapterTitle ?? chapterNames[chapter - 1],
+              correct,
+              wrong,
+              open: chapterQuestions.length - correct - wrong,
+              total: chapterQuestions.length,
+            };
+          })} />
         </section>}
         <details className="exam-review">
           <summary className="exam-review__summary"><h2>Alle Fragen im Rückblick</h2></summary>
@@ -451,8 +440,9 @@ export function FoundationExamPage() {
           <Button disabled={index === 0 || disabled} onClick={() => setIndex((value) => value - 1)}>
             Vorherige Frage
           </Button>
-          <Button disabled={index === 39 || disabled} onClick={() => setIndex((value) => value + 1)}>
-            {selected.length ? "Nächste Frage" : "Überspringen"}
+          <Button disabled={index === 39 || disabled} onClick={() => setIndex((value) => value + 1)}
+            aria-label={selected.length ? undefined : "Überspringen"}>
+            {selected.length ? "Nächste Frage" : <>Über&shy;springen</>}
           </Button>
         </div>
         <div className="practice-card__submit foundation-exam__submit">

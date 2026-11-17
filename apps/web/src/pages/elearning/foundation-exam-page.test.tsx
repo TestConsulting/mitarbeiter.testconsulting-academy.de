@@ -52,6 +52,20 @@ async function start() {
   await screen.findByRole("timer");
 }
 describe("Foundation examination", () => {
+  it("prepares a new exam after submission and starts a fresh timed session", async () => {
+    await start();
+    fireEvent.click(screen.getByRole("button", { name: "Prüfung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig abgeben" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Neue Prüfung vorbereiten" }));
+    expect(screen.queryByRole("timer")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Prüfungssimulation" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Prüfung starten" }));
+    expect(await screen.findByRole("timer")).toHaveTextContent("60:00");
+    expect(mocks.startExamSession).toHaveBeenCalledTimes(2);
+    expect(screen.getByRole("checkbox", { name: "Frage markieren" })).not.toBeChecked();
+    expect(screen.getByRole("button", { name: "Vorherige Frage" })).toBeDisabled();
+  });
+
   it.each([
     ["Prüfungsverlauf", "/areas/elearning/results"],
     ["Zurück zum Kurs", "/areas/elearning/istqb-foundation"],
@@ -123,8 +137,14 @@ describe("Foundation examination", () => {
     expect(within(leftActions).getByRole("button", { name: "Auswahl aufheben" })).toBeDisabled();
     expect(within(navigation).getByRole("button", { name: "Vorherige Frage" })).toBeDisabled();
     expect(within(navigation).getByRole("button", { name: "Überspringen" })).toBeEnabled();
+    expect(within(navigation).getByRole("button", { name: "Überspringen" }).textContent).toContain("Über\u00adspringen");
     expect(within(rightActions).getByRole("button", { name: "Prüfung abgeben" })).toBeEnabled();
     expect(within(rightActions).getByRole("button", { name: "Prüfung abbrechen" })).toBeEnabled();
+
+    fireEvent.click(within(navigation).getByRole("button", { name: "Überspringen" }));
+    expect(screen.getByRole("progressbar", { name: "Fortschritt: Frage 2 von 40" })).toBeInTheDocument();
+    fireEvent.click(within(navigation).getByRole("button", { name: "Vorherige Frage" }));
+    expect(screen.getByRole("progressbar", { name: "Fortschritt: Frage 1 von 40" })).toBeInTheDocument();
 
     fireEvent.click(screen.getByLabelText("Antwort A"));
     const clearButton = within(leftActions).getByRole("button", { name: "Auswahl aufheben" });
@@ -263,7 +283,8 @@ describe("Foundation examination", () => {
       .toHaveClass("exam-history-review__status-icon", "practice-review-option--correct");
     expect(within(reviews[2]).getByRole("img", { name: "Nicht beantwortet" }))
       .toHaveClass("exam-history-review__status-icon", "exam-history-review__open-icon");
-    const chapterRows = within(screen.getByRole("table")).getAllByRole("row");
+    const desktopTable = within(screen.getByRole("region", { name: "Ergebnis pro Kapitel" })).getByRole("table");
+    const chapterRows = within(desktopTable).getAllByRole("row");
     expect(within(chapterRows[1]).getAllByRole("cell").slice(0, 4).map((cell) => cell.textContent))
       .toEqual(["1", "1", "0", "2"]);
     expect(within(chapterRows[1]).getAllByRole("cell")[4]).toHaveTextContent("1/2 Pkt.");
@@ -272,6 +293,23 @@ describe("Foundation examination", () => {
     expect(within(chapterRows[2]).getAllByRole("cell").slice(0, 4).map((cell) => cell.textContent))
       .toEqual(["0", "0", "1", "1"]);
     expect(within(chapterRows[2]).getAllByRole("cell")[4]).toHaveTextContent("0/1 Pkt.");
+    const chapterDetails = document.querySelectorAll<HTMLDetailsElement>(".practice-chapter");
+    expect(chapterDetails).toHaveLength(2);
+    expect(chapterDetails[0]).not.toHaveAttribute("open");
+    expect(chapterDetails[0].querySelector("summary")).toHaveTextContent("1. Grundlagen des Testens1/2 Pkt.");
+    expect(chapterDetails[0].querySelector("table")).not.toBeVisible();
+    fireEvent.click(chapterDetails[0].querySelector<HTMLElement>("summary")!);
+    const mobileTable = within(chapterDetails[0]).getByRole("table");
+    expect(within(within(mobileTable).getAllByRole("row")[1]).getAllByRole("cell").map((cell) => cell.textContent))
+      .toEqual(["1", "1", "0"]);
+    expect(within(mobileTable).getByText("Lernziele dieses Kapitels wiederholen und Fehler gezielt üben.")).toBeVisible();
+    fireEvent.click(chapterDetails[1].querySelector<HTMLElement>("summary")!);
+    expect(chapterDetails[0]).toHaveAttribute("open");
+    expect(chapterDetails[1]).toHaveAttribute("open");
+    expect(within(chapterDetails[1]).getByText("Offene Fragen dieses Kapitels bearbeiten und Antworten prüfen.")).toBeVisible();
+    fireEvent.click(chapterDetails[0].querySelector<HTMLElement>("summary")!);
+    expect(mobileTable).not.toBeVisible();
+    expect(chapterDetails[0].querySelector("summary")).toHaveTextContent("1/2 Pkt.");
     fireEvent.click(review.querySelector<HTMLElement>("summary")!);
     expect(review.querySelector(".exam-history-review__options"))
       .toHaveClass("exam-history-review__options", "exam-history-review__options--standalone");

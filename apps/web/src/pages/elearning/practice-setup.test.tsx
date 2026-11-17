@@ -48,6 +48,38 @@ function renderPractice(withCourseNavigation = false) {
 }
 
 describe("ISTQB practice setup", () => {
+  it("restores screen-reader access to results after confirming submission", async () => {
+    const { container } = renderPractice();
+    fireEvent.click(await screen.findByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    await waitFor(() => expect(container).toHaveAttribute("aria-hidden", "true"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    await waitFor(() => expect(container).not.toHaveAttribute("aria-hidden", "true"));
+    expect(await screen.findByRole("heading", { name: "Übung abgeschlossen!" })).toBeVisible();
+    expect(screen.getByRole("button", { name: "Erneut üben" })).toBeVisible();
+  });
+
+  it.each([
+    ["Neue Prüfung vorbereiten", "/areas/elearning/istqb-foundation/exam"],
+    ["Mein Prüfungsverlauf", "/areas/elearning/results"],
+    ["Zurück zum Kurs", "/areas/elearning/istqb-foundation"],
+  ])("navigates from the completed practice using %s", async (name, destination) => {
+    render(<MemoryRouter initialEntries={["/areas/elearning/istqb-foundation/practice"]}>
+      <FluentProvider theme={webLightTheme}>
+        <Routes>
+          <Route path="/areas/elearning/:courseId/practice" element={<CoursePracticePage />} />
+          <Route path={destination} element={<h1>Navigationsziel</h1>} />
+        </Routes>
+      </FluentProvider>
+    </MemoryRouter>);
+    fireEvent.click(await screen.findByRole("button", { name: "Übung starten" }));
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    fireEvent.click(await screen.findByRole("button", { name }));
+    expect(await screen.findByRole("heading", { name: "Navigationsziel" })).toBeInTheDocument();
+  });
+
   it("rejects non-digit input without changing the displayed count", async () => {
     mocks.getPractice.mockResolvedValue({
       ...course,
@@ -306,6 +338,11 @@ describe("ISTQB practice setup", () => {
     expect(screen.getByLabelText(/Antwort A/)).toBeDisabled();
     fireEvent.click(screen.getByRole("button", { name: "Ergebnis ansehen" }));
     expect(screen.getByText("100 %")).toBeInTheDocument();
+    const completedChapter = document.querySelector<HTMLDetailsElement>(".practice-chapter")!;
+    expect(completedChapter.querySelector("summary")).toHaveTextContent("1/1 Pkt.");
+    fireEvent.click(completedChapter.querySelector<HTMLElement>("summary")!);
+    expect(within(completedChapter).getByText("Alle Fragen richtig beantwortet. Wissen durch regelmäßige Wiederholung festigen."))
+      .toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Erneut üben" }));
     expect(screen.getByRole("heading", { name: "Übungsfragen" })).toBeInTheDocument();
   });
@@ -333,6 +370,31 @@ describe("ISTQB practice setup", () => {
       .toBeInTheDocument();
   });
 
+  it("runs the question action buttons through skipping, checking and submitting", async () => {
+    renderPractice();
+    await screen.findByRole("heading", { name: "Übungsfragen" });
+    fireEvent.click(screen.getByRole("button", { name: "Übung starten" }));
+
+    expect(screen.getByRole("button", { name: "Vorherige Frage" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "Überspringen" }));
+    expect(screen.getByText("Frage 2 von 3")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Vorherige Frage" }));
+    expect(screen.getByText("Frage 1 von 3")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Auswahl aufheben" }));
+    expect(screen.getByLabelText("Antwort A")).not.toBeChecked();
+    expect(screen.getByRole("button", { name: "Antwort prüfen" })).toBeDisabled();
+    fireEvent.click(screen.getByLabelText("Antwort A"));
+    fireEvent.click(screen.getByRole("button", { name: "Antwort prüfen" }));
+    await screen.findByText(/Richtig gelöst!|Leider nicht richtig\./);
+
+    fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
+    expect(screen.getByRole("dialog")).toHaveTextContent("Übung beenden?");
+    fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
+    expect(await screen.findByRole("heading", { name: "Übung abgeschlossen!" })).toBeInTheDocument();
+  });
+
   it("allows submitting the practice early and identifies unanswered questions", async () => {
     renderPractice();
     await screen.findByRole("heading", { name: "Übungsfragen" });
@@ -351,12 +413,34 @@ describe("ISTQB practice setup", () => {
     fireEvent.click(screen.getByRole("button", { name: "Übung abgeben" }));
     fireEvent.click(screen.getByRole("button", { name: "Endgültig beenden" }));
     expect(screen.getByRole("heading", { name: "Übung abgeschlossen!" })).toBeInTheDocument();
-    expect(screen.getByRole("table")).toBeInTheDocument();
-    expect(within(screen.getByRole("table")).getAllByRole("row")).toHaveLength(4);
-    const chapterRow = within(screen.getByRole("table")).getAllByRole("row")[1];
+    const desktopTable = within(screen.getByRole("region", { name: "Ergebnis pro Kapitel" })).getByRole("table");
+    expect(desktopTable).toBeInTheDocument();
+    expect(within(desktopTable).getAllByRole("row")).toHaveLength(4);
+    const chapterRow = within(desktopTable).getAllByRole("row")[1];
     expect(within(chapterRow).getAllByRole("cell").slice(0, 4).map((cell) => cell.textContent))
       .toEqual(["0", "0", "1", "1"]);
     expect(within(chapterRow).getAllByRole("cell")[4]).toHaveTextContent("0/1 Pkt.");
+    const chapterDetails = document.querySelectorAll<HTMLDetailsElement>(".practice-chapter");
+    expect(chapterDetails).toHaveLength(3);
+    for (const [index, chapter] of chapterDetails.entries()) {
+      expect(chapter).not.toHaveAttribute("open");
+      expect(chapter.querySelector("summary")).toHaveTextContent(`${index + 1}. Thema ${index + 1}0/1 Pkt.`);
+      expect(chapter.querySelector("table")).not.toBeVisible();
+    }
+    fireEvent.click(chapterDetails[0].querySelector<HTMLElement>("summary")!);
+    const mobileTable = within(chapterDetails[0]).getByRole("table");
+    expect(mobileTable).toBeVisible();
+    expect(within(mobileTable).getAllByRole("columnheader").map((header) => header.textContent))
+      .toEqual(["Kapitel", "Richtig", "Falsch", "Offen"]);
+    expect(within(within(mobileTable).getAllByRole("row")[1]).getAllByRole("cell").map((cell) => cell.textContent))
+      .toEqual(["0", "0", "1"]);
+    expect(within(mobileTable).getByText("Offene Fragen dieses Kapitels bearbeiten und Antworten prüfen.")).toBeVisible();
+    fireEvent.click(chapterDetails[1].querySelector<HTMLElement>("summary")!);
+    expect(chapterDetails[0]).toHaveAttribute("open");
+    expect(chapterDetails[1]).toHaveAttribute("open");
+    fireEvent.click(chapterDetails[0].querySelector<HTMLElement>("summary")!);
+    expect(mobileTable).not.toBeVisible();
+    expect(chapterDetails[1]).toHaveAttribute("open");
     expect(screen.getByText("0 %", { selector: ".practice-score-ring__percent" })).toBeInTheDocument();
     const reviewSection = document.querySelector<HTMLDetailsElement>(".exam-review")!;
     expect(reviewSection).not.toHaveAttribute("open");
