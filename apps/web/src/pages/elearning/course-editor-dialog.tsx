@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { startTransition, useEffect, useId, useRef, useState, type FormEvent } from "react";
 import {
   Badge,
   Button,
@@ -32,6 +32,56 @@ import { QuestionContent } from "./question-content.js";
 
 type DraftMaterial = LearningMaterial & { file?: File };
 type DraftQuestion = PracticeQuestion & { imageFile?: File };
+const QUESTION_SEARCH_DEBOUNCE_MS = 200;
+
+function QuestionSearch({ resetKey, matchingQuestionCount, totalQuestionCount, onSearch }: {
+  resetKey: number;
+  matchingQuestionCount: number;
+  totalQuestionCount: number;
+  onSearch: (value: string) => void;
+}) {
+  const [value, setValue] = useState("");
+  const [searchNotice, setSearchNotice] = useState("");
+  const searchHintId = useId();
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (resetKey === 0) return;
+    if (searchTimer.current !== null) clearTimeout(searchTimer.current);
+    searchTimer.current = null;
+    setValue("");
+    setSearchNotice("");
+    onSearch("");
+  }, [resetKey, onSearch]);
+
+  useEffect(() => () => {
+    if (searchTimer.current !== null) clearTimeout(searchTimer.current);
+  }, []);
+
+  return (
+    <div className="course-editor-question-search">
+      <Field label="Übungsfragen durchsuchen">
+        <Input type="search" value={value}
+          contentBefore={<Search20Regular aria-hidden="true" />}
+          placeholder="Fragestellung oder Fragenummer suchen …"
+          aria-describedby={searchHintId}
+          onChange={(_event, data) => {
+            const sanitized = data.value.replace(/[^\p{L}\p{N} ]/gu, "");
+            setValue(sanitized);
+            setSearchNotice(sanitized !== data.value ? "Sonderzeichen wurden entfernt." : "");
+            if (searchTimer.current !== null) clearTimeout(searchTimer.current);
+            searchTimer.current = setTimeout(() => {
+              startTransition(() => onSearch(sanitized));
+              searchTimer.current = null;
+            }, QUESTION_SEARCH_DEBOUNCE_MS);
+          }} />
+      </Field>
+      <span role="status">{matchingQuestionCount} von {totalQuestionCount} Fragen</span>
+      <p id={searchHintId}>Buchstaben, Zahlen und Leerzeichen. Eine Zahl sucht die genaue Fragenummer.</p>
+      {searchNotice && <p role="status">{searchNotice}</p>}
+    </div>
+  );
+}
 
 function QuestionImagePreview({ question }: { question: DraftQuestion }) {
   const [previewUrl, setPreviewUrl] = useState("");
@@ -106,8 +156,7 @@ export function CourseEditorDialog({ course, presentation = "dialog", categories
   const [materials, setMaterials] = useState<DraftMaterial[]>(course?.materials ?? []);
   const [questions, setQuestions] = useState<DraftQuestion[]>(course?.questions ?? []);
   const [questionSearch, setQuestionSearch] = useState("");
-  const [searchNotice, setSearchNotice] = useState("");
-  const searchHintId = useId();
+  const [questionSearchResetKey, setQuestionSearchResetKey] = useState(0);
   const query = questionSearch.toLocaleLowerCase("de-DE").trim();
   const matchesQuestion = (question: DraftQuestion, index: number) =>
     !query || (/^[0-9]+$/.test(query)
@@ -117,6 +166,10 @@ export function CourseEditorDialog({ course, presentation = "dialog", categories
   const [expandedQuestionIds, setExpandedQuestionIds] = useState<string[]>([]);
   const pendingQuestionId = useRef<string | null>(null);
   const addedQuestionRef = useRef<HTMLFieldSetElement>(null);
+  function resetQuestionSearch() {
+    setQuestionSearch("");
+    setQuestionSearchResetKey((current) => current + 1);
+  }
   useEffect(() => {
     if (!pendingQuestionId.current || !addedQuestionRef.current) return;
     addedQuestionRef.current.scrollIntoView({ block: "start" });
@@ -366,8 +419,7 @@ export function CourseEditorDialog({ course, presentation = "dialog", categories
         <div className="course-editor-section__heading">
           <h3>Übungsfragen <Badge appearance="tint">{questions.length}</Badge></h3>
           <Button type="button" appearance="secondary" icon={<Add20Regular />} onClick={() => {
-            setQuestionSearch("");
-            setSearchNotice("");
+            resetQuestionSearch();
             const question = newQuestion();
             pendingQuestionId.current = question.id;
             setExpandedQuestionIds((current) => [...current, question.id]);
@@ -376,22 +428,12 @@ export function CourseEditorDialog({ course, presentation = "dialog", categories
             Frage hinzufügen
           </Button>
         </div>
-        <div className="course-editor-question-search">
-          <Field label="Übungsfragen durchsuchen">
-            <Input type="search" value={questionSearch}
-              contentBefore={<Search20Regular aria-hidden="true" />}
-              placeholder="Fragestellung oder Fragenummer suchen …"
-              aria-describedby={searchHintId}
-              onChange={(_event, data) => {
-                const sanitized = data.value.replace(/[^\p{L}\p{N} ]/gu, "");
-                setQuestionSearch(sanitized);
-                setSearchNotice(sanitized !== data.value ? "Sonderzeichen wurden entfernt." : "");
-              }} />
-          </Field>
-          <span role="status">{matchingQuestionCount} von {questions.length} Fragen</span>
-          <p id={searchHintId}>Buchstaben, Zahlen und Leerzeichen. Eine Zahl sucht die genaue Fragenummer.</p>
-          {searchNotice && <p role="status">{searchNotice}</p>}
-        </div>
+        <QuestionSearch
+          resetKey={questionSearchResetKey}
+          matchingQuestionCount={matchingQuestionCount}
+          totalQuestionCount={questions.length}
+          onSearch={setQuestionSearch}
+        />
         {questions.length === 0 && <p>Noch keine Übungsfragen.</p>}
         {questions.length > 0 && matchingQuestionCount === 0 && <p>Keine passenden Übungsfragen gefunden.</p>}
         {questions.map((question, questionIndex) => (
@@ -408,8 +450,7 @@ export function CourseEditorDialog({ course, presentation = "dialog", categories
               // Native validation must reveal the field before the browser tries to focus it.
               event.currentTarget.hidden = false;
               event.currentTarget.open = true;
-              setQuestionSearch("");
-              setSearchNotice("");
+              resetQuestionSearch();
               setExpandedQuestionIds((current) =>
                 current.includes(question.id) ? current : [...current, question.id]);
             }}>

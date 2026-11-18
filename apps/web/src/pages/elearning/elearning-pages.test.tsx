@@ -107,18 +107,23 @@ describe("ElearningPage - Kursübersicht", () => {
     const search = screen.getByRole("searchbox", { name: "Übungsfragen durchsuchen" });
     const cards = document.querySelectorAll<HTMLDetailsElement>(".course-editor-question-collapse");
     fireEvent.change(search, { target: { value: "software" } });
-    expect(screen.getByText("1 von 12 Fragen")).toBeInTheDocument();
+    expect(await screen.findByText("1 von 12 Fragen")).toBeInTheDocument();
     expect(cards[0]).not.toHaveAttribute("hidden");
     expect(cards[1]).toHaveAttribute("hidden");
     fireEvent.change(search, { target: { value: "12" } });
-    expect(cards[0]).toHaveAttribute("hidden");
-    expect(cards[11]).not.toHaveAttribute("hidden");
+    await waitFor(() => {
+      expect(cards[0]).toHaveAttribute("hidden");
+      expect(cards[11]).not.toHaveAttribute("hidden");
+    });
     fireEvent.change(search, { target: { value: "1" } });
-    expect(cards[0]).not.toHaveAttribute("hidden");
-    expect(cards[11]).toHaveAttribute("hidden");
+    await waitFor(() => {
+      expect(cards[0]).not.toHaveAttribute("hidden");
+      expect(cards[11]).toHaveAttribute("hidden");
+    });
     fireEvent.change(search, { target: { value: "unbekannt" } });
-    expect(screen.getByText("Keine passenden Übungsfragen gefunden.")).toBeInTheDocument();
+    expect(await screen.findByText("Keine passenden Übungsfragen gefunden.")).toBeInTheDocument();
     fireEvent.change(search, { target: { value: "12" } });
+    expect(await screen.findByText("1 von 12 Fragen")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Kurs speichern" }));
     await waitFor(() => expect(save).toHaveBeenCalledOnce());
     expect(save.mock.calls[0][0].questions).toEqual(questions);
@@ -146,12 +151,15 @@ describe("ElearningPage - Kursübersicht", () => {
     const search = screen.getByRole("searchbox", { name: "Übungsfragen durchsuchen" });
     const cards = document.querySelectorAll<HTMLDetailsElement>(".course-editor-question-collapse");
     await user.type(search, "1");
-    expect(cards[1]).toHaveAttribute("hidden");
+    await waitFor(() => expect(cards[1]).toHaveAttribute("hidden"));
     fireEvent.invalid(cards[1].querySelector("textarea")!);
-    expect(search).toHaveValue("");
-    expect(cards[1]).not.toHaveAttribute("hidden");
-    expect(cards[1]).toHaveAttribute("open");
+    await waitFor(() => {
+      expect(search).toHaveValue("");
+      expect(cards[1]).not.toHaveAttribute("hidden");
+      expect(cards[1]).toHaveAttribute("open");
+    });
     await user.type(search, "1");
+    await waitFor(() => expect(cards[1]).toHaveAttribute("hidden"));
     await user.click(screen.getByRole("button", { name: "Frage hinzufügen" }));
     expect(search).toHaveValue("");
     expect(within(screen.getByRole("group", { name: "Frage 3" })).getByRole("textbox", { name: "Fragetext" })).toHaveFocus();

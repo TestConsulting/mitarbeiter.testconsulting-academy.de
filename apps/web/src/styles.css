@@ -633,14 +633,10 @@ a { color: inherit; }
 .admin-users-page { gap: 14px; }
 .admin-users-panel {
   --admin-field-bg: var(--colorNeutralBackground1, var(--surface));
-  --admin-user-card-bg: color-mix(in srgb, var(--primary) 14%, var(--surface));
   padding: 18px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
-}
-:root[data-theme="dark"] .admin-users-panel {
-  --admin-user-card-bg: color-mix(in srgb, var(--primary) 22%, var(--surface-alt));
 }
 .admin-users-panel h2 { margin: 0 0 14px; font-size: 20px; }
 .admin-users-form { display: grid; gap: 12px; --admin-field-bg: var(--colorNeutralBackground1, var(--surface)); }
@@ -648,7 +644,7 @@ a { color: inherit; }
 :root[data-theme="dark"] .admin-users-form--edit { --admin-field-bg: color-mix(in srgb, var(--primary) 10%, var(--surface-alt)); }
 .admin-users-form__actions { display: flex; gap: 10px; }
 .admin-users-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.admin-users-list__item { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--admin-user-card-bg); }
+.admin-users-list__item { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-strong); }
 .admin-users-list__item p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
 .admin-users-list__actions { display: flex; gap: 8px; }
 .admin-users-delete-button.fui-Button {
@@ -1225,8 +1221,6 @@ a { color: inherit; }
   background: var(--admin-field-bg);
   box-shadow: none;
 }
-
-.admin-users-list__item { background: var(--admin-user-card-bg); }
 
 .signin-form {
   --dialog-focus-color: var(--primary);
