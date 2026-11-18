@@ -53,7 +53,7 @@ describe("question content", () => {
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Bild vergrößern: Prozessgrafik" }));
+    await user.click(await screen.findByRole("button", { name: "Bild vergrößern: Prozessgrafik" }));
     const reopenedDialog = await screen.findByRole("dialog");
     await user.click(within(reopenedDialog).getByRole("button", { name: "Schließen" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

@@ -4,8 +4,6 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../app.js";
 import { BOARD_FIXTURE_PASSWORD, createBoardFixture, type BoardFixture } from "../test-support/board-fixture.js";
 
-const sessionStore = new session.MemoryStore();
-
 let fixture: BoardFixture;
 let app: ReturnType<typeof createApp>;
 
@@ -14,7 +12,7 @@ beforeEach(async () => {
   app = createApp({
     userRepository: fixture.users,
     boardRepository: fixture.board,
-    sessionStore,
+    sessionStore: new session.MemoryStore(),
     sessionSecret: "test-secret-with-more-than-thirty-two-characters",
     secureCookies: false,
     loginLimiter: (_request, _response, next) => next(),

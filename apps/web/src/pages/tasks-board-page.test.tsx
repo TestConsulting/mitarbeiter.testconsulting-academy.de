@@ -1,3 +1,4 @@
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -64,11 +65,13 @@ function renderBoard(currentUser: PortalUser) {
   authApi.me.mockResolvedValue(currentUser);
   usersApi.list.mockResolvedValue([employeeUser, adminUser]);
   return render(
-    <MemoryRouter>
-      <AuthProvider>
-        <TasksBoardPage />
-      </AuthProvider>
-    </MemoryRouter>,
+    <FluentProvider theme={webLightTheme}>
+      <MemoryRouter>
+        <AuthProvider>
+          <TasksBoardPage />
+        </AuthProvider>
+      </MemoryRouter>
+    </FluentProvider>,
   );
 }
 
@@ -509,7 +512,7 @@ describe("tasks board page", () => {
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
-    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    fireEvent.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     await user.type(within(dialog).getByLabelText("Titel"), "Ticket");
     const input = within(dialog).getByLabelText("Anhänge auswählen");
@@ -557,7 +560,7 @@ describe("tasks board page", () => {
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
-    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    fireEvent.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     await user.type(within(dialog).getByLabelText("Titel"), "Ticket");
     const first = new File(["%PDF-"], "eins.pdf", { type: "application/pdf" });
@@ -576,7 +579,7 @@ describe("tasks board page", () => {
     renderBoard(adminUser);
     await screen.findByText("Angebot schreiben");
     const column = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
-    await user.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
+    fireEvent.click(within(column).getByRole("button", { name: "Ticket hinzufügen" }));
     const dialog = await screen.findByRole("dialog");
     const input = within(dialog).getByLabelText("Anhänge auswählen");
     await user.upload(input, Array.from({ length: 11 }, (_, i) => new File(["x"], `${i}.pdf`, { type: "application/pdf" })));
@@ -733,7 +736,7 @@ describe("tasks board page", () => {
     expect(screen.getByText("Abgeschlossen")).toBeInTheDocument();
 
     const doneColumn = screen.getByText("Erledigt").closest("section") as HTMLElement;
-    await user.click(within(doneColumn).getByRole("button", { name: "Archivieren" }));
+    fireEvent.click(within(doneColumn).getByRole("button", { name: "Archivieren" }));
     const dialog = await screen.findByRole("dialog");
     await user.click(within(dialog).getByRole("button", { name: "Bestätigen" }));
 

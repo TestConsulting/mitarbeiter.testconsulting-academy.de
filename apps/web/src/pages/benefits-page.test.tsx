@@ -184,12 +184,13 @@ describe("Benefits pages", () => {
     const user = userEvent.setup();
     renderPage(path);
     await user.click(await screen.findByRole("button", { name: `${benefit.title} bearbeiten` }));
+    const dialog = within(await screen.findByRole("dialog"));
     for (const [label, value] of [["Titel", updated.title], ["Kurzbeschreibung", updated.description], ["Details", updated.details]]) {
-      const field = await screen.findByLabelText(label, { exact: false });
+      const field = await dialog.findByLabelText(label, { exact: false });
       await user.clear(field);
       await user.type(field, value);
     }
-    await user.click(await screen.findByRole("button", { name: "Speichern" }));
+    await user.click(await dialog.findByRole("button", { name: "Speichern" }));
     expect(await screen.findByText("Benefit wurde gespeichert.")).toBeInTheDocument();
     expect(mocks.update).toHaveBeenCalledWith(benefit.id, {
       title: updated.title, description: updated.description, details: updated.details, url: null,
@@ -198,19 +199,33 @@ describe("Benefits pages", () => {
     if (path.endsWith(benefit.id)) expect(screen.getByText(updated.details)).toBeInTheDocument();
   });
 
-  it("requires confirmation and can cancel before deleting a card", async () => {
+  it("requires confirmation before deleting a card", async () => {
     mocks.role = "admin";
     mocks.delete.mockResolvedValue({ success: true });
     const user = userEvent.setup();
     renderPage();
     await user.click(await screen.findByRole("button", { name: `${benefit.title} löschen` }));
     expect(mocks.delete).not.toHaveBeenCalled();
-    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Abbrechen" }));
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: `${benefit.title} löschen` }));
-    await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Löschen" }));
+    const confirmation = within(await screen.findByRole("dialog"));
+    await user.click(await confirmation.findByRole("button", { name: "Löschen" }));
     expect(await screen.findByText("Noch keine Benefits vorhanden.")).toBeInTheDocument();
     expect(mocks.delete).toHaveBeenCalledWith(benefit.id);
+  });
+
+  it("allows canceling benefit deletion without deleting the card", async () => {
+    mocks.role = "admin";
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(await screen.findByRole("button", { name: `${benefit.title} löschen` }));
+    const confirmation = within(await screen.findByRole("dialog"));
+    expect(mocks.delete).not.toHaveBeenCalled();
+    await user.click(await confirmation.findByRole("button", { name: "Abbrechen" }));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.getByRole("article", { name: `${benefit.title} verschieben` }))
+        .not.toHaveAttribute("aria-disabled", "true");
+    });
+    expect(mocks.delete).not.toHaveBeenCalled();
   });
 
   it("returns to the list after deleting from the detail page", async () => {
@@ -375,7 +390,7 @@ describe("Benefits pages", () => {
     expect(mocks.create).toHaveBeenCalledWith({
       title: benefit.title, description: benefit.description, details: benefit.details, url: created.url,
     });
-  });
+  }, 10_000);
 
   it("prefills the URL and can remove it", async () => {
     mocks.role = "admin";

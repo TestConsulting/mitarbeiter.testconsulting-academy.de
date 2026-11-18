@@ -7,6 +7,9 @@
     "apps/web",
     "packages/shared"
   ],
+  "overrides": {
+    "@fluentui/react-tabster": "9.26.19"
+  },
   "scripts": {
     "dev": "npm run build --workspace @portal/shared && concurrently -k -n api,web \"npm run dev --workspace @portal/api\" \"npm run dev --workspace @portal/web\"",
     "build": "npm run build --workspace @portal/shared && npm run build --workspace @portal/api && npm run build --workspace @portal/web",

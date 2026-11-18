@@ -12,8 +12,6 @@ import {
 } from "../db/ticket-attachment-repository.js";
 import { BOARD_FIXTURE_PASSWORD, createBoardFixture, type BoardFixture } from "../test-support/board-fixture.js";
 
-const sessionStore = new session.MemoryStore();
-
 let fixture: BoardFixture;
 let app: ReturnType<typeof createApp>;
 let attachments: TicketAttachmentRepository;
@@ -73,7 +71,7 @@ beforeEach(async () => {
     userRepository: fixture.users,
     boardRepository: fixture.board,
     ticketAttachmentRepository: attachments,
-    sessionStore,
+    sessionStore: new session.MemoryStore(),
     sessionSecret: "test-secret-with-more-than-thirty-two-characters",
     secureCookies: false,
     loginLimiter: (_request, _response, next) => next(),
@@ -244,7 +242,7 @@ describe("tickets router", () => {
         userRepository: fixture.users,
         boardRepository: fixture.board,
         ticketAttachmentRepository: sizeLimitedAttachments,
-        sessionStore,
+        sessionStore: new session.MemoryStore(),
         sessionSecret: "test-secret-with-more-than-thirty-two-characters",
         secureCookies: false,
         loginLimiter: (_request, _response, next) => next(),
