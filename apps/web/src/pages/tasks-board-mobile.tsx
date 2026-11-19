@@ -429,11 +429,9 @@ function MobileColumnSection({
               />
             </>
           )}
-          {canManageColumns && (
-            <Button appearance="secondary" size="small" icon={<Add20Regular />} onClick={() => onAddTicket(column.id)}>
-              Ticket hinzufügen
-            </Button>
-          )}
+          <Button appearance="secondary" size="small" icon={<Add20Regular />} onClick={() => onAddTicket(column.id)}>
+            Ticket hinzufügen
+          </Button>
         </div>
       </div>
 

@@ -487,7 +487,7 @@ describe("tasks board page", () => {
         updatedAt: new Date().toISOString(),
       },
     ] });
-    renderBoard(adminUser);
+    renderBoard(employeeUser);
     await screen.findByText("Angebot schreiben");
 
     const todoColumn = screen.getByText("Zu erledigen").closest("section") as HTMLElement;
@@ -638,13 +638,20 @@ describe("tasks board page", () => {
     expect(screen.getByRole("button", { name: /Archiv anzeigen \(0\)/ })).toBeInTheDocument();
   });
 
-  it("hides mutation actions for employees", async () => {
+  it("shows ticket creation but hides admin actions for employees", async () => {
     renderBoard(employeeUser);
     await screen.findByText("Angebot schreiben");
     expect(screen.queryByRole("button", { name: "Spalte hinzufügen" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Ticket hinzufügen" })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Ticket hinzufügen" }).length).toBeGreaterThan(0);
     expect(screen.queryByRole("button", { name: "Spalte umbenennen" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Ticket löschen" })).not.toBeInTheDocument();
+  });
+
+  it("shows ticket creation for employees on mobile", async () => {
+    Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 390 });
+    renderBoard(employeeUser);
+    await screen.findByText("Angebot schreiben");
+    expect(screen.getAllByRole("button", { name: "Ticket hinzufügen" }).length).toBeGreaterThan(0);
   });
 
   it("filters tickets via the search field", async () => {

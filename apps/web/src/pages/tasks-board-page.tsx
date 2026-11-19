@@ -865,18 +865,16 @@ function BoardColumnView({
         </div>
       </SortableContext>
 
-      {canManageColumns && (
-        <div className="board-column__footer">
-          <Button appearance="secondary" size="small" onClick={onAddTicket}>
-            Ticket hinzufügen
+      <div className="board-column__footer">
+        <Button appearance="secondary" size="small" onClick={onAddTicket}>
+          Ticket hinzufügen
+        </Button>
+        {canManageColumns && canArchive && (
+          <Button appearance="subtle" size="small" onClick={onArchiveTickets} disabled={ticketCount === 0}>
+            Archivieren
           </Button>
-          {canArchive && (
-            <Button appearance="subtle" size="small" onClick={onArchiveTickets} disabled={ticketCount === 0}>
-              Archivieren
-            </Button>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }
