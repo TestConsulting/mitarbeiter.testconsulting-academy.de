@@ -101,7 +101,6 @@
 }
 
 :root[data-theme="dark"] .fui-FluentProvider {
-  background: linear-gradient(135deg, #182331 0%, #121c29 48%, #0f1722 100%);
   --colorBrandBackground: var(--accent);
   --colorBrandBackgroundHover: #8bd978;
   --colorBrandBackgroundPressed: var(--accent-strong);
