@@ -735,24 +735,28 @@ describe("ElearningPage - Kursübersicht", () => {
   it("filters courses by search query and allows resetting", async () => {
     renderWithRouter(<ElearningPage />);
 
-    const searchInput = await screen.findByRole("textbox", { name: "Kurse nach Titel oder Beschreibung durchsuchen" });
+    const searchInput = await screen.findByRole("textbox", { name: "Kurse durchsuchen" });
+    const includeDescription = screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" });
+    expect(includeDescription).not.toBeChecked();
     fireEvent.change(searchInput, { target: { value: "Essentials" } });
 
     expect(screen.getByRole("heading", { level: 2, name: /Fragenkatalog Essentials/i })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { level: 2, name: /ISTQB Foundation/i })).not.toBeInTheDocument();
 
     // No matches case
+    fireEvent.click(includeDescription);
     fireEvent.change(searchInput, { target: { value: "Nicht-existierender-Kurs" } });
     expect(screen.getByText(/Keine Kurse gefunden/i)).toBeInTheDocument();
 
     const resetBtn = screen.getByRole("button", { name: /Filter zurücksetzen/i });
     fireEvent.click(resetBtn);
 
+    expect(includeDescription).not.toBeChecked();
     expect(screen.getByRole("heading", { level: 2, name: /Fragenkatalog Essentials/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: /ISTQB Foundation/i })).toBeInTheDocument();
   });
 
-  it("prioritizes testing title matches from the first letter without hiding description matches", async () => {
+  it("searches descriptions only when requested and keeps title matches first", async () => {
     mocks.role = "admin";
     const testing = {
       ...coursesData[0],
@@ -768,15 +772,21 @@ describe("ElearningPage - Kursübersicht", () => {
     };
     mocks.api.courses.list.mockResolvedValue([foundation, testing]);
     renderWithRouter(<ElearningPage />);
-    const search = await screen.findByRole("textbox", { name: "Kurse nach Titel oder Beschreibung durchsuchen" });
+    const search = await screen.findByRole("textbox", { name: "Kurse durchsuchen" });
+    const includeDescription = screen.getByRole("checkbox", { name: "Beschreibung einbeziehen" });
+    expect(includeDescription).not.toBeChecked();
 
-    for (const query of ["t", "te", "tes", "test", "testi", "testing", " TE "]) {
+    for (const query of ["te", "tes", "test", "testi", "testing", " TE "]) {
       fireEvent.change(search, { target: { value: query } });
       expect(screen.getAllByRole("article").map((card) => card.getAttribute("aria-label")))
-        .toEqual(["testing", foundation.title]);
+        .toEqual(["testing"]);
     }
 
-    fireEvent.change(search, { target: { value: "is" } });
+    fireEvent.click(includeDescription);
+    fireEvent.change(search, { target: { value: "testing" } });
+    expect(screen.getAllByRole("article").map((card) => card.getAttribute("aria-label")))
+      .toEqual(["testing", foundation.title]);
+    fireEvent.change(search, { target: { value: "softwaretestens" } });
     expect(screen.getAllByRole("article").map((card) => card.getAttribute("aria-label")))
       .toEqual([foundation.title]);
     fireEvent.change(search, { target: { value: "" } });

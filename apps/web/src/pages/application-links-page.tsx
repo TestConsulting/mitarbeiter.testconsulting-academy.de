@@ -311,7 +311,7 @@ export function ApplicationLinksPage() {
         </DialogSurface>
       </Dialog>
       <Dialog open={draft !== null} onOpenChange={(_event, data) => { if (!data.open && !busy) setDraft(null); }}>
-        <DialogSurface>
+        <DialogSurface className="application-link-editor-dialog">
           <form onSubmit={saveLink}>
             <DialogBody>
               <DialogTitle ref={editorRef} tabIndex={-1}>{draft?.id ? "Link bearbeiten" : "Link hinzufügen"}</DialogTitle>

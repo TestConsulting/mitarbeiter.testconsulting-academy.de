@@ -2,6 +2,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import {
   Badge,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogBody,
@@ -40,6 +41,7 @@ export function ElearningPage() {
   const { user } = useAuth();
   const isAdmin = canManagePortal(user);
   const [searchTerm, setSearchTerm] = useState("");
+  const [includeDescription, setIncludeDescription] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Alle");
   const [courses, setCourses] = useState<CourseSummary[]>([]);
   const [latestExamByCourse, setLatestExamByCourse] = useState<Record<string, ExamAttempt>>({});
@@ -105,7 +107,7 @@ export function ElearningPage() {
       const matchesSearch =
         query === "" ||
         course.title.toLowerCase().includes(query) ||
-        course.description.toLowerCase().includes(query);
+        (includeDescription && course.description.toLowerCase().includes(query));
       return matchesCategory && matchesSearch;
     });
     if (!query) return matches;
@@ -114,7 +116,7 @@ export function ElearningPage() {
       return title.startsWith(query) ? 2 : title.includes(query) ? 1 : 0;
     }
     return matches.sort((a, b) => titlePriority(b) - titlePriority(a));
-  }, [visibleCourses, selectedCategory, searchTerm]);
+  }, [visibleCourses, selectedCategory, searchTerm, includeDescription]);
 
   async function saveCategoryChange(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -205,14 +207,21 @@ export function ElearningPage() {
 
       {/* Filter and Search Bar */}
       {status === "ready" && <div className="elearning-toolbar">
-        <div className="elearning-search-wrap">
-          <Input
-            className="elearning-search"
-            contentBefore={<Search20Regular aria-hidden="true" />}
-            placeholder="Kurstitel oder Beschreibung suchen…"
-            value={searchTerm}
-            onChange={(_e, data) => setSearchTerm(data.value)}
-            aria-label="Kurse nach Titel oder Beschreibung durchsuchen"
+        <div className="elearning-search-controls">
+          <div className="elearning-search-wrap">
+            <Input
+              className="elearning-search"
+              contentBefore={<Search20Regular aria-hidden="true" />}
+              placeholder="Kurse durchsuchen"
+              value={searchTerm}
+              onChange={(_e, data) => setSearchTerm(data.value)}
+              aria-label="Kurse durchsuchen"
+            />
+          </div>
+          <Checkbox
+            label="Beschreibung einbeziehen"
+            checked={includeDescription}
+            onChange={(_event, data) => setIncludeDescription(data.checked === true)}
           />
         </div>
 
@@ -338,6 +347,7 @@ export function ElearningPage() {
             appearance="secondary"
             onClick={() => {
               setSearchTerm("");
+              setIncludeDescription(false);
               setSelectedCategory("Alle");
             }}
           >
